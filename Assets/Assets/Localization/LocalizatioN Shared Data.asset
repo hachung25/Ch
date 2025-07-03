@@ -1,0 +1,112 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b11a58205ec3474ca216360e9fa74a8, type: 3}
+  m_Name: LocalizatioN Shared Data
+  m_EditorClassIdentifier: 
+  m_TableCollectionName: LocalizatioN
+  m_TableCollectionNameGuidString: a49de1ca93208e246a4b24401203852a
+  m_Entries:
+  - m_Id: 6452491051008
+    m_Key: caidat
+    m_Metadata:
+      m_Items: []
+  - m_Id: 8915319250944
+    m_Key: quangcao
+    m_Metadata:
+      m_Items: []
+  - m_Id: 8918603390976
+    m_Key: nhiemvu
+    m_Metadata:
+      m_Items: []
+  - m_Id: 8921325494272
+    m_Key: nangcap
+    m_Metadata:
+      m_Items: []
+  - m_Id: 8924240535552
+    m_Key: phanthuong
+    m_Metadata:
+      m_Items: []
+  - m_Id: 8929038819328
+    m_Key: thongtin
+    m_Metadata:
+      m_Items: []
+  - m_Id: 8933321203712
+    m_Key: cuahang
+    m_Metadata:
+      m_Items: []
+  - m_Id: 8935078617088
+    m_Key: ten
+    m_Metadata:
+      m_Items: []
+  - m_Id: 8935779065856
+    m_Key: level
+    m_Metadata:
+      m_Items: []
+  - m_Id: 8936487903232
+    m_Key: choi
+    m_Metadata:
+      m_Items: []
+  - m_Id: 8937167380480
+    m_Key: New Entry 9
+    m_Metadata:
+      m_Items: []
+  - m_Id: 8937825886208
+    m_Key: New Entry 10
+    m_Metadata:
+      m_Items: []
+  - m_Id: 8938492780544
+    m_Key: New Entry 11
+    m_Metadata:
+      m_Items: []
+  - m_Id: 8939151286272
+    m_Key: New Entry 12
+    m_Metadata:
+      m_Items: []
+  - m_Id: 8939780431872
+    m_Key: New Entry 13
+    m_Metadata:
+      m_Items: []
+  - m_Id: 8940413771776
+    m_Key: New Entry 14
+    m_Metadata:
+      m_Items: []
+  - m_Id: 8941076471808
+    m_Key: New Entry 15
+    m_Metadata:
+      m_Items: []
+  - m_Id: 8941722394624
+    m_Key: New Entry 16
+    m_Metadata:
+      m_Items: []
+  - m_Id: 8942380900352
+    m_Key: New Entry 17
+    m_Metadata:
+      m_Items: []
+  - m_Id: 8942989074432
+    m_Key: New Entry 18
+    m_Metadata:
+      m_Items: []
+  - m_Id: 8945593737216
+    m_Key: New Entry 19
+    m_Metadata:
+      m_Items: []
+  m_Metadata:
+    m_Items: []
+  m_KeyGenerator:
+    rid: 1816682457516736850
+  references:
+    version: 2
+    RefIds:
+    - rid: 1816682457516736850
+      type: {class: DistributedUIDGenerator, ns: UnityEngine.Localization.Tables, asm: Unity.Localization}
+      data:
+        m_CustomEpoch: 1751539371261
