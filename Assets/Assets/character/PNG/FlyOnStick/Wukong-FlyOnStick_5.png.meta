@@ -160,7 +160,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Wukong-FlyOnStick_5_0: 4514643226066403320
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

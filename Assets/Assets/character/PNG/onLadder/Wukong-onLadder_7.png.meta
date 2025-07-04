@@ -160,7 +160,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Wukong-onLadder_7_0: 4483060522280607823
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

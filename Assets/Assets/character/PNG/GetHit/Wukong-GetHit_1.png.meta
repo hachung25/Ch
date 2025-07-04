@@ -160,7 +160,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Wukong-GetHit_1_0: -8663770618981920841
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

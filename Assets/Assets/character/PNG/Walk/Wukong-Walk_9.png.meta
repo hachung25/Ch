@@ -160,7 +160,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Wukong-Walk_9_0: 4605742445780276274
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

@@ -160,7 +160,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Wukong-Fly_5_0: -5543230245147758117
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
