@@ -160,7 +160,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Wukong-Death_19_0: 6034288153685626281
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

@@ -160,7 +160,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Wukong-Jump_5_0: -7642993545745762957
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
