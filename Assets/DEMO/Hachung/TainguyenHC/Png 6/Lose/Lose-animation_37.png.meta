@@ -160,7 +160,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Lose-animation_37_0: -2957647435239790271
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
