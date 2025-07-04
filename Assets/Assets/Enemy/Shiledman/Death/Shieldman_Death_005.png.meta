@@ -160,7 +160,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Shieldman_Death_005_0: -5502524002127295999
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

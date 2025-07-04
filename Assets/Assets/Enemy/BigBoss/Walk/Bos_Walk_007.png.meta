@@ -160,7 +160,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Bos_Walk_007_0: 3954643572172669932
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

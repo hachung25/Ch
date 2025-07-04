@@ -285,7 +285,13 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      BatBom_Death_005_0: -8890612761971348189
+      BatBom_Death_005_1: -3931842818427675855
+      BatBom_Death_005_2: -7767270843999602265
+      BatBom_Death_005_3: 890684265686471664
+      BatBom_Death_005_4: -300611605386898575
+      BatBom_Death_005_5: 9104027867480616882
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

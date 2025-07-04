@@ -160,7 +160,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Bomber_Die_002_0: 2901312732912833836
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

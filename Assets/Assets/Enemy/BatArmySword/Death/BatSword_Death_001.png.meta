@@ -210,7 +210,10 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      BatSword_Death_001_0: 6048802181371437636
+      BatSword_Death_001_1: 7264226787622690555
+      BatSword_Death_001_2: -750129019064656180
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

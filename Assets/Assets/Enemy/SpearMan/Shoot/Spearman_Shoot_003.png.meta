@@ -160,7 +160,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Spearman_Shoot_003_0: -6787608786594960480
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

@@ -160,7 +160,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      "Flag_of_the_United_States_(1819\u20131820).svg_0": -1241418951260844117
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

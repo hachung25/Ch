@@ -160,7 +160,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Onager_Death_002_0: -2103013091489597084
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

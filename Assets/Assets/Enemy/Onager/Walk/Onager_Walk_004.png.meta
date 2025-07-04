@@ -160,7 +160,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Onager_Walk_004_0: -1478318022086784480
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

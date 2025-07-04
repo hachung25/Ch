@@ -160,7 +160,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      SkullStone_Death_005_0: 1436121189535281312
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

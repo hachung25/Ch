@@ -160,7 +160,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Warior_Walk_002_0: 7778357043042472347
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

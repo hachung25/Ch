@@ -160,7 +160,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      BatBom_Fly_008_0: -943335410847388707
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

@@ -160,7 +160,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Spearman_Walk_011_0: -2220170855838978907
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

@@ -160,7 +160,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Warrior_Hitting_000_0: 5294106496962693278
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

@@ -160,7 +160,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Giant_Hitting_005_0: 1195728032334961536
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

@@ -160,7 +160,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      SkullStone_Idle_003_0: 6865132608987077380
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

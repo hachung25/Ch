@@ -160,7 +160,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Bomber_Walk_003_0: 4194265218338387215
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

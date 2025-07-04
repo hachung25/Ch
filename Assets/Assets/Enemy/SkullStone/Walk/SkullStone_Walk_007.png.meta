@@ -160,7 +160,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      SkullStone_Walk_007_0: 2596607989709786780
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

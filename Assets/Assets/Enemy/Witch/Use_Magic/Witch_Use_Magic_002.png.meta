@@ -160,7 +160,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Witch_Use_Magic_002_0: 740739195484754928
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

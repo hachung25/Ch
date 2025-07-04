@@ -160,7 +160,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Giant_Walk_010_0: -2212961493615692497
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

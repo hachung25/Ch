@@ -160,7 +160,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Shieldman_Walk_006_0: 3989287929869075704
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

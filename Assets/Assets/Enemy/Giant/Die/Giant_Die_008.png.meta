@@ -160,7 +160,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Giant_Die_008_0: -8033924392649886262
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

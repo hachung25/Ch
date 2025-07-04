@@ -160,7 +160,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Witch_Walk_005_0: 4893764788982708470
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

@@ -185,7 +185,9 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      SkullStone_Throw_008_0: -5885898293938043478
+      SkullStone_Throw_008_1: 3158879623643193955
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

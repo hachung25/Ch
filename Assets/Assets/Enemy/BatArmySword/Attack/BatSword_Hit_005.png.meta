@@ -160,7 +160,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      BatSword_Hit_005_0: -6749622641126871233
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
