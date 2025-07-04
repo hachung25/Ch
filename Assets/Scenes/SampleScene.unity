@@ -443,7 +443,7 @@ MonoBehaviour:
   - {fileID: 827770443983010209, guid: 9925a15853973944f8e02c989d67d00d, type: 3}
   - {fileID: 827770443983010209, guid: 01d8fb441c83c4d488437eccfc1ef5ce, type: 3}
   - {fileID: 827770443983010209, guid: 2ab0dffdd2d9ef845bfa7250ab55f3d9, type: 3}
-  - {fileID: 827770443983010209, guid: f80036bec1ffb6247ae1f669b5796d01, type: 3}
+  - {fileID: 827770443983010209, guid: b41736420a454a64f83ecc3e2aaa7397, type: 3}
   mode3Maps:
   - {fileID: 827770443983010209, guid: 1ba4f23402b7aa7458e12e27f375c081, type: 3}
   - {fileID: 827770443983010209, guid: e98066646c062ec40b0c54f5fd825da1, type: 3}
@@ -2944,7 +2944,8 @@ PrefabInstance:
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 6324721165636425732, guid: 94d7345c76793954da42dbc1d05e0a96, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 94d7345c76793954da42dbc1d05e0a96, type: 3}
