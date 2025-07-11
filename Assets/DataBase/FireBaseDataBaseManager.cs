@@ -19,7 +19,7 @@ public class FireBaseDataBaseManager : MonoBehaviour
 
     private void Start()
     {
-        TilemapDetail tilemapDetail = new TilemapDetail(0, 0, TilemapSate.Tilemap);
+        TilemapDetail tilemapDetail = new TilemapDetail(2, 2, TilemapSate.Tilemap);
 
         WriteDataBase("123", tilemapDetail.ToString());
 
