@@ -1,41 +1,37 @@
-﻿using UnityEngine;
-using UnityEngine.UI;
+﻿using Firebase;
 using Firebase.Auth;
 using Firebase.Extensions;
-using UnityEngine.SceneManagement;
-using Firebase;
+using System.Collections;
 using System.Text.RegularExpressions;
 using TMPro;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class FireBaseLoginManager : MonoBehaviour
 {
-    // Đăng ký
     [Header("Register")]
     public InputField ipRegisterEmail;
     public InputField ipRegisterPassword;
-
+    public InputField ipRegisterConfirmPassword;
     public Button buttonRegister;
 
-    // Đăng nhập
     [Header("Sign in")]
     public InputField ipLoginEmail;
     public InputField ipLoginPassword;
-
     public Button buttonLogin;
 
-    // FireBase Authentication --> Đăng ký, Đăng nhập
-    private FirebaseAuth auth;
-
-    // Chuyển đổi qua lại giữa đăng ký và đăng nhập
     [Header("Switch Form")]
     public Button buttonMoveToSignIn;
     public Button buttonMoveToRegister;
-
     public GameObject LoginForm;
     public GameObject RegisterForm;
 
-    // Tham chiếu đến TextMeshPro
     public TMP_Text logText;
+
+
+    private FirebaseAuth auth;
+    private Coroutine logCoroutine;
 
     private void Start()
     {
@@ -48,90 +44,38 @@ public class FireBaseLoginManager : MonoBehaviour
         buttonMoveToSignIn.onClick.AddListener(SwitchForm);
     }
 
-    // Hàm ghi log lên Text UI
-    private void LogToText(string message)
+    private void LogToText(string message, System.Action onComplete = null)
     {
-        if (logText != null)
+        if (logText == null) return;
+
+        if (logCoroutine != null)
         {
-            logText.text += message + "\n";
+            StopCoroutine(logCoroutine);
         }
+
+        logText.text = message;
+        logCoroutine = StartCoroutine(HideLogAfterDelay(2f, onComplete));
     }
 
-    // Hàm đăng ký
-    public void RegisterAccountWithFirebase()
+    private IEnumerator HideLogAfterDelay(float delay, System.Action onComplete = null)
     {
-        string email = ipRegisterEmail.text;
-        string password = ipRegisterPassword.text;
-
-        // Kiểm tra email và mật khẩu có trống không
-        if (string.IsNullOrEmpty(email) || string.IsNullOrEmpty(password))
-        {
-            LogToText("Email hoặc mật khẩu không được để trống!");
-            return;
-        }
-
-        // Kiểm tra mật khẩu theo quy tắc của Google
-        string passwordError = ValidatePassword(password);
-        if (passwordError != null)
-        {
-            LogToText(passwordError);
-            return;
-        }
-
-        // Kiểm tra định dạng email hợp lệ theo quy tắc của Google
-        string emailError = IsValidGoogleEmail(email);
-        if (emailError != null)
-        {
-            LogToText(emailError);
-            return;
-        }
-
-        // Kiểm tra email đã tồn tại chưa
-        auth.SignInWithEmailAndPasswordAsync(email, password).ContinueWithOnMainThread(task =>
-        {
-            if (task.IsFaulted || task.IsCanceled)
-            {
-                LogToText("Email chưa tồn tại, tiến hành đăng ký.");
-
-                auth.CreateUserWithEmailAndPasswordAsync(email, password).ContinueWithOnMainThread(registerTask =>
-                {
-                    if (registerTask.IsCanceled)
-                    {
-                        LogToText("Đăng ký bị hủy");
-                        return;
-                    }
-
-                    if (registerTask.IsFaulted)
-                    {
-                        LogToText("Đăng ký thất bại: " + registerTask.Exception);
-                        return;
-                    }
-
-                    if (registerTask.IsCompleted)
-                    {
-                        LogToText("Đăng ký thành công");
-                        LogToText("Tài khoản " + email + " đã được đăng ký thành công!");
-                    }
-                });
-            }
-            else
-            {
-                LogToText("Tài khoản với email " + email + " đã tồn tại!");
-            }
-        });
+        yield return new WaitForSeconds(delay);
+        logText.text = "";
+        onComplete?.Invoke();
     }
 
     private string IsValidGoogleEmail(string email)
     {
+        if (string.IsNullOrWhiteSpace(email)) return "Email không được để trống!";
+        if (email.Contains(" ")) return "Email không được chứa dấu cách!";
+
         string userName = email.Split('@')[0];
         if (userName.Length < 6) return "Tên tài khoản phải có ít nhất 6 ký tự!";
         if (userName.Length > 30) return "Tên tài khoản không được quá 30 ký tự!";
-        if (email.Contains(" ")) return "Email không được chứa dấu cách!";
 
         var emailPattern = @"^[a-zA-Z0-9_+&*-]+(?:\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\.)+[a-zA-Z]{2,7}$";
-        var regex = new Regex(emailPattern);
-        if (!regex.IsMatch(email)) return "Địa chỉ email không hợp lệ!";
-        if (email[0] == '.' || email[email.Length - 1] == '.') return "Email không được bắt đầu hoặc kết thúc bằng dấu chấm!";
+        if (!Regex.IsMatch(email, emailPattern)) return "Địa chỉ email không hợp lệ!";
+        if (email.StartsWith(".") || email.EndsWith(".")) return "Email không được bắt đầu hoặc kết thúc bằng dấu chấm!";
         if (email.Contains("..")) return "Email không được chứa dấu chấm liên tiếp!";
 
         return null;
@@ -139,14 +83,16 @@ public class FireBaseLoginManager : MonoBehaviour
 
     private string ValidatePassword(string password)
     {
+        if (string.IsNullOrEmpty(password)) return "Mật khẩu không được để trống!";
+        if (password.Contains(" ")) return "Mật khẩu không được chứa dấu cách!";
         if (password.Length < 8) return "Mật khẩu phải có ít nhất 8 ký tự!";
-        bool hasLetter = false, hasDigit = false, hasSpecialChar = false;
 
+        bool hasLetter = false, hasDigit = false, hasSpecialChar = false;
         foreach (char c in password)
         {
             if (char.IsLetter(c)) hasLetter = true;
-            if (char.IsDigit(c)) hasDigit = true;
-            if (!char.IsLetterOrDigit(c)) hasSpecialChar = true;
+            else if (char.IsDigit(c)) hasDigit = true;
+            else hasSpecialChar = true;
         }
 
         if (!hasLetter) return "Mật khẩu phải có ít nhất một chữ cái!";
@@ -156,58 +102,83 @@ public class FireBaseLoginManager : MonoBehaviour
         return null;
     }
 
+
+    public void RegisterAccountWithFirebase()
+    {
+        string email = ipRegisterEmail.text;
+        string password = ipRegisterPassword.text;
+        string confirmPassword = ipRegisterConfirmPassword.text;
+
+        string emailError = IsValidGoogleEmail(email);
+        if (!string.IsNullOrEmpty(emailError)) { LogToText(emailError); return; }
+
+        string passwordError = ValidatePassword(password);
+        if (!string.IsNullOrEmpty(passwordError)) { LogToText(passwordError); return; }
+
+        if (string.IsNullOrEmpty(confirmPassword))
+        {
+            LogToText("Bạn chưa xác thực mật khẩu!");
+            return;
+        }
+
+        if (password != confirmPassword)
+        {
+            LogToText("Xác thực mật khẩu không khớp!");
+            return;
+        }
+
+        // Đăng ký trực tiếp
+        auth.CreateUserWithEmailAndPasswordAsync(email, password).ContinueWithOnMainThread(registerTask =>
+        {
+            if (registerTask.IsCanceled)
+            {
+                LogToText("Đăng ký bị hủy.");
+            }
+            else if (registerTask.IsFaulted)
+            {
+                FirebaseException firebaseEx = registerTask.Exception?.GetBaseException() as FirebaseException;
+                AuthError errorCode = (AuthError)firebaseEx.ErrorCode;
+
+                if (errorCode == AuthError.EmailAlreadyInUse)
+                {
+                    LogToText("Email đã được sử dụng!");
+                }
+                else
+                {
+                    LogToText("Đăng ký thất bại: " + firebaseEx.Message);
+                }
+            }
+            else
+            {
+                LogToText("Tài khoản " + email + " đã được đăng ký thành công!", SwitchForm);
+            }
+        });
+    }
+
+
     public void SignInAccountWithFirebase()
     {
         string email = ipLoginEmail.text;
         string password = ipLoginPassword.text;
 
-        if (string.IsNullOrEmpty(email) || string.IsNullOrEmpty(password))
-        {
-            LogToText("Email hoặc mật khẩu không được để trống!");
-            return;
-        }
-
         string emailError = IsValidGoogleEmail(email);
-        if (emailError != null)
-        {
-            LogToText(emailError);
-            return;
-        }
+        if (!string.IsNullOrEmpty(emailError)) { LogToText(emailError); return; }
 
         string passwordError = ValidatePassword(password);
-        if (passwordError != null)
-        {
-            LogToText(passwordError);
-            return;
-        }
+        if (!string.IsNullOrEmpty(passwordError)) { LogToText(passwordError); return; }
 
         auth.SignInWithEmailAndPasswordAsync(email, password).ContinueWithOnMainThread(task =>
         {
             if (task.IsCanceled)
             {
-                LogToText("Đăng nhập bị hủy");
+                LogToText("Đăng nhập bị hủy.");
                 return;
             }
 
             if (task.IsFaulted)
             {
-                LogToText("Lỗi đăng nhập: " + task.Exception?.ToString());
-                FirebaseException firebaseException = (FirebaseException)task.Exception?.InnerExceptions[0];
-                AuthError errorCode = (AuthError)firebaseException.ErrorCode;
-
-                if (errorCode == AuthError.InvalidEmail || errorCode == AuthError.WrongPassword)
-                {
-                    LogToText("Sai tài khoản hoặc mật khẩu.");
-                }
-                else if (errorCode == AuthError.UserNotFound)
-                {
-                    LogToText("Tài khoản của bạn chưa được đăng ký.");
-                }
-                else
-                {
-                    LogToText("Lỗi đăng nhập: " + task.Exception?.Message);
-                }
-
+                string errorMessage = ParseFirebaseLoginError(task.Exception);
+                LogToText(errorMessage);
                 return;
             }
 
@@ -217,6 +188,29 @@ public class FireBaseLoginManager : MonoBehaviour
                 SceneManager.LoadScene("SampleScene");
             }
         });
+    }
+
+    private string ParseFirebaseLoginError(System.AggregateException exception)
+    {
+        var baseException = exception?.GetBaseException();
+        var firebaseEx = baseException as FirebaseException;
+
+        if (firebaseEx == null) return "Lỗi đăng nhập không xác định.";
+
+        AuthError errorCode = (AuthError)firebaseEx.ErrorCode;
+
+        switch (errorCode)
+        {
+            case AuthError.InvalidEmail:
+            case AuthError.WrongPassword:
+                return "Sai tài khoản hoặc mật khẩu.";
+            case AuthError.UserNotFound:
+                return "Tài khoản của bạn chưa được đăng ký.";
+            case AuthError.UserDisabled:
+                return "Tài khoản đã bị vô hiệu hóa.";
+            default:
+                return "Lỗi đăng nhập: " + firebaseEx.Message;
+        }
     }
 
     public void SwitchForm()
