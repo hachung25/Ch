@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 5014399278195312460}
   - component: {fileID: 3215025686165257429}
   m_Layer: 0
-  m_Name: PanelItemBuy
+  m_Name: PanelItemBuyKC
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -68,7 +68,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 5598404642785562916, guid: 8d96f3b811cf38441afa4d5f83c43bf2, type: 3}
+  m_Sprite: {fileID: -5642813512290297467, guid: 14294777daab5ba4585ebf737e517e32, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
