@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "393274076150",
+    "firebase_url": "https://datn-a5aac-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "datn-a5aac",
+    "storage_bucket": "datn-a5aac.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:393274076150:android:f5b3d61e185f13322f75d7",
+        "android_client_info": {
+          "package_name": "com.datn.tinyknight"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBWa5sifMiA6s884cHlxuvwlrXXfhMHGRU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
