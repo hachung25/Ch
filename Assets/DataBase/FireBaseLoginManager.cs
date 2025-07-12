@@ -6,9 +6,15 @@ using UnityEngine.SceneManagement;
 using Firebase;
 using System.Text.RegularExpressions;
 using TMPro;
+using Google;
+using System.Threading.Tasks;
+
 
 public class FireBaseLoginManager : MonoBehaviour
 {
+    private GoogleSignInConfiguration configuration;
+
+
     // Đăng ký
     [Header("Register")]
     public InputField ipRegisterEmail;
@@ -46,6 +52,14 @@ public class FireBaseLoginManager : MonoBehaviour
 
         buttonMoveToRegister.onClick.AddListener(SwitchForm);
         buttonMoveToSignIn.onClick.AddListener(SwitchForm);
+
+        configuration = new GoogleSignInConfiguration
+        {
+            WebClientId = "393274076150-5ib9d792k8j9aa6l3cjeolciip0cvfg2.apps.googleusercontent.com", // Lấy từ Firebase > Project Settings > OAuth
+            RequestEmail = true,
+            RequestIdToken = true
+        };
+
     }
 
     // Hàm ghi log lên Text UI
@@ -224,4 +238,35 @@ public class FireBaseLoginManager : MonoBehaviour
         LoginForm.SetActive(!LoginForm.activeSelf);
         RegisterForm.SetActive(!RegisterForm.activeSelf);
     }
+
+    public void SignInWithGoogle()
+    {
+        GoogleSignIn.Configuration = configuration;
+        GoogleSignIn.DefaultInstance.SignIn().ContinueWith(OnGoogleAuthFinished);
+    }
+
+    private void OnGoogleAuthFinished(Task<GoogleSignInUser> task)
+    {
+        if (task.IsCanceled || task.IsFaulted)
+        {
+            LogToText("Đăng nhập Google thất bại: " + task.Exception?.Message);
+            return;
+        }
+
+        GoogleSignInUser user = task.Result;
+        Credential credential = GoogleAuthProvider.GetCredential(user.IdToken, null);
+
+        auth.SignInWithCredentialAsync(credential).ContinueWithOnMainThread(firebaseTask =>
+        {
+            if (firebaseTask.IsCanceled || firebaseTask.IsFaulted)
+            {
+                LogToText("Firebase xác thực Google thất bại: " + firebaseTask.Exception?.Message);
+                return;
+            }
+
+            LogToText("Đăng nhập Google thành công!");
+            SceneManager.LoadScene("TestTA"); // hoặc tùy scene
+        });
+    }
+
 }
