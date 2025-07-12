@@ -215,7 +215,28 @@ public class FireBaseLoginManager : MonoBehaviour
 
     public void SwitchForm()
     {
-        LoginForm.SetActive(!LoginForm.activeSelf);
-        RegisterForm.SetActive(!RegisterForm.activeSelf);
+        // Đảo trạng thái của hai form
+        bool isLoginActive = !LoginForm.activeSelf;
+        LoginForm.SetActive(isLoginActive);
+        RegisterForm.SetActive(!isLoginActive);
+
+        // Xóa dữ liệu khi chuyển form
+        if (isLoginActive)
+        {
+            // Xóa dữ liệu form đăng ký
+            ipRegisterEmail.text = "";
+            ipRegisterPassword.text = "";
+            ipRegisterConfirmPassword.text = "";
+        }
+        else
+        {
+            // Xóa dữ liệu form đăng nhập
+            ipLoginEmail.text = "";
+            ipLoginPassword.text = "";
+        }
+
+        // Xóa cả log nếu cần
+        logText.text = "";
     }
+
 }
