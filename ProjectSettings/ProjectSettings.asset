@@ -256,7 +256,7 @@ PlayerSettings:
   clonedFromGUID: c19f32bac17ee4170b3bf8a6a0333fb9
   templatePackageId: com.unity.template.universal-2d@5.1.0
   templateDefaultScene: Assets/Scenes/SampleScene.unity
-  useCustomMainManifest: 0
+  useCustomMainManifest: 1
   useCustomLauncherManifest: 0
   useCustomMainGradleTemplate: 0
   useCustomLauncherGradleManifest: 0
@@ -869,11 +869,11 @@ PlayerSettings:
   captureStartupLogs: {}
   activeInputHandler: 1
   windowsGamepadBackendHint: 0
-  cloudProjectId: 9f8d63d7-a607-4fd0-ab94-cee79461ad25
+  cloudProjectId: a9113dba-ce58-4e8b-b284-5e78baf144f6
   framebufferDepthMemorylessMode: 0
   qualitySettingsNames: []
-  projectName: Ch
-  organizationId: chunghtph48886
+  projectName: tinyknight
+  organizationId: zzzhy98
   cloudEnabled: 0
   legacyClampBlendShapeWeights: 0
   hmiLoadingImage: {fileID: 0}
