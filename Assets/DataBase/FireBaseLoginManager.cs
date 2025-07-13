@@ -27,6 +27,15 @@ public class FireBaseLoginManager : MonoBehaviour
     public GameObject LoginForm;
     public GameObject RegisterForm;
 
+
+    [Header("Forgot Password")]
+    public InputField ipResetEmail;
+    public Button buttonResetPassword;
+    public GameObject ForgotPasswordForm;
+    public Button buttonMoveToForgot;
+    public Button buttonBackToLoginFromForgot;
+
+
     public TMP_Text logText;
 
 
@@ -42,7 +51,37 @@ public class FireBaseLoginManager : MonoBehaviour
 
         buttonMoveToRegister.onClick.AddListener(SwitchForm);
         buttonMoveToSignIn.onClick.AddListener(SwitchForm);
+
+        buttonResetPassword.onClick.AddListener(ResetPassword);
+        buttonMoveToForgot.onClick.AddListener(SwitchToForgotPasswordForm);
+        buttonBackToLoginFromForgot.onClick.AddListener(SwitchToLoginForm);
+
+
     }
+
+    private void SwitchToForgotPasswordForm()
+    {
+        LoginForm.SetActive(false);
+        RegisterForm.SetActive(false);
+        ForgotPasswordForm.SetActive(true);
+
+        // Xóa input và log
+        ipLoginEmail.text = "";
+        ipLoginPassword.text = "";
+        logText.text = "";
+    }
+
+    private void SwitchToLoginForm()
+    {
+        ForgotPasswordForm.SetActive(false);
+        RegisterForm.SetActive(false);
+        LoginForm.SetActive(true);
+
+        // Xóa input và log
+        ipResetEmail.text = "";
+        logText.text = "";
+    }
+
 
     private void LogToText(string message, System.Action onComplete = null)
     {
@@ -87,20 +126,19 @@ public class FireBaseLoginManager : MonoBehaviour
         if (password.Contains(" ")) return "Mật khẩu không được chứa dấu cách!";
         if (password.Length < 8) return "Mật khẩu phải có ít nhất 8 ký tự!";
 
-        bool hasLetter = false, hasDigit = false, hasSpecialChar = false;
+        bool hasLetter = false, hasDigit = false;
         foreach (char c in password)
         {
             if (char.IsLetter(c)) hasLetter = true;
             else if (char.IsDigit(c)) hasDigit = true;
-            else hasSpecialChar = true;
         }
 
         if (!hasLetter) return "Mật khẩu phải có ít nhất một chữ cái!";
         if (!hasDigit) return "Mật khẩu phải có ít nhất một chữ số!";
-        if (!hasSpecialChar) return "Mật khẩu phải có ít nhất một ký tự đặc biệt!";
 
         return null;
     }
+
 
 
     public void RegisterAccountWithFirebase()
@@ -238,5 +276,48 @@ public class FireBaseLoginManager : MonoBehaviour
         // Xóa cả log nếu cần
         logText.text = "";
     }
+
+    public void ResetPassword()
+    {
+        string email = ipResetEmail.text;
+
+        string emailError = IsValidGoogleEmail(email);
+        if (!string.IsNullOrEmpty(emailError))
+        {
+            LogToText(emailError);
+            return;
+        }
+
+        auth.SendPasswordResetEmailAsync(email).ContinueWithOnMainThread(task =>
+        {
+            if (task.IsCanceled)
+            {
+                LogToText("Yêu cầu đặt lại mật khẩu đã bị hủy.");
+            }
+            else if (task.IsFaulted)
+            {
+                FirebaseException firebaseEx = task.Exception?.GetBaseException() as FirebaseException;
+                AuthError errorCode = (AuthError)firebaseEx.ErrorCode;
+
+                switch (errorCode)
+                {
+                    case AuthError.InvalidEmail:
+                        LogToText("Email không hợp lệ.");
+                        break;
+                    case AuthError.UserNotFound:
+                        LogToText("Không tìm thấy tài khoản với email này.");
+                        break;
+                    default:
+                        LogToText("Lỗi đặt lại mật khẩu: " + firebaseEx.Message);
+                        break;
+                }
+            }
+            else
+            {
+                LogToText("Yêu cầu đặt lại mật khẩu đã được gửi! Vui lòng kiểm tra email.");
+            }
+        });
+    }
+
 
 }
