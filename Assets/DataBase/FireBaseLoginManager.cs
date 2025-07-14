@@ -46,18 +46,32 @@ public class FireBaseLoginManager : MonoBehaviour
     {
         auth = FirebaseAuth.DefaultInstance;
 
-        buttonRegister.onClick.AddListener(RegisterAccountWithFirebase);
-        buttonLogin.onClick.AddListener(SignInAccountWithFirebase);
+        if (buttonRegister != null)
+            buttonRegister.onClick.AddListener(RegisterAccountWithFirebase);
 
-        buttonMoveToRegister.onClick.AddListener(SwitchForm);
-        buttonMoveToSignIn.onClick.AddListener(SwitchForm);
+        if (buttonLogin != null)
+            buttonLogin.onClick.AddListener(SignInAccountWithFirebase);
 
-        buttonResetPassword.onClick.AddListener(ResetPassword);
-        buttonMoveToForgot.onClick.AddListener(SwitchToForgotPasswordForm);
-        buttonBackToLoginFromForgot.onClick.AddListener(SwitchToLoginForm);
+        if (buttonMoveToRegister != null)
+            buttonMoveToRegister.onClick.AddListener(SwitchForm);
 
+        if (buttonMoveToSignIn != null)
+            buttonMoveToSignIn.onClick.AddListener(SwitchForm);
 
+        if (buttonResetPassword != null)
+            buttonResetPassword.onClick.AddListener(ResetPassword);
+
+        if (buttonMoveToForgot != null)
+            buttonMoveToForgot.onClick.AddListener(SwitchToForgotPasswordForm);
+
+        if (buttonBackToLoginFromForgot != null)
+            buttonBackToLoginFromForgot.onClick.AddListener(SwitchToLoginForm);
+
+        // Gợi ý thêm: clear log khi bắt đầu
+        if (logText != null)
+            logText.text = "";
     }
+
 
     private void SwitchToForgotPasswordForm()
     {
