@@ -46,20 +46,10 @@ public class FireBaseLoginManager : MonoBehaviour
     {
         auth = FirebaseAuth.DefaultInstance;
 
-        buttonRegister.onClick.AddListener(RegisterAccountWithFirebase);
-        buttonLogin.onClick.AddListener(SignInAccountWithFirebase);
-
-        buttonMoveToRegister.onClick.AddListener(SwitchForm);
-        buttonMoveToSignIn.onClick.AddListener(SwitchForm);
-
-        buttonResetPassword.onClick.AddListener(ResetPassword);
-        buttonMoveToForgot.onClick.AddListener(SwitchToForgotPasswordForm);
-        buttonBackToLoginFromForgot.onClick.AddListener(SwitchToLoginForm);
-
 
     }
 
-    private void SwitchToForgotPasswordForm()
+    public void SwitchToForgotPasswordForm()
     {
         LoginForm.SetActive(false);
         RegisterForm.SetActive(false);
@@ -71,7 +61,7 @@ public class FireBaseLoginManager : MonoBehaviour
         logText.text = "";
     }
 
-    private void SwitchToLoginForm()
+    public void SwitchToLoginForm()
     {
         ForgotPasswordForm.SetActive(false);
         RegisterForm.SetActive(false);
