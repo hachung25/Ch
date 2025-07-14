@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "393274076150",
+    "firebase_url": "https://datn-a5aac-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "datn-a5aac",
+    "storage_bucket": "datn-a5aac.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:393274076150:android:f5b3d61e185f13322f75d7",
+        "android_client_info": {
+          "package_name": "com.datn.tinyknight"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "393274076150-qrpdo9i0nn1vgj6m0e12nrtn947da37l.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.datn.tinyknight",
+            "certificate_hash": "8fe76d7e585dffa2d9c5a35795c8eeb16a5cc055"
+          }
+        },
+        {
+          "client_id": "393274076150-5ib9d792k8j9aa6l3cjeolciip0cvfg2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBWa5sifMiA6s884cHlxuvwlrXXfhMHGRU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "393274076150-5ib9d792k8j9aa6l3cjeolciip0cvfg2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
