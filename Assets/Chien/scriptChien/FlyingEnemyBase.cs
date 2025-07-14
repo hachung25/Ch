@@ -1,111 +1,136 @@
+﻿using System.Collections;
 using UnityEngine;
-using System.Collections;
 
 public class FlyingEnemyBase : MonoBehaviour
 {
-    [Header("General Settings")]
-    public float moveSpeed = 2f;
-    public float patrolRange = 3f;
-    public float chaseRange = 5f;
-
-    [Header("Combat Settings")]
-    public float shootCooldown = 2f;
-    public GameObject bulletPrefab;
-    public Transform firePoint;
+    [Header("Di chuyển")]
     public Transform player;
+    public float speed = 3f;
+    public float chaseRange = 5f;
+    public float stopRange = 1.5f;
 
-    protected Vector2 startPos;
-    protected int direction = 1;
-    protected float shootTimer = 0f;
-    protected bool facingRight = true;
-    protected bool isFlipping = false;
+    protected Vector3 originalPosition;
+    protected Animator animator;
+    protected Rigidbody2D rb;
+    protected SpriteRenderer spriteRenderer;
+
+    protected bool isReturning = false;
+    protected bool canAttack = false;
+    protected bool isAttacking = false;
+    protected bool isDead = false;
 
     protected virtual void Start()
     {
-        startPos = transform.position;
+        originalPosition = transform.position;
+
+        animator = GetComponent<Animator>();
+        rb = GetComponent<Rigidbody2D>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
+
+        if (rb != null)
+            rb.gravityScale = 0;
     }
 
     protected virtual void Update()
     {
-        if (isFlipping) return;
+        if (player == null || isDead) return;
 
-        if (player != null && Vector2.Distance(transform.position, player.position) <= chaseRange)
+        float distance = Vector2.Distance(transform.position, player.position);
+
+        if (distance < chaseRange && distance > stopRange)
         {
-            HandleChase();
-            HandleShoot();
+            // Truy đuổi
+            canAttack = false;
+            isReturning = false;
+            MoveTo(player.position);
+            ResetAttackState();
+        }
+        else if (distance <= stopRange)
+        {
+            // Tới tầm tấn công
+            StopMoving();
+            canAttack = true;
+            OnReadyToAttack();
         }
         else
         {
-            HandlePatrol();
-        }
-    }
-
-    protected virtual void HandleChase()
-    {
-        float deltaX = player.position.x - transform.position.x;
-
-        if (Mathf.Abs(deltaX) > 0.2f)
-        {
-            float dirX = Mathf.Sign(deltaX);
-            transform.Translate(Vector2.right * dirX * moveSpeed * Time.deltaTime);
-        }
-
-        if (Mathf.Abs(deltaX) > 0.1f)
-        {
-            if ((deltaX > 0 && !facingRight) || (deltaX < 0 && facingRight))
+            // Player rời xa -> quay về
+            if (!isReturning)
             {
-                Flip(deltaX < 0);
+                isReturning = true;
+                ResetAttackState();
+                StartCoroutine(ReturnToStart());
             }
         }
+
+        // Quay mặt
+        FaceDirectionBat(player.position.x - transform.position.x);
     }
 
-    protected virtual void HandleShoot()
+    protected void MoveTo(Vector3 target)
     {
-        shootTimer -= Time.deltaTime;
-        if (shootTimer <= 0f)
+        Vector2 dir = (target - transform.position).normalized;
+        rb.linearVelocity = dir * speed;
+    }
+
+    protected void StopMoving()
+    {
+        rb.linearVelocity = Vector2.zero;
+    }
+
+    protected IEnumerator ReturnToStart()
+    {
+        while (Vector2.Distance(transform.position, originalPosition) > 0.1f)
         {
-            Shoot();
-            shootTimer = shootCooldown;
+            MoveTo(originalPosition);
+            yield return null;
         }
+
+        StopMoving();
+        isReturning = false;
     }
 
-    protected virtual void Shoot()
+    /// <summary>
+    /// Lật mặt enemy theo hướng Player
+    /// </summary>
+    protected virtual void FaceDirectionBat(float direction)
     {
-        if (bulletPrefab == null || firePoint == null || player == null) return;
+        if (spriteRenderer == null) return;
 
-        GameObject bullet = Instantiate(bulletPrefab, firePoint.position, Quaternion.identity);
-        Vector2 dir = (player.position - firePoint.position).normalized;
-        bullet.GetComponent<Bullet>().Init(dir);
+        spriteRenderer.flipX = direction > 0;
     }
 
-    protected virtual void HandlePatrol()
+    /// <summary>
+    /// Reset trạng thái tấn công
+    /// </summary>
+    protected virtual void ResetAttackState()
     {
-        transform.Translate(Vector2.right * direction * moveSpeed * Time.deltaTime);
+        isAttacking = false;
+        animator.SetBool("isAtkB", false);
+    }
 
-        if (Mathf.Abs(transform.position.x - startPos.x) >= patrolRange)
+    /// <summary>
+    /// Gọi khi enemy đến tầm tấn công — class con sẽ override
+    /// </summary>
+    protected virtual void OnReadyToAttack() { }
+
+    /// <summary>
+    /// Gọi khi enemy chết
+    /// </summary>
+    public virtual void Die()
+    {
+        if (isDead) return;
+
+        isDead = true;
+        StopMoving();
+
+        // Nếu có animation chết, bật trigger ở đây (ví dụ "Die")
+        if (animator != null)
         {
-            StartCoroutine(DelayFlip());
+            animator.SetTrigger("Die"); // animator phải có parameter "Die"
         }
-    }
 
-    protected virtual IEnumerator DelayFlip()
-    {
-        if (isFlipping) yield break;
-
-        isFlipping = true;
-        yield return new WaitForSeconds(0.1f);
-        direction *= -1;
-        Flip(direction < 0);
-        isFlipping = false;
-    }
-
-    protected virtual void Flip(bool faceLeft)
-    {
-        Vector3 scale = transform.localScale;
-        scale.x = faceLeft ? -Mathf.Abs(scale.x) : Mathf.Abs(scale.x);
-        transform.localScale = scale;
-
-        facingRight = !faceLeft;
+        // Huỷ enemy sau 1.5s (đợi anim chết)
+        Destroy(gameObject);
     }
 }
-
