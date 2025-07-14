@@ -1557,6 +1557,7 @@ GameObject:
   - component: {fileID: 278807477}
   - component: {fileID: 278807478}
   - component: {fileID: 278807479}
+  - component: {fileID: 278807480}
   m_Layer: 0
   m_Name: GameManeger
   m_TagString: Untagged
@@ -1662,6 +1663,7 @@ MonoBehaviour:
   spawnPoint: {fileID: 1627510476}
   waveParent: {fileID: 1627510476}
   homePanel: {fileID: 1535083947}
+  PanelPlaymode: {fileID: 1590275937}
 --- !u!114 &278807477
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1700,6 +1702,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: edf8115609bdee64fa7e7e5faad5697a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &278807480
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 278807470}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ca9de42ee09704a418b9fb7e1afdfa7e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playMode: {fileID: 1590275937}
 --- !u!1 &279296626
 GameObject:
   m_ObjectHideFlags: 0
@@ -3148,10 +3163,34 @@ MonoBehaviour:
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
   m_Interactable: 1
-  m_TargetGraphic: {fileID: 527013181}
+  m_TargetGraphic: {fileID: 1597314457}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 278807476}
+        m_TargetAssemblyTypeName: MapSpawner, Assembly-CSharp
+        m_MethodName: PlayGame
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 278807475}
+        m_TargetAssemblyTypeName: playgame, Assembly-CSharp
+        m_MethodName: Playgame
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &527013181
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5724,7 +5763,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8147410198665455790, guid: 888c59ed116df494eabb2945194c351c, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8147410198665455790, guid: 888c59ed116df494eabb2945194c351c, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
@@ -5737,7 +5776,7 @@ PrefabInstance:
     - target: {fileID: 8147410198665455790, guid: 888c59ed116df494eabb2945194c351c, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 278807476}
+      objectReference: {fileID: 278807480}
     - target: {fileID: 8147410198665455790, guid: 888c59ed116df494eabb2945194c351c, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
@@ -5752,7 +5791,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8147410198665455790, guid: 888c59ed116df494eabb2945194c351c, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: PlayGame
+      value: Playmode
       objectReference: {fileID: 0}
     - target: {fileID: 8147410198665455790, guid: 888c59ed116df494eabb2945194c351c, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
@@ -5760,7 +5799,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8147410198665455790, guid: 888c59ed116df494eabb2945194c351c, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: MapSpawner, Assembly-CSharp
+      value: playmode, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 8147410198665455790, guid: 888c59ed116df494eabb2945194c351c, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
@@ -9787,6 +9826,17 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 6442377834849096516, guid: cfd76befc671c68459dcc5350d0b94d3, type: 3}
   m_PrefabInstance: {fileID: 2055222478}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1597314457 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2477059684038026217, guid: 888c59ed116df494eabb2945194c351c, type: 3}
+  m_PrefabInstance: {fileID: 981494736}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1600706019
 GameObject:
   m_ObjectHideFlags: 0
@@ -12492,7 +12542,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1903251385
 RectTransform:
   m_ObjectHideFlags: 0
