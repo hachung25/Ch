@@ -17,6 +17,7 @@ public class LoadingManager : MonoBehaviour
     void Start()
     {
         login.SetActive(false);
+        loading.SetActive(true);
         loadingSlider.gameObject.SetActive(false);
         loadingText.gameObject.SetActive(false);
         StartCoroutine(LoadingRoutine());
