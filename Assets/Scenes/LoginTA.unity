@@ -2638,7 +2638,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4874407569185113907, guid: 8aab062cd7601cf4d80524a4f3246241, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6978660376002455766, guid: 8aab062cd7601cf4d80524a4f3246241, type: 3}
       propertyPath: m_Name
@@ -2646,13 +2646,40 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6978660376002455766, guid: 8aab062cd7601cf4d80524a4f3246241, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8aab062cd7601cf4d80524a4f3246241, type: 3}
+--- !u!1 &591512355 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6978660376002455766, guid: 8aab062cd7601cf4d80524a4f3246241, type: 3}
+  m_PrefabInstance: {fileID: 591512354}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &591512356 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7870942533646506831, guid: 8aab062cd7601cf4d80524a4f3246241, type: 3}
+  m_PrefabInstance: {fileID: 591512354}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &591512357 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2764956974215291907, guid: 8aab062cd7601cf4d80524a4f3246241, type: 3}
+  m_PrefabInstance: {fileID: 591512354}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67db9e8f0e2ae9c40bc1e2b64352a6b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &642028755
 GameObject:
   m_ObjectHideFlags: 0
@@ -7048,6 +7075,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1840519824}
   - component: {fileID: 1840519823}
+  - component: {fileID: 1840519825}
   m_Layer: 0
   m_Name: FireBaseManger
   m_TagString: Untagged
@@ -7069,7 +7097,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ipRegisterEmail: {fileID: 7965187663261921409}
   ipRegisterPassword: {fileID: 1061315892959905840}
-  ipRegisterConfirmPassword: {fileID: 3470526986865733492}
+  ipRegisterConfirmPassword: {fileID: 0}
   buttonRegister: {fileID: 2342784500375903515}
   ipLoginEmail: {fileID: 7541580700304477738}
   ipLoginPassword: {fileID: 6098885648890408534}
@@ -7078,11 +7106,11 @@ MonoBehaviour:
   buttonMoveToRegister: {fileID: 7076181920379528757}
   LoginForm: {fileID: 6610851167591137102}
   RegisterForm: {fileID: 480743076018370373}
-  ipResetEmail: {fileID: 1548335781}
-  buttonResetPassword: {fileID: 1883568742}
-  ForgotPasswordForm: {fileID: 1090479076}
-  buttonMoveToForgot: {fileID: 7174682506859379349}
-  buttonBackToLoginFromForgot: {fileID: 1700067010}
+  ipResetEmail: {fileID: 0}
+  buttonResetPassword: {fileID: 0}
+  ForgotPasswordForm: {fileID: 0}
+  buttonMoveToForgot: {fileID: 0}
+  buttonBackToLoginFromForgot: {fileID: 0}
   logText: {fileID: 3001415056643415754}
 --- !u!4 &1840519824
 Transform:
@@ -7099,6 +7127,23 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1840519825
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1840519822}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 94c1567c1e5a23d42a72f3cb25d0c748, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  login: {fileID: 4039066003218025960}
+  loading: {fileID: 591512355}
+  loadingSlider: {fileID: 591512357}
+  loadingText: {fileID: 591512356}
+  loadSpeed: 1.5
 --- !u!1 &1862657332
 GameObject:
   m_ObjectHideFlags: 0
