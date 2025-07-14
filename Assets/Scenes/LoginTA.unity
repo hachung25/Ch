@@ -2638,11 +2638,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4874407569185113907, guid: 8aab062cd7601cf4d80524a4f3246241, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6978660376002455766, guid: 8aab062cd7601cf4d80524a4f3246241, type: 3}
       propertyPath: m_Name
       value: CanvasLoading
+      objectReference: {fileID: 0}
+    - target: {fileID: 6978660376002455766, guid: 8aab062cd7601cf4d80524a4f3246241, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
