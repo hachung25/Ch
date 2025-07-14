@@ -183,7 +183,7 @@ public class FireBaseLoginManager : MonoBehaviour
                 }
                 else
                 {
-                    LogToText("Đăng ký thất bại: " + firebaseEx.Message);
+                    LogToText("Đăng ký thất bạ "/* + firebaseEx.Message*/);
                 }
             }
             else
@@ -247,7 +247,7 @@ public class FireBaseLoginManager : MonoBehaviour
             case AuthError.UserDisabled:
                 return "Tài khoản đã bị vô hiệu hóa.";
             default:
-                return "Lỗi đăng nhập: " + firebaseEx.Message;
+                return "Lỗi đăng nhập" /*+ firebaseEx.Message*/;
         }
     }
 
@@ -308,13 +308,14 @@ public class FireBaseLoginManager : MonoBehaviour
                         LogToText("Không tìm thấy tài khoản với email này.");
                         break;
                     default:
-                        LogToText("Lỗi đặt lại mật khẩu: " + firebaseEx.Message);
+                        LogToText("Lỗi đặt lại mật khẩu "/* + firebaseEx.Message*/);
                         break;
                 }
             }
             else
             {
                 LogToText("Yêu cầu đặt lại mật khẩu đã được gửi! Vui lòng kiểm tra email.");
+                
             }
         });
     }
