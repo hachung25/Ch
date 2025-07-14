@@ -73,7 +73,7 @@ public class PlayerMovement2D : MonoBehaviour
         {
             animator.SetBool("isJump", false);
 
-            if (Input.GetKeyDown(KeyCode.Space))
+            if (Input.GetKeyDown(KeyCode.Y))
             {
                 rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
                 animator.SetBool("isJump", true);
@@ -84,15 +84,7 @@ public class PlayerMovement2D : MonoBehaviour
 
     void PlayerAttack()
     {
-        //if (Input.GetKeyDown(KeyCode.T))
-        //{
-        //    foreach (string trigger in attackTriggers)
-        //    {
-        //        animator.ResetTrigger(trigger);
-        //    }
-        //    animator.SetTrigger(attackTriggers[attackIndex]);
-        //    attackIndex = (attackIndex + 1) % attackTriggers.Length;
-        //}
+       
         attackHeld = Input.GetKey(KeyCode.T);
 
         if (isAttacking) return; // Đang đánh thì không gọi mới

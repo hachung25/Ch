@@ -10,11 +10,10 @@ public class onofshop : MonoBehaviour
       panelShopGold.SetActive(true);
       panelShopKc.SetActive(false);
    }
-
+   
    public void ShowShopKC()
    {
       panelShopKc.SetActive(true);
       panelShopGold.SetActive(false);
    }
-   
 }
