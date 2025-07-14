@@ -6599,7 +6599,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1700067011}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1840519823}
+        m_TargetAssemblyTypeName: FireBaseLoginManager, Assembly-CSharp
+        m_MethodName: SwitchToLoginForm
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1700067011
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7248,7 +7260,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1883568743}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1840519823}
+        m_TargetAssemblyTypeName: FireBaseLoginManager, Assembly-CSharp
+        m_MethodName: ResetPassword
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1883568743
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9969,7 +9993,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 358391520391402712}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1840519823}
+        m_TargetAssemblyTypeName: FireBaseLoginManager, Assembly-CSharp
+        m_MethodName: RegisterAccountWithFirebase
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!224 &2403241566569869358
 RectTransform:
   m_ObjectHideFlags: 0
@@ -10888,7 +10924,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -40}
+  m_AnchoredPosition: {x: 0, y: -42}
   m_SizeDelta: {x: 920, y: 40}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &3804836235371868399
@@ -13042,7 +13078,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 4033110806943375719}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1840519823}
+        m_TargetAssemblyTypeName: FireBaseLoginManager, Assembly-CSharp
+        m_MethodName: SignInAccountWithFirebase
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!222 &7076181920379528756
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -13094,7 +13142,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 3817336555068253580}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1840519823}
+        m_TargetAssemblyTypeName: FireBaseLoginManager, Assembly-CSharp
+        m_MethodName: SwitchForm
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!224 &7113437791812278601
 RectTransform:
   m_ObjectHideFlags: 0
@@ -13289,7 +13349,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 6851503211782536144}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1840519823}
+        m_TargetAssemblyTypeName: FireBaseLoginManager, Assembly-CSharp
+        m_MethodName: SwitchToForgotPasswordForm
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &7195723922074646924
 GameObject:
   m_ObjectHideFlags: 0
