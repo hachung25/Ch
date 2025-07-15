@@ -1,9 +1,10 @@
 ﻿using UnityEngine;
 using Fusion;
 
+[RequireComponent(typeof(Rigidbody2D))]
 public class PlayerMovement : NetworkBehaviour
 {
-    public float speed = 5f;
+    public float moveSpeed = 5f;
     private Rigidbody2D rb;
 
     public override void Spawned()
@@ -15,10 +16,9 @@ public class PlayerMovement : NetworkBehaviour
     {
         if (!HasInputAuthority) return;
 
-        float horizontal = Input.GetAxis("Horizontal");
-        Vector2 velocity = rb.linearVelocity;
-        velocity.x = horizontal * speed;
-        rb.linearVelocity = velocity;
-    }
+        float horizontalInput = Input.GetAxisRaw("Horizontal");
 
+        
+        rb.linearVelocity = new Vector2(horizontalInput * moveSpeed, rb.linearVelocity.y);
+    }
 }
