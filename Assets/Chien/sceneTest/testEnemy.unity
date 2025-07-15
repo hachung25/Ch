@@ -195,11 +195,20 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8596481981570052692, guid: 8959e8cb58aff9442a7a91cff70d3487, type: 3}
+      propertyPath: groundCheck
+      value: 
+      objectReference: {fileID: 335926486}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8959e8cb58aff9442a7a91cff70d3487, type: 3}
+--- !u!4 &335926486 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6391750913386714766, guid: 8959e8cb58aff9442a7a91cff70d3487, type: 3}
+  m_PrefabInstance: {fileID: 818514}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1611721557
 GameObject:
   m_ObjectHideFlags: 0

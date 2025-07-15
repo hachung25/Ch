@@ -13,13 +13,12 @@ public class PlayerMovement : NetworkBehaviour
 
     public override void FixedUpdateNetwork()
     {
-        //if (!Object.HasInputAuthority) return;
+        if (!HasInputAuthority) return;
 
         float horizontal = Input.GetAxis("Horizontal");
-        float vertical = Input.GetAxis("Vertical");
-
-        Vector2 move = new Vector2(horizontal, vertical).normalized;
-
-        rb.MovePosition(rb.position + move * speed * Runner.DeltaTime);
+        Vector2 velocity = rb.linearVelocity;
+        velocity.x = horizontal * speed;
+        rb.linearVelocity = velocity;
     }
+
 }

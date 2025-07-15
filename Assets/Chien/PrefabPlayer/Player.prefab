@@ -713,9 +713,9 @@ GameObject:
   - component: {fileID: 5493142120785559356}
   - component: {fileID: 2710583762598475041}
   - component: {fileID: 1101490484036491336}
-  - component: {fileID: 3083937331071735404}
   - component: {fileID: 3567001504523659419}
   - component: {fileID: 8666876825677242046}
+  - component: {fileID: 6041154096326427028}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -884,26 +884,6 @@ CapsuleCollider2D:
   m_Offset: {x: -0.2887196, y: 0.0016123056}
   m_Size: {x: 1.0244766, y: 1.6061075}
   m_Direction: 0
---- !u!114 &3083937331071735404
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6509811402037922370}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f40e2434a777f64498dc752f1b130943, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  walkSpeed: 3
-  runSpeed: 5
-  jumpForce: 16
-  groundCheck: {fileID: 8948270806515328334}
-  groundCheckRadius: 0.2
-  groundLayer:
-    serializedVersion: 2
-    m_Bits: 64
 --- !u!114 &3567001504523659419
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -937,6 +917,26 @@ MonoBehaviour:
   maxHealth: 200
   isDead: 0
   isInvincible: 0
+--- !u!114 &6041154096326427028
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6509811402037922370}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7e0a60c4b793646419c8373ab21cbf24, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  walkSpeed: 5
+  runSpeed: 8
+  jumpForce: 12
+  groundCheck: {fileID: 8948270806515328334}
+  groundCheckRadius: 0.2
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 64
 --- !u!1 &7992460280729492929
 GameObject:
   m_ObjectHideFlags: 0

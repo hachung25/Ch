@@ -759,7 +759,7 @@ GameObject:
   - component: {fileID: -5513769891564932251}
   - component: {fileID: 1322764278776010194}
   - component: {fileID: 6183900574291893579}
-  - component: {fileID: 8422064372948774377}
+  - component: {fileID: 5599882536490200050}
   m_Layer: 0
   m_Name: PlayerTA
   m_TagString: Untagged
@@ -850,7 +850,7 @@ Animator:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6135671517440773497}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: 15e9ddd0b99991f439fd487a16567919, type: 2}
   m_CullingMode: 0
@@ -983,7 +983,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6135671517440773497}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 158639473, guid: e725a070cec140c4caffb81624c8c787, type: 3}
   m_Name: 
@@ -993,7 +993,7 @@ MonoBehaviour:
   SyncParent: 0
   _autoAOIOverride: 1
   DisableSharedModeInterpolation: 0
---- !u!50 &8422064372948774377
+--- !u!50 &5599882536490200050
 Rigidbody2D:
   serializedVersion: 5
   m_ObjectHideFlags: 0
