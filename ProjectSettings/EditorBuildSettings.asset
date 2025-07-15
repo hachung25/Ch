@@ -6,6 +6,9 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/LoginTuanAnh/TestMuti.unity
+    guid: 90cb8aec716847748b68592b4d6cc879
+  - enabled: 1
     path: Assets/Scenes/LoginTA.unity
     guid: 61bc5ec169ff60743b556dc2c4039091
   - enabled: 1
