@@ -11,20 +11,15 @@ public class PlayerHealth : MonoBehaviour, IDamageable
     public bool isInvincible = false; // miễn nhiễm tạm thời (optional)
 
     private Animator animator;
+    
+    public PlayerMovement2D playerMovement;
 
     void Start()
     {
         currentHealth = maxHealth;
         animator = GetComponent<Animator>();
     }
-    void Update()
-    {
-      
-    }
-
-    /// <summary>
-    /// Nhận sát thương từ enemy
-    /// </summary>
+    
     public void TakeDamage(int damage)
     {
         if (isDead || isInvincible) return;
@@ -43,28 +38,17 @@ public class PlayerHealth : MonoBehaviour, IDamageable
         if (currentHealth <= 0)
         {
             Die();
+            
         }
     }
-
-    /// <summary>
-    /// Gọi khi máu về 0
-    /// </summary>
     private void Die()
     {
         isDead = true;
         Debug.Log("Player đã chết!");
-        // Trigger animation chết nếu có
-        if (animator != null)
-        {
-            animator.SetBool("IsDead", true);
-        }
-        Destroy(gameObject, 1f);
-       
+      playerMovement.Dead();
+        
     }
 
-    /// <summary>
-    /// Hồi máu cho player
-    /// </summary>
     public void Heal(int amount)
     {
         if (isDead) return;
@@ -73,9 +57,6 @@ public class PlayerHealth : MonoBehaviour, IDamageable
         currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
     }
 
-    /// <summary>
-    /// Getter cho UI
-    /// </summary>
     public int GetCurrentHealth()
     {
         return currentHealth;

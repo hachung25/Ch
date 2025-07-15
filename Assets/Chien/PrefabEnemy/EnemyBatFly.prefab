@@ -305,7 +305,7 @@ MonoBehaviour:
   speed: 2
   chaseRange: 4
   stopRange: 1.5
-  damageAmount: 3
+  damageAmount: 100
   maxHealth: 40
   healthBar: {fileID: 8425572847307372482}
 --- !u!1 &5673735124695093377
