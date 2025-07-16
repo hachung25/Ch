@@ -36,7 +36,7 @@ public class PlayerUpgradeManager : MonoBehaviour
     public void UpgradeHealthSet(int amount)
     {
         amount = PlayerPrefs.GetInt("lightning");
-        if (amount > 10)
+        if (amount >= 10)
         {
             lightningManeger.Spendlightning(10);
             currentHealth += healthUpgradeAmount;
@@ -53,7 +53,7 @@ public class PlayerUpgradeManager : MonoBehaviour
     public void UpgradeHealthGold(int amount)
     {
         amount = PlayerPrefs.GetInt("Gold");
-        if (amount > 100)
+        if (amount >= 100)
         {
                 GoldManager.SpendGold(100);
                 currentHealth += healthUpgradeAmount;
@@ -70,7 +70,7 @@ public class PlayerUpgradeManager : MonoBehaviour
     public void UpgradeDamageSet(int amount)
     {
         amount = PlayerPrefs.GetInt("lightning");
-        if (amount > 10)
+        if (amount >= 10)
         {
             lightningManeger.Spendlightning(10);
             currentDamage += damageUpgradeAmount;
@@ -88,7 +88,7 @@ public class PlayerUpgradeManager : MonoBehaviour
     public void UpgradeDamageGold(int amount)
     {
         amount = PlayerPrefs.GetInt("Gold");
-        if (amount > 100)
+        if (amount >= 100)
         {
             GoldManager.SpendGold(100);
             currentDamage += damageUpgradeAmount;

@@ -840,7 +840,6 @@ GameObject:
   - component: {fileID: 1877840303}
   - component: {fileID: 1877840305}
   - component: {fileID: 1877840304}
-  - component: {fileID: 1877840306}
   m_Layer: 7
   m_Name: Enemy_Warrior
   m_TagString: Untagged
@@ -1005,24 +1004,6 @@ CapsuleCollider2D:
   m_Offset: {x: 0.33766556, y: -0.04299915}
   m_Size: {x: 0.8304205, y: 1.2874491}
   m_Direction: 0
---- !u!114 &1877840306
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1877840300}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: da23c4e5a2a330d448b8ee6691a2167c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  speed: 2
-  chaseRange: 5
-  attackRange: 1
-  maxHealth: 40
-  player: {fileID: 2392998733942050000, guid: 00a13947dd34430469c79fa240e24467, type: 3}
-  healthSlider: {fileID: 482124367}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
