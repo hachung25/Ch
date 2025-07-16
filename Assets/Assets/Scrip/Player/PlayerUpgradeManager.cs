@@ -21,6 +21,15 @@ public class PlayerUpgradeManager : MonoBehaviour
 
     private void Awake()
     {
+        if (!PlayerPrefs.HasKey("GameInitialized"))
+        {
+            PlayerPrefs.SetInt(healthKey, baseHealth);
+            PlayerPrefs.SetInt(damageKey, baseDamage);
+            PlayerPrefs.SetInt("GameInitialized", 1);
+            PlayerPrefs.Save();
+            Debug.Log("Khởi tạo chỉ số ban đầu");
+        }
+
         LoadStats();
     }
 
@@ -95,6 +104,7 @@ public class PlayerUpgradeManager : MonoBehaviour
     
     private void LoadStats()
     {
+        
         currentHealth = PlayerPrefs.GetInt(healthKey, baseHealth);
         currentDamage = PlayerPrefs.GetInt(damageKey, baseDamage);
     }
