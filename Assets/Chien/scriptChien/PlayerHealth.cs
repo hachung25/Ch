@@ -2,22 +2,26 @@
 
 public class PlayerHealth : MonoBehaviour, IDamageable
 {
-    [Header("Thông số máu")]
-    public int maxHealth = 100;
     private int currentHealth;
+    public int MaxHealth { get; private set; }
 
-    [Header("Cờ trạng thái")]
     public bool isDead = false;
-    public bool isInvincible = false; // miễn nhiễm tạm thời (optional)
+    public bool isInvincible = false;
 
     private Animator animator;
-    
+
     public PlayerMovement2D playerMovement;
+
+    private PlayerUpgradeManager upgradeManager; 
+    
+    private bool hasLoaded = false;
 
     void Start()
     {
-        currentHealth = maxHealth;
         animator = GetComponent<Animator>();
+        upgradeManager = FindObjectOfType<PlayerUpgradeManager>();
+        currentHealth = (MaxHealth= PlayerPrefs.GetInt("Upgrade_Health"));
+        
     }
     
     public void TakeDamage(int damage)
@@ -25,11 +29,10 @@ public class PlayerHealth : MonoBehaviour, IDamageable
         if (isDead || isInvincible) return;
 
         currentHealth -= damage;
-        currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
+        currentHealth = Mathf.Clamp(currentHealth, 0, MaxHealth);
 
         Debug.Log($"Player nhận {damage} sát thương. Máu còn: {currentHealth}");
 
-        // Trigger animation trúng đòn nếu có
         if (animator != null)
         {
             animator.SetTrigger("Hit");
@@ -38,15 +41,14 @@ public class PlayerHealth : MonoBehaviour, IDamageable
         if (currentHealth <= 0)
         {
             Die();
-            
         }
     }
+
     private void Die()
     {
         isDead = true;
         Debug.Log("Player đã chết!");
-      playerMovement.Dead();
-        
+        playerMovement.Dead();
     }
 
     public void Heal(int amount)
@@ -54,7 +56,8 @@ public class PlayerHealth : MonoBehaviour, IDamageable
         if (isDead) return;
 
         currentHealth += amount;
-        currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
+        currentHealth = Mathf.Clamp(currentHealth, 0, MaxHealth);
+        MaxHealth = currentHealth;
     }
 
     public int GetCurrentHealth()
@@ -62,4 +65,3 @@ public class PlayerHealth : MonoBehaviour, IDamageable
         return currentHealth;
     }
 }
-
