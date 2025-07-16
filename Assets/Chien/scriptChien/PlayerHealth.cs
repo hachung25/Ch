@@ -2,39 +2,37 @@
 
 public class PlayerHealth : MonoBehaviour, IDamageable
 {
-    [Header("Thông số máu")]
-    public int maxHealth = 100;
     private int currentHealth;
+    public int MaxHealth { get; private set; }
 
-    [Header("Cờ trạng thái")]
     public bool isDead = false;
-    public bool isInvincible = false; // miễn nhiễm tạm thời (optional)
+    public bool isInvincible = false;
 
     private Animator animator;
 
+    public PlayerMovement2D playerMovement;
+
+    private PlayerUpgradeManager upgradeManager; 
+    
+    private bool hasLoaded = false;
+
     void Start()
     {
-        currentHealth = maxHealth;
         animator = GetComponent<Animator>();
+        upgradeManager = FindObjectOfType<PlayerUpgradeManager>();
+        currentHealth = (MaxHealth= PlayerPrefs.GetInt("Upgrade_Health"));
+        
     }
-    void Update()
-    {
-      
-    }
-
-    /// <summary>
-    /// Nhận sát thương từ enemy
-    /// </summary>
+    
     public void TakeDamage(int damage)
     {
         if (isDead || isInvincible) return;
 
         currentHealth -= damage;
-        currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
+        currentHealth = Mathf.Clamp(currentHealth, 0, MaxHealth);
 
         Debug.Log($"Player nhận {damage} sát thương. Máu còn: {currentHealth}");
 
-        // Trigger animation trúng đòn nếu có
         if (animator != null)
         {
             animator.SetTrigger("Hit");
@@ -46,39 +44,24 @@ public class PlayerHealth : MonoBehaviour, IDamageable
         }
     }
 
-    /// <summary>
-    /// Gọi khi máu về 0
-    /// </summary>
     private void Die()
     {
         isDead = true;
         Debug.Log("Player đã chết!");
-        // Trigger animation chết nếu có
-        if (animator != null)
-        {
-            animator.SetBool("IsDead", true);
-        }
-        Destroy(gameObject, 1f);
-       
+        playerMovement.Dead();
     }
 
-    /// <summary>
-    /// Hồi máu cho player
-    /// </summary>
     public void Heal(int amount)
     {
         if (isDead) return;
 
         currentHealth += amount;
-        currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
+        currentHealth = Mathf.Clamp(currentHealth, 0, MaxHealth);
+        MaxHealth = currentHealth;
     }
 
-    /// <summary>
-    /// Getter cho UI
-    /// </summary>
     public int GetCurrentHealth()
     {
         return currentHealth;
     }
 }
-

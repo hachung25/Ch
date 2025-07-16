@@ -145,5 +145,10 @@ public class PlayerMovement2D : MonoBehaviour
         isAttacking = false;
     }
 
+    public void Dead()
+    {
+        animator.SetBool("isDead", true);
+    }
+
 }
 
