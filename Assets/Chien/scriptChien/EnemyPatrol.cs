@@ -57,7 +57,7 @@ public class EnemyPatrol : EnemyBasePatrol
     {
         if (animator != null)
         {
-            animator.SetTrigger("Enemy1Die");
+            //animator.SetTrigger("Enemy1Die");
             animator.SetBool("Idle", false);
             animator.SetBool("EnemyWalk", false);
             animator.SetBool("EnemyAtk", false);
