@@ -1920,6 +1920,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 469163167}
   m_CullTransparentMesh: 1
+--- !u!1 &488463065 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6978660376002455766, guid: 8aab062cd7601cf4d80524a4f3246241, type: 3}
+  m_PrefabInstance: {fileID: 591512354}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &490968620
 GameObject:
   m_ObjectHideFlags: 0
@@ -2563,7 +2568,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4874407569185113907, guid: 8aab062cd7601cf4d80524a4f3246241, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6978660376002455766, guid: 8aab062cd7601cf4d80524a4f3246241, type: 3}
       propertyPath: m_Name
@@ -2571,7 +2576,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6978660376002455766, guid: 8aab062cd7601cf4d80524a4f3246241, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2992,6 +2997,17 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 745448820}
   m_CullTransparentMesh: 1
+--- !u!114 &776365369 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7870942533646506831, guid: 8aab062cd7601cf4d80524a4f3246241, type: 3}
+  m_PrefabInstance: {fileID: 591512354}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &784320734
 GameObject:
   m_ObjectHideFlags: 0
@@ -6080,6 +6096,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1840519824}
   - component: {fileID: 1840519823}
+  - component: {fileID: 1840519825}
   m_Layer: 0
   m_Name: FireBaseManger
   m_TagString: Untagged
@@ -6131,6 +6148,23 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1840519825
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1840519822}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 94c1567c1e5a23d42a72f3cb25d0c748, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  login: {fileID: 1917607206}
+  loading: {fileID: 488463065}
+  loadingSlider: {fileID: 1896559873}
+  loadingText: {fileID: 776365369}
+  loadSpeed: 1.5
 --- !u!1 &1862657332
 GameObject:
   m_ObjectHideFlags: 0
@@ -6221,6 +6255,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1896559873 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2764956974215291907, guid: 8aab062cd7601cf4d80524a4f3246241, type: 3}
+  m_PrefabInstance: {fileID: 591512354}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67db9e8f0e2ae9c40bc1e2b64352a6b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1912334539
 GameObject:
   m_ObjectHideFlags: 0
@@ -6300,6 +6345,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1912334539}
   m_CullTransparentMesh: 1
+--- !u!1 &1917607206 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2899055980844335106, guid: 92453c9a678278d4391be280a92432b4, type: 3}
+  m_PrefabInstance: {fileID: 4075774118201569481}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1924828610
 GameObject:
   m_ObjectHideFlags: 0
@@ -7129,6 +7179,10 @@ PrefabInstance:
     - target: {fileID: 2899055980844335106, guid: 92453c9a678278d4391be280a92432b4, type: 3}
       propertyPath: m_Name
       value: CanvasLogin
+      objectReference: {fileID: 0}
+    - target: {fileID: 2899055980844335106, guid: 92453c9a678278d4391be280a92432b4, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2980714822729823804, guid: 92453c9a678278d4391be280a92432b4, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
