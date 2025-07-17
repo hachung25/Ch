@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 468a46d0ae32c3544b7d98094e6448a9, type: 3}
   m_Name: AddressableAssetSettings
   m_EditorClassIdentifier: 
-  m_DefaultGroup: c4b7a064d1e56124f8234cdd2e3ab732
+  m_DefaultGroup: dc0e43d820ffcf647a94f8ca331dedaa
   m_currentHash:
     serializedVersion: 2
-    Hash: 4a95a85612c40d67a2fda9f9631c5872
+    Hash: ba402978d8f05f49c457f0af0fa1e650
   m_OptimizeCatalogSize: 0
   m_BuildRemoteCatalog: 0
   m_CatalogRequestsTimeout: 0
@@ -62,7 +62,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 911889ba910302247bf0104a77e33775, type: 2}
   - {fileID: 11400000, guid: b6d0a84499e9fe84ea3e1cc1e10808e1, type: 2}
   - {fileID: 11400000, guid: c5a734c24ef3fbc4bbd4d32c6474e48e, type: 2}
-  - {fileID: 11400000, guid: 5b5af76bfa370ed409190cff3a49d843, type: 2}
+  - {fileID: 11400000, guid: 9f50b911cbea2874ca12b1e0e4d8d397, type: 2}
+  - {fileID: 11400000, guid: a6d8f93d93688bb48926a01e01ba1738, type: 2}
   - {fileID: 11400000, guid: 4653cdc557d9a1b4f8d032443c11c415, type: 2}
   - {fileID: 11400000, guid: 497e98be72fa92d4e8584d461ac9949a, type: 2}
   m_BuildSettings:
@@ -108,6 +109,8 @@ MonoBehaviour:
     - Locale-zh-Hans
     - Locale-en
     - Locale-vi
+    - Preload
+    - Locale-de
   m_SchemaTemplates: []
   m_GroupTemplateObjects:
   - {fileID: 11400000, guid: d4bff284f3052bf4fa06e3e761794954, type: 2}

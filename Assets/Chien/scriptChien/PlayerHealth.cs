@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-
+using System.Collections;
 public class PlayerHealth : MonoBehaviour, IDamageable
 {
     private int currentHealth;
@@ -38,6 +38,10 @@ public class PlayerHealth : MonoBehaviour, IDamageable
             animator.SetTrigger("Hit");
         }
 
+        // BẮT ĐẦU TRẠNG THÁI BẤT TỬ VÀ NHẤP NHÁY
+        isInvincible = true;
+        StartCoroutine(FlashWhileInvincible());
+
         if (currentHealth <= 0)
         {
             Die();
@@ -64,4 +68,21 @@ public class PlayerHealth : MonoBehaviour, IDamageable
     {
         return currentHealth;
     }
+    private IEnumerator FlashWhileInvincible()
+    {
+        float duration = 0.5f;
+        float timer = 0f;
+        SpriteRenderer sr = GetComponent<SpriteRenderer>();
+
+        while (timer < duration)
+        {
+            sr.enabled = !sr.enabled; 
+            yield return new WaitForSeconds(0.1f);
+            timer += 0.1f;
+        }
+
+        sr.enabled = true;
+        isInvincible = false;
+    }
+
 }

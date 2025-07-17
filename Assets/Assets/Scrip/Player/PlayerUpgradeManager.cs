@@ -21,13 +21,22 @@ public class PlayerUpgradeManager : MonoBehaviour
 
     private void Awake()
     {
+        if (!PlayerPrefs.HasKey("GameInitialized"))
+        {
+            PlayerPrefs.SetInt(healthKey, baseHealth);
+            PlayerPrefs.SetInt(damageKey, baseDamage);
+            PlayerPrefs.SetInt("GameInitialized", 1);
+            PlayerPrefs.Save();
+            Debug.Log("Khởi tạo chỉ số ban đầu");
+        }
+
         LoadStats();
     }
 
     public void UpgradeHealthSet(int amount)
     {
         amount = PlayerPrefs.GetInt("lightning");
-        if (amount > 10)
+        if (amount >= 10)
         {
             lightningManeger.Spendlightning(10);
             currentHealth += healthUpgradeAmount;
@@ -44,7 +53,7 @@ public class PlayerUpgradeManager : MonoBehaviour
     public void UpgradeHealthGold(int amount)
     {
         amount = PlayerPrefs.GetInt("Gold");
-        if (amount > 100)
+        if (amount >= 100)
         {
                 GoldManager.SpendGold(100);
                 currentHealth += healthUpgradeAmount;
@@ -61,7 +70,7 @@ public class PlayerUpgradeManager : MonoBehaviour
     public void UpgradeDamageSet(int amount)
     {
         amount = PlayerPrefs.GetInt("lightning");
-        if (amount > 10)
+        if (amount >= 10)
         {
             lightningManeger.Spendlightning(10);
             currentDamage += damageUpgradeAmount;
@@ -79,7 +88,7 @@ public class PlayerUpgradeManager : MonoBehaviour
     public void UpgradeDamageGold(int amount)
     {
         amount = PlayerPrefs.GetInt("Gold");
-        if (amount > 100)
+        if (amount >= 100)
         {
             GoldManager.SpendGold(100);
             currentDamage += damageUpgradeAmount;
@@ -95,6 +104,7 @@ public class PlayerUpgradeManager : MonoBehaviour
     
     private void LoadStats()
     {
+        
         currentHealth = PlayerPrefs.GetInt(healthKey, baseHealth);
         currentDamage = PlayerPrefs.GetInt(damageKey, baseDamage);
     }
