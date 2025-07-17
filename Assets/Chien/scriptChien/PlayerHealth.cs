@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using System.Collections;
 public class PlayerHealth : MonoBehaviour, IDamageable
 {
@@ -21,9 +22,18 @@ public class PlayerHealth : MonoBehaviour, IDamageable
         animator = GetComponent<Animator>();
         upgradeManager = FindObjectOfType<PlayerUpgradeManager>();
         currentHealth = (MaxHealth= PlayerPrefs.GetInt("Upgrade_Health"));
-        
+        Debug.Log(PlayerPrefs.GetInt("Upgrade_Health"));
     }
-    
+
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            ResetHealth();
+        }
+    }
+ 
+
     public void TakeDamage(int damage)
     {
         if (isDead || isInvincible) return;
@@ -37,8 +47,7 @@ public class PlayerHealth : MonoBehaviour, IDamageable
         {
             animator.SetTrigger("Hit");
         }
-
-        // BẮT ĐẦU TRẠNG THÁI BẤT TỬ VÀ NHẤP NHÁY
+        
         isInvincible = true;
         StartCoroutine(FlashWhileInvincible());
 
@@ -84,5 +93,28 @@ public class PlayerHealth : MonoBehaviour, IDamageable
         sr.enabled = true;
         isInvincible = false;
     }
+    
+    public void ResetHealth()
+    {
+        isDead = false;
+        isInvincible = false;
+
+        MaxHealth = PlayerPrefs.GetInt("Upgrade_Health");
+        currentHealth = MaxHealth;
+
+        if (animator != null)
+        {
+            animator.Rebind(); 
+            animator.Update(0f);
+        }
+
+        if (playerMovement != null)
+        {
+            playerMovement.enabled = true;
+        }
+        
+    }
+
+
 
 }
