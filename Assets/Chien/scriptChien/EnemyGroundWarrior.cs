@@ -1,10 +1,10 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-public class EnemyGroundOverride : EnemyGroundBase, IDamageable
+public class EnemyGroundWarrior : EnemyGroundBase, IDamageable
 {
     [Header("Thanh máu riêng")]
-    public Slider overrideHealthSlider;
+    public Slider overrideHealthSlider_Warrior;
 
     [Header("Tùy chỉnh chỉ số")]
     public int attackDamage = 5;
@@ -15,9 +15,9 @@ public class EnemyGroundOverride : EnemyGroundBase, IDamageable
 
         currentHealth = maxHealth;
 
-        if (overrideHealthSlider != null)
+        if (overrideHealthSlider_Warrior != null)
         {
-            healthSlider = overrideHealthSlider;
+            healthSlider = overrideHealthSlider_Warrior;
             healthSlider.maxValue = maxHealth;
         }
 
