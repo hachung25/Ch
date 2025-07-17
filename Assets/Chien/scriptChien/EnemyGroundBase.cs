@@ -131,10 +131,10 @@ public abstract class EnemyGroundBase : MonoBehaviour, IDamageable
 
         if (animator != null)
         {
-            animator.SetTrigger("Die"); 
+            animator.SetTrigger("Die");
         }
 
-        Destroy(gameObject, 0.5f); 
+        Destroy(gameObject, 0.5f);
     }
 
     protected virtual void DealDamageToPlayer()
