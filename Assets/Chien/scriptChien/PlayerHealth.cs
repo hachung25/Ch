@@ -25,15 +25,17 @@ public class PlayerHealth : MonoBehaviour, IDamageable
         Debug.Log(PlayerPrefs.GetInt("Upgrade_Health"));
     }
 
-    void Update()
+    private void OnEnable()
     {
-        if (Input.GetKeyDown(KeyCode.P))
-        {
-            ResetHealth();
-        }
+        updateDame();
     }
- 
-
+    
+    public void updateDame()
+    {
+        upgradeManager = FindObjectOfType<PlayerUpgradeManager>();
+        currentHealth = (MaxHealth= PlayerPrefs.GetInt("Upgrade_Health"));
+        Debug.Log(PlayerPrefs.GetInt("Upgrade_Health"));
+    }
     public void TakeDamage(int damage)
     {
         if (isDead || isInvincible) return;
