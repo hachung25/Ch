@@ -16,6 +16,19 @@ public class PlayerAttack : MonoBehaviour
        damage = Damage;
        textdame();
     }
+    
+    private void OnEnable()
+    {
+        
+        updateDamage(); // Thực hiện điều gì đó khi bật
+    }
+
+    public void updateDamage()
+    {
+        int Damage = PlayerPrefs.GetInt("Upgrade_Damage");
+        damage = Damage;
+        textdame();
+    }
 
     public void textdame()
     {
