@@ -1,11 +1,39 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
+using TMPro;
 
 public class PlayerAttack : MonoBehaviour
 {
+    public TextMeshProUGUI damageText;
     public Transform attackPoint;
     public float attackRange = 0.5f;
     public LayerMask enemyLayer;
-    public int damage = 10;
+    private int damage;
+
+    private void Start()
+    {
+       int Damage = PlayerPrefs.GetInt("Upgrade_Damage");
+       damage = Damage;
+       textdame();
+    }
+    
+    private void OnEnable()
+    {
+        
+        updateDamage(); // Thực hiện điều gì đó khi bật
+    }
+
+    public void updateDamage()
+    {
+        int Damage = PlayerPrefs.GetInt("Upgrade_Damage");
+        damage = Damage;
+        textdame();
+    }
+
+    public void textdame()
+    {
+        damageText.text = damage.ToString();
+    }
 
     public void DealDamage()
     {

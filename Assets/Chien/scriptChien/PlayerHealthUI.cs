@@ -7,7 +7,7 @@ public class PlayerHealthUI : MonoBehaviour
     [Header("Tham chiếu")]
     public Slider healthSlider;
     public TMP_Text healthText;
-    public PlayerHealth playerHealth; // Gắn từ editor hoặc tìm tự động
+    public PlayerHealth playerHealth;
 
     [Header("Hiệu ứng")]
     public float lerpSpeed = 5f;
@@ -18,11 +18,11 @@ public class PlayerHealthUI : MonoBehaviour
     {
         if (playerHealth == null)
         {
-            playerHealth = FindObjectOfType<PlayerHealth>(); // fallback nếu chưa gán
+            playerHealth = FindObjectOfType<PlayerHealth>();
         }
 
         displayedHealth = playerHealth.GetCurrentHealth();
-        healthSlider.maxValue = playerHealth.maxHealth;
+        healthSlider.maxValue = playerHealth.MaxHealth;
         healthSlider.value = displayedHealth;
 
         UpdateHealthText();
@@ -37,6 +37,6 @@ public class PlayerHealthUI : MonoBehaviour
 
     void UpdateHealthText()
     {
-        healthText.text = $"{playerHealth.GetCurrentHealth()} / {playerHealth.maxHealth}";
+        healthText.text = $"{playerHealth.GetCurrentHealth()} / {playerHealth.MaxHealth}";
     }
 }

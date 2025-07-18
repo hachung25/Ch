@@ -26,8 +26,12 @@ public class LocalizedTexx : MonoBehaviour
         localizeEvent.StringReference.TableReference = "LocalizatioN";
         localizeEvent.StringReference.TableEntryReference = key;
 
-        // Gắn hàm xử lý sự kiện khi giá trị dịch thay đổi
+        // Gắn hàm xử lý sự kiện khi ngôn ngữ thay đổi
+        localizeEvent.OnUpdateString.RemoveAllListeners(); // Tránh trùng
         localizeEvent.OnUpdateString.AddListener(UpdateText);
+
+        // Lấy text ban đầu
+        localizeEvent.RefreshString();
     }
 
     private void UpdateText(string localizedValue)
@@ -35,6 +39,15 @@ public class LocalizedTexx : MonoBehaviour
         if (textComponent != null)
         {
             textComponent.text = localizedValue;
+        }
+    }
+
+    // Gọi khi bạn muốn cập nhật lại (ví dụ khi panel bật)
+    public void RefreshText()
+    {
+        if (localizeEvent != null)
+        {
+            localizeEvent.RefreshString();
         }
     }
 }
