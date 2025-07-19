@@ -18,6 +18,9 @@ public abstract class EnemyGroundBase : MonoBehaviour, IDamageable
     [Header("UI")]
     protected Slider healthSlider;
 
+    [Header("Direction")]
+    [SerializeField] protected bool isFacingRightByDefault = false;
+
     protected Rigidbody2D rb;
     protected Animator animator;
     protected SpriteRenderer spriteRenderer;
@@ -87,13 +90,14 @@ public abstract class EnemyGroundBase : MonoBehaviour, IDamageable
 
         if (spriteRenderer != null)
         {
-            spriteRenderer.flipX = direction.x > 0;
+            bool isPlayerOnLeft = player.position.x < transform.position.x;
+            spriteRenderer.flipX = isFacingRightByDefault ? isPlayerOnLeft : !isPlayerOnLeft;
         }
     }
 
     protected virtual void StopMoving()
     {
-        rb.linearVelocity = Vector2.zero; // sửa lại cho đúng
+        rb.linearVelocity = Vector2.zero;
     }
 
     protected virtual void UpdateAnimator()
@@ -139,8 +143,9 @@ public abstract class EnemyGroundBase : MonoBehaviour, IDamageable
 
     protected virtual void DealDamageToPlayer()
     {
-
+        // override trong class con nếu cần
     }
+
     public void SetHealthSlider(Slider slider)
     {
         healthSlider = slider;
