@@ -468,7 +468,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDamping: 0
   m_AngularDamping: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 2
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -497,7 +497,7 @@ MonoBehaviour:
   attackRange: 1.5
   player: {fileID: 2392998733942050000, guid: 00a13947dd34430469c79fa240e24467, type: 3}
   maxHealth: 100
-  overrideHealthSlider: {fileID: 5170671108142670238}
+  overrideHealthSlider_Warrior: {fileID: 5170671108142670238}
   attackDamage: 5
 --- !u!1 &8948747548588022337
 GameObject:
