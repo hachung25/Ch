@@ -1,0 +1,119 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!74 &7400000
+AnimationClip:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: enemyGhost_atk
+  serializedVersion: 7
+  m_Legacy: 0
+  m_Compressed: 0
+  m_UseHighQualityCurve: 1
+  m_RotationCurves: []
+  m_CompressedRotationCurves: []
+  m_EulerCurves: []
+  m_PositionCurves: []
+  m_ScaleCurves: []
+  m_FloatCurves: []
+  m_PPtrCurves:
+  - serializedVersion: 2
+    curve:
+    - time: 0
+      value: {fileID: -8243430544012272332, guid: 3a223299113e5144096bb405753bb3a6, type: 3}
+    - time: 0.05
+      value: {fileID: -1283631422764233525, guid: 7c2dd0709f244e24bba3f43ac1c396e7, type: 3}
+    - time: 0.15
+      value: {fileID: -5881905518299063445, guid: 605495473aaaf3f468d05f93b1c8f7e6, type: 3}
+    - time: 0.21666667
+      value: {fileID: 4892110746223403083, guid: c7e787e2dccaffb4885eb1e472bc0760, type: 3}
+    - time: 0.26666668
+      value: {fileID: -8913078426755177072, guid: 329645eda28c36c47b3824e056d7cae4, type: 3}
+    - time: 0.35
+      value: {fileID: 3950481612494716665, guid: 1e910d220eb57354cbf955f06c9819f0, type: 3}
+    - time: 0.41666666
+      value: {fileID: 3586147880413379155, guid: daef2c905dee0e4418bb05223f7ed475, type: 3}
+    - time: 0.5
+      value: {fileID: 3118588680657323321, guid: 26713c0bb4c4ecd4d91d783c6d31b91c, type: 3}
+    - time: 0.55
+      value: {fileID: -1707172199673434937, guid: 7c621cb3fdc102b44987842865714c87, type: 3}
+    - time: 0.6166667
+      value: {fileID: 4283122266318542929, guid: facd7f9cfe45e264eb3b0f0834f02416, type: 3}
+    - time: 0.71666664
+      value: {fileID: 1245845144233553027, guid: 500806647a181ec4f936e90a9e41a5a1, type: 3}
+    - time: 0.76666665
+      value: {fileID: -9159332185466480053, guid: 9d842e6b512d2af468932d10456f9176, type: 3}
+    attribute: m_Sprite
+    path: 
+    classID: 212
+    script: {fileID: 0}
+    flags: 2
+  m_SampleRate: 60
+  m_WrapMode: 0
+  m_Bounds:
+    m_Center: {x: 0, y: 0, z: 0}
+    m_Extent: {x: 0, y: 0, z: 0}
+  m_ClipBindingConstant:
+    genericBindings:
+    - serializedVersion: 2
+      path: 0
+      attribute: 0
+      script: {fileID: 0}
+      typeID: 212
+      customType: 23
+      isPPtrCurve: 1
+      isIntCurve: 0
+      isSerializeReferenceCurve: 0
+    pptrCurveMapping:
+    - {fileID: -8243430544012272332, guid: 3a223299113e5144096bb405753bb3a6, type: 3}
+    - {fileID: -1283631422764233525, guid: 7c2dd0709f244e24bba3f43ac1c396e7, type: 3}
+    - {fileID: -5881905518299063445, guid: 605495473aaaf3f468d05f93b1c8f7e6, type: 3}
+    - {fileID: 4892110746223403083, guid: c7e787e2dccaffb4885eb1e472bc0760, type: 3}
+    - {fileID: -8913078426755177072, guid: 329645eda28c36c47b3824e056d7cae4, type: 3}
+    - {fileID: 3950481612494716665, guid: 1e910d220eb57354cbf955f06c9819f0, type: 3}
+    - {fileID: 3586147880413379155, guid: daef2c905dee0e4418bb05223f7ed475, type: 3}
+    - {fileID: 3118588680657323321, guid: 26713c0bb4c4ecd4d91d783c6d31b91c, type: 3}
+    - {fileID: -1707172199673434937, guid: 7c621cb3fdc102b44987842865714c87, type: 3}
+    - {fileID: 4283122266318542929, guid: facd7f9cfe45e264eb3b0f0834f02416, type: 3}
+    - {fileID: 1245845144233553027, guid: 500806647a181ec4f936e90a9e41a5a1, type: 3}
+    - {fileID: -9159332185466480053, guid: 9d842e6b512d2af468932d10456f9176, type: 3}
+  m_AnimationClipSettings:
+    serializedVersion: 2
+    m_AdditiveReferencePoseClip: {fileID: 0}
+    m_AdditiveReferencePoseTime: 0
+    m_StartTime: 0
+    m_StopTime: 0.7833333
+    m_OrientationOffsetY: 0
+    m_Level: 0
+    m_CycleOffset: 0
+    m_HasAdditiveReferencePose: 0
+    m_LoopTime: 1
+    m_LoopBlend: 0
+    m_LoopBlendOrientation: 0
+    m_LoopBlendPositionY: 0
+    m_LoopBlendPositionXZ: 0
+    m_KeepOriginalOrientation: 0
+    m_KeepOriginalPositionY: 1
+    m_KeepOriginalPositionXZ: 0
+    m_HeightFromFeet: 0
+    m_Mirror: 0
+  m_EditorCurves: []
+  m_EulerEditorCurves: []
+  m_HasGenericRootTransform: 0
+  m_HasMotionFloatCurves: 0
+  m_Events:
+  - time: 0.55
+    functionName: FireAtPlayer
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 0.55
+    functionName: ShootBullet
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
