@@ -9,6 +9,7 @@ TagManager:
   - Win
   - Ground
   - bullet
+  - Enemy
   layers:
   - Default
   - TransparentFX
