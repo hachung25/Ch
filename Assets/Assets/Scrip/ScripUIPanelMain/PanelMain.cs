@@ -26,8 +26,7 @@ public class PanelMain : MonoBehaviour
             }
         }
     }
-
-    // Bật panel theo ID
+    
     public void ShowPanel(string id)
     {
         foreach (var kvp in panelDict)
@@ -35,8 +34,7 @@ public class PanelMain : MonoBehaviour
             kvp.Value.SetActive(kvp.Key == id);
         }
     }
-
-    // Tắt toàn bộ panel
+    
     public void HideAllPanels()
     {
         foreach (var panel in panelDict.Values)

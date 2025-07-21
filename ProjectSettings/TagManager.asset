@@ -8,6 +8,8 @@ TagManager:
   - nextmode
   - Win
   - Ground
+  - bullet
+  - Enemy
   layers:
   - Default
   - TransparentFX
@@ -15,9 +17,9 @@ TagManager:
   - 
   - Water
   - UI
-  - 
-  - 
-  - 
+  - Ground
+  - enemy
+  - Player
   - 
   - 
   - 
@@ -47,6 +49,9 @@ TagManager:
     locked: 0
   - name: character
     uniqueID: 3742004965
+    locked: 0
+  - name: Ground
+    uniqueID: 2223993303
     locked: 0
   m_RenderingLayers:
   - Default

@@ -17,6 +17,7 @@ public class MapSpawner : MonoBehaviour
     private GameObject[][] allMapInstances;
     private bool isPaused = false;
     public GameObject homePanel;
+    public GameObject PanelPlaymode;
 
     void Start()
     {
@@ -128,6 +129,7 @@ public class MapSpawner : MonoBehaviour
 
         if (homePanel != null)
             homePanel.SetActive(true);
+        PanelPlaymode.SetActive(false);
 
         Time.timeScale = 1f;
         Debug.Log("Đã trở về màn hình Home.");

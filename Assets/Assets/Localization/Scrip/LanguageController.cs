@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.Localization;
 using UnityEngine.Localization.Settings;
+using UnityEngine.Localization.Components;
 using System.Collections;
 
 public class LanguageController : MonoBehaviour
@@ -14,13 +15,13 @@ public class LanguageController : MonoBehaviour
 
     public void ChangeLanguage(string code)
     {
-        // Khi người chơi chọn ngôn ngữ lưu vào PlayerPrefs
+        // Khi người chơi chọn ngôn ngữ, lưu vào PlayerPrefs
         PlayerPrefs.SetString("language", code);
         PlayerPrefs.Save();
 
         // Áp dụng ngôn ngữ mới
         StartCoroutine(SetLanguage(code));
-        Debug.Log("đã chuyển ngôn ngữ");
+        Debug.Log("Đã chuyển ngôn ngữ sang: " + code);
     }
 
     private IEnumerator SetLanguage(string code)
@@ -33,10 +34,25 @@ public class LanguageController : MonoBehaviour
         if (selected != null)
         {
             LocalizationSettings.SelectedLocale = selected;
+
+            // Sau khi đổi locale, cập nhật lại toàn bộ LocalizedTexx đang có
+            RefreshAllLocalizedTexts();
         }
         else
         {
             Debug.LogWarning("Không tìm thấy ngôn ngữ: " + code);
         }
+    }
+
+    private void RefreshAllLocalizedTexts()
+    {
+        // Tìm tất cả đối tượng đang dùng LocalizedTexx (kể cả đang ẩn)
+        var localizedTexts = FindObjectsOfType<LocalizedTexx>(true);
+        foreach (var text in localizedTexts)
+        {
+            text.RefreshText(); // Gọi hàm cập nhật lại nội dung dịch
+        }
+
+        Debug.Log("Đã cập nhật lại toàn bộ text sau khi đổi ngôn ngữ.");
     }
 }
