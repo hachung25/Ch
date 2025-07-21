@@ -66,6 +66,22 @@ public class CharacterSelectionUI : MonoBehaviour
     {
         if (index < 0 || index >= factionImages.Length) return;
 
+        // Nếu đang chọn lại chính ảnh đó → bỏ chọn
+        if (selectedImageIndex == index)
+        {
+            // Về lại trạng thái ban đầu
+            factionImages[index].DOColor(normalColor, 0.25f);
+            RectTransform rt = factionImages[index].GetComponent<RectTransform>();
+            if (rt != null)
+                rt.DOSizeDelta(normalSize, 0.25f).SetEase(Ease.OutBack);
+
+            selectedImageIndex = -1;
+            factionText.text = "";
+            chooseButton.interactable = false;
+            return;
+        }
+
+        // Chọn ảnh mới → xử lý toàn bộ
         for (int i = 0; i < factionImages.Length; i++)
         {
             bool isSelected = (i == index);
@@ -87,11 +103,12 @@ public class CharacterSelectionUI : MonoBehaviour
         chooseButton.interactable = true;
     }
 
+
     public void OnChooseButtonClicked()
     {
         if (selectedImageIndex < 0) return;
 
         Debug.Log("Selected faction: " + factions[selectedImageIndex]);
-        SceneManager.LoadScene(nextSceneName);
+        SceneManager.LoadScene("TestMuti");
     }
 }

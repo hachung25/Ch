@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
-using Fusion; // Cần thiết cho NetworkBehaviour và RPC
+using Fusion;
 using TMPro;
 
 public class ChatManager : NetworkBehaviour
@@ -24,7 +24,17 @@ public class ChatManager : NetworkBehaviour
 
     public void SendChatMessage(string message)
     {
-        string playerName = Runner.LocalPlayer.PlayerId.ToString();
+        string playerName = "Unknown";
+
+        foreach (var player in FindObjectsOfType<PlayerNetwork>())
+        {
+            if (player.HasInputAuthority)
+            {
+                playerName = player.PlayerName;
+                break;
+            }
+        }
+
         RpcReceiveChatMessage(playerName, message);
     }
 }

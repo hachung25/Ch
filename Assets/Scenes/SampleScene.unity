@@ -26469,7 +26469,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &2037027957
 RectTransform:
   m_ObjectHideFlags: 0
@@ -26754,6 +26754,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: MaiMenuLeft
       objectReference: {fileID: 0}
+    - target: {fileID: 3239668111328448827, guid: 297e4cae0ad3d574abd12f5d5111e652, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4154588158176516439, guid: 297e4cae0ad3d574abd12f5d5111e652, type: 3}
       propertyPath: m_SizeDelta.x
       value: 332.2427
@@ -26921,6 +26925,10 @@ PrefabInstance:
     - target: {fileID: 8617493033967708694, guid: 297e4cae0ad3d574abd12f5d5111e652, type: 3}
       propertyPath: m_ActiveFontFeatures.Array.size
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9094850833389985900, guid: 297e4cae0ad3d574abd12f5d5111e652, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9185662086380807537, guid: 297e4cae0ad3d574abd12f5d5111e652, type: 3}
       propertyPath: m_fontSize
@@ -30456,7 +30464,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &5279067713691097404
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -30500,7 +30508,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 7707656874701866808}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 278807490}
+        m_TargetAssemblyTypeName: CharacterSelectionUI, Assembly-CSharp
+        m_MethodName: OnChooseButtonClicked
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!222 &5322498818401074138
 CanvasRenderer:
   m_ObjectHideFlags: 0
