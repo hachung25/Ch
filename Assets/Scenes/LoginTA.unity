@@ -2305,7 +2305,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &510038490
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8374,7 +8374,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2899055980844335106, guid: 92453c9a678278d4391be280a92432b4, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2980714822729823804, guid: 92453c9a678278d4391be280a92432b4, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -8657,9 +8657,9 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 490968623}
+  - {fileID: 572641595}
   - {fileID: 510038493}
   - {fileID: 4075774118201569481}
-  - {fileID: 572641595}
   - {fileID: 1840519824}
   - {fileID: 742540062}
   - {fileID: 993114493}

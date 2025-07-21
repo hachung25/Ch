@@ -1,6 +1,11 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/Photon/Fusion/build_info.txt.meta
+guid: 952c38d343e77b74dba7dd4fe93928be
+TextScriptImporter:
+========
 guid: 745d18762bfa5d2449986daf899524b4
 DefaultImporter:
+>>>>>>>> main:Assets/Assets/Enemy/PNG/Wraith_01/Vector Parts/Animations.scml.meta
   externalObjects: {}
   userData: 
   assetBundleName: 
