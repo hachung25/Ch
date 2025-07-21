@@ -6,7 +6,6 @@ public class CancelTheLevel : MonoBehaviour
     public GameObject pauseMenu;
     private PlayerHealth playerHealth;
     public MapSpawner mapSpawner;
-    
     public void CancelLevel()
     {
         playerHealth = FindObjectOfType<PlayerHealth>();
@@ -18,5 +17,6 @@ public class CancelTheLevel : MonoBehaviour
         }
 
         mapSpawner.BackToHome();
+       
     }
 }

@@ -18,6 +18,7 @@ public class MapSpawner : MonoBehaviour
     private bool isPaused = false;
     public GameObject homePanel;
     public GameObject PanelPlaymode;
+    public GameObject buttonPausse;
 
     void Start()
     {
@@ -123,7 +124,7 @@ public class MapSpawner : MonoBehaviour
     }
 
     public void BackToHome()
-    {
+    { buttonPausse.SetActive(false);
         if (currentMap != null)
             currentMap.SetActive(false);
 
