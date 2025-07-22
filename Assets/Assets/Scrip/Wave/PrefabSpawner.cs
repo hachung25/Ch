@@ -124,7 +124,8 @@ public class MapSpawner : MonoBehaviour
     }
 
     public void BackToHome()
-    { buttonPausse.SetActive(false);
+    {
+        buttonPausse.SetActive(false);
         if (currentMap != null)
             currentMap.SetActive(false);
 

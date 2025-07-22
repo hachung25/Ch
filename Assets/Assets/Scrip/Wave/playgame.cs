@@ -16,5 +16,11 @@ public class playgame : MonoBehaviour
     }
     
   }
+
+  public void ExitGamePlay()
+  {
+      PauseMenu.SetActive(false);
+  }
+  
   
 }
