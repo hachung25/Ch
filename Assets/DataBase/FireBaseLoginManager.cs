@@ -42,9 +42,11 @@ public class FireBaseLoginManager : MonoBehaviour
     private FirebaseAuth auth;
     private Coroutine logCoroutine;
 
+    private FireBaseDataBaseManager dataBaseManager;
     private void Start()
     {
         auth = FirebaseAuth.DefaultInstance;
+        dataBaseManager = GetComponent<FireBaseDataBaseManager>();
 
 
     }
@@ -213,6 +215,10 @@ public class FireBaseLoginManager : MonoBehaviour
             if (task.IsCompleted)
             {
                 LogToText("Đăng nhập thành công");
+                
+                User userinGame = new("Username",0,0,0,100,10);
+                FirebaseUser firebaseUser = task.Result.User;
+                dataBaseManager.WriteDataBase("Users/"+firebaseUser.UserId, userinGame.ToString());
                 SceneManager.LoadScene("SampleScene");
             }
         });

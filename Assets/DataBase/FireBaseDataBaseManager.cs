@@ -56,4 +56,35 @@ public class FireBaseDataBaseManager : MonoBehaviour
             }
         });
     }
-}
+    public void UpdateUserName(string userId, string newName)
+    {
+        reference.Child("Users").Child(userId).Child("Name").SetValueAsync(newName).ContinueWithOnMainThread(task =>
+        {
+            if (task.IsCompleted)
+            {
+                Debug.Log("Tên người chơi đã được cập nhật trên Firebase: " + newName);
+            }
+            else
+            {
+                Debug.LogError("Lỗi khi cập nhật tên lên Firebase: " + task.Exception);
+            }
+        });
+    }
+    public void LoadUserName(string userId, System.Action<string> onNameLoaded)
+    {
+        reference.Child("Users").Child(userId).Child("Name").GetValueAsync().ContinueWithOnMainThread(task =>
+        {
+            if (task.IsCompleted)
+            {
+                DataSnapshot snapshot = task.Result;
+                string name = snapshot.Value?.ToString();
+                onNameLoaded?.Invoke(name);
+            }
+            else
+            {
+                Debug.LogError("Lỗi khi đọc tên từ Firebase: " + task.Exception);
+                onNameLoaded?.Invoke(null);
+            }
+        });
+    }
+}  

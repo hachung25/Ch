@@ -5760,6 +5760,7 @@ GameObject:
   - component: {fileID: 278807488}
   - component: {fileID: 278807489}
   - component: {fileID: 278807490}
+  - component: {fileID: 278807491}
   m_Layer: 0
   m_Name: GameManeger
   m_TagString: Untagged
@@ -5960,6 +5961,8 @@ MonoBehaviour:
   nameInputField: {fileID: 803882657}
   nameText: {fileID: 1394670873}
   nameTextUpdate: {fileID: 1959602850}
+  dataBaseManager: {fileID: 278807491}
+  nameInputPanel: {fileID: 2037027956}
 --- !u!114 &278807484
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6073,6 +6076,18 @@ MonoBehaviour:
   normalSize: {x: 300, y: 400}
   chooseButton: {fileID: 5279067713691097404}
   nextSceneName: gamePlay
+--- !u!114 &278807491
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 278807470}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ac3468a5870f2104e9cca24ae34d55e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &280225716 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1390867611805551219, guid: cbc5cb34cd8c0d341a1bea9f3c1dbf5d, type: 3}
@@ -45250,7 +45265,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1590275938
 RectTransform:
   m_ObjectHideFlags: 0
