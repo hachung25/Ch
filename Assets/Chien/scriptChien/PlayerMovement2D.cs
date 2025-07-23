@@ -24,12 +24,20 @@ public class PlayerMovement2D : MonoBehaviour
     private bool attackHeld = false;
     private int attackIndex = 0;
     private readonly string[] attackTriggers = { "isAtk1", "isAtk2", "isAtk3", "isAtk4" };
+    
+    private Vector3 initialPosition;
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
     }
+    void OnEnable()
+    {
+        if (initialPosition == Vector3.zero)
+            initialPosition = transform.position;
 
+        transform.position = initialPosition;
+    }
     void Update()
     {
         PlayerMove();
