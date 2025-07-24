@@ -219,6 +219,10 @@ public class FireBaseLoginManager : MonoBehaviour
                 User userinGame = new("Username",0,0,0,100,10);
                 FirebaseUser firebaseUser = task.Result.User;
                 dataBaseManager.WriteDataBase("Users/"+firebaseUser.UserId, userinGame.ToString());
+                if (FirebaseAuth.DefaultInstance.CurrentUser != null)
+                {
+                    SaveManeger.LoadDailylogin();
+                }
                 FindObjectOfType<Dataload>().LoadAllDataFromFirebase();
             }
         });

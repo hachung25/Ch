@@ -9729,7 +9729,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "ch\u01A1i online"
+  m_text: Online
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 7fb6ba6d73da4854a842a075e2eec9c2, type: 2}
   m_sharedMaterial: {fileID: -8434250754723965359, guid: 7fb6ba6d73da4854a842a075e2eec9c2, type: 2}
@@ -9756,7 +9756,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 92.9
+  m_fontSize: 100
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -21728,7 +21728,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "ch\u01A1i offline"
+  m_text: Offline
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 7fb6ba6d73da4854a842a075e2eec9c2, type: 2}
   m_sharedMaterial: {fileID: -8434250754723965359, guid: 7fb6ba6d73da4854a842a075e2eec9c2, type: 2}
@@ -21755,7 +21755,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 92.9
+  m_fontSize: 100
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -45309,7 +45309,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -2772305949936657473, guid: 969bb15ecd8390d44a8660f7b241cde7, type: 3}
+  m_Sprite: {fileID: 3524658871558566777, guid: 59144e06aa8d3464586a435c0a377a2b, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -47882,7 +47882,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "ch\u01A1i offline"
+  m_text: Offline
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 7fb6ba6d73da4854a842a075e2eec9c2, type: 2}
   m_sharedMaterial: {fileID: -8434250754723965359, guid: 7fb6ba6d73da4854a842a075e2eec9c2, type: 2}
