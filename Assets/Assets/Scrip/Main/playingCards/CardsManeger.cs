@@ -1,52 +1,89 @@
 using UnityEngine;
 using System;
+using Firebase.Auth;
+using Firebase.Database;
+using Firebase.Extensions;
 
 public class CardsManeger : MonoBehaviour
 {
-    private const string Key = "Cards";
-    
-    // Sự kiện gọi khi vàng thay đổi
     public static event Action<int> OnCardsChanged;
 
-    // Thêm vàng
+    private static int currentCards = 0;
+
+    private static DatabaseReference reference => FirebaseDatabase.DefaultInstance.RootReference;
+    private static string UserId => FirebaseAuth.DefaultInstance.CurrentUser?.UserId;
+
+    // Thêm Cards
     public static void AddCards(int amount)
     {
-        int currentGold = GetCards();
-        currentGold += amount;
-        SetCards(currentGold);
+        currentCards += amount;
+        SaveCardsToFirebase();
     }
 
-    // Trừ vàng
+    // Trừ Cards
     public static bool SpendCards(int amount)
     {
-        int currentGold = GetCards();
-        if (currentGold >= amount)
+        if (currentCards >= amount)
         {
-            currentGold -= amount;
-            SetCards(currentGold);
+            currentCards -= amount;
+            SaveCardsToFirebase();
             return true;
         }
         return false;
     }
 
-    // Lấy số vàng hiện tại
+    // Đặt Cards
+    public static void SetCards(int amount)
+    {
+        currentCards = amount;
+        SaveCardsToFirebase();
+    }
+
+    // Lấy Cards hiện tại (trong RAM)
     public static int GetCards()
     {
-        return PlayerPrefs.GetInt(Key, 0);
+        return currentCards;
     }
 
-    // Đặt số vàng (nội bộ)
-    private static void SetCards(int amount)
-    {
-        PlayerPrefs.SetInt(Key, amount);
-        PlayerPrefs.Save();
-        OnCardsChanged?.Invoke(amount);
-    }
-
-    // Reset toàn bộ vàng về 0
+    // Reset Cards
     public static void ResetCards()
     {
-        PlayerPrefs.DeleteKey(Key);
-        OnCardsChanged?.Invoke(0);
+        currentCards = 0;
+        SaveCardsToFirebase();
+    }
+
+    // Lưu lên Firebase
+    private static void SaveCardsToFirebase()
+    {
+        if (!string.IsNullOrEmpty(UserId))
+        {
+            reference.Child("Users").Child(UserId).Child("Cards").SetValueAsync(currentCards);
+        }
+        OnCardsChanged?.Invoke(currentCards);
+    }
+
+    // Tải từ Firebase
+    public static void LoadCardsFromFirebase(Action onDone = null)
+    {
+        if (string.IsNullOrEmpty(UserId))
+        {
+            onDone?.Invoke();
+            return;
+        }
+
+        reference.Child("Users").Child(UserId).Child("Cards").GetValueAsync().ContinueWithOnMainThread(task =>
+        {
+            if (task.IsCompleted && task.Result.Exists && int.TryParse(task.Result.Value.ToString(), out int result))
+            {
+                currentCards = result;
+            }
+            else
+            {
+                currentCards = 0;
+            }
+
+            OnCardsChanged?.Invoke(currentCards);
+            onDone?.Invoke();
+        });
     }
 }

@@ -1,52 +1,84 @@
 using UnityEngine;
 using System;
+using Firebase.Auth;
+using Firebase.Database;
+using Firebase.Extensions;
 
-public class lightningManeger : MonoBehaviour
+public static class lightningManeger
 {
-    private const string GoldKey = "lightning";
-    
-    // Sự kiện gọi khi vàng thay đổi
-    public static event Action<int> OnlightningChanged;
+    private static int currentLightning = 0;
 
-    // Thêm vàng
-    public static void Addlightning(int amount)
+    public static event Action<int> OnLightningChanged;
+
+    private static DatabaseReference reference => FirebaseDatabase.DefaultInstance.RootReference;
+    private static string UserId => FirebaseAuth.DefaultInstance.CurrentUser?.UserId;
+
+    public static void AddLightning(int amount)
     {
-        int currentGold = GetLightning();
-        currentGold += amount;
-        SetGold(currentGold);
+        currentLightning += amount;
+        SaveLightningToFirebase();
     }
 
-    // Trừ vàng
-    public static bool Spendlightning(int amount)
+    public static bool SpendLightning(int amount)
     {
-        int currentGold = GetLightning();
-        if (currentGold >= amount)
+        if (currentLightning >= amount)
         {
-            currentGold -= amount;
-            SetGold(currentGold);
+            currentLightning -= amount;
+            SaveLightningToFirebase();
             return true;
         }
         return false;
     }
 
-    // Lấy số vàng hiện tại
     public static int GetLightning()
     {
-        return PlayerPrefs.GetInt(GoldKey, 0);
+        return currentLightning;
     }
 
-    // Đặt số vàng (nội bộ)
-    private static void SetGold(int amount)
+    public static void SetLightning(int amount)
     {
-        PlayerPrefs.SetInt(GoldKey, amount);
-        PlayerPrefs.Save();
-        OnlightningChanged?.Invoke(amount);
+        currentLightning = amount;
+        SaveLightningToFirebase();
     }
 
-    // Reset toàn bộ vàng về 0
-    public static void ResetGold()
+    public static void ResetLightning()
     {
-        PlayerPrefs.DeleteKey(GoldKey);
-        OnlightningChanged?.Invoke(0);
+        currentLightning = 0;
+        SaveLightningToFirebase();
+    }
+
+    private static void SaveLightningToFirebase()
+    {
+        if (!string.IsNullOrEmpty(UserId))
+        {
+            reference.Child("Users").Child(UserId).Child("Lightning").SetValueAsync(currentLightning);
+        }
+
+        OnLightningChanged?.Invoke(currentLightning);
+    }
+
+    public static void LoadLightningFromFirebase(Action onDone = null)
+    {
+        if (string.IsNullOrEmpty(UserId))
+        {
+            Debug.LogWarning("Chưa đăng nhập.");
+            onDone?.Invoke();
+            return;
+        }
+
+        reference.Child("Users").Child(UserId).Child("Lightning").GetValueAsync().ContinueWithOnMainThread(task =>
+        {
+            if (task.IsCompleted && task.Result.Exists && int.TryParse(task.Result.Value.ToString(), out int result))
+            {
+                currentLightning = result;
+            }
+            else
+            {
+                currentLightning = 0;
+            }
+
+            OnLightningChanged?.Invoke(currentLightning);
+            onDone?.Invoke();
+        });
     }
 }

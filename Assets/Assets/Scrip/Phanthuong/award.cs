@@ -99,7 +99,7 @@ public class award : MonoBehaviour
     private void GiveReward(bool isGem)
     {
         if (isGem)
-            lightningManeger.Addlightning(5); // ngọc
+            lightningManeger.AddLightning(5); // ngọc
         else
             GoldManager.AddGold(50); // vàng
     }
