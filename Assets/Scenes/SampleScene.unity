@@ -6022,7 +6022,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1868aeb6691de3b489d5d0021b9b2487, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  text1heath: {fileID: 1754210624}
+  text1Health: {fileID: 1754210624}
   text2Dame: {fileID: 1119125259}
 --- !u!114 &278807488
 MonoBehaviour:
@@ -52328,7 +52328,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1868aeb6691de3b489d5d0021b9b2487, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  text1heath: {fileID: 1614924306}
+  text1Health: {fileID: 1614924306}
   text2Dame: {fileID: 337780199}
 --- !u!1 &2038589135
 GameObject:

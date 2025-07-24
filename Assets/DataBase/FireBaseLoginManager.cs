@@ -219,9 +219,15 @@ public class FireBaseLoginManager : MonoBehaviour
                 User userinGame = new("Username",0,0,0,100,10);
                 FirebaseUser firebaseUser = task.Result.User;
                 dataBaseManager.WriteDataBase("Users/"+firebaseUser.UserId, userinGame.ToString());
-                SceneManager.LoadScene("SampleScene");
+                FindObjectOfType<Dataload>().LoadAllDataFromFirebase();
             }
         });
+    }
+
+    public void loaddataBaseManager()
+    {
+        CardsManeger.LoadCardsFromFirebase();
+        
     }
 
     private string ParseFirebaseLoginError(System.AggregateException exception)

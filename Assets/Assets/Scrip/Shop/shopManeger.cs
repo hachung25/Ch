@@ -47,36 +47,36 @@ public class shopManeger : MonoBehaviour
     public void slot2()
     {
         GoldManager.AddGold(10);
-        lightningManeger.Spendlightning(1);
+        lightningManeger.SpendLightning(1);
     } 
     public void slot3()
     {
         GoldManager.AddGold(20);
-        lightningManeger.Spendlightning(2);
+        lightningManeger.SpendLightning(2);
     }
     public void slot4()
     {
         GoldManager.AddGold(50);
-        lightningManeger.Spendlightning(3);
+        lightningManeger.SpendLightning(3);
     }
     public void slot5()
     {
         GoldManager.AddGold(100);
-        lightningManeger.Spendlightning(5);
+        lightningManeger.SpendLightning(5);
     }
     public void slot6()
     {
         GoldManager.AddGold(150);
-        lightningManeger.Spendlightning(7);
+        lightningManeger.SpendLightning(7);
     }
     public void slot7()
     {
         GoldManager.AddGold(300);
-        lightningManeger.Spendlightning(10);
+        lightningManeger.SpendLightning(10);
     }
     public void slot8()
     {
         GoldManager.AddGold(500);
-        lightningManeger.Spendlightning(15);
+        lightningManeger.SpendLightning(15);
     }
 }

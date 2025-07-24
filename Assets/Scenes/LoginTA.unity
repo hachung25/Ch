@@ -7099,6 +7099,7 @@ GameObject:
   - component: {fileID: 1840519825}
   - component: {fileID: 1840519826}
   - component: {fileID: 1840519827}
+  - component: {fileID: 1840519828}
   m_Layer: 0
   m_Name: FireBaseManger
   m_TagString: Untagged
@@ -7206,6 +7207,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ac3468a5870f2104e9cca24ae34d55e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1840519828
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1840519822}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a561516bf8fdf14c9a504e2342a3a00, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1862657332
