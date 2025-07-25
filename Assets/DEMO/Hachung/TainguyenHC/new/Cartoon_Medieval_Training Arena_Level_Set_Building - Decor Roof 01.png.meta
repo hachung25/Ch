@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 59144e06aa8d3464586a435c0a377a2b
+guid: c6601b939cba25c4082e03652917f3d2
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 3524658871558566777
-    second: ChatGPT Image 11_10_54 24 thg 7, 2025_0
+      213: 5311774695719544985
+    second: Cartoon_Medieval_Training Arena_Level_Set_Building - Decor Roof 01_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -109,30 +109,17 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 4
-    buildTarget: iOS
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: ChatGPT Image 11_10_54 24 thg 7, 2025_0
+      name: Cartoon_Medieval_Training Arena_Level_Set_Building - Decor Roof 01_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 1536
-        height: 1024
+        width: 160
+        height: 156
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -141,8 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 9737da9b19a1ae030800000000000000
-      internalID: 3524658871558566777
+      spriteID: 998a54951f637b940800000000000000
+      internalID: 5311774695719544985
       vertices: []
       indices: 
       edges: []
@@ -160,8 +147,7 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable:
-      ChatGPT Image 11_10_54 24 thg 7, 2025_0: 3524658871558566777
+    nameFileIdTable: {}
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

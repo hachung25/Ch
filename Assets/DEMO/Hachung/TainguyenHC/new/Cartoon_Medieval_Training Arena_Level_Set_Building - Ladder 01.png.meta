@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 59144e06aa8d3464586a435c0a377a2b
+guid: 87c74d8ffe26f78499686a253609f4ed
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 3524658871558566777
-    second: ChatGPT Image 11_10_54 24 thg 7, 2025_0
+      213: -3317613389435632626
+    second: Cartoon_Medieval_Training Arena_Level_Set_Building - Ladder 01_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -109,30 +109,17 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 4
-    buildTarget: iOS
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: ChatGPT Image 11_10_54 24 thg 7, 2025_0
+      name: Cartoon_Medieval_Training Arena_Level_Set_Building - Ladder 01_0
       rect:
         serializedVersion: 2
-        x: 0
+        x: 1
         y: 0
-        width: 1536
-        height: 1024
+        width: 350
+        height: 33
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -141,8 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 9737da9b19a1ae030800000000000000
-      internalID: 3524658871558566777
+      spriteID: e040c94233875f1d0800000000000000
+      internalID: -3317613389435632626
       vertices: []
       indices: 
       edges: []
@@ -160,8 +147,7 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable:
-      ChatGPT Image 11_10_54 24 thg 7, 2025_0: 3524658871558566777
+    nameFileIdTable: {}
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
