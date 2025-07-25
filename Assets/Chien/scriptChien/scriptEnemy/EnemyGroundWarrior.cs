@@ -54,6 +54,7 @@ public class EnemyGroundWarrior : EnemyGroundBase, IDamageable
             animator.SetTrigger("Die");
 
         Debug.Log($"{gameObject.name} đã chết!");
+        EnemyManager.Instance?.UnregisterEnemy();
         Destroy(gameObject, 0.3f);
     }
 

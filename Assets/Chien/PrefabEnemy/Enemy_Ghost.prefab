@@ -518,7 +518,7 @@ MonoBehaviour:
   attackRange: 4
   bulletPrefab: {fileID: 6601298268904034238, guid: d05bd701179318c4d96eb3f7ae78d57e, type: 3}
   firePoint: {fileID: 1611007663192239304}
-  player: {fileID: 0}
+  player: {fileID: 2392998733942050000, guid: 00a13947dd34430469c79fa240e24467, type: 3}
   spriteRenderer: {fileID: 9171920532729773521}
 --- !u!114 &8630420835393296282
 MonoBehaviour:

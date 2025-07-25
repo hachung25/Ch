@@ -193,7 +193,7 @@ GameObject:
   - component: {fileID: 5186773405502034604}
   m_Layer: 7
   m_Name: Enemy_boss
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -382,6 +382,7 @@ MonoBehaviour:
   player: {fileID: 2392998733942050000, guid: 00a13947dd34430469c79fa240e24467, type: 3}
   maxHealth: 300
   isFacingRightByDefault: 0
+  CoinPrefab: {fileID: 0}
   overrideHealthSlider_boss: {fileID: 8222720243264581555}
   attackDamage: 30
 --- !u!1 &3543067070613859041

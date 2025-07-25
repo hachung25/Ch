@@ -3,18 +3,22 @@ using UnityEngine.SceneManagement;
 
 public class PortalTrigger : MonoBehaviour
 {
-    public string nextSceneName; // Gán tên scene kế tiếp trong Inspector
-    public Vector2 spawnPositionInNextScene; // Vị trí spawn trong scene mới
+    public string nextSceneName;
+    public Vector2 spawnPositionInNextScene;
 
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Player"))
         {
-            // Lưu trạng thái trước khi chuyển scene
-            PlayerData.Instance.savedPosition = spawnPositionInNextScene;
-
-            // Load scene mới
-            SceneManager.LoadScene(nextSceneName);
+            if (EnemyManager.Instance != null && EnemyManager.Instance.AllEnemiesDead())
+            {
+                PlayerData.Instance.savedPosition = spawnPositionInNextScene;
+                SceneManager.LoadScene(nextSceneName);
+            }
+            else
+            {
+                Debug.Log("Chưa tiêu diệt hết quái! Không thể vào cổng.");
+            }
         }
     }
 }

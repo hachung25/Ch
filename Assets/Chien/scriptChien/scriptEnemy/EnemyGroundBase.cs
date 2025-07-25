@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
-
+using System.Collections;
 [RequireComponent(typeof(Rigidbody2D), typeof(Animator))]
 public abstract class EnemyGroundBase : MonoBehaviour, IDamageable
 {
@@ -51,8 +51,29 @@ public abstract class EnemyGroundBase : MonoBehaviour, IDamageable
             healthSlider.maxValue = maxHealth;
             healthSlider.value = maxHealth;
         }
+        StartCoroutine(FindPlayerAfterDelay());
+        //Dem quai trong scene
+        if (CompareTag("Enemy"))
+        {
+            EnemyManager.Instance?.RegisterEnemy();
+        }
+        
     }
+    private IEnumerator FindPlayerAfterDelay()
+    {
+        yield return null; // hoặc yield return new WaitForSeconds(0.1f);
 
+        GameObject p = GameObject.FindGameObjectWithTag("Player");
+        if (p != null)
+        {
+            player = p.transform;
+            Debug.Log("Enemy found player: " + player.name);
+        }
+        else
+        {
+            Debug.LogWarning("Enemy could NOT find Player!");
+        }
+    }
     protected virtual void Update()
     {
         if (player == null || isDead) return;
@@ -149,6 +170,7 @@ public abstract class EnemyGroundBase : MonoBehaviour, IDamageable
         {
             Instantiate(CoinPrefab, transform.position, Quaternion.identity);
         }
+        
         Destroy(gameObject, 0.5f);
     }
 

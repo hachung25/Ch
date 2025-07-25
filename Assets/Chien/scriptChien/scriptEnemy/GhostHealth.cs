@@ -22,6 +22,7 @@ public class FlyingEnemyHealth : MonoBehaviour, IDamageable
             healthSlider.minValue = 0;
             healthSlider.value = currentHealth;
         }
+        
     }
 
     public void TakeDamage(int damage)
@@ -52,7 +53,7 @@ public class FlyingEnemyHealth : MonoBehaviour, IDamageable
         {
             Instantiate(deathEffect, transform.position, Quaternion.identity);
         }
-
+        EnemyManager.Instance?.UnregisterEnemy();
         // Tắt enemy (hoặc Destroy)
         Destroy(gameObject);
     }

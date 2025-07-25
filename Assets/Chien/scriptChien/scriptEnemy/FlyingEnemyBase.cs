@@ -30,8 +30,29 @@ public class FlyingEnemyBase : MonoBehaviour
 
         if (rb != null)
             rb.gravityScale = 0;
-    }
 
+        StartCoroutine(FindPlayerAfterDelay());
+        if (CompareTag("Enemy"))
+        {
+            EnemyManager.Instance?.RegisterEnemy();
+        }
+        
+    }
+    private IEnumerator FindPlayerAfterDelay()
+    {
+        yield return null; // hoặc yield return new WaitForSeconds(0.1f);
+
+        GameObject p = GameObject.FindGameObjectWithTag("Player");
+        if (p != null)
+        {
+            player = p.transform;
+            Debug.Log("Enemy found player: " + player.name);
+        }
+        else
+        {
+            Debug.LogWarning("Enemy could NOT find Player!");
+        }
+    }
     protected virtual void Update()
     {
         if (player == null || isDead) return;
@@ -130,7 +151,7 @@ public class FlyingEnemyBase : MonoBehaviour
         {
             animator.SetTrigger("Die"); // animator phải có parameter "Die"
         }
-
+        EnemyManager.Instance?.UnregisterEnemy();
         // Huỷ enemy sau 1.5s (đợi anim chết)
         Destroy(gameObject);
     }
