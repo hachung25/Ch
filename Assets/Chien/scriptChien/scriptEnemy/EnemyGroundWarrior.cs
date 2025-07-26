@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
-
+using System.Collections;
 public class EnemyGroundWarrior : EnemyGroundBase, IDamageable
 {
     [Header("Thanh máu riêng")]
@@ -10,6 +10,8 @@ public class EnemyGroundWarrior : EnemyGroundBase, IDamageable
     public int attackDamage = 5;
     private Vector3 initialPosition;
     public GameObject CoinPrefab;
+
+    public bool isInvincible = false;
     protected override void Start()
     {
         base.Start();
@@ -44,10 +46,9 @@ public class EnemyGroundWarrior : EnemyGroundBase, IDamageable
 
     protected override void Die()
     {
+        animator.enabled = false;
         if (isDead) return;
-
         isDead = true;
-
         if (healthSlider != null)
             healthSlider.gameObject.SetActive(false);
 
@@ -57,11 +58,29 @@ public class EnemyGroundWarrior : EnemyGroundBase, IDamageable
         {
             Instantiate(CoinPrefab, transform.position, Quaternion.identity);
         }
+        GetComponent<Rigidbody2D>().simulated = false;
         Debug.Log($"{gameObject.name} đã chết!");
         EnemyManager.Instance?.UnregisterEnemy();
-        Destroy(gameObject, 0.3f);
+        StartCoroutine(FlashWhileInvincible());
+        Destroy(gameObject, 0.8f);
     }
 
+    private IEnumerator FlashWhileInvincible()
+    {
+        float duration = 0.8f;
+        float timer = 0f;
+        SpriteRenderer sr = GetComponent<SpriteRenderer>();
+
+        while (timer < duration)
+        {
+            sr.enabled = !sr.enabled;
+            yield return new WaitForSeconds(0.1f);
+            timer += 0.1f;
+        }
+
+        sr.enabled = true;
+        isInvincible = false;
+    }
     private void UpdateHealthBar()
     {
         if (healthSlider != null)

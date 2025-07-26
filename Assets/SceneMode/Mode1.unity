@@ -577,6 +577,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyAliveCount: 0
+  player: {fileID: 68085092}
 --- !u!1 &1400325088 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5235284649411642552, guid: 8959e8cb58aff9442a7a91cff70d3487, type: 3}

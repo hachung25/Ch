@@ -56,6 +56,7 @@ public class Enemyboss : EnemyGroundBase, IDamageable
         {
             Instantiate(CoinPrefab, transform.position, Quaternion.identity);
         }
+        GetComponent<Rigidbody2D>().simulated = false;
         Debug.Log($"{gameObject.name} đã chết!");
         Destroy(gameObject, 0.3f);
     }

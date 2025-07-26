@@ -6,6 +6,11 @@ public class EnemyManager : MonoBehaviour
 
     public int enemyAliveCount = 0;
 
+    [Header("Tham chiếu tới Player")]
+    public Transform player;
+
+    private bool coinsAbsorbed = false; // để tránh gọi nhiều lần
+
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -16,9 +21,19 @@ public class EnemyManager : MonoBehaviour
         Instance = this;
     }
 
+    void Update()
+    {
+        if (!coinsAbsorbed && AllEnemiesDead())
+        {
+            coinsAbsorbed = true; // tránh gọi liên tục
+            AttractCoinsToPlayer();
+        }
+    }
+
     public void RegisterEnemy()
     {
         enemyAliveCount++;
+        coinsAbsorbed = false; // reset lại nếu có enemy mới
     }
 
     public void UnregisterEnemy()
@@ -31,5 +46,14 @@ public class EnemyManager : MonoBehaviour
     public bool AllEnemiesDead()
     {
         return enemyAliveCount <= 0;
+    }
+
+    private void AttractCoinsToPlayer()
+    {
+        var coins = FindObjectsOfType<CollectCoin>();
+        foreach (var coin in coins)
+        {
+            coin.ActivateMagnet(); // KHÔNG truyền player
+        }
     }
 }
