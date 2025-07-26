@@ -4535,6 +4535,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: MaiMenuCenter
       objectReference: {fileID: 0}
+    - target: {fileID: 5041156993504838437, guid: 1d1a00ef7fb7e9a409e5348574b0a482, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5144069831601642237, guid: 1d1a00ef7fb7e9a409e5348574b0a482, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -5760,6 +5764,7 @@ GameObject:
   - component: {fileID: 278807488}
   - component: {fileID: 278807489}
   - component: {fileID: 278807490}
+  - component: {fileID: 278807491}
   m_Layer: 0
   m_Name: GameManeger
   m_TagString: Untagged
@@ -5836,6 +5841,7 @@ MonoBehaviour:
   Mainmenu: {fileID: 1535083947}
   PauseMenu: {fileID: 1337235536}
   panelPause: {fileID: 600082299}
+  sceneToLoad: Mode1
 --- !u!114 &278807476
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5960,6 +5966,8 @@ MonoBehaviour:
   nameInputField: {fileID: 803882657}
   nameText: {fileID: 1394670873}
   nameTextUpdate: {fileID: 1959602850}
+  dataBaseManager: {fileID: 278807491}
+  nameInputPanel: {fileID: 2037027956}
 --- !u!114 &278807484
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6019,7 +6027,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1868aeb6691de3b489d5d0021b9b2487, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  text1heath: {fileID: 1754210624}
+  text1Health: {fileID: 1754210624}
   text2Dame: {fileID: 1119125259}
 --- !u!114 &278807488
 MonoBehaviour:
@@ -6073,6 +6081,18 @@ MonoBehaviour:
   normalSize: {x: 300, y: 400}
   chooseButton: {fileID: 5279067713691097404}
   nextSceneName: gamePlay
+--- !u!114 &278807491
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 278807470}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ac3468a5870f2104e9cca24ae34d55e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &280225716 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1390867611805551219, guid: cbc5cb34cd8c0d341a1bea9f3c1dbf5d, type: 3}
@@ -9714,7 +9734,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "ch\u01A1i online"
+  m_text: Online
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 7fb6ba6d73da4854a842a075e2eec9c2, type: 2}
   m_sharedMaterial: {fileID: -8434250754723965359, guid: 7fb6ba6d73da4854a842a075e2eec9c2, type: 2}
@@ -9741,7 +9761,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 92.9
+  m_fontSize: 100
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -11958,7 +11978,7 @@ Transform:
   m_GameObject: {fileID: 519420028}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.66, y: 0.2299999, z: -872.9185}
+  m_LocalPosition: {x: -2.24, y: 0.2299999, z: -872.9101}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -12187,9 +12207,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 278807476}
-        m_TargetAssemblyTypeName: MapSpawner, Assembly-CSharp
-        m_MethodName: PlayGame
+      - m_Target: {fileID: 278807475}
+        m_TargetAssemblyTypeName: playgame, Assembly-CSharp
+        m_MethodName: Playgame
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -12201,7 +12221,7 @@ MonoBehaviour:
         m_CallState: 2
       - m_Target: {fileID: 278807475}
         m_TargetAssemblyTypeName: playgame, Assembly-CSharp
-        m_MethodName: Playgame
+        m_MethodName: OnPlayButtonOnGame
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -21713,7 +21733,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "ch\u01A1i offline"
+  m_text: Offline
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 7fb6ba6d73da4854a842a075e2eec9c2, type: 2}
   m_sharedMaterial: {fileID: -8434250754723965359, guid: 7fb6ba6d73da4854a842a075e2eec9c2, type: 2}
@@ -21740,7 +21760,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 92.9
+  m_fontSize: 100
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -22393,6 +22413,10 @@ PrefabInstance:
     - target: {fileID: 5146938661484444566, guid: 888c59ed116df494eabb2945194c351c, type: 3}
       propertyPath: m_Name
       value: ButtonPlay
+      objectReference: {fileID: 0}
+    - target: {fileID: 5146938661484444566, guid: 888c59ed116df494eabb2945194c351c, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8147410198665455790, guid: 888c59ed116df494eabb2945194c351c, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -45250,7 +45274,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1590275938
 RectTransform:
   m_ObjectHideFlags: 0
@@ -45294,7 +45318,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -2772305949936657473, guid: 969bb15ecd8390d44a8660f7b241cde7, type: 3}
+  m_Sprite: {fileID: 3524658871558566777, guid: 59144e06aa8d3464586a435c0a377a2b, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -47867,7 +47891,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "ch\u01A1i offline"
+  m_text: Offline
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 7fb6ba6d73da4854a842a075e2eec9c2, type: 2}
   m_sharedMaterial: {fileID: -8434250754723965359, guid: 7fb6ba6d73da4854a842a075e2eec9c2, type: 2}
@@ -49038,6 +49062,10 @@ PrefabInstance:
     - target: {fileID: 7383334687028726982, guid: 156852e9d41f84145809248d6dd1af2a, type: 3}
       propertyPath: m_Name
       value: MaiMenuRight
+      objectReference: {fileID: 0}
+    - target: {fileID: 7383334687028726982, guid: 156852e9d41f84145809248d6dd1af2a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7461967225188083367, guid: 156852e9d41f84145809248d6dd1af2a, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -52313,7 +52341,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1868aeb6691de3b489d5d0021b9b2487, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  text1heath: {fileID: 1614924306}
+  text1Health: {fileID: 1614924306}
   text2Dame: {fileID: 337780199}
 --- !u!1 &2038589135
 GameObject:

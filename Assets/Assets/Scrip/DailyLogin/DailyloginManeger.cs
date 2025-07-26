@@ -18,6 +18,7 @@ public class DailyloginManeger : MonoBehaviour
             rewardText.text = "Không có phần thưởng hôm nay";
         }
     }
+
     void AddGold(int amount)
     {
         GoldManager.AddGold(amount);

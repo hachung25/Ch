@@ -318,7 +318,7 @@ GameObject:
   - component: {fileID: 7790702800716705332}
   m_Layer: 7
   m_Name: Enemy_Warrior
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -492,13 +492,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d4ea081c1e8c9d469948430bb33a523, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 2
+  speed: 3
   chaseRange: 5
   attackRange: 1.5
   player: {fileID: 2392998733942050000, guid: 00a13947dd34430469c79fa240e24467, type: 3}
   maxHealth: 100
+  isFacingRightByDefault: 0
   overrideHealthSlider_Warrior: {fileID: 5170671108142670238}
   attackDamage: 5
+  CoinPrefab: {fileID: 5451605172039159037, guid: bf6dd895dbb98ab4492a8402c67c38a6, type: 3}
 --- !u!1 &8948747548588022337
 GameObject:
   m_ObjectHideFlags: 0

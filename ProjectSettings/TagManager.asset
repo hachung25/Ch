@@ -10,6 +10,8 @@ TagManager:
   - Ground
   - bullet
   - Enemy
+  - UpdateMissionn
+  - Gold
   layers:
   - Default
   - TransparentFX
@@ -20,7 +22,7 @@ TagManager:
   - Ground
   - enemy
   - Player
-  - 
+  - Coin
   - 
   - 
   - 

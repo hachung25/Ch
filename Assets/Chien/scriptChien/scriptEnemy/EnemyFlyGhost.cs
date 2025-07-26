@@ -26,8 +26,29 @@ public class EnemyFlyGhost : MonoBehaviour
         animator = GetComponent<Animator>();
         if (spriteRenderer == null)
             spriteRenderer = GetComponent<SpriteRenderer>();
-    }
 
+        StartCoroutine(FindPlayerAfterDelay());
+
+        if (CompareTag("Enemy"))
+        {
+            EnemyManager.Instance?.RegisterEnemy();
+        }
+    }
+    private IEnumerator FindPlayerAfterDelay()
+    {
+        yield return null; // hoặc yield return new WaitForSeconds(0.1f);
+
+        GameObject p = GameObject.FindGameObjectWithTag("Player");
+        if (p != null)
+        {
+            player = p.transform;
+            Debug.Log("Enemy found player: " + player.name);
+        }
+        else
+        {
+            Debug.LogWarning("Enemy could NOT find Player!");
+        }
+    }
     void Update()
     {
         if (player == null) return;
