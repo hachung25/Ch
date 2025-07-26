@@ -382,9 +382,9 @@ MonoBehaviour:
   player: {fileID: 2392998733942050000, guid: 00a13947dd34430469c79fa240e24467, type: 3}
   maxHealth: 300
   isFacingRightByDefault: 0
-  CoinPrefab: {fileID: 0}
   overrideHealthSlider_boss: {fileID: 8222720243264581555}
   attackDamage: 30
+  CoinPrefab: {fileID: 5451605172039159037, guid: bf6dd895dbb98ab4492a8402c67c38a6, type: 3}
 --- !u!1 &3543067070613859041
 GameObject:
   m_ObjectHideFlags: 0

@@ -5841,6 +5841,7 @@ MonoBehaviour:
   Mainmenu: {fileID: 1535083947}
   PauseMenu: {fileID: 1337235536}
   panelPause: {fileID: 600082299}
+  sceneToLoad: Mode1
 --- !u!114 &278807476
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12206,9 +12207,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 278807476}
-        m_TargetAssemblyTypeName: MapSpawner, Assembly-CSharp
-        m_MethodName: PlayGame
+      - m_Target: {fileID: 278807475}
+        m_TargetAssemblyTypeName: playgame, Assembly-CSharp
+        m_MethodName: Playgame
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -12220,7 +12221,7 @@ MonoBehaviour:
         m_CallState: 2
       - m_Target: {fileID: 278807475}
         m_TargetAssemblyTypeName: playgame, Assembly-CSharp
-        m_MethodName: Playgame
+        m_MethodName: OnPlayButtonOnGame
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

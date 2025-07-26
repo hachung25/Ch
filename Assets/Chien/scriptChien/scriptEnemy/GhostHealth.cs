@@ -12,7 +12,7 @@ public class FlyingEnemyHealth : MonoBehaviour, IDamageable
 
     [Header("Effects")]
     public GameObject deathEffect;
-
+    public GameObject CoinPrefab;
     private void Start()
     {
         currentHealth = maxHealth;
@@ -52,6 +52,10 @@ public class FlyingEnemyHealth : MonoBehaviour, IDamageable
         if (deathEffect != null)
         {
             Instantiate(deathEffect, transform.position, Quaternion.identity);
+        }
+        if(CoinPrefab != null)
+        {
+            Instantiate(CoinPrefab, transform.position, Quaternion.identity);
         }
         EnemyManager.Instance?.UnregisterEnemy();
         // Tắt enemy (hoặc Destroy)

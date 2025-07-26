@@ -8,7 +8,7 @@ public class EnemyGroundGiant : EnemyGroundBase, IDamageable
 
     [Header("Tùy chỉnh chỉ số")]
     public int attackDamage = 8;
-
+    public GameObject CoinPrefab;
     protected override void Start()
     {
         base.Start();
@@ -52,7 +52,10 @@ public class EnemyGroundGiant : EnemyGroundBase, IDamageable
 
         if (animator != null)
             animator.SetTrigger("Die");
-
+        if(CoinPrefab != null)
+        {
+            Instantiate(CoinPrefab, transform.position, Quaternion.identity);
+        }
         Debug.Log($"{gameObject.name} đã chết!");
         EnemyManager.Instance?.UnregisterEnemy();
         Destroy(gameObject, 0.3f);

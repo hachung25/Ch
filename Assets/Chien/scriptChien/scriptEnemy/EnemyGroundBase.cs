@@ -28,7 +28,7 @@ public abstract class EnemyGroundBase : MonoBehaviour, IDamageable
     protected bool isChasing = false;
     protected bool isAttacking = false;
     //private Vector3 initialPosition;
-    public GameObject CoinPrefab;
+    //public GameObject CoinPrefab;
     //protected virtual void OnEnableEnemy()
     //{
     //    if (initialPosition == Vector3.zero)
@@ -166,10 +166,10 @@ public abstract class EnemyGroundBase : MonoBehaviour, IDamageable
         {
             animator.SetTrigger("Die");
         }
-        if (CoinPrefab != null)
-        {
-            Instantiate(CoinPrefab, transform.position, Quaternion.identity);
-        }
+        //if (CoinPrefab != null)
+        //{
+        //    Instantiate(CoinPrefab, transform.position, Quaternion.identity);
+        //}
         
         Destroy(gameObject, 0.5f);
     }

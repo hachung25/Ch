@@ -535,6 +535,7 @@ MonoBehaviour:
   maxHealth: 200
   healthSlider: {fileID: 7231187042142596268}
   deathEffect: {fileID: 0}
+  CoinPrefab: {fileID: 5451605172039159037, guid: bf6dd895dbb98ab4492a8402c67c38a6, type: 3}
 --- !u!70 &2955713799781502717
 CapsuleCollider2D:
   m_ObjectHideFlags: 0

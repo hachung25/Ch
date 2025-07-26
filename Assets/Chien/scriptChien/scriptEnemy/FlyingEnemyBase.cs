@@ -19,7 +19,7 @@ public class FlyingEnemyBase : MonoBehaviour
     protected bool canAttack = false;
     protected bool isAttacking = false;
     protected bool isDead = false;
-
+    public GameObject CoinPrefab;
     protected virtual void Start()
     {
         originalPosition = transform.position;
@@ -150,6 +150,10 @@ public class FlyingEnemyBase : MonoBehaviour
         if (animator != null)
         {
             animator.SetTrigger("Die"); // animator phải có parameter "Die"
+        }
+        if (CoinPrefab != null)
+        {
+            Instantiate(CoinPrefab, transform.position, Quaternion.identity);
         }
         EnemyManager.Instance?.UnregisterEnemy();
         // Huỷ enemy sau 1.5s (đợi anim chết)
