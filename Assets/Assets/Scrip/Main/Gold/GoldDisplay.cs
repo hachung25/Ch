@@ -1,5 +1,6 @@
 using UnityEngine;
 using TMPro;
+
 public class GoldDisplay : MonoBehaviour
 {
     public TextMeshProUGUI goldText;
