@@ -46,8 +46,8 @@ MonoBehaviour:
     m_Localized: Information
     m_Metadata:
       m_Items: []
-  - m_Id: 8935078617088
-    m_Localized: name
+  - m_Id: 8937825886208
+    m_Localized: Exit
     m_Metadata:
       m_Items: []
   - m_Id: 8935779065856
@@ -56,6 +56,87 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 8936487903232
     m_Localized: play
+    m_Metadata:
+      m_Items: []
+  - m_Id: 8937167380480
+    m_Localized: "Gameplay\nYou will play as a brave knight embarking on a thrilling
+      journey to battle monsters, with two exciting game modes:\n\nOnline Mode \u2013
+      PvP & Co-op\nCreate or join online rooms with other players.\n\nPvP Battles:
+      Compete in real-time against other players in the room, aiming for the top
+      of the leaderboard.\n\nBoss & Monster Co-op: Team up with others to defeat
+      waves of monsters or powerful bosses.\n\nRoom Leaderboard: See who slays the
+      most monsters and earn glory rewards after each match.\n\nOffline Mode \u2013
+      Wave-Based Monster Hunt\nJump into the game and fight off endless waves of
+      increasingly tough monsters.\n\nMonsters get stronger and faster with each
+      wave \u2013 upgrade your character and weapons to survive.\n\nEarn gold, gems,
+      and items after each wave to boost your power.\n\nKey Features\n\nPlay both
+      Online and Offline\n\nUpgrade weapons, armor, and skills\n\nIn-room ranking
+      and glory leaderboard\n\nReward system and daily missions\n\nCharming retro
+      pixel graphics\n\n"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 8938492780544
+    m_Localized: Free
+    m_Metadata:
+      m_Items: []
+  - m_Id: 8939151286272
+    m_Localized: Gold Pack
+    m_Metadata:
+      m_Items: []
+  - m_Id: 8939780431872
+    m_Localized: Gold
+    m_Metadata:
+      m_Items: []
+  - m_Id: 8940413771776
+    m_Localized: Hero
+    m_Metadata:
+      m_Items: []
+  - m_Id: 8941076471808
+    m_Localized: Equipment
+    m_Metadata:
+      m_Items: []
+  - m_Id: 8941722394624
+    m_Localized: Upgrade Health
+    m_Metadata:
+      m_Items: []
+  - m_Id: 8942380900352
+    m_Localized: Increase strength vs monsters
+    m_Metadata:
+      m_Items: []
+  - m_Id: 8942989074432
+    m_Localized: Upgrade Damage
+    m_Metadata:
+      m_Items: []
+  - m_Id: 8945593737216
+    m_Localized: Increase damage to monsters
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4963666200879104
+    m_Localized: Weekly Login
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4963668809736192
+    m_Localized: Claim
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4963669573099520
+    m_Localized: Once every 7 days
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4963670365822976
+    m_Localized: Join Group facebook
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4963671083048960
+    m_Localized: Join Group Discord
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4963671796080640
+    m_Localized: One-time reward only
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4963672534278144
+    m_Localized: This feature is not unlocked yet
     m_Metadata:
       m_Items: []
   references:

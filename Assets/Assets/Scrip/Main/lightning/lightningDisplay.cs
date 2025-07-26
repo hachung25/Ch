@@ -3,21 +3,20 @@ using TMPro;
 
 public class lightningDisplay : MonoBehaviour
 {
-    
     public TextMeshProUGUI lightningText;
 
     void OnEnable()
     {
-        lightningManeger.OnlightningChanged += UpdateGoldUI;
-        UpdateGoldUI(lightningManeger.GetLightning());
+        lightningManeger.OnLightningChanged += UpdateLightningUI;
+        UpdateLightningUI(lightningManeger.GetLightning());
     }
 
     void OnDisable()
     {
-        lightningManeger.OnlightningChanged -= UpdateGoldUI;
+        lightningManeger.OnLightningChanged -= UpdateLightningUI;
     }
 
-    void UpdateGoldUI(int lightning)
+    void UpdateLightningUI(int lightning)
     {
         if (lightningText != null)
             lightningText.text = $"{lightning}";

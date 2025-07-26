@@ -46,8 +46,8 @@ MonoBehaviour:
     m_Localized: "c\u1EEDa h\xE0ng"
     m_Metadata:
       m_Items: []
-  - m_Id: 8935078617088
-    m_Localized: "t\xEAn"
+  - m_Id: 8937825886208
+    m_Localized: "tho\xE1t"
     m_Metadata:
       m_Items: []
   - m_Id: 8935779065856
@@ -56,6 +56,100 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 8936487903232
     m_Localized: "ch\u01A1i"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 8937167380480
+    m_Localized: " L\u1ED1i ch\u01A1i\nB\u1EA1n s\u1EBD v\xE0o vai m\u1ED9t hi\u1EC7p
+      s\u0129 d\u0169ng c\u1EA3m b\u01B0\u1EDBc v\xE0o h\xE0nh tr\xECnh chi\u1EBFn
+      \u0111\u1EA5u ch\u1ED1ng l\u1EA1i l\u0169 qu\xE1i v\u1EADt, v\u1EDBi 2 ch\u1EBF
+      \u0111\u1ED9 ch\u01A1i h\u1EA5p d\u1EABn:\n\n Ch\u1EBF \u0111\u1ED9 Online
+      \u2013 PvP & Co-op\nT\u1EA1o ho\u1EB7c tham gia ph\xF2ng ch\u01A1i online c\xF9ng
+      nh\u1EEFng ng\u01B0\u1EDDi ch\u01A1i kh\xE1c.\n\nChi\u1EBFn \u0111\u1EA5u PvP:
+      So t\xE0i k\u1EF9 n\u0103ng chi\u1EBFn \u0111\u1EA5u v\u1EDBi ng\u01B0\u1EDDi
+      ch\u01A1i trong ph\xF2ng, tranh v\u1ECB tr\xED d\u1EABn \u0111\u1EA7u b\u1EA3ng
+      x\u1EBFp h\u1EA1ng.\n\n\u0110\xE1nh Boss & Qu\xE1i v\u1EADt c\xF9ng nhau: K\u1EBFt
+      h\u1EE3p c\xF9ng ng\u01B0\u1EDDi ch\u01A1i kh\xE1c ti\xEAu di\u1EC7t qu\xE1i
+      theo \u0111\u1EE3t (wave) ho\u1EB7c boss c\u1EF1c m\u1EA1nh.\n\nB\u1EA3ng x\u1EBFp
+      h\u1EA1ng trong ph\xF2ng: C\u1EA1nh tranh ai l\xE0 ng\u01B0\u1EDDi di\u1EC7t
+      nhi\u1EC1u qu\xE1i nh\u1EA5t, nh\u1EADn ph\u1EA7n th\u01B0\u1EDFng danh v\u1ECDng
+      m\u1ED7i tr\u1EADn.\n\n Ch\u1EBF \u0111\u1ED9 Offline \u2013 S\u0103n Qu\xE1i
+      Theo Wave\nV\xE0o game v\xE0 chi\u1EBFn \u0111\u1EA5u v\u1EDBi l\u0169 qu\xE1i
+      theo t\u1EEBng \u0111\u1EE3t (wave) kh\xF4ng ng\u1EEBng ngh\u1EC9.\n\nQu\xE1i
+      v\u1EADt ng\xE0y c\xE0ng m\u1EA1nh h\u01A1n, nhanh h\u01A1n \u2013 \u0111\xF2i
+      h\u1ECFi b\u1EA1n n\xE2ng c\u1EA5p nh\xE2n v\u1EADt v\xE0 v\u0169 kh\xED li\xEAn
+      t\u1EE5c.\n\nNh\u1EADn v\xE0ng, \u0111\xE1 qu\xFD, v\u1EADt ph\u1EA9m qua m\u1ED7i
+      wave \u0111\u1EC3 n\xE2ng c\u1EA5p s\u1EE9c m\u1EA1nh.\n\n T\xEDnh n\u0103ng
+      n\u1ED5i b\u1EADt\n Ch\u01A1i \u0111\u01B0\u1EE3c c\u1EA3 Online v\xE0 Offline\n\nN\xE2ng
+      c\u1EA5p v\u0169 kh\xED, gi\xE1p v\xE0 k\u1EF9 n\u0103ng \n\n X\u1EBFp h\u1EA1ng
+      ph\xF2ng \u0111\u1EA5u v\xE0 b\u1EA3ng danh v\u1ECDng\n\n H\u1EC7 th\u1ED1ng
+      ph\u1EA7n th\u01B0\u1EDFng, nhi\u1EC7m v\u1EE5 h\xE0ng ng\xE0y\n\n \u0110\u1ED3
+      h\u1ECDa pixel phong c\xE1ch c\u1ED5 \u0111i\u1EC3n d\u1EC5 th\u01B0\u01A1ng"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 8938492780544
+    m_Localized: "mi\u1EC5n ph\xED"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 8939151286272
+    m_Localized: "g\xF3i v\xE0ng"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 8939780431872
+    m_Localized: "v\xE0ng"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 8940413771776
+    m_Localized: "anh h\xF9ng"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 8941076471808
+    m_Localized: "trang b\u1ECB"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 8941722394624
+    m_Localized: "n\xE2ng c\u1EA5p m\xE1u"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 8942380900352
+    m_Localized: "t\u0103ng s\u1EE9c m\u1EA1nh khi chi\u1EBFn \u0111\u1EA5u v\u1EDBi
+      qu\xE1i"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 8942989074432
+    m_Localized: "N\xE2ng c\u1EA5p s\xE1t th\u01B0\u01A1ng"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 8945593737216
+    m_Localized: "T\u0103ng s\xE1t th\u01B0\u01A1ng g\xE2y ra cho qu\xE1i gi\xFAp
+      ti\xEAu di\u1EC7t qu\xE1i nhanh h\u01A1n!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4963666200879104
+    m_Localized: "\u0111\u0103ng nh\u1EADp m\u1ED7i tu\u1EA7n"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4963668809736192
+    m_Localized: "Nh\u1EADn"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4963669573099520
+    m_Localized: "7 ng\xE0y \u0111\u01B0\u1EE3c nh\u1EADn 1 l\u1EA7n"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4963670365822976
+    m_Localized: "tham gia nh\xF3m facebook"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4963671083048960
+    m_Localized: "tham gia nh\xF3m Discord"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4963671796080640
+    m_Localized: "Ph\u1EA7n th\u01B0\u1EDFng ch\u1EC9 nh\u1EADn 1 l\u1EA7n"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4963672534278144
+    m_Localized: "T\xEDnh n\u0103ng n\xE0y ch\u01B0a \u0111\u01B0\u1EE3c m\u1EDF"
     m_Metadata:
       m_Items: []
   references:
