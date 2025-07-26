@@ -116,4 +116,10 @@ public class PlayerMovement : NetworkBehaviour
             Gizmos.DrawWireSphere(groundCheck.position, groundCheckRadius);
         }
     }
+
+    public void DealDamage()
+    {
+        Debug.Log("Gây damage từ animation event tại frame tấn công");
+        // Tại đây bạn có thể gọi logic thực tế: raycast, overlap, v.v.
+    }
 }
