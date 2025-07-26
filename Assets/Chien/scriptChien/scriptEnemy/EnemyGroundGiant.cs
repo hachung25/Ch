@@ -1,23 +1,23 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-public class Enemyboss : EnemyGroundBase, IDamageable
+public class EnemyGroundGiant : EnemyGroundBase, IDamageable
 {
     [Header("Thanh máu riêng")]
-    public Slider overrideHealthSlider_boss;
+    public Slider overrideHealthSlider_Giant;
 
     [Header("Tùy chỉnh chỉ số")]
     public int attackDamage = 8;
-
+    public GameObject CoinPrefab;
     protected override void Start()
     {
         base.Start();
-        isFacingRightByDefault = true;
+
         currentHealth = maxHealth;
 
-        if (overrideHealthSlider_boss != null)
+        if (overrideHealthSlider_Giant != null)
         {
-            healthSlider = overrideHealthSlider_boss;
+            healthSlider = overrideHealthSlider_Giant;
             healthSlider.maxValue = maxHealth;
         }
 
@@ -52,8 +52,13 @@ public class Enemyboss : EnemyGroundBase, IDamageable
 
         if (animator != null)
             animator.SetTrigger("Die");
-
+        if(CoinPrefab != null)
+        {
+            Instantiate(CoinPrefab, transform.position, Quaternion.identity);
+        }
+        GetComponent<Rigidbody2D>().simulated = false;
         Debug.Log($"{gameObject.name} đã chết!");
+        EnemyManager.Instance?.UnregisterEnemy();
         Destroy(gameObject, 0.3f);
     }
 
