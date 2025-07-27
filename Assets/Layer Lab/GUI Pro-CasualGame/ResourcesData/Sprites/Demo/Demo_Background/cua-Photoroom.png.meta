@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: cfc1c77df5d806948877bc066a81464c
+guid: 6434e7132ec9cb4408e8869fc6d7d7fa
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -3432423847140425338
-    second: Cartoon Jungle Game Tileset_Collectable Object - Coin 03_0
+      213: -677252282037867025
+    second: cua-Photoroom_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -126,13 +126,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Cartoon Jungle Game Tileset_Collectable Object - Coin 03_0
+      name: cua-Photoroom_0
       rect:
         serializedVersion: 2
-        x: 25
-        y: 2
-        width: 78
-        height: 124
+        x: 78
+        y: 59
+        width: 846
+        height: 827
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -141,8 +141,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 6818d9062b49d50d0800000000000000
-      internalID: -3432423847140425338
+      spriteID: fed6fc143aae996f0800000000000000
+      internalID: -677252282037867025
       vertices: []
       indices: 
       edges: []
@@ -161,7 +161,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Cartoon Jungle Game Tileset_Collectable Object - Coin 03_0: -3432423847140425338
+      cua-Photoroom_0: -677252282037867025
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

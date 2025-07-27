@@ -1,14 +1,13 @@
-﻿using UnityEngine;
-using UnityEngine.SceneManagement;
+using UnityEngine;
 
 public class playgame : MonoBehaviour
 {
   public GameObject Mainmenu;
   public GameObject PauseMenu;
   public GameObject panelPause;
-  public string sceneToLoad = "Mode1";
-    public void Playgame()
-    {
+
+  public void Playgame()
+  {
     PauseMenu.SetActive(true);
     Mainmenu.SetActive(false);
     if (panelPause.activeInHierarchy)
@@ -16,15 +15,12 @@ public class playgame : MonoBehaviour
        Time.timeScale = 0;
     }
     
-    }
+  }
 
   public void ExitGamePlay()
   {
       PauseMenu.SetActive(false);
   }
-
-    public void OnPlayButtonOnGame()
-    {
-        SceneManager.LoadScene(sceneToLoad); 
-    }
+  
+  
 }
