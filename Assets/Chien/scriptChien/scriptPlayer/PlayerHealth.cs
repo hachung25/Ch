@@ -38,7 +38,7 @@ public class PlayerHealth : MonoBehaviour, IDamageable
     }
     public void TakeDamage(int damage)
     {
-        if (isDead || isInvincible) return;
+        //if (isDead || isInvincible) return;
 
         currentHealth -= damage;
         currentHealth = Mathf.Clamp(currentHealth, 0, MaxHealth);
@@ -51,7 +51,7 @@ public class PlayerHealth : MonoBehaviour, IDamageable
         }
         
         isInvincible = true;
-        StartCoroutine(FlashWhileInvincible());
+        //StartCoroutine(FlashWhileInvincible());
 
         if (currentHealth <= 0)
         {

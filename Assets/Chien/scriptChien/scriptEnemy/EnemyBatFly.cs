@@ -12,7 +12,6 @@ public class EnemyBatFly : FlyingEnemyBase, IDamageable // 👈 THÊM IDamageabl
 
     [Header("UI")]
     public Slider healthBar;
-
     protected override void Start()
     {
         base.Start();

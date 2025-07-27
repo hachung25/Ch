@@ -10,6 +10,7 @@ TagManager:
   - Ground
   - bullet
   - Enemy
+  - Gold
   layers:
   - Default
   - TransparentFX
@@ -20,7 +21,7 @@ TagManager:
   - Ground
   - enemy
   - Player
-  - 
+  - Gold
   - 
   - 
   - 
