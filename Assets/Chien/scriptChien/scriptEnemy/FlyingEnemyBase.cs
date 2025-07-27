@@ -19,7 +19,8 @@ public class FlyingEnemyBase : MonoBehaviour
     protected bool canAttack = false;
     protected bool isAttacking = false;
     protected bool isDead = false;
-
+    public GameObject CoinPrefab;
+    public bool isInvincible = false;
     protected virtual void Start()
     {
         originalPosition = transform.position;
@@ -30,8 +31,29 @@ public class FlyingEnemyBase : MonoBehaviour
 
         if (rb != null)
             rb.gravityScale = 0;
-    }
 
+        StartCoroutine(FindPlayerAfterDelay());
+        if (CompareTag("Enemy"))
+        {
+            EnemyManager.Instance?.RegisterEnemy();
+        }
+        
+    }
+    private IEnumerator FindPlayerAfterDelay()
+    {
+        yield return null; // hoặc yield return new WaitForSeconds(0.1f);
+
+        GameObject p = GameObject.FindGameObjectWithTag("Player");
+        if (p != null)
+        {
+            player = p.transform;
+            Debug.Log("Enemy found player: " + player.name);
+        }
+        else
+        {
+            Debug.LogWarning("Enemy could NOT find Player!");
+        }
+    }
     protected virtual void Update()
     {
         if (player == null || isDead) return;
@@ -120,18 +142,34 @@ public class FlyingEnemyBase : MonoBehaviour
     /// </summary>
     public virtual void Die()
     {
+        animator.enabled = false;
         if (isDead) return;
 
         isDead = true;
-        StopMoving();
-
-        // Nếu có animation chết, bật trigger ở đây (ví dụ "Die")
-        if (animator != null)
+        StopMoving(); 
+        if (CoinPrefab != null)
         {
-            animator.SetTrigger("Die"); // animator phải có parameter "Die"
+            Instantiate(CoinPrefab, transform.position, Quaternion.identity);
+        }
+        GetComponent<Rigidbody2D>().simulated = false;
+        EnemyManager.Instance?.UnregisterEnemy();
+        StartCoroutine(FlashWhileInvincible());
+        Destroy(gameObject, 0.8f);
+    }
+    private IEnumerator FlashWhileInvincible()
+    {
+        float duration = 0.8f;
+        float timer = 0f;
+        SpriteRenderer sr = GetComponent<SpriteRenderer>();
+
+        while (timer < duration)
+        {
+            sr.enabled = !sr.enabled;
+            yield return new WaitForSeconds(0.1f);
+            timer += 0.1f;
         }
 
-        // Huỷ enemy sau 1.5s (đợi anim chết)
-        Destroy(gameObject);
+        sr.enabled = true;
+        isInvincible = false;
     }
 }

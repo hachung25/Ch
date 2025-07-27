@@ -393,7 +393,7 @@ GameObject:
   - component: {fileID: 7034302618691527998}
   m_Layer: 7
   m_Name: Enemy_Giant
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -533,10 +533,12 @@ MonoBehaviour:
   speed: 3
   chaseRange: 5
   attackRange: 1.5
-  player: {fileID: 0}
+  player: {fileID: 2392998733942050000, guid: 00a13947dd34430469c79fa240e24467, type: 3}
   maxHealth: 150
+  isFacingRightByDefault: 0
   overrideHealthSlider_Giant: {fileID: 2203792790543900345}
   attackDamage: 8
+  CoinPrefab: {fileID: 5451605172039159037, guid: bf6dd895dbb98ab4492a8402c67c38a6, type: 3}
 --- !u!70 &7034302618691527998
 CapsuleCollider2D:
   m_ObjectHideFlags: 0

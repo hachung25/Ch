@@ -51,7 +51,7 @@ public class PlayerHealth : MonoBehaviour, IDamageable
         }
         
         isInvincible = true;
-        StartCoroutine(FlashWhileInvincible());
+        //StartCoroutine(FlashWhileInvincible());
 
         if (currentHealth <= 0)
         {
