@@ -24,7 +24,15 @@ public class PlayerHealth : MonoBehaviour, IDamageable
         currentHealth = (MaxHealth= PlayerPrefs.GetInt("Upgrade_Health"));
         Debug.Log(PlayerPrefs.GetInt("Upgrade_Health"));
     }
+    void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.K))
+        {
+            currentHealth -= 10;
+            Debug.Log("10");
+        }
 
+    }
     private void OnEnable()
     {
         updateDame();
@@ -38,21 +46,16 @@ public class PlayerHealth : MonoBehaviour, IDamageable
     }
     public void TakeDamage(int damage)
     {
-        if (isDead || isInvincible) return;
-
+        Debug.Log("da goi");
         currentHealth -= damage;
         currentHealth = Mathf.Clamp(currentHealth, 0, MaxHealth);
-
         Debug.Log($"Player nhận {damage} sát thương. Máu còn: {currentHealth}");
 
         if (animator != null)
         {
             animator.SetTrigger("Hit");
         }
-        
         isInvincible = true;
-        //StartCoroutine(FlashWhileInvincible());
-
         if (currentHealth <= 0)
         {
             Die();
@@ -117,6 +120,6 @@ public class PlayerHealth : MonoBehaviour, IDamageable
         
     }
 
-
+    
 
 }

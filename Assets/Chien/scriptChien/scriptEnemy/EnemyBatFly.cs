@@ -35,13 +35,16 @@ public class EnemyBatFly : FlyingEnemyBase, IDamageable // 👈 THÊM IDamageabl
     // Gọi từ animation event tại frame tấn công
     public void DealDamageEvent()
     {
+        Debug.Log("takeDame");
         float dist = Vector2.Distance(transform.position, player.position);
         if (dist <= stopRange)
         {
             PlayerHealth ph = player.GetComponent<PlayerHealth>();
             if (ph != null)
                 ph.TakeDamage(damageAmount);
+            Debug.Log("heheh");
         }
+
     }
     public void EndAttackEvent()
     {
