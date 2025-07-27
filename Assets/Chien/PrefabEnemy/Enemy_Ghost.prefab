@@ -518,7 +518,7 @@ MonoBehaviour:
   attackRange: 4
   bulletPrefab: {fileID: 6601298268904034238, guid: d05bd701179318c4d96eb3f7ae78d57e, type: 3}
   firePoint: {fileID: 1611007663192239304}
-  player: {fileID: 2392998733942050000, guid: 00a13947dd34430469c79fa240e24467, type: 3}
+  player: {fileID: 0}
   spriteRenderer: {fileID: 9171920532729773521}
 --- !u!114 &8630420835393296282
 MonoBehaviour:
@@ -535,7 +535,6 @@ MonoBehaviour:
   maxHealth: 200
   healthSlider: {fileID: 7231187042142596268}
   deathEffect: {fileID: 0}
-  CoinPrefab: {fileID: 5451605172039159037, guid: bf6dd895dbb98ab4492a8402c67c38a6, type: 3}
 --- !u!70 &2955713799781502717
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
