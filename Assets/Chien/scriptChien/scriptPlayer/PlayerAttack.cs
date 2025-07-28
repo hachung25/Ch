@@ -1,6 +1,6 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 using TMPro;
+using System.Collections;
 
 public class PlayerAttack : MonoBehaviour
 {
@@ -8,31 +8,26 @@ public class PlayerAttack : MonoBehaviour
     public Transform attackPoint;
     public float attackRange = 0.5f;
     public LayerMask enemyLayer;
+
     private int damage;
 
     private void Start()
     {
-       int Damage = PlayerPrefs.GetInt("Upgrade_Damage");
-       damage = Damage;
-       textdame();
-    }
-    
-    private void OnEnable()
-    {
-        
-        updateDamage(); // Thực hiện điều gì đó khi bật
+        StartCoroutine(InitDamageWhenReady());
     }
 
-    public void updateDamage()
+    private IEnumerator InitDamageWhenReady()
     {
-        int Damage = PlayerPrefs.GetInt("Upgrade_Damage");
-        damage = Damage;
-        textdame();
-    }
+        // Chờ đến khi dữ liệu Damage được tải từ Firebase
+        while (IndexPlayerPlayGame.PlayerDamageValue == 0)
+            yield return null;
 
-    public void textdame()
-    {
-        damageText.text = damage.ToString();
+        damage = IndexPlayerPlayGame.PlayerDamageValue;
+
+        if (damageText != null)
+            damageText.text = damage.ToString();
+
+        Debug.Log("Đã cập nhật Damage từ Firebase: " + damage);
     }
 
     public void DealDamage()
@@ -49,7 +44,7 @@ public class PlayerAttack : MonoBehaviour
         }
     }
 
-    void OnDrawGizmosSelected()
+    private void OnDrawGizmosSelected()
     {
         if (attackPoint != null)
             Gizmos.DrawWireSphere(attackPoint.position, attackRange);

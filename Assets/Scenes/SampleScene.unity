@@ -5456,7 +5456,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 278807470}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ffe5803b157894c4498e89a020fb7d5a, type: 3}
   m_Name: 
@@ -5476,25 +5476,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fb12bf16e3b5a8843a1628799ff74d23, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mode1Maps:
-  - {fileID: 827770443983010209, guid: 8959e8cb58aff9442a7a91cff70d3487, type: 3}
-  - {fileID: 827770443983010209, guid: 1549ec49ae429704b8e1b31832ce5b5f, type: 3}
-  - {fileID: 827770443983010209, guid: 7ff11c465a6038d499eeb31447b47613, type: 3}
-  - {fileID: 827770443983010209, guid: 84ad6e7d00af0654e921a21941b908ca, type: 3}
-  mode2Maps:
-  - {fileID: 827770443983010209, guid: b82ef19e613d8944687f241a35123202, type: 3}
-  - {fileID: 827770443983010209, guid: 9478e745107ffe64db856b3af6cdbf4e, type: 3}
-  - {fileID: 827770443983010209, guid: 9925a15853973944f8e02c989d67d00d, type: 3}
-  - {fileID: 827770443983010209, guid: b41736420a454a64f83ecc3e2aaa7397, type: 3}
-  mode3Maps:
-  - {fileID: 827770443983010209, guid: 1ba4f23402b7aa7458e12e27f375c081, type: 3}
-  - {fileID: 827770443983010209, guid: e98066646c062ec40b0c54f5fd825da1, type: 3}
-  - {fileID: 827770443983010209, guid: 60355df6835e72341bb048be5f558526, type: 3}
-  spawnPoint: {fileID: 1627510476}
-  waveParent: {fileID: 1627510476}
-  homePanel: {fileID: 1535083947}
-  PanelPlaymode: {fileID: 1590275937}
-  buttonPausse: {fileID: 404884662}
 --- !u!114 &278807477
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8202,11 +8183,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 398867822}
   m_CullTransparentMesh: 1
---- !u!1 &404884662 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8188551707589957046, guid: 94d7345c76793954da42dbc1d05e0a96, type: 3}
-  m_PrefabInstance: {fileID: 2130155477}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &405529069
 GameObject:
   m_ObjectHideFlags: 0
@@ -10896,7 +10872,7 @@ Camera:
   far clip plane: 1000
   field of view: 34
   orthographic: 1
-  orthographic size: 5
+  orthographic size: 4.3
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -11152,19 +11128,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 278807476}
         m_TargetAssemblyTypeName: MapSpawner, Assembly-CSharp
-        m_MethodName: PlayGame
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 278807475}
-        m_TargetAssemblyTypeName: playgame, Assembly-CSharp
-        m_MethodName: Playgame
+        m_MethodName: loadScenemap
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -32975,7 +32939,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tb: {fileID: 1577534195}
-  tbs: {fileID: 0}
+  tbs: {fileID: 1577534195}
   scaleDuration: 0.5
   waitTime: 0.5
   waitTimeTbs: 3.9
