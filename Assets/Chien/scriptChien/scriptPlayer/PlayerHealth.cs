@@ -38,7 +38,7 @@ public class PlayerHealth : MonoBehaviour, IDamageable
     }
     public void TakeDamage(int damage)
     {
-        if (isDead || isInvincible) return;
+        //if (isDead || isInvincible) return;
 
         currentHealth -= damage;
         currentHealth = Mathf.Clamp(currentHealth, 0, MaxHealth);

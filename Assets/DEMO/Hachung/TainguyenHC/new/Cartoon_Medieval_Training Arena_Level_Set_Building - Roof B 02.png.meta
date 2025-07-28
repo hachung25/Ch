@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: cfc1c77df5d806948877bc066a81464c
+guid: 25f16710e41354f4a92d971a8690b60a
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -3432423847140425338
-    second: Cartoon Jungle Game Tileset_Collectable Object - Coin 03_0
+      213: -9165310722520706378
+    second: Cartoon_Medieval_Training Arena_Level_Set_Building - Roof B 02_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -51,7 +51,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 280
+  spritePixelsToUnits: 100
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -126,13 +126,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Cartoon Jungle Game Tileset_Collectable Object - Coin 03_0
+      name: Cartoon_Medieval_Training Arena_Level_Set_Building - Roof B 02_0
       rect:
         serializedVersion: 2
-        x: 25
-        y: 2
-        width: 78
-        height: 124
+        x: 0
+        y: 0
+        width: 320
+        height: 160
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -141,8 +141,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 6818d9062b49d50d0800000000000000
-      internalID: -3432423847140425338
+      spriteID: 6b2131035764ec080800000000000000
+      internalID: -9165310722520706378
       vertices: []
       indices: 
       edges: []
@@ -161,7 +161,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Cartoon Jungle Game Tileset_Collectable Object - Coin 03_0: -3432423847140425338
+      Cartoon_Medieval_Training Arena_Level_Set_Building - Roof B 02_0: -9165310722520706378
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
