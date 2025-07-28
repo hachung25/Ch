@@ -10,7 +10,6 @@ TagManager:
   - Ground
   - bullet
   - Enemy
-  - UpdateMissionn
   - Gold
   layers:
   - Default
@@ -22,7 +21,7 @@ TagManager:
   - Ground
   - enemy
   - Player
-  - Coin
+  - Gold
   - 
   - 
   - 
