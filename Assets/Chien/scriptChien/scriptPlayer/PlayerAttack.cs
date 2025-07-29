@@ -1,74 +1,50 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 using TMPro;
-using Fusion;
+using System.Collections;
 
-public class PlayerAttack : NetworkBehaviour
+public class PlayerAttack : MonoBehaviour
 {
     public TextMeshProUGUI damageText;
     public Transform attackPoint;
     public float attackRange = 0.5f;
     public LayerMask enemyLayer;
+
     private int damage;
 
     private void Start()
     {
-       int Damage = PlayerPrefs.GetInt("Upgrade_Damage");
-       damage = Damage;
-       textdame();
-    }
-    
-    private void OnEnable()
-    {
-        
-        updateDamage(); // Thực hiện điều gì đó khi bật
+        StartCoroutine(InitDamageWhenReady());
     }
 
-    public void updateDamage()
+    private IEnumerator InitDamageWhenReady()
     {
-        int Damage = PlayerPrefs.GetInt("Upgrade_Damage");
-        damage = Damage;
-        textdame();
+        // Chờ đến khi dữ liệu Damage được tải từ Firebase
+        while (IndexPlayerPlayGame.PlayerDamageValue == 0)
+            yield return null;
+
+        damage = IndexPlayerPlayGame.PlayerDamageValue;
+
+        if (damageText != null)
+            damageText.text = damage.ToString();
+
+        Debug.Log("Đã cập nhật Damage từ Firebase: " + damage);
     }
 
-    public void textdame()
+    public void DealDamage()
     {
-        damageText.text = damage.ToString();
-    }
-
-    public override void FixedUpdateNetwork()
-    {
-        if (!HasInputAuthority) return;
-
-        // Gọi DealDamage từ Animation Event hoặc logic điều khiển ở đây
-    }
-
-/*    public void DealDamage()
-    {
-        Debug.Log("Gây sát thương!");
-        if (!HasInputAuthority) return; // 👈 CHỈ người điều khiển mới gây damage
-
         Collider2D[] enemies = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, enemyLayer);
 
         foreach (Collider2D enemy in enemies)
         {
-            var networkObj = enemy.GetComponent<NetworkObject>();
-            if (networkObj == null || networkObj == GetComponentInParent<NetworkObject>())
-                continue; // bỏ qua bản thân
-
-            var damageable = enemy.GetComponent<IDamageable>();
+            IDamageable damageable = enemy.GetComponent<IDamageable>();
             if (damageable != null)
             {
                 damageable.TakeDamage(damage);
-                Debug.Log($"Gây dame cho: {enemy.name}");
             }
         }
-    }*/
+    }
 
-
-
-
-    void OnDrawGizmosSelected()
+    private void OnDrawGizmosSelected()
     {
         if (attackPoint != null)
             Gizmos.DrawWireSphere(attackPoint.position, attackRange);

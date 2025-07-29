@@ -13,7 +13,7 @@ public class award : MonoBehaviour
     public GameObject indicatorSet;
     public GameObject indicatorFb;
     public GameObject indicatorDis;
-
+    public TB _tb;
     private void Start()
     {
         notificationText.gameObject.SetActive(false);
@@ -23,7 +23,7 @@ public class award : MonoBehaviour
     // 🎁 Phần thưởng có thể lặp lại mỗi 7 ngày
     public void Gold()
     {
-        TryClaimWeeklyReward("Gold", isGem: false); // nhận vàng
+        TryClaimWeeklyReward("Gold", isGem: false); 
     }
 
     public void set()
@@ -53,6 +53,7 @@ public class award : MonoBehaviour
             PlayerPrefs.SetString(lastClaimKey, DateTime.Now.ToString());
             PlayerPrefs.Save();
             ShowMessage($"Đã nhận {(isGem ? "set" : "vàng")}thành công!");
+            _tb.ShowTbs();
         }
         else
         {
@@ -65,6 +66,7 @@ public class award : MonoBehaviour
                 PlayerPrefs.SetString(lastClaimKey, DateTime.Now.ToString());
                 PlayerPrefs.Save();
                 ShowMessage($"Đã nhận {(isGem ? "set" : "vàng")} thành công!");
+                _tb.ShowTbs();
             }
             else
             {
@@ -90,7 +92,9 @@ public class award : MonoBehaviour
             GoldManager.AddGold(50);
             PlayerPrefs.SetInt(claimKey, 1);
             PlayerPrefs.Save();
+            
             ShowMessage($"Nhận 50 vàng từ {rewardKey} thành công!");
+            _tb.ShowTbs();
         }
 
         UpdateAllIndicators();

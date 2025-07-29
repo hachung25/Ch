@@ -1,6 +1,6 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 using System.Collections;
+
 public class PlayerHealth : MonoBehaviour, IDamageable
 {
     private int currentHealth;
@@ -10,35 +10,45 @@ public class PlayerHealth : MonoBehaviour, IDamageable
     public bool isInvincible = false;
 
     private Animator animator;
-
     public PlayerMovement2D playerMovement;
 
-    private PlayerUpgradeManager upgradeManager; 
-    
-    private bool hasLoaded = false;
-
-    void Start()
+    private void Start()
     {
         animator = GetComponent<Animator>();
-        upgradeManager = FindObjectOfType<PlayerUpgradeManager>();
-        currentHealth = (MaxHealth= PlayerPrefs.GetInt("Upgrade_Health"));
-        Debug.Log(PlayerPrefs.GetInt("Upgrade_Health"));
+        Debug.Log("PlayerHealth Start gọi InitHealthWhenReady()");
+        StartCoroutine(InitHealthWhenReady());
     }
 
-    private void OnEnable()
+    private IEnumerator InitHealthWhenReady()
     {
-        updateDame();
+        float timeout = 5f; // thời gian chờ tối đa
+        float timer = 0f;
+
+        Debug.Log("Đang chờ Firebase load Health...");
+
+        while (IndexPlayerPlayGame.PlayerHealthValue == 0 && timer < timeout)
+        {
+            timer += Time.deltaTime;
+            yield return null;
+        }
+
+        if (IndexPlayerPlayGame.PlayerHealthValue == 0)
+        {
+            Debug.LogError("Không thể lấy máu từ Firebase sau 5 giây. Gán mặc định 100.");
+            MaxHealth = 100; // fallback
+        }
+        else
+        {
+            MaxHealth = IndexPlayerPlayGame.PlayerHealthValue;
+            Debug.Log("Máu đã được gán từ Firebase: " + MaxHealth);
+        }
+
+        currentHealth = MaxHealth;
     }
-    
-    public void updateDame()
-    {
-        upgradeManager = FindObjectOfType<PlayerUpgradeManager>();
-        currentHealth = (MaxHealth= PlayerPrefs.GetInt("Upgrade_Health"));
-        Debug.Log(PlayerPrefs.GetInt("Upgrade_Health"));
-    }
+
     public void TakeDamage(int damage)
     {
-        //if (isDead || isInvincible) return;
+     
 
         currentHealth -= damage;
         currentHealth = Mathf.Clamp(currentHealth, 0, MaxHealth);
@@ -46,24 +56,20 @@ public class PlayerHealth : MonoBehaviour, IDamageable
         Debug.Log($"Player nhận {damage} sát thương. Máu còn: {currentHealth}");
 
         if (animator != null)
-        {
             animator.SetTrigger("Hit");
-        }
-        
-        isInvincible = true;
-        //StartCoroutine(FlashWhileInvincible());
+
+    
 
         if (currentHealth <= 0)
-        {
             Die();
-        }
     }
 
     private void Die()
     {
         isDead = true;
         Debug.Log("Player đã chết!");
-        playerMovement.Dead();
+        if (playerMovement != null)
+            playerMovement.Dead();
     }
 
     public void Heal(int amount)
@@ -72,51 +78,28 @@ public class PlayerHealth : MonoBehaviour, IDamageable
 
         currentHealth += amount;
         currentHealth = Mathf.Clamp(currentHealth, 0, MaxHealth);
-        MaxHealth = currentHealth;
     }
 
     public int GetCurrentHealth()
     {
         return currentHealth;
     }
-    private IEnumerator FlashWhileInvincible()
-    {
-        float duration = 0.5f;
-        float timer = 0f;
-        SpriteRenderer sr = GetComponent<SpriteRenderer>();
 
-        while (timer < duration)
-        {
-            sr.enabled = !sr.enabled; 
-            yield return new WaitForSeconds(0.1f);
-            timer += 0.1f;
-        }
-
-        sr.enabled = true;
-        isInvincible = false;
-    }
-    
     public void ResetHealth()
     {
         isDead = false;
         isInvincible = false;
 
-        MaxHealth = PlayerPrefs.GetInt("Upgrade_Health");
+        MaxHealth = IndexPlayerPlayGame.PlayerHealthValue;
         currentHealth = MaxHealth;
 
         if (animator != null)
         {
-            animator.Rebind(); 
+            animator.Rebind();
             animator.Update(0f);
         }
 
         if (playerMovement != null)
-        {
             playerMovement.enabled = true;
-        }
-        
     }
-
-
-
 }
