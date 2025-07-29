@@ -5,7 +5,7 @@ public class shopManeger : MonoBehaviour
 {
     public Button myButton; 
     public Color disabledColor = new Color(0.5f, 0.5f, 0.5f); // màu tối
-
+    public TB _Tb; 
     private void Start()
     {
         if (PlayerPrefs.GetInt("slot1_claimed", 0) == 1)
@@ -50,6 +50,7 @@ public class shopManeger : MonoBehaviour
         {
             GoldManager.AddGold(10);
             lightningManeger.SpendLightning(1);
+            _Tb.ShowTbs();
         }
       
     } 
@@ -59,6 +60,7 @@ public class shopManeger : MonoBehaviour
         {
             GoldManager.AddGold(20);
             lightningManeger.SpendLightning(2);
+            _Tb.ShowTbs();
         }
         
     }
@@ -68,6 +70,7 @@ public class shopManeger : MonoBehaviour
         {
              GoldManager.AddGold(50);
              lightningManeger.SpendLightning(3);
+             _Tb.ShowTbs();
         }
        
     }
@@ -77,6 +80,7 @@ public class shopManeger : MonoBehaviour
         {
              GoldManager.AddGold(100);
              lightningManeger.SpendLightning(5);
+             _Tb.ShowTbs();
         }
        
     }
@@ -86,6 +90,7 @@ public class shopManeger : MonoBehaviour
         {
             GoldManager.AddGold(150);
             lightningManeger.SpendLightning(7);  
+            _Tb.ShowTbs();
         }
     }
     public void slot7()
@@ -94,6 +99,7 @@ public class shopManeger : MonoBehaviour
         {
             GoldManager.AddGold(300);
             lightningManeger.SpendLightning(10);
+            _Tb.ShowTbs();
         }
     }
     public void slot8()
@@ -102,6 +108,7 @@ public class shopManeger : MonoBehaviour
         {
             GoldManager.AddGold(500);
             lightningManeger.SpendLightning(15);
+            _Tb.ShowTbs();
         }
     }
 }
