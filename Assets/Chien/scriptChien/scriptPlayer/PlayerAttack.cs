@@ -1,8 +1,9 @@
 ﻿using System;
 using UnityEngine;
 using TMPro;
+using Fusion;
 
-public class PlayerAttack : MonoBehaviour
+public class PlayerAttack : NetworkBehaviour
 {
     public TextMeshProUGUI damageText;
     public Transform attackPoint;
@@ -35,19 +36,37 @@ public class PlayerAttack : MonoBehaviour
         damageText.text = damage.ToString();
     }
 
-    public void DealDamage()
+    public override void FixedUpdateNetwork()
     {
+        if (!HasInputAuthority) return;
+
+        // Gọi DealDamage từ Animation Event hoặc logic điều khiển ở đây
+    }
+
+/*    public void DealDamage()
+    {
+        Debug.Log("Gây sát thương!");
+        if (!HasInputAuthority) return; // 👈 CHỈ người điều khiển mới gây damage
+
         Collider2D[] enemies = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, enemyLayer);
 
         foreach (Collider2D enemy in enemies)
         {
-            IDamageable damageable = enemy.GetComponent<IDamageable>();
+            var networkObj = enemy.GetComponent<NetworkObject>();
+            if (networkObj == null || networkObj == GetComponentInParent<NetworkObject>())
+                continue; // bỏ qua bản thân
+
+            var damageable = enemy.GetComponent<IDamageable>();
             if (damageable != null)
             {
                 damageable.TakeDamage(damage);
+                Debug.Log($"Gây dame cho: {enemy.name}");
             }
         }
-    }
+    }*/
+
+
+
 
     void OnDrawGizmosSelected()
     {
