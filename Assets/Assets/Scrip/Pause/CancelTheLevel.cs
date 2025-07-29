@@ -16,7 +16,7 @@ public class CancelTheLevel : MonoBehaviour
             playerHealth.ResetHealth(); // hoặc gọi hàm bất kỳ bạn muốn
         }
 
-        mapSpawner.BackToHome();
+       
        
     }
 }
