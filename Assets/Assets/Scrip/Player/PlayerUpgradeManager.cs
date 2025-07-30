@@ -120,7 +120,6 @@ public class PlayerUpgradeManager : MonoBehaviour
                 {
                     currentHealth = 100;
                     SaveHealth(); // Lưu lại nếu Firebase thiếu máu
-                    Debug.Log("Máu bị null hoặc thiếu - đặt lại và lưu.");
                 }
 
                 // Kiểm tra dame
@@ -132,7 +131,6 @@ public class PlayerUpgradeManager : MonoBehaviour
                 {
                     currentDamage = 10;
                     SaveDamage(); 
-                    Debug.Log("Dame bị null hoặc thiếu - đặt lại và lưu.");
                 }
                 
             }

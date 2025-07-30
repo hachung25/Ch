@@ -13,7 +13,7 @@ public class IndexPlayer : MonoBehaviour
     private DatabaseReference reference;
     private string userId;
 
-    private void Start()
+     void Start()
     {
         if(text1Health)
         reference = FirebaseDatabase.DefaultInstance.RootReference;

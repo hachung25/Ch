@@ -9,6 +9,7 @@ using Firebase.Extensions;
 public class FireBaseDataBaseManager : MonoBehaviour
 {
     private DatabaseReference reference;
+    public ImageSwitcher imageSwitcher;
 
     private void Awake()
     {
@@ -87,4 +88,48 @@ public class FireBaseDataBaseManager : MonoBehaviour
             }
         });
     }
+    
+    // map
+    public void UnlockMode(string userId)
+    {
+        reference.Child("Users").Child(userId).Child("mode").SetValueAsync(true).ContinueWithOnMainThread(task =>
+        {
+            if (task.IsCompleted)
+            {
+               imageSwitcher.UpData();
+            }
+            else
+            {
+                Debug.LogError("Lỗi khi cập nhật mode: " + task.Exception);
+            }
+        });
+    }
+
+    public void LoadMode(string userId, System.Action<bool> onLoaded)
+    {
+        reference.Child("Users").Child(userId).Child("mode").GetValueAsync().ContinueWithOnMainThread(task =>
+        {
+            if (task.IsCompleted)
+            {
+                DataSnapshot snapshot = task.Result;
+
+                bool mode = false;
+                if (snapshot != null && snapshot.Value != null)
+                {
+                    mode = (bool)snapshot.Value;
+                }
+
+                Debug.Log("Giá trị mode từ Firebase: " + mode);
+                onLoaded?.Invoke(mode);
+            }
+            else
+            {
+                Debug.LogError("Không thể load mode: " + task.Exception);
+                onLoaded?.Invoke(false);
+            }
+        });
+    }
+
+
+
 }  
