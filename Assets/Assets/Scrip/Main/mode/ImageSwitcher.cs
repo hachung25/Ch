@@ -1,16 +1,56 @@
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using Firebase.Auth;
 
 public class ImageSwitcher : MonoBehaviour
 {
-    public Image targetImage;              // Ảnh chính để hiển thị
-    public Sprite[] sprites;               // Mảng ảnh
-    public float fadeDuration = 0.5f;      // Thời gian chuyển ảnh
+    public Image targetImage;
+    public Sprite[] sprites;
+    public float fadeDuration = 0.5f;
     private int currentIndex = 0;
     private bool isTransitioning = false;
 
-    public GameObject bt1, bt2;
+    public GameObject bt1, bt2, bt3;
+    public GameObject BtNextleft, BtNextRight;
+
+    public bool Modee;
+    public GameObject Unlock;
+
+    private void Start()
+    {
+        UpData();
+    }
+
+    public void UpData()
+    {
+        string userId = FirebaseAuth.DefaultInstance.CurrentUser?.UserId;
+
+        if (!string.IsNullOrEmpty(userId))
+        {
+            FireBaseDataBaseManager db = FindObjectOfType<FireBaseDataBaseManager>();
+            if (db != null)
+            {
+                db.LoadMode(userId, ApplyMode); // callback khi có mode
+            }
+            else
+            {
+                Debug.LogWarning("Không tìm thấy FireBaseDataBaseManager.");
+            }
+        }
+        else
+        {
+            Debug.LogWarning("User chưa đăng nhập.");
+        }
+    }
+
+    // Hàm được gọi sau khi lấy mode từ Firebase
+    private void ApplyMode(bool mode)
+    {
+       Modee = mode;
+       Debug.Log(Modee);
+    }
 
     public void ShowPrevious()
     {
@@ -22,6 +62,10 @@ public class ImageSwitcher : MonoBehaviour
 
             StartCoroutine(FadeToSprite(sprites[currentIndex]));
         }
+        Unlock.SetActive(false);
+        BtNextleft.SetActive(false);
+        BtNextRight.SetActive(true);
+        
     }
 
     public void ShowNext()
@@ -31,14 +75,26 @@ public class ImageSwitcher : MonoBehaviour
             currentIndex++;
             if (currentIndex >= sprites.Length)
                 currentIndex = 0;
+
             StartCoroutine(FadeToSprite(sprites[currentIndex]));
         }
+        if (Modee == true)
+        {
+            Unlock.SetActive(false);
+        }
+        else
+        {
+            Unlock.SetActive(true);
+        }
+        BtNextRight.SetActive(false);
+       BtNextleft.SetActive(true);
+        
     }
 
     private IEnumerator FadeToSprite(Sprite newSprite)
     {
         isTransitioning = true;
-        
+
         // Fade out
         float elapsed = 0f;
         Color originalColor = targetImage.color;
@@ -50,7 +106,7 @@ public class ImageSwitcher : MonoBehaviour
             yield return null;
         }
 
-        // Thay sprite mới
+        // Thay sprite
         targetImage.sprite = newSprite;
 
         // Fade in
@@ -63,20 +119,28 @@ public class ImageSwitcher : MonoBehaviour
             yield return null;
         }
 
-        // Đảm bảo alpha = 1 sau cùng
         targetImage.color = originalColor;
         isTransitioning = false;
         
         if (newSprite.name == "Arena2_0")
         {
-            bt2.SetActive(true);
             bt1.SetActive(false);
+            if (Modee == true)
+            {
+                bt3.SetActive(true);
+                Debug.Log("mở mode 2");
+            }
+            else
+            {
+                bt2.SetActive(true);
+            }
+            
         }
         else
         {
             bt1.SetActive(true);
             bt2.SetActive(false);
+            bt3.SetActive(false);
         }
     }
-
 }

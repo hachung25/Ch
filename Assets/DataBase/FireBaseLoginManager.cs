@@ -215,17 +215,42 @@ public class FireBaseLoginManager : MonoBehaviour
             if (task.IsCompleted)
             {
                 LogToText("Đăng nhập thành công");
-                
-                User userinGame = new("Username",0,0,0,0,0);
+    
                 FirebaseUser firebaseUser = task.Result.User;
-                dataBaseManager.WriteDataBase("Users/"+firebaseUser.UserId, userinGame.ToString());
-                
+                string userId = firebaseUser.UserId;
+
+                // Ghi user mới nếu cần
+                User userinGame = new("Username", 0, 0, 0, 0, 0);
+                dataBaseManager.WriteDataBase("Users/" + userId, userinGame.ToString());
+
+                // Load trạng thái map từ Firebase
+                // Load trạng thái map từ Firebase
+                dataBaseManager.LoadMode(userId, (mode) =>
+                {
+                    Debug.Log("Trạng thái mode: " + mode); // false = map1, true = map2
+
+                    // Gọi controller UI để xử lý giao diện map
+                    MapUIController mapUI = FindObjectOfType<MapUIController>();
+                    if (mapUI != null)
+                    {
+                        mapUI.ShowMode(mode);
+                    }
+                    else
+                    {
+                        Debug.LogWarning("Không tìm thấy MapUIController trong scene.");
+                    }
+                });
+
+
+                // Gọi các chức năng khác nếu cần
                 if (FirebaseAuth.DefaultInstance.CurrentUser != null)
                 {
                     SaveManeger.LoadDailylogin();
                 }
+
                 FindObjectOfType<Dataload>().LoadAllDataFromFirebase();
             }
+
         });
     }
 
