@@ -509,7 +509,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 059c707779a41c14ca4e943a1635bbb3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PlayerPrefab: {fileID: 8847728874321493929, guid: d305bb2dd6979f84ca09f2d5aaacddcf, type: 3}
+  PlayerPrefab: {fileID: 8847728874321493929, guid: 9dc118ccfb6031b41a527ac239f05db7, type: 3}
 --- !u!1 &1148480644
 GameObject:
   m_ObjectHideFlags: 0
@@ -1425,6 +1425,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1186673465125107423, guid: 9007277fcc782124699a6fdac7654701, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 1245711307486970877, guid: 9007277fcc782124699a6fdac7654701, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -1444,6 +1448,10 @@ PrefabInstance:
     - target: {fileID: 2529351066255475175, guid: 9007277fcc782124699a6fdac7654701, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4439364773451425790, guid: 9007277fcc782124699a6fdac7654701, type: 3}
+      propertyPath: m_TagString
+      value: Ground
       objectReference: {fileID: 0}
     - target: {fileID: 5891916949356432292, guid: 9007277fcc782124699a6fdac7654701, type: 3}
       propertyPath: m_LocalPosition.x

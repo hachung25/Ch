@@ -1,125 +1,117 @@
 ﻿using UnityEngine;
 using Fusion;
-using System.Collections;
 
-[RequireComponent(typeof(Rigidbody2D))]
+[RequireComponent(typeof(Rigidbody2D), typeof(Animator))]
 public class PlayerMovement : NetworkBehaviour
 {
-    [Header("Movement Settings")]
-    public float speed = 5f;
-    public float jumpForce = 5f;
+    public float moveSpeed = 5f;
+    public float jumpForce = 8f;
 
-    [Header("Ground Check")]
+    private Rigidbody2D rb;
+    private Animator animator;
+
+    private bool isGrounded;
     public Transform groundCheck;
     public float groundCheckRadius = 0.2f;
     public LayerMask groundLayer;
 
-    [Header("Animator")]
-    public Animator animator;
-
-    private Rigidbody2D rb;
-
-    [Networked]
-    [OnChangedRender(nameof(OnSpeedChanged))]
-    public float AnimatorSpeed { get; set; }
-
-    private bool isGrounded;
-    private bool jumpPressed;
-    private bool attackPressed;
-
-    // Combo System
-    private readonly string[] attackTriggers = { "isAtk1", "isAtk2", "isAtk3", "isAtk4" };
-    private int attackIndex = 0;
+    private bool jumpInput = false;
+    private float lastDirection = 1;
 
     public override void Spawned()
     {
         rb = GetComponent<Rigidbody2D>();
-    }
-
-    private void OnSpeedChanged()
-    {
-        animator.SetFloat("Speed", AnimatorSpeed);
+        animator = GetComponent<Animator>();
+        rb.gravityScale = 2;
+        rb.constraints = RigidbodyConstraints2D.FreezeRotation;
     }
 
     private void Update()
     {
         if (!HasInputAuthority) return;
 
-        if (Input.GetKeyDown(KeyCode.Space))
-            jumpPressed = true;
+        // Nhảy chỉ cần nhấn 1 lần nên lưu lại
+        if (Input.GetKeyDown(KeyCode.Y))
+        {
+            jumpInput = true;
+        }
 
+        // Tấn công (gửi RPC)
         if (Input.GetKeyDown(KeyCode.T))
-            attackPressed = true;
+        {
+            RPC_PlayAnimation("Player_atk1");
+        }
     }
 
     public override void FixedUpdateNetwork()
     {
         if (!HasInputAuthority) return;
 
-        float horizontal = Input.GetAxisRaw("Horizontal");
-
-        // Move
-        rb.linearVelocity = new Vector2(horizontal * speed, rb.linearVelocity.y);
-        AnimatorSpeed = Mathf.Abs(rb.linearVelocity.x);
-
-        if (horizontal != 0)
-            transform.localScale = new Vector3(Mathf.Sign(horizontal), 1, 1);
-
-        // Ground check
+        // Kiểm tra mặt đất
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
-        animator.SetBool("isGrounded", isGrounded);
 
-        // Jump
-        if (jumpPressed && isGrounded)
+        float horizontalInput = Input.GetAxisRaw("Horizontal");
+
+        // Di chuyển
+        rb.linearVelocity = new Vector2(horizontalInput * moveSpeed, rb.linearVelocity.y);
+
+        // Lật hướng nhân vật
+        if (horizontalInput != 0)
+        {
+            Vector3 scale = transform.localScale;
+            scale.x = Mathf.Sign(horizontalInput);
+            transform.localScale = scale;
+            lastDirection = scale.x;
+
+            RPC_FlipDirection(lastDirection); // Gửi hướng sang client khác
+        }
+
+        // Nhảy
+        if (jumpInput && isGrounded)
         {
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
-            animator.SetTrigger("isJumping");
+            RPC_PlayAnimation("Player_jump");
+            jumpInput = false;
         }
 
-        // Attack combo
-        if (attackPressed)
+        // RPC chạy Idle/Run
+        if (horizontalInput != 0 && isGrounded)
         {
-            PerformAttack();
+            RPC_SetRun(true);
         }
-
-        // Reset flags
-        jumpPressed = false;
-        attackPressed = false;
+        else
+        {
+            RPC_SetRun(false);
+        }
     }
 
-    private void PerformAttack()
-    {
-        string triggerName = attackTriggers[attackIndex];
-
-        // Gửi lệnh trigger đến tất cả client
-        Rpc_TriggerAttackAnimation(triggerName);
-
-        // Tăng combo step
-        attackIndex = (attackIndex + 1) % attackTriggers.Length;
-    }
-
+    // RPC để bật/tắt animation chạy
     [Rpc(RpcSources.InputAuthority, RpcTargets.All)]
-    private void Rpc_TriggerAttackAnimation(string triggerName)
+    private void RPC_SetRun(bool isRunning)
     {
-        // Reset toàn bộ trigger để đảm bảo đồng bộ đúng
-        foreach (var trigger in attackTriggers)
-            animator.ResetTrigger(trigger);
-
-        animator.SetTrigger(triggerName);
+        animator.SetBool("isRun", isRunning);
     }
 
-    private void OnDrawGizmosSelected()
+    // RPC để play animation (attack, jump...)
+    [Rpc(RpcSources.InputAuthority, RpcTargets.All)]
+    private void RPC_PlayAnimation(string animName)
     {
-        if (groundCheck != null)
-        {
-            Gizmos.color = Color.green;
-            Gizmos.DrawWireSphere(groundCheck.position, groundCheckRadius);
-        }
+        animator.Play(animName);
     }
 
-    public void DealDamage()
+    // RPC để lật hướng
+    [Rpc(RpcSources.InputAuthority, RpcTargets.All)]
+    private void RPC_FlipDirection(float direction)
     {
-        Debug.Log("Gây damage từ animation event tại frame tấn công");
-        // Tại đây bạn có thể gọi logic thực tế: raycast, overlap, v.v.
+        Vector3 scale = transform.localScale;
+        scale.x = direction;
+        transform.localScale = scale;
     }
+
+    /*public void DealDamage()
+    {
+        Debug.Log("Gây sát thương!");
+        // logic tấn công
+    }*/
+
 }

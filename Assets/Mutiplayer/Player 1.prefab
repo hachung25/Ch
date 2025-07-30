@@ -600,6 +600,8 @@ GameObject:
   - component: {fileID: -3999551026088462952}
   - component: {fileID: -7427117281540295406}
   - component: {fileID: 485378090498569604}
+  - component: {fileID: 636887418017188949}
+  - component: {fileID: 6757539348058074824}
   m_Layer: 0
   m_Name: Player 1
   m_TagString: Player
@@ -716,12 +718,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec3606e009161294689fa3bdb870e42b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  damageText: {fileID: 0}
   attackPoint: {fileID: 3694789190444986609}
   attackRange: 0.28
   enemyLayer:
     serializedVersion: 2
     m_Bits: 128
-  damage: 10
 --- !u!114 &4341846642515862285
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -734,9 +736,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 896b76a0dfd5ad746b4888f659db78df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 200
   isDead: 0
   isInvincible: 0
+  playerMovement: {fileID: 0}
 --- !u!50 &-3999551026088462952
 Rigidbody2D:
   serializedVersion: 5
@@ -779,7 +781,7 @@ MonoBehaviour:
   walkSpeed: 10
   runSpeed: 10
   jumpForce: 12
-  groundCheck: {fileID: 5195070456151558998, guid: 7f9de29b461458f4f884b027e1d6154a, type: 3}
+  groundCheck: {fileID: 8981549142652642629}
   groundCheckRadius: 0.2
   groundLayer:
     serializedVersion: 2
@@ -830,6 +832,42 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1.7478261, y: 1.6478261}
   m_EdgeRadius: 0
+--- !u!114 &636887418017188949
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4993757023570098079}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 158639473, guid: e725a070cec140c4caffb81624c8c787, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _stateAuthorityChangeErrorCorrectionDelta: 0
+  SyncScale: 1
+  SyncParent: 1
+  _autoAOIOverride: 1
+  DisableSharedModeInterpolation: 0
+--- !u!114 &6757539348058074824
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4993757023570098079}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1552182283, guid: e725a070cec140c4caffb81624c8c787, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SortKey: 152267637
+  ObjectInterest: 1
+  Flags: 262145
+  NestedObjects: []
+  NetworkedBehaviours:
+  - {fileID: 636887418017188949}
+  ForceRemoteRenderTimeframe: 0
 --- !u!1 &5733760962932013559
 GameObject:
   m_ObjectHideFlags: 0
