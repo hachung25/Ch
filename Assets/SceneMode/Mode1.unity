@@ -554,6 +554,7 @@ GameObject:
   m_Component:
   - component: {fileID: 286205606}
   - component: {fileID: 286205607}
+  - component: {fileID: 286205608}
   m_Layer: 0
   m_Name: EnemyManager
   m_TagString: Untagged
@@ -590,6 +591,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyAliveCount: 0
   player: {fileID: 68085092}
+--- !u!114 &286205608
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 286205605}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d05025cf940e79a4a8939c9304591f9f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentMap: 1
 --- !u!1 &1400325088 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5235284649411642552, guid: 8959e8cb58aff9442a7a91cff70d3487, type: 3}
