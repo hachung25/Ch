@@ -578,7 +578,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8181f65c7e12e849be39c3313e6c3e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerHealth: 100
   savedPosition: {x: -2.02, y: -1.69}
 --- !u!1 &286205605
 GameObject:

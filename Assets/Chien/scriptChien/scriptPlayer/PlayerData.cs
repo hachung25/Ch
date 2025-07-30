@@ -5,7 +5,7 @@ public class PlayerData : MonoBehaviour
     public static PlayerData Instance;
 
     // Dữ liệu cần giữ lại
-    public int playerHealth = 100;
+    //public int playerHealth = 100;
     public Vector2 savedPosition;
 
     private void Awake()
