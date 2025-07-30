@@ -1,7 +1,10 @@
+using System;
 using UnityEngine;
 using Firebase.Auth;
 using Firebase.Database;
 using Firebase.Extensions;
+using TMPro; // Nếu bạn dùng TextMeshPro
+using System.Collections;
 
 public class PlayerUpgradeManager : MonoBehaviour
 {
@@ -22,6 +25,9 @@ public class PlayerUpgradeManager : MonoBehaviour
 
     private DatabaseReference reference;
     private string userId;
+
+  
+    
 
     private void Awake()
     {
@@ -105,25 +111,42 @@ public class PlayerUpgradeManager : MonoBehaviour
             {
                 DataSnapshot snapshot = task.Result;
 
-                if (snapshot.HasChild(healthKey))
+                // Kiểm tra máu
+                if (snapshot.HasChild(healthKey) && snapshot.Child(healthKey).Value != null)
+                {
                     currentHealth = int.Parse(snapshot.Child(healthKey).Value.ToString());
+                }
                 else
-                    currentHealth = baseHealth;
+                {
+                    currentHealth = 100;
+                    SaveHealth(); // Lưu lại nếu Firebase thiếu máu
+                    Debug.Log("Máu bị null hoặc thiếu - đặt lại và lưu.");
+                }
 
-                if (snapshot.HasChild(damageKey))
+                // Kiểm tra dame
+                if (snapshot.HasChild(damageKey) && snapshot.Child(damageKey).Value != null)
+                {
                     currentDamage = int.Parse(snapshot.Child(damageKey).Value.ToString());
+                }
                 else
-                    currentDamage = baseDamage;
+                {
+                    currentDamage = 10;
+                    SaveDamage(); 
+                    Debug.Log("Dame bị null hoặc thiếu - đặt lại và lưu.");
+                }
+                
             }
             else
             {
                 currentHealth = baseHealth;
                 currentDamage = baseDamage;
-                Debug.LogWarning("Không thể tải chỉ số từ Firebase.");
+                Debug.LogWarning("Không thể tải chỉ số từ Firebase - đã đặt lại mặc định.");
             }
         });
     }
 
+
+    
     public void SaveHealth()
     {
         if (string.IsNullOrEmpty(userId)) return;
