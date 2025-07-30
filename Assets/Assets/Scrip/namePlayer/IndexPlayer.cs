@@ -15,9 +15,9 @@ public class IndexPlayer : MonoBehaviour
 
     private void Start()
     {
+        if(text1Health)
         reference = FirebaseDatabase.DefaultInstance.RootReference;
         userId = FirebaseAuth.DefaultInstance.CurrentUser?.UserId;
-
         updateIndex();
     }
 
