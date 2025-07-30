@@ -23786,6 +23786,7 @@ GameObject:
   - component: {fileID: 1140630085}
   - component: {fileID: 1140630087}
   - component: {fileID: 1140630088}
+  - component: {fileID: 1140630089}
   m_Layer: 5
   m_Name: PanelUpdatePlayer
   m_TagString: Untagged
@@ -23845,6 +23846,20 @@ MonoBehaviour:
   currentDamage: 0
   healthUpgradeAmount: 20
   damageUpgradeAmount: 5
+--- !u!114 &1140630089
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1140630084}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1868aeb6691de3b489d5d0021b9b2487, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  text1Health: {fileID: 1754210624}
+  text2Dame: {fileID: 1119125259}
 --- !u!1 &1143326693
 GameObject:
   m_ObjectHideFlags: 0
@@ -41225,7 +41240,7 @@ PrefabInstance:
     - target: {fileID: 6975085721671846525, guid: 297e4cae0ad3d574abd12f5d5111e652, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
-      objectReference: {fileID: 2037027960}
+      objectReference: {fileID: 0}
     - target: {fileID: 7025580078014131028, guid: 297e4cae0ad3d574abd12f5d5111e652, type: 3}
       propertyPath: m_IsActive
       value: 1

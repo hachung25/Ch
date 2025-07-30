@@ -216,9 +216,10 @@ public class FireBaseLoginManager : MonoBehaviour
             {
                 LogToText("Đăng nhập thành công");
                 
-                User userinGame = new("Username",0,0,0,100,10);
+                User userinGame = new("Username",0,0,0,0,0);
                 FirebaseUser firebaseUser = task.Result.User;
                 dataBaseManager.WriteDataBase("Users/"+firebaseUser.UserId, userinGame.ToString());
+                
                 if (FirebaseAuth.DefaultInstance.CurrentUser != null)
                 {
                     SaveManeger.LoadDailylogin();
