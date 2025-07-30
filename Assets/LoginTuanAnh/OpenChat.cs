@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 public class OpenChat : MonoBehaviour
 {
@@ -6,6 +6,11 @@ public class OpenChat : MonoBehaviour
 
     public void openChat()
     {
-        Chat.SetActive(!Chat.activeSelf);
+        Chat.SetActive(true); // Luôn mở chat
+    }
+
+    public void close()
+    {
+        Chat.SetActive(false); // Luôn đóng chat
     }
 }
