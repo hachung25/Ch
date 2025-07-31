@@ -27,6 +27,21 @@ public class MapManager : MonoBehaviour
         {
             currentMap.teleportBox.SetActive(true);
         }
+        currentMap.enemies.RemoveAll(enemy => enemy == null);
+
+        if (currentMap.enemies.Count == 0)
+        {
+            if (!currentMap.teleportBox.activeSelf)
+            {
+                currentMap.teleportBox.SetActive(true);
+            }
+
+            if (!coinAbsorbed)
+            {
+                coinAbsorbed = true;
+                AttractCoinsToPlayer();
+            }
+        }
     }
 
     public void MoveToNextMap()
@@ -38,4 +53,14 @@ public class MapManager : MonoBehaviour
             currentMapIndex++;
         }
     }
+    private bool coinAbsorbed = false;
+    private void AttractCoinsToPlayer()
+    {
+        var coins = FindObjectsOfType<CollectCoin>();
+        foreach (var coin in coins)
+        {
+            coin.ActivateMagnet(); // Coin tự động bay về Player
+        }
+    }
+    
 }

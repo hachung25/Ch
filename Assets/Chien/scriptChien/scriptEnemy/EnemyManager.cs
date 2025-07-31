@@ -9,7 +9,7 @@ public class EnemyManager : MonoBehaviour
     [Header("Tham chiếu tới Player")]
     public Transform player;
 
-    private bool coinsAbsorbed = false; // để tránh gọi nhiều lần
+    private bool coinsAbsorbed = false; 
 
     private void Awake()
     {
