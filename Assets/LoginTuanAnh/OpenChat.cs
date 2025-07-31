@@ -6,11 +6,21 @@ public class OpenChat : MonoBehaviour
 
     public void openChat()
     {
-        Chat.SetActive(true); // Luôn mở chat
+        if (Chat != null)
+        {
+            Chat.SetActive(true); // ✅ Chỉ mở nếu còn tồn tại
+        }
+        else
+        {
+            Debug.LogWarning("Chat object is null. Possibly destroyed?");
+        }
     }
 
     public void close()
     {
-        Chat.SetActive(false); // Luôn đóng chat
+        if (Chat != null)
+        {
+            Chat.SetActive(false); // ✅ Chỉ đóng nếu còn tồn tại
+        }
     }
 }
