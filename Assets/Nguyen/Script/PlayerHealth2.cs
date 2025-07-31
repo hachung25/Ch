@@ -1,15 +1,16 @@
 ﻿using UnityEngine;
 using Fusion;
+using System.Collections;
 
 public class PlayerHealth2 : NetworkBehaviour, IDamageable
 {
-    [Networked]
-    public int CurrentHP { get; set; }
+    [Networked] public int CurrentHP { get; set; }
 
     public int maxHP = 100;
     private PlayerHealthUI2 healthUI;
+    private Animator animator;
 
-    private int _lastSyncedHP = -1; // 👈 thêm biến để kiểm tra HP thay đổi
+    private int _lastSyncedHP = -1;
 
     public override void Spawned()
     {
@@ -17,12 +18,12 @@ public class PlayerHealth2 : NetworkBehaviour, IDamageable
             CurrentHP = maxHP;
 
         healthUI = GetComponentInChildren<PlayerHealthUI2>();
-        UpdateHealthUI(force: true); // 👈 ép update ban đầu
+        animator = GetComponentInChildren<Animator>();
+        UpdateHealthUI(force: true);
     }
 
     public override void FixedUpdateNetwork()
     {
-        // 👇 Mỗi client kiểm tra xem máu có thay đổi không
         if (_lastSyncedHP != CurrentHP)
         {
             _lastSyncedHP = CurrentHP;
@@ -51,13 +52,32 @@ public class PlayerHealth2 : NetworkBehaviour, IDamageable
     [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
     private void RPC_HandleDeath()
     {
-        gameObject.SetActive(false);
+        Debug.Log("🔁 RPC_HandleDeath gọi!");
+
+        if (animator != null)
+        {
+            animator.SetBool("isDead", true); // Kích hoạt animation chết
+        }
+
+        StartCoroutine(WaitAndDestroyAfterDeath());
+    }
+
+    private IEnumerator WaitAndDestroyAfterDeath()
+    {
+        yield return new WaitForSeconds(2f); // ⏳ Đợi 2 giây để animation chơi xong
+
+        if (HasStateAuthority)
+        {
+            Runner.Despawn(Object); // ✅ Xoá đúng cách trong Fusion
+        }
     }
 
     private void UpdateHealthUI(bool force = false)
     {
         if (healthUI != null)
+        {
             healthUI.SetHealth(CurrentHP, maxHP);
+        }
     }
 
     public void TakeDamage(int amount) => ApplyDamage(amount);

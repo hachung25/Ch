@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 public class OpenChat : MonoBehaviour
 {
@@ -6,6 +6,21 @@ public class OpenChat : MonoBehaviour
 
     public void openChat()
     {
-        Chat.SetActive(!Chat.activeSelf);
+        if (Chat != null)
+        {
+            Chat.SetActive(true); // ✅ Chỉ mở nếu còn tồn tại
+        }
+        else
+        {
+            Debug.LogWarning("Chat object is null. Possibly destroyed?");
+        }
+    }
+
+    public void close()
+    {
+        if (Chat != null)
+        {
+            Chat.SetActive(false); // ✅ Chỉ đóng nếu còn tồn tại
+        }
     }
 }
