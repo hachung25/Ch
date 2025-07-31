@@ -160,7 +160,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Cartoon_Winter_Market_ Level_Set_Environment - Grass_01_0: 2415495235512416876
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
