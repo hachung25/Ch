@@ -539,6 +539,7 @@ MonoBehaviour:
   overrideHealthSlider_Giant: {fileID: 2203792790543900345}
   attackDamage: 8
   CoinPrefab: {fileID: 5451605172039159037, guid: bf6dd895dbb98ab4492a8402c67c38a6, type: 3}
+  isInvincible: 0
 --- !u!70 &7034302618691527998
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -573,6 +574,6 @@ CapsuleCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0.29302597, y: 0.023316741}
-  m_Size: {x: 1.0833235, y: 1.8681529}
+  m_Offset: {x: 0.5796683, y: 0.05851853}
+  m_Size: {x: 1.6566081, y: 2.3810918}
   m_Direction: 0
