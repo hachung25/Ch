@@ -24,12 +24,10 @@ public class PlayerCombat : NetworkBehaviour
             damageText.text = damage.ToString();
     }
 
-    // Gọi hàm này từ animation event
+    // Gọi từ Animation Event (ví dụ trong Player_atk1)
     public void DealDamage()
     {
         if (!HasInputAuthority) return;
-
-        Debug.Log("⛏ Gây sát thương!");
 
         Collider2D[] hits = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, enemyLayer);
 
@@ -44,22 +42,7 @@ public class PlayerCombat : NetworkBehaviour
                 health.RPC_ApplyDamage(damage);
             }
         }
-
     }
-
-
-
-    [Rpc(RpcSources.InputAuthority, RpcTargets.InputAuthority)]
-    public void RPC_RequestDamage(NetworkObject target, int amount)
-    {
-        if (target != null && target.TryGetBehaviour<PlayerHealth2>(out var health))
-        {
-            health.ApplyDamage(amount);
-        }
-    }
-
-
-
 
     private void OnDrawGizmosSelected()
     {

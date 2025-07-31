@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using Fusion;
+using System.Collections;
 
 [RequireComponent(typeof(Rigidbody2D), typeof(Animator))]
 public class PlayerMovement : NetworkBehaviour
@@ -18,6 +19,12 @@ public class PlayerMovement : NetworkBehaviour
     private bool jumpInput = false;
     private float lastDirection = 1;
 
+    // Combo attack
+    private bool isAttacking = false;
+    private bool attackHeld = false;
+    private int attackIndex = 0;
+    private readonly string[] attackTriggers = { "isAtk1", "isAtk2", "isAtk3", "isAtk4" };
+
     public override void Spawned()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -30,16 +37,16 @@ public class PlayerMovement : NetworkBehaviour
     {
         if (!HasInputAuthority) return;
 
-        // Nhảy chỉ cần nhấn 1 lần nên lưu lại
         if (Input.GetKeyDown(KeyCode.Y))
         {
             jumpInput = true;
         }
 
-        // Tấn công (gửi RPC)
-        if (Input.GetKeyDown(KeyCode.T))
+        attackHeld = Input.GetKey(KeyCode.T);
+
+        if (!isAttacking && attackHeld)
         {
-            RPC_PlayAnimation("Player_atk1");
+            StartCoroutine(PerformAttackSequence());
         }
     }
 
@@ -47,59 +54,92 @@ public class PlayerMovement : NetworkBehaviour
     {
         if (!HasInputAuthority) return;
 
-        // Kiểm tra mặt đất
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
 
         float horizontalInput = Input.GetAxisRaw("Horizontal");
 
-        // Di chuyển
         rb.linearVelocity = new Vector2(horizontalInput * moveSpeed, rb.linearVelocity.y);
 
-        // Lật hướng nhân vật
         if (horizontalInput != 0)
         {
             Vector3 scale = transform.localScale;
             scale.x = Mathf.Sign(horizontalInput);
             transform.localScale = scale;
             lastDirection = scale.x;
-
-            RPC_FlipDirection(lastDirection); // Gửi hướng sang client khác
+            RPC_FlipDirection(lastDirection);
         }
 
-        // Nhảy
         if (jumpInput && isGrounded)
         {
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
-            RPC_PlayAnimation("Player_jump");
+            RPC_PlayAnimationTrigger("Player_jump");
             jumpInput = false;
         }
 
-        // RPC chạy Idle/Run
-        if (horizontalInput != 0 && isGrounded)
-        {
-            RPC_SetRun(true);
-        }
-        else
-        {
-            RPC_SetRun(false);
-        }
+        RPC_SetRun(horizontalInput != 0 && isGrounded);
     }
 
-    // RPC để bật/tắt animation chạy
+    private IEnumerator PerformAttackSequence()
+    {
+        isAttacking = true;
+
+        do
+        {
+            string triggerName = attackTriggers[attackIndex];
+
+            // Reset all triggers
+            foreach (string trig in attackTriggers)
+                RPC_ResetTrigger(trig);
+
+            // Gửi trigger hiện tại
+            RPC_PlayAnimationTrigger(triggerName);
+
+            // Wait for Animator to update state
+            yield return null;
+            yield return null;
+
+            AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
+            float clipLength = stateInfo.length;
+
+            // Wait for 90% of the animation duration
+            float timer = 0f;
+            while (timer < clipLength * 0.9f)
+            {
+                timer += Time.deltaTime;
+                yield return null;
+            }
+
+            attackIndex = (attackIndex + 1) % attackTriggers.Length;
+
+        } while (attackHeld);
+
+        // Wait until animation fully finishes
+        while (animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1f)
+        {
+            yield return null;
+        }
+
+        isAttacking = false;
+    }
+
     [Rpc(RpcSources.InputAuthority, RpcTargets.All)]
     private void RPC_SetRun(bool isRunning)
     {
         animator.SetBool("isRun", isRunning);
     }
 
-    // RPC để play animation (attack, jump...)
     [Rpc(RpcSources.InputAuthority, RpcTargets.All)]
-    private void RPC_PlayAnimation(string animName)
+    private void RPC_PlayAnimationTrigger(string trigger)
     {
-        animator.Play(animName);
+        animator.SetTrigger(trigger);
     }
 
-    // RPC để lật hướng
+    [Rpc(RpcSources.InputAuthority, RpcTargets.All)]
+    private void RPC_ResetTrigger(string trigger)
+    {
+        animator.ResetTrigger(trigger);
+    }
+
     [Rpc(RpcSources.InputAuthority, RpcTargets.All)]
     private void RPC_FlipDirection(float direction)
     {
@@ -107,11 +147,4 @@ public class PlayerMovement : NetworkBehaviour
         scale.x = direction;
         transform.localScale = scale;
     }
-
-    /*public void DealDamage()
-    {
-        Debug.Log("Gây sát thương!");
-        // logic tấn công
-    }*/
-
 }

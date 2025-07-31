@@ -19,8 +19,15 @@ public class PlayerHealth2 : NetworkBehaviour, IDamageable
 
         healthUI = GetComponentInChildren<PlayerHealthUI2>();
         animator = GetComponentInChildren<Animator>();
+
+        //Runner.Invoke(DelayedUIUpdate, 0.05f); // ✅ Gọi đúng delegate
+    }
+
+    private void DelayedUIUpdate()
+    {
         UpdateHealthUI(force: true);
     }
+
 
     public override void FixedUpdateNetwork()
     {
@@ -55,29 +62,23 @@ public class PlayerHealth2 : NetworkBehaviour, IDamageable
         Debug.Log("🔁 RPC_HandleDeath gọi!");
 
         if (animator != null)
-        {
-            animator.SetBool("isDead", true); // Kích hoạt animation chết
-        }
+            animator.SetBool("isDead", true); // Animation chết
 
         StartCoroutine(WaitAndDestroyAfterDeath());
     }
 
     private IEnumerator WaitAndDestroyAfterDeath()
     {
-        yield return new WaitForSeconds(2f); // ⏳ Đợi 2 giây để animation chơi xong
+        yield return new WaitForSeconds(2f); // Đợi animation
 
         if (HasStateAuthority)
-        {
-            Runner.Despawn(Object); // ✅ Xoá đúng cách trong Fusion
-        }
+            Runner.Despawn(Object);
     }
 
     private void UpdateHealthUI(bool force = false)
     {
         if (healthUI != null)
-        {
             healthUI.SetHealth(CurrentHP, maxHP);
-        }
     }
 
     public void TakeDamage(int amount) => ApplyDamage(amount);
