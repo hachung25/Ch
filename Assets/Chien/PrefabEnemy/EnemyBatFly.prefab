@@ -70,8 +70,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: -2.5398026, y: 0}
-  m_SizeDelta: {x: 2.9069, y: 0}
+  m_AnchoredPosition: {x: -2.39, y: 0}
+  m_SizeDelta: {x: 0.4, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5571307443220371001
 CanvasRenderer:
@@ -306,6 +306,7 @@ MonoBehaviour:
   chaseRange: 4
   stopRange: 1.5
   CoinPrefab: {fileID: 5451605172039159037, guid: bf6dd895dbb98ab4492a8402c67c38a6, type: 3}
+  isInvincible: 0
   damageAmount: 100
   maxHealth: 40
   healthBar: {fileID: 8425572847307372482}
@@ -445,8 +446,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.25}
   m_AnchorMax: {x: 1, y: 0.75}
-  m_AnchoredPosition: {x: -7.4962, y: 0}
-  m_SizeDelta: {x: -16.8755, y: 0}
+  m_AnchoredPosition: {x: -7.383, y: 0}
+  m_SizeDelta: {x: -19.335, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &492949302296198952
 CanvasRenderer:

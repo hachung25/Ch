@@ -11,6 +11,7 @@ TagManager:
   - bullet
   - Enemy
   - Gold
+  - UpdateMissionn
   layers:
   - Default
   - TransparentFX
@@ -53,6 +54,9 @@ TagManager:
     locked: 0
   - name: Ground
     uniqueID: 2223993303
+    locked: 0
+  - name: Player
+    uniqueID: 2289851253
     locked: 0
   m_RenderingLayers:
   - Default
