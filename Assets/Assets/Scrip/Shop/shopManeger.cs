@@ -3,111 +3,86 @@ using UnityEngine.UI;
 
 public class shopManeger : MonoBehaviour
 {
-    public Button myButton; 
-    public Color disabledColor = new Color(0.5f, 0.5f, 0.5f); // màu tối
+    
     public TB _Tb; 
-    private void Start()
-    {
-        if (PlayerPrefs.GetInt("slot1_claimed", 0) == 1)
-        {
-            DisableButton();
-        }
-    }
 
-    public void slot()
-    {
-        if (PlayerPrefs.GetInt("slot1_claimed", 0) == 1)
-        {
-            Debug.Log("Slot 1 đã được nhận trước đó.");
-            return;
-        }
-
-        Debug.Log("slot called");
-        GoldManager.AddGold(10);
-        PlayerPrefs.SetInt("slot1_claimed", 1); // lưu lại trạng thái đã nhận
-        PlayerPrefs.Save(); // lưu vào ổ cứng
-        DisableButton();
-    }
-
-    private void DisableButton()
-    {
-        if (myButton != null)
-        {
-            myButton.interactable = false;
-            ColorBlock cb = myButton.colors;
-            cb.normalColor = disabledColor;
-            cb.highlightedColor = disabledColor;
-            cb.pressedColor = disabledColor;
-            cb.selectedColor = disabledColor;
-            myButton.colors = cb;
-        }
-    }
 
     // Các slot khác
     public void slot2()
     {
-        if (lightningManeger.GetLightning() >= 1)
+        if (lightningManeger.GetLightning() >= 5)
         {
-            GoldManager.AddGold(10);
-            lightningManeger.SpendLightning(1);
+            GoldManager.AddGold(70);
+            lightningManeger.SpendLightning(5);
             _Tb.ShowTbs();
         }
       
     } 
     public void slot3()
     {
-        if (lightningManeger.GetLightning() >= 2)
+        if (lightningManeger.GetLightning() >= 10)
         {
-            GoldManager.AddGold(20);
-            lightningManeger.SpendLightning(2);
+            GoldManager.AddGold(150);
+            lightningManeger.SpendLightning(10);
             _Tb.ShowTbs();
         }
         
     }
     public void slot4()
     {
-        if (lightningManeger.GetLightning() >= 3)
+        if (lightningManeger.GetLightning() >= 30)
         {
-             GoldManager.AddGold(50);
-             lightningManeger.SpendLightning(3);
+             GoldManager.AddGold(500);
+             lightningManeger.SpendLightning(30);
              _Tb.ShowTbs();
         }
        
     }
     public void slot5()
     {
-        if (lightningManeger.GetLightning() >= 5)
+        if (lightningManeger.GetLightning() >= 50)
         {
-             GoldManager.AddGold(100);
-             lightningManeger.SpendLightning(5);
+             GoldManager.AddGold(1000);
+             lightningManeger.SpendLightning(50);
              _Tb.ShowTbs();
         }
        
     }
     public void slot6()
     {
-        if (lightningManeger.GetLightning() >= 7)
+        if (lightningManeger.GetLightning() >= 100)
         {
-            GoldManager.AddGold(150);
-            lightningManeger.SpendLightning(7);  
+            GoldManager.AddGold(3000);
+            lightningManeger.SpendLightning(100);  
             _Tb.ShowTbs();
         }
     }
-    public void slot7()
-    {
-        if (lightningManeger.GetLightning() >= 10)
-        {
-            GoldManager.AddGold(300);
-            lightningManeger.SpendLightning(10);
-            _Tb.ShowTbs();
-        }
-    }
+
     public void slot8()
     {
-        if (lightningManeger.GetLightning() >= 15)
+        if (lightningManeger.GetLightning() >= 20)
         {
-            GoldManager.AddGold(500);
-            lightningManeger.SpendLightning(15);
+            GoldManager.AddGold(300);
+            lightningManeger.SpendLightning(20);
+            _Tb.ShowTbs();
+        }
+    }
+
+    public void sotCards1()
+    {
+        if (lightningManeger.GetLightning() >= 2)
+        {
+           CardsManeger.AddCards(1);
+            lightningManeger.SpendLightning(2);
+            _Tb.ShowTbs();
+        }
+    }
+    public void sotCards2()
+    {
+        if (lightningManeger.GetLightning() >= 4)
+        {
+            CardsManeger.AddCards(2);
+            lightningManeger.SpendLightning(4);
             _Tb.ShowTbs();
         }
     }
