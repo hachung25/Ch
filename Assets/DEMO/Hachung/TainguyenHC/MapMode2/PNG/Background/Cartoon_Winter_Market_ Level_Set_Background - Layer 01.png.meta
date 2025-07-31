@@ -1,0 +1,1143 @@
+fileFormatVersion: 2
+guid: 2ec330f9b952dd54cbd440190bbcc539
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 7973546383099456219
+    second: Cartoon_Winter_Market_ Level_Set_Background - Layer 01_0
+  - first:
+      213: -7876327764455338263
+    second: Cartoon_Winter_Market_ Level_Set_Background - Layer 01_1
+  - first:
+      213: 6318786459066693255
+    second: Cartoon_Winter_Market_ Level_Set_Background - Layer 01_2
+  - first:
+      213: -6232490564392242687
+    second: Cartoon_Winter_Market_ Level_Set_Background - Layer 01_3
+  - first:
+      213: -2406368386151486882
+    second: Cartoon_Winter_Market_ Level_Set_Background - Layer 01_4
+  - first:
+      213: -843791240909898559
+    second: Cartoon_Winter_Market_ Level_Set_Background - Layer 01_5
+  - first:
+      213: -8551118694511468319
+    second: Cartoon_Winter_Market_ Level_Set_Background - Layer 01_6
+  - first:
+      213: 1459672444074229505
+    second: Cartoon_Winter_Market_ Level_Set_Background - Layer 01_7
+  - first:
+      213: -4967557266481133619
+    second: Cartoon_Winter_Market_ Level_Set_Background - Layer 01_8
+  - first:
+      213: -6696773330989817888
+    second: Cartoon_Winter_Market_ Level_Set_Background - Layer 01_9
+  - first:
+      213: -5822788248217995482
+    second: Cartoon_Winter_Market_ Level_Set_Background - Layer 01_10
+  - first:
+      213: 3338168534342264119
+    second: Cartoon_Winter_Market_ Level_Set_Background - Layer 01_11
+  - first:
+      213: -1368184830626730893
+    second: Cartoon_Winter_Market_ Level_Set_Background - Layer 01_12
+  - first:
+      213: -7342226672855182743
+    second: Cartoon_Winter_Market_ Level_Set_Background - Layer 01_13
+  - first:
+      213: -7385872158216756785
+    second: Cartoon_Winter_Market_ Level_Set_Background - Layer 01_14
+  - first:
+      213: 1559312924294736820
+    second: Cartoon_Winter_Market_ Level_Set_Background - Layer 01_15
+  - first:
+      213: 5842750948403959076
+    second: Cartoon_Winter_Market_ Level_Set_Background - Layer 01_16
+  - first:
+      213: 5616983506390853426
+    second: Cartoon_Winter_Market_ Level_Set_Background - Layer 01_17
+  - first:
+      213: 5851671548377074166
+    second: Cartoon_Winter_Market_ Level_Set_Background - Layer 01_18
+  - first:
+      213: 2402249322014294509
+    second: Cartoon_Winter_Market_ Level_Set_Background - Layer 01_19
+  - first:
+      213: -4482642957660125925
+    second: Cartoon_Winter_Market_ Level_Set_Background - Layer 01_20
+  - first:
+      213: -7515093679111601444
+    second: Cartoon_Winter_Market_ Level_Set_Background - Layer 01_21
+  - first:
+      213: 8702517790226703194
+    second: Cartoon_Winter_Market_ Level_Set_Background - Layer 01_22
+  - first:
+      213: -593748539647360261
+    second: Cartoon_Winter_Market_ Level_Set_Background - Layer 01_23
+  - first:
+      213: -6583309981784194074
+    second: Cartoon_Winter_Market_ Level_Set_Background - Layer 01_24
+  - first:
+      213: 6365809257805266330
+    second: Cartoon_Winter_Market_ Level_Set_Background - Layer 01_25
+  - first:
+      213: 1209824215564789495
+    second: Cartoon_Winter_Market_ Level_Set_Background - Layer 01_26
+  - first:
+      213: 7263430307978262067
+    second: Cartoon_Winter_Market_ Level_Set_Background - Layer 01_27
+  - first:
+      213: 7612269439008876410
+    second: Cartoon_Winter_Market_ Level_Set_Background - Layer 01_28
+  - first:
+      213: -7010860137961593143
+    second: Cartoon_Winter_Market_ Level_Set_Background - Layer 01_29
+  - first:
+      213: -5275246509988144485
+    second: Cartoon_Winter_Market_ Level_Set_Background - Layer 01_30
+  - first:
+      213: -3945839522329806762
+    second: Cartoon_Winter_Market_ Level_Set_Background - Layer 01_31
+  - first:
+      213: -6289968417469434114
+    second: Cartoon_Winter_Market_ Level_Set_Background - Layer 01_32
+  - first:
+      213: -1304257842240277262
+    second: Cartoon_Winter_Market_ Level_Set_Background - Layer 01_33
+  - first:
+      213: 6736009225657341243
+    second: Cartoon_Winter_Market_ Level_Set_Background - Layer 01_34
+  - first:
+      213: 6881458783851668196
+    second: Cartoon_Winter_Market_ Level_Set_Background - Layer 01_35
+  - first:
+      213: 6946487567118631538
+    second: Cartoon_Winter_Market_ Level_Set_Background - Layer 01_36
+  - first:
+      213: -8540507338566135161
+    second: Cartoon_Winter_Market_ Level_Set_Background - Layer 01_37
+  - first:
+      213: -4180243958489205336
+    second: Cartoon_Winter_Market_ Level_Set_Background - Layer 01_38
+  - first:
+      213: 1609293254077561124
+    second: Cartoon_Winter_Market_ Level_Set_Background - Layer 01_39
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: iOS
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Cartoon_Winter_Market_ Level_Set_Background - Layer 01_0
+      rect:
+        serializedVersion: 2
+        x: 1023
+        y: 731
+        width: 11
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bda6eb4903ab7ae60800000000000000
+      internalID: 7973546383099456219
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cartoon_Winter_Market_ Level_Set_Background - Layer 01_1
+      rect:
+        serializedVersion: 2
+        x: 1306
+        y: 739
+        width: 12
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9eec719f0a9a1b290800000000000000
+      internalID: -7876327764455338263
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cartoon_Winter_Market_ Level_Set_Background - Layer 01_2
+      rect:
+        serializedVersion: 2
+        x: 14
+        y: 722
+        width: 14
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 786f7306ec6d0b750800000000000000
+      internalID: 6318786459066693255
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cartoon_Winter_Market_ Level_Set_Background - Layer 01_3
+      rect:
+        serializedVersion: 2
+        x: 1009
+        y: 716
+        width: 10
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1023d635adeb189a0800000000000000
+      internalID: -6232490564392242687
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cartoon_Winter_Market_ Level_Set_Background - Layer 01_4
+      rect:
+        serializedVersion: 2
+        x: 270
+        y: 706
+        width: 13
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e5ae5b8c3bcda9ed0800000000000000
+      internalID: -2406368386151486882
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cartoon_Winter_Market_ Level_Set_Background - Layer 01_5
+      rect:
+        serializedVersion: 2
+        x: 1236
+        y: 700
+        width: 11
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1ccbaf446504a44f0800000000000000
+      internalID: -843791240909898559
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cartoon_Winter_Market_ Level_Set_Background - Layer 01_6
+      rect:
+        serializedVersion: 2
+        x: 57
+        y: 690
+        width: 13
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1e021756ad2545980800000000000000
+      internalID: -8551118694511468319
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cartoon_Winter_Market_ Level_Set_Background - Layer 01_7
+      rect:
+        serializedVersion: 2
+        x: 340
+        y: 682
+        width: 14
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 10f787daa5cc14410800000000000000
+      internalID: 1459672444074229505
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cartoon_Winter_Market_ Level_Set_Background - Layer 01_8
+      rect:
+        serializedVersion: 2
+        x: 879
+        y: 673
+        width: 15
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: dc74bf14cf0bf0bb0800000000000000
+      internalID: -4967557266481133619
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cartoon_Winter_Market_ Level_Set_Background - Layer 01_9
+      rect:
+        serializedVersion: 2
+        x: 1164
+        y: 667
+        width: 12
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0efda01f2284013a0800000000000000
+      internalID: -6696773330989817888
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cartoon_Winter_Market_ Level_Set_Background - Layer 01_10
+      rect:
+        serializedVersion: 2
+        x: 468
+        y: 651
+        width: 14
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 627b5ae40fc413fa0800000000000000
+      internalID: -5822788248217995482
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cartoon_Winter_Market_ Level_Set_Background - Layer 01_11
+      rect:
+        serializedVersion: 2
+        x: 1150
+        y: 660
+        width: 12
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7356bd9789e835e20800000000000000
+      internalID: 3338168534342264119
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cartoon_Winter_Market_ Level_Set_Background - Layer 01_12
+      rect:
+        serializedVersion: 2
+        x: 738
+        y: 643
+        width: 13
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 37c6a6f352b330de0800000000000000
+      internalID: -1368184830626730893
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cartoon_Winter_Market_ Level_Set_Background - Layer 01_13
+      rect:
+        serializedVersion: 2
+        x: 922
+        y: 635
+        width: 14
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9629118edbb2b1a90800000000000000
+      internalID: -7342226672855182743
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cartoon_Winter_Market_ Level_Set_Background - Layer 01_14
+      rect:
+        serializedVersion: 2
+        x: 87
+        y: 620
+        width: 10
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fc1ea05776c108990800000000000000
+      internalID: -7385872158216756785
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cartoon_Winter_Market_ Level_Set_Background - Layer 01_15
+      rect:
+        serializedVersion: 2
+        x: 654
+        y: 628
+        width: 11
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4bb6342d7dac3a510800000000000000
+      internalID: 1559312924294736820
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cartoon_Winter_Market_ Level_Set_Background - Layer 01_16
+      rect:
+        serializedVersion: 2
+        x: 397
+        y: 603
+        width: 14
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 425d1b6080f951150800000000000000
+      internalID: 5842750948403959076
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cartoon_Winter_Market_ Level_Set_Background - Layer 01_17
+      rect:
+        serializedVersion: 2
+        x: 809
+        y: 611
+        width: 13
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 237a7af2db883fd40800000000000000
+      internalID: 5616983506390853426
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cartoon_Winter_Market_ Level_Set_Background - Layer 01_18
+      rect:
+        serializedVersion: 2
+        x: 101
+        y: 596
+        width: 10
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6f9864f0540553150800000000000000
+      internalID: 5851671548377074166
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cartoon_Winter_Market_ Level_Set_Background - Layer 01_19
+      rect:
+        serializedVersion: 2
+        x: 555
+        y: 588
+        width: 10
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: de1c59cd701865120800000000000000
+      internalID: 2402249322014294509
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cartoon_Winter_Market_ Level_Set_Background - Layer 01_20
+      rect:
+        serializedVersion: 2
+        x: 228
+        y: 572
+        width: 11
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b1503c5eaf37ac1c0800000000000000
+      internalID: -4482642957660125925
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cartoon_Winter_Market_ Level_Set_Background - Layer 01_21
+      rect:
+        serializedVersion: 2
+        x: 1319
+        y: 579
+        width: 14
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cd205c29d1605b790800000000000000
+      internalID: -7515093679111601444
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cartoon_Winter_Market_ Level_Set_Background - Layer 01_22
+      rect:
+        serializedVersion: 2
+        x: 682
+        y: 556
+        width: 12
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a53eaf182dd85c870800000000000000
+      internalID: 8702517790226703194
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cartoon_Winter_Market_ Level_Set_Background - Layer 01_23
+      rect:
+        serializedVersion: 2
+        x: 1035
+        y: 563
+        width: 15
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bf2896859d492c7f0800000000000000
+      internalID: -593748539647360261
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cartoon_Winter_Market_ Level_Set_Background - Layer 01_24
+      rect:
+        serializedVersion: 2
+        x: 171
+        y: 540
+        width: 12
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6e34871937263a4a0800000000000000
+      internalID: -6583309981784194074
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cartoon_Winter_Market_ Level_Set_Background - Layer 01_25
+      rect:
+        serializedVersion: 2
+        x: 299
+        y: 548
+        width: 11
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a9d306fdac5e75850800000000000000
+      internalID: 6365809257805266330
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cartoon_Winter_Market_ Level_Set_Background - Layer 01_26
+      rect:
+        serializedVersion: 2
+        x: 1106
+        y: 523
+        width: 15
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7f6a761d6b82ac010800000000000000
+      internalID: 1209824215564789495
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cartoon_Winter_Market_ Level_Set_Background - Layer 01_27
+      rect:
+        serializedVersion: 2
+        x: 1248
+        y: 531
+        width: 15
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 336b9ddb163ecc460800000000000000
+      internalID: 7263430307978262067
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cartoon_Winter_Market_ Level_Set_Background - Layer 01_28
+      rect:
+        serializedVersion: 2
+        x: 243
+        y: 509
+        width: 10
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a77afa629b634a960800000000000000
+      internalID: 7612269439008876410
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cartoon_Winter_Market_ Level_Set_Background - Layer 01_29
+      rect:
+        serializedVersion: 2
+        x: 440
+        y: 516
+        width: 13
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9c66ad289db64be90800000000000000
+      internalID: -7010860137961593143
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cartoon_Winter_Market_ Level_Set_Background - Layer 01_30
+      rect:
+        serializedVersion: 2
+        x: 696
+        y: 493
+        width: 12
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b9a9985af3f8ac6b0800000000000000
+      internalID: -5275246509988144485
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cartoon_Winter_Market_ Level_Set_Background - Layer 01_31
+      rect:
+        serializedVersion: 2
+        x: 936
+        y: 500
+        width: 14
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 658b5d24cdf8d39c0800000000000000
+      internalID: -3945839522329806762
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cartoon_Winter_Market_ Level_Set_Background - Layer 01_32
+      rect:
+        serializedVersion: 2
+        x: 143
+        y: 485
+        width: 11
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ef6fe4ccc0b85b8a0800000000000000
+      internalID: -6289968417469434114
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cartoon_Winter_Market_ Level_Set_Background - Layer 01_33
+      rect:
+        serializedVersion: 2
+        x: 626
+        y: 477
+        width: 10
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2f430c9176856ede0800000000000000
+      internalID: -1304257842240277262
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cartoon_Winter_Market_ Level_Set_Background - Layer 01_34
+      rect:
+        serializedVersion: 2
+        x: 328
+        y: 469
+        width: 10
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b355f0ba3bc1b7d50800000000000000
+      internalID: 6736009225657341243
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cartoon_Winter_Market_ Level_Set_Background - Layer 01_35
+      rect:
+        serializedVersion: 2
+        x: 484
+        y: 461
+        width: 10
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4e268fbed4adf7f50800000000000000
+      internalID: 6881458783851668196
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cartoon_Winter_Market_ Level_Set_Background - Layer 01_36
+      rect:
+        serializedVersion: 2
+        x: 866
+        y: 452
+        width: 13
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 27206c263a1e66060800000000000000
+      internalID: 6946487567118631538
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cartoon_Winter_Market_ Level_Set_Background - Layer 01_37
+      rect:
+        serializedVersion: 2
+        x: 1291
+        y: 443
+        width: 14
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 782162b33d50a7980800000000000000
+      internalID: -8540507338566135161
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cartoon_Winter_Market_ Level_Set_Background - Layer 01_38
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 1334
+        height: 444
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8a537c3844accf5c0800000000000000
+      internalID: -4180243958489205336
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cartoon_Winter_Market_ Level_Set_Background - Layer 01_39
+      rect:
+        serializedVersion: 2
+        x: 1177
+        y: 436
+        width: 15
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 429b9bc20bb555610800000000000000
+      internalID: 1609293254077561124
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable: {}
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
