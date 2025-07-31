@@ -77,4 +77,6 @@ public class EnemyBatFly : FlyingEnemyBase, IDamageable // 👈 THÊM IDamageabl
             healthBar.value = currentHealth;
         }
     }
+   
+
 }
