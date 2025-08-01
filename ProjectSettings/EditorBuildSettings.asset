@@ -11,9 +11,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/LoginTA.unity
     guid: 61bc5ec169ff60743b556dc2c4039091
-  - enabled: 0
-    path: Assets/Scenes/SceneOnl.unity
-    guid: 2646c0ae1e346f74bb961c945e230b55
+  - enabled: 1
+    path: Assets/Scenes/Hachung.unity
+    guid: 053ad234ba676c144b682f70a86bb34c
   - enabled: 1
     path: Assets/Scenes/SampleScene.unity
     guid: 8c9cfa26abfee488c85f1582747f6a02
@@ -22,7 +22,7 @@ EditorBuildSettings:
     guid: cfeb7a876cff35e409c832044ed9c118
   - enabled: 1
     path: Assets/SceneMode/Mode2.unity
-    guid: 0b5612acef1e10749b96ffd19493a54d
+    guid: de903524f889d934d92b648f81f23208
   m_configObjects:
     com.unity.addressableassets: {fileID: 11400000, guid: 4ec998718ec64244d9152387f04f8380, type: 2}
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}

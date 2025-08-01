@@ -22,5 +22,7 @@ public class Dataload : MonoBehaviour
         CardsManeger.LoadCardsFromFirebase(CheckAllLoaded);
         GoldManager.LoadGoldFromFirebase(CheckAllLoaded);
         lightningManeger.LoadLightningFromFirebase(CheckAllLoaded);
+        CardSpingManeger.LoadCardSpingFromFirebase(CheckAllLoaded);
+        TicketManeger.LoadTicketFromFirebase(CheckAllLoaded);
     }
 }
