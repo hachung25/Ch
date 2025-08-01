@@ -59,7 +59,7 @@ public class FlyingEnemyHealth : MonoBehaviour, IDamageable
             Instantiate(CoinPrefab, transform.position, Quaternion.identity);
         }
         GetComponent<Rigidbody2D>().simulated = false;
-        EnemyManager.Instance?.UnregisterEnemy();
+   //    EnemyManager.Instance?.UnregisterEnemy();
         StartCoroutine(FlashWhileInvincible());
         Destroy(gameObject,0.8f);
     }

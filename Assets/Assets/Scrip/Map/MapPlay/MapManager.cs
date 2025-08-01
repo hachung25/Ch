@@ -40,10 +40,11 @@ public class MapManager : MonoBehaviour
             if (!coinAbsorbed)
             {
                 coinAbsorbed = true;
-                AttractCoinsToPlayer();
+                Invoke(nameof(AttractCoinsToPlayer), 0.2f); // Delay nhẹ để đợi coin được tạo
             }
         }
     }
+ 
 
     public void MoveToNextMap()
     {
@@ -56,13 +57,14 @@ public class MapManager : MonoBehaviour
         }
     }
     private bool coinAbsorbed = false;
+
     private void AttractCoinsToPlayer()
     {
         var coins = FindObjectsOfType<CollectCoin>();
         foreach (var coin in coins)
         {
-            coin.ActivateMagnet(); // Coin tự động bay về Player
+            coin.ActivateMagnet(player); // 👉 Truyền player từ MapManager
         }
     }
-    
+
 }

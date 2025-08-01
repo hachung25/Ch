@@ -29,10 +29,7 @@ public class EnemyFlyGhost : MonoBehaviour
 
         StartCoroutine(FindPlayerAfterDelay());
 
-        if (CompareTag("Enemy"))
-        {
-            EnemyManager.Instance?.RegisterEnemy();
-        }
+       
     }
     private IEnumerator FindPlayerAfterDelay()
     {
