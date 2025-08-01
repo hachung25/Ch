@@ -86,4 +86,14 @@ public class shopManeger : MonoBehaviour
             _Tb.ShowTbs();
         }
     }
+
+    public void slotEvents2th9()
+    {
+        if(lightningManeger.GetLightning()>= 30)
+        {
+            CardSpingManeger.AddCardSping(3);
+            lightningManeger.SpendLightning(30);
+            _Tb.ShowTbs();
+        }
+    }
 }

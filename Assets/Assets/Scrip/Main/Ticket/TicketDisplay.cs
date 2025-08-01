@@ -7,7 +7,7 @@ public class TicketDisplay : MonoBehaviour
     void OnEnable()
     {
         TicketManeger.OnTicketChanged += UpdateTicketUI;
-        UpdateTicketUI(CardsManeger.GetCards());
+        UpdateTicketUI(TicketManeger.GetTicket());
     }
 
     void OnDisable()

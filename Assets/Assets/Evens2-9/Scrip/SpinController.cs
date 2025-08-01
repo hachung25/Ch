@@ -31,7 +31,18 @@ public class SpinController : MonoBehaviour
 
     public void StartSpin()
     {
-        if (isSpinning) return;
+       
+        if (isSpinning)
+            return;
+
+        if (CardSpingManeger.GetCardSping() < 1)
+        {
+            
+        
+
+           
+            return;
+        }
 
         isSpinning = true;
         spinButton.interactable = false;
@@ -40,8 +51,9 @@ public class SpinController : MonoBehaviour
         float totalAngle = 360f * 5 + randomAngle;
 
         StartCoroutine(SpinWheel(totalAngle));
-    }
 
+        CardSpingManeger.SpendtCardSping(1);
+    }
     IEnumerator SpinWheel(float totalAngle)
     {
         float elapsed = 0f;
@@ -75,18 +87,23 @@ public class SpinController : MonoBehaviour
             switch (item.rewardType)
             {
                 case SpinRewardItem.RewardType.Coin:
+                    GoldManager.AddGold(item.rewardAmount);
                     tb.ShowTbSpins();
                     break;
                 case SpinRewardItem.RewardType.Gem:
+                    lightningManeger.AddLightning(item.rewardAmount);
                     tb.ShowTbSpins();
                     break;
                 case SpinRewardItem.RewardType.Cards:
+                    CardsManeger.AddCards(item.rewardAmount);
                     tb.ShowTbSpins();
                     break;
                 case SpinRewardItem.RewardType.CardSpin:
+                    CardSpingManeger.AddCardSping(item.rewardAmount);
                     tb.ShowTbSpins();
                     break;
                 case SpinRewardItem.RewardType.Ticket:
+                    TicketManeger.AddTicket(item.rewardAmount);
                     tb.ShowTbSpins();
                     break;
                 default:

@@ -81,6 +81,7 @@ public class TicketManeger : MonoBehaviour
             {
                 currentTicket = 0;
             }
+            Debug.Log($"🎟️ Số lượng Ticket hiện tại: {currentTicket}");
 
             OnTicketChanged?.Invoke(currentTicket);
             onDone?.Invoke();
