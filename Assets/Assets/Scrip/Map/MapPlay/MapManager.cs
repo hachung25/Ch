@@ -26,6 +26,7 @@ public class MapManager : MonoBehaviour
         if (currentMap.enemies.Count == 0 && !currentMap.teleportBox.activeSelf)
         {
             currentMap.teleportBox.SetActive(true);
+         
         }
         currentMap.enemies.RemoveAll(enemy => enemy == null);
 
@@ -51,6 +52,7 @@ public class MapManager : MonoBehaviour
             player.position = maps[currentMapIndex].playerTargetPosition.position;
             maps[currentMapIndex].teleportBox.SetActive(false); // Ẩn box sau khi chuyển
             currentMapIndex++;
+            coinAbsorbed = false;
         }
     }
     private bool coinAbsorbed = false;
