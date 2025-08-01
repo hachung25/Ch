@@ -60,7 +60,7 @@ public class EnemyGroundWarrior : EnemyGroundBase, IDamageable
         }
         GetComponent<Rigidbody2D>().simulated = false;
         Debug.Log($"{gameObject.name} đã chết!");
-        EnemyManager.Instance?.UnregisterEnemy();
+       // EnemyManager.Instance?.UnregisterEnemy();
         StartCoroutine(FlashWhileInvincible());
         Destroy(gameObject, 0.8f);
     }

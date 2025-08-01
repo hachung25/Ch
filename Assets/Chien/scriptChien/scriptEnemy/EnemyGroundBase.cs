@@ -53,10 +53,7 @@ public abstract class EnemyGroundBase : MonoBehaviour, IDamageable
         }
         StartCoroutine(FindPlayerAfterDelay());
         //Dem quai trong scene
-        if (CompareTag("Enemy"))
-        {
-            EnemyManager.Instance?.RegisterEnemy();
-        }
+        
         
     }
     private IEnumerator FindPlayerAfterDelay()

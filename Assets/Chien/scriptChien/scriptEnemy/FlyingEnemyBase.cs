@@ -35,7 +35,7 @@ public class FlyingEnemyBase : MonoBehaviour
         StartCoroutine(FindPlayerAfterDelay());
         if (CompareTag("Enemy"))
         {
-            EnemyManager.Instance?.RegisterEnemy();
+            //EnemyManager.Instance?.RegisterEnemy();
         }
         
     }
@@ -152,7 +152,7 @@ public class FlyingEnemyBase : MonoBehaviour
             Instantiate(CoinPrefab, transform.position, Quaternion.identity);
         }
         GetComponent<Rigidbody2D>().simulated = false;
-        EnemyManager.Instance?.UnregisterEnemy();
+       // EnemyManager.Instance?.UnregisterEnemy();
         StartCoroutine(FlashWhileInvincible());
         Destroy(gameObject, 0.8f);
     }

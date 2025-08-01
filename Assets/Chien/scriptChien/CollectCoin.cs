@@ -1,5 +1,4 @@
-﻿using Photon.Realtime;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class CollectCoin : MonoBehaviour
 {
@@ -9,30 +8,22 @@ public class CollectCoin : MonoBehaviour
 
     void Update()
     {
-        if (isMagnetActive)
+        if (isMagnetActive && player != null)
         {
-            if (player == null)
-            {
-                // Tự tìm lại Player mỗi frame nếu chưa có
-                if (PlayerData.Instance != null)
-                    player = PlayerData.Instance.transform;
-                else
-                    return; // chưa có player thì bỏ qua
-            }
-
             transform.position = Vector2.MoveTowards(transform.position, player.position, flySpeed * Time.deltaTime);
 
             if (Vector2.Distance(transform.position, player.position) < 0.3f)
             {
-                //GoldManager.Instance.AddGold(1);
                 Destroy(gameObject);
             }
         }
     }
 
-    public void ActivateMagnet()
+    // 👉 Cho phép truyền player từ bên ngoài
+    public void ActivateMagnet(Transform playerTransform)
     {
         isMagnetActive = true;
+        player = playerTransform;
         GetComponent<Rigidbody2D>().simulated = false;
     }
 }
