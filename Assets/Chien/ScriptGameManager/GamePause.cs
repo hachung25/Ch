@@ -44,9 +44,12 @@ public class GamePause : MonoBehaviour
         PauseMain.SetActive(false);
         Time.timeScale = 1f;
     }
-    public void ReloadScene()
+    public void ReloadScene1()
     {
         SceneManager.LoadScene("Mode1");
+    } public void ReloadScene2()
+    {
+        SceneManager.LoadScene("Mode2");
     }
 
 }
