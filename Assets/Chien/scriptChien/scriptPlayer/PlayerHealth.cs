@@ -11,7 +11,7 @@ public class PlayerHealth : MonoBehaviour, IDamageable
 
     private Animator animator;
     public PlayerMovement2D playerMovement;
-
+    public GameObject LoseGame;
     private void Start()
     {
         animator = GetComponent<Animator>();
@@ -70,6 +70,10 @@ public class PlayerHealth : MonoBehaviour, IDamageable
         Debug.Log("Player đã chết!");
         if (playerMovement != null)
             playerMovement.Dead();
+        GetComponent<Rigidbody2D>().simulated = false;
+        StartCoroutine(FlashWhileInvincible());
+        Destroy(gameObject, 0.7f);
+        LoseGame.SetActive(true);
     }
 
     public void Heal(int amount)
@@ -101,5 +105,21 @@ public class PlayerHealth : MonoBehaviour, IDamageable
 
         if (playerMovement != null)
             playerMovement.enabled = true;
+    }
+    private IEnumerator FlashWhileInvincible()
+    {
+        float duration = 0.7f;
+        float timer = 0f;
+        SpriteRenderer sr = GetComponent<SpriteRenderer>();
+
+        while (timer < duration)
+        {
+            sr.enabled = !sr.enabled;
+            yield return new WaitForSeconds(0.1f);
+            timer += 0.1f;
+        }
+
+        sr.enabled = true;
+        isInvincible = false;
     }
 }
