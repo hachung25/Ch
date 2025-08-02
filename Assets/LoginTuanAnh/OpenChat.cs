@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Photon.Chat;
+using UnityEngine;
 
 public class OpenChat : MonoBehaviour
 {
@@ -8,7 +9,8 @@ public class OpenChat : MonoBehaviour
     {
         if (Chat != null)
         {
-            Chat.SetActive(true); // ✅ Chỉ mở nếu còn tồn tại
+            Chat.SetActive(true);
+            ChatState.IsChatting = true; // 🛑 Bắt đầu chat → chặn input
         }
         else
         {
@@ -20,7 +22,9 @@ public class OpenChat : MonoBehaviour
     {
         if (Chat != null)
         {
-            Chat.SetActive(false); // ✅ Chỉ đóng nếu còn tồn tại
+            Chat.SetActive(false);
+            ChatState.IsChatting = false; // ✅ Đóng chat → cho phép input
         }
     }
+
 }
