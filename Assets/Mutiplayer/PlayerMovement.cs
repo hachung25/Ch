@@ -37,6 +37,9 @@ public class PlayerMovement : NetworkBehaviour
     {
         if (!HasInputAuthority) return;
 
+        // 🚫 Ngăn input khi đang chat
+        if (ChatState.IsChatting) return;
+
         if (Input.GetKeyDown(KeyCode.Y))
         {
             jumpInput = true;
@@ -53,6 +56,9 @@ public class PlayerMovement : NetworkBehaviour
     public override void FixedUpdateNetwork()
     {
         if (!HasInputAuthority) return;
+
+        // 🚫 Ngăn xử lý di chuyển khi đang chat
+        if (ChatState.IsChatting) return;
 
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
 
@@ -77,7 +83,7 @@ public class PlayerMovement : NetworkBehaviour
         }
         else
         {
-            RPC_SetJump(false); // Không nhảy
+            RPC_SetJump(false);
         }
 
         RPC_SetRun(horizontalInput != 0 && isGrounded);
