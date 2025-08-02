@@ -11,7 +11,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/LoginTA.unity
     guid: 61bc5ec169ff60743b556dc2c4039091
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Hachung.unity
     guid: 053ad234ba676c144b682f70a86bb34c
   - enabled: 1

@@ -424,7 +424,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 059c707779a41c14ca4e943a1635bbb3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PlayerPrefab: {fileID: 1360511961220703745, guid: 315c39942b48a5740ab41b2710664e2b, type: 3}
+  PlayerPrefab: {fileID: 7665432593707683337, guid: 9dc118ccfb6031b41a527ac239f05db7, type: 3}
 --- !u!114 &283251923
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2861,7 +2861,6 @@ GameObject:
   - component: {fileID: 8219884572127980589}
   - component: {fileID: 8099217896607843641}
   - component: {fileID: 4687811866913070850}
-  - component: {fileID: 8268638324836097900}
   m_Layer: 0
   m_Name: Character-Idle_00_0
   m_TagString: Untagged
@@ -4768,7 +4767,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1.73, y: 2.75}
+    oldSize: {x: 1.73, y: 2.04}
     newSize: {x: 1.73, y: 2.04}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -6348,20 +6347,6 @@ MonoBehaviour:
   - {fileID: 4893716602166826120}
   - {fileID: 8099217896607843641}
   ForceRemoteRenderTimeframe: 0
---- !u!114 &8268638324836097900
-MonoBehaviour:
-  m_ObjectHideFlags: 59
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1360511962501704781}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 1541381998, guid: e725a070cec140c4caffb81624c8c787, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Guid:
-    RawGuidValue: 315c39942b48a5740ab41b2710664e2b
 --- !u!224 &8320107978550875398
 RectTransform:
   m_ObjectHideFlags: 0

@@ -147,7 +147,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Character-Parachute_11_0: -906936540938855764
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
