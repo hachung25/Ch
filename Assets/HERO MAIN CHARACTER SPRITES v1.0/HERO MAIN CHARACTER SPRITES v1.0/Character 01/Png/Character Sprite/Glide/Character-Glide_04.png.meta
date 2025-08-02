@@ -147,7 +147,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Character-Glide_04_0: -4829434843316263302
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
