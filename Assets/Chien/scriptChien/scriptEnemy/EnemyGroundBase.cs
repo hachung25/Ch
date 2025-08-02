@@ -73,7 +73,14 @@ public abstract class EnemyGroundBase : MonoBehaviour, IDamageable
     }
     protected virtual void Update()
     {
-        if (player == null || isDead) return;
+        if (player == null || isDead)
+        {
+            StopMoving();
+            isChasing = false;
+            isAttacking = false;
+            UpdateAnimator(); // Dừng animation nếu mất player
+            return;
+        }
 
         float distance = Vector2.Distance(transform.position, player.position);
 
@@ -107,6 +114,7 @@ public abstract class EnemyGroundBase : MonoBehaviour, IDamageable
 
         UpdateAnimator();
     }
+
 
     protected virtual void MoveTowardsPlayer()
     {
