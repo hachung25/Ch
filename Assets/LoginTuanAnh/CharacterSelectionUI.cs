@@ -6,13 +6,9 @@ using UnityEngine.SceneManagement;
 
 public class CharacterSelectionUI : MonoBehaviour
 {
-    [Header("Text UI")]
-    public TextMeshProUGUI genderText;
-    public TextMeshProUGUI factionText;
-
     [Header("Panels")]
-    public GameObject createPlayerPanel;
-    public GameObject selectPlayerPanel;
+    public GameObject PlayMode;
+    public GameObject CanvasCreatePlayer;
 
     [Header("Faction Images")]
     public Image[] factionImages;
@@ -30,36 +26,18 @@ public class CharacterSelectionUI : MonoBehaviour
     public string nextSceneName = "gamePlay";
 
     private int selectedImageIndex = -1; // Ban đầu chưa chọn gì
-    private string[] factions = { "Chiến binh", "Thuật sư", "Sát thủ" };
+    
     private int currentFactionIndex = 0;
 
-    void Start()
+    void Start() 
     {
         chooseButton.interactable = false;
-        factionText.text = factions[currentFactionIndex]; // Hiển thị mặc định
+        
     }
-
-    public void ToggleGender()
-    {
-        genderText.text = (genderText.text == "Nam") ? "Nữ" : "Nam";
-    }
-
-    public void ToggleFaction()
-    {
-        currentFactionIndex = (currentFactionIndex + 1) % factions.Length;
-        factionText.text = factions[currentFactionIndex];
-    }
-
-    public void OnCreateNewButtonClicked()
-    {
-        if (createPlayerPanel != null) createPlayerPanel.SetActive(false);
-        if (selectPlayerPanel != null) selectPlayerPanel.SetActive(true);
-    }
-
     public void OnBackButtonClicked()
     {
-        if (selectPlayerPanel != null) selectPlayerPanel.SetActive(false);
-        if (createPlayerPanel != null) createPlayerPanel.SetActive(true);
+        if (CanvasCreatePlayer != null) CanvasCreatePlayer.SetActive(false);
+        if (PlayMode != null) PlayMode.SetActive(true);
     }
 
     public void OnFactionImageClicked(int index)
@@ -76,7 +54,7 @@ public class CharacterSelectionUI : MonoBehaviour
                 rt.DOSizeDelta(normalSize, 0.25f).SetEase(Ease.OutBack);
 
             selectedImageIndex = -1;
-            factionText.text = "";
+            
             chooseButton.interactable = false;
             return;
         }
@@ -99,16 +77,23 @@ public class CharacterSelectionUI : MonoBehaviour
 
         selectedImageIndex = index;
         currentFactionIndex = index;
-        factionText.text = factions[currentFactionIndex];
+        
         chooseButton.interactable = true;
     }
 
 
-    public void OnChooseButtonClicked()
+    public void OnConfirmButtonClick()
     {
-        if (selectedImageIndex < 0) return;
-
-        Debug.Log("Selected faction: " + factions[selectedImageIndex]);
-        SceneManager.LoadScene("TestMuti");
+        // Kiểm tra xem đã chọn nhân vật chưa
+        if (CharacterSelectionManager.Instance != null && CharacterSelectionManager.Instance.selectedCharacterIndex != -1)
+        {
+            // Nếu đã chọn, chuyển sang scene tiếp theo
+            SceneManager.LoadScene("TestMuti");
+        }
+        else
+        {
+            Debug.Log("Vui lòng chọn một nhân vật trước khi xác nhận!");
+            // Tùy chọn: hiển thị một thông báo cho người dùng
+        }
     }
 }
