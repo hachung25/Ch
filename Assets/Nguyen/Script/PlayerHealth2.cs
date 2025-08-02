@@ -4,48 +4,37 @@ using System.Collections;
 
 public class PlayerHealth2 : NetworkBehaviour, IDamageable
 {
-    [Networked] public int CurrentHP { get; set; }
-
+    private int currentHP;
     public int maxHP = 100;
+
     private PlayerHealthUI2 healthUI;
     private Animator animator;
-
-    private int _lastSyncedHP = -1;
 
     public override void Spawned()
     {
         if (HasStateAuthority)
-            CurrentHP = maxHP;
+            currentHP = maxHP;
 
         healthUI = GetComponentInChildren<PlayerHealthUI2>();
         animator = GetComponentInChildren<Animator>();
 
-        //Runner.Invoke(DelayedUIUpdate, 0.05f); // ✅ Gọi đúng delegate
-    }
-
-    private void DelayedUIUpdate()
-    {
-        UpdateHealthUI(force: true);
-    }
-
-
-    public override void FixedUpdateNetwork()
-    {
-        if (_lastSyncedHP != CurrentHP)
-        {
-            _lastSyncedHP = CurrentHP;
-            UpdateHealthUI(force: true);
-        }
+        if (HasStateAuthority)
+            RPC_UpdateHealthUI(currentHP, maxHP); // Gửi máu ban đầu
     }
 
     public void ApplyDamage(int amount)
     {
-        CurrentHP = Mathf.Max(0, CurrentHP - amount);
-        Debug.Log("💔 Máu còn: " + CurrentHP);
+        if (!HasStateAuthority) return;
 
-        if (CurrentHP <= 0)
+        currentHP = Mathf.Max(0, currentHP - amount);
+        Debug.Log($"💔 Máu còn lại: {currentHP}");
+
+        // Đồng bộ UI máu cho tất cả client
+        RPC_UpdateHealthUI(currentHP, maxHP);
+
+        if (currentHP <= 0)
         {
-            Debug.Log("💀 Chết");
+            Debug.Log("💀 Người chơi đã chết");
             RPC_HandleDeath();
         }
     }
@@ -54,6 +43,14 @@ public class PlayerHealth2 : NetworkBehaviour, IDamageable
     public void RPC_ApplyDamage(int amount)
     {
         ApplyDamage(amount);
+    }
+
+    [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
+    private void RPC_UpdateHealthUI(int hp, int maxHp)
+    {
+        currentHP = hp;
+        maxHP = maxHp;
+        UpdateHealthUI(force: true);
     }
 
     [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
@@ -69,7 +66,7 @@ public class PlayerHealth2 : NetworkBehaviour, IDamageable
 
     private IEnumerator WaitAndDestroyAfterDeath()
     {
-        yield return new WaitForSeconds(2f); // Đợi animation
+        yield return new WaitForSeconds(2f);
 
         if (HasStateAuthority)
             Runner.Despawn(Object);
@@ -78,8 +75,14 @@ public class PlayerHealth2 : NetworkBehaviour, IDamageable
     private void UpdateHealthUI(bool force = false)
     {
         if (healthUI != null)
-            healthUI.SetHealth(CurrentHP, maxHP);
+            healthUI.SetHealth(currentHP, maxHP);
     }
 
-    public void TakeDamage(int amount) => ApplyDamage(amount);
+    public void TakeDamage(int amount)
+    {
+        if (HasStateAuthority)
+            ApplyDamage(amount);
+        else
+            RPC_ApplyDamage(amount);
+    }
 }
