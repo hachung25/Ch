@@ -34,4 +34,6 @@ public class ChatUI : MonoBehaviour
             inputField.ActivateInputField(); // focus lại
         }
     }
+
+
 }
