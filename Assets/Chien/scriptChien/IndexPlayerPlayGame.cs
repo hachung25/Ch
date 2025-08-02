@@ -13,11 +13,12 @@ public class IndexPlayerPlayGame : MonoBehaviour
     public static DatabaseReference reference;
     public static string userId;
 
+    public static event Action<int, int> OnStatsLoaded; // (health, damage)
+
     private void Start()
     {
         reference = FirebaseDatabase.DefaultInstance.RootReference;
         userId = FirebaseAuth.DefaultInstance.CurrentUser?.UserId;
-
         updateIndex();
     }
 
@@ -55,6 +56,7 @@ public class IndexPlayerPlayGame : MonoBehaviour
                 IsLoaded = true;
 
                 Debug.Log($"[Firebase] Đã tải chỉ số: Health = {health}, Damage = {damage}");
+                OnStatsLoaded?.Invoke(health, damage); // Gửi event đến các thành phần khác
             }
         });
     }
