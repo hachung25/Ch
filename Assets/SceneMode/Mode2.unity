@@ -658,11 +658,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2392998733942050000, guid: 00a13947dd34430469c79fa240e24467, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -29.85
+      value: -29.77
       objectReference: {fileID: 0}
     - target: {fileID: 2392998733942050000, guid: 00a13947dd34430469c79fa240e24467, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -1.18
+      value: 0.11
       objectReference: {fileID: 0}
     - target: {fileID: 2392998733942050000, guid: 00a13947dd34430469c79fa240e24467, type: 3}
       propertyPath: m_LocalPosition.z
@@ -1836,7 +1836,7 @@ Transform:
   m_GameObject: {fileID: 146536133}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -29.49, y: 0.74, z: -872.9185}
+  m_LocalPosition: {x: -29.41, y: 2.03, z: -872.9185}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -19942,6 +19942,7 @@ MonoBehaviour:
     rewardGold: 50
   player: {fileID: 68085092}
   GoldWave: 0
+  GemWave: 0
 --- !u!1 &476716744
 GameObject:
   m_ObjectHideFlags: 0

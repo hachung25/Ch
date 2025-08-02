@@ -422,6 +422,7 @@ GameObject:
   - component: {fileID: 8630420835393296282}
   - component: {fileID: 2955713799781502717}
   - component: {fileID: 6878919661223455380}
+  - component: {fileID: 6745396419786663761}
   m_Layer: 7
   m_Name: Enemy_Ghost
   m_TagString: Enemy
@@ -513,13 +514,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 99f94b5d9194ea841a4b85379d8aa956, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 2
+  speed: 3
   chaseRange: 6
   attackRange: 4
   bulletPrefab: {fileID: 6601298268904034238, guid: d05bd701179318c4d96eb3f7ae78d57e, type: 3}
   firePoint: {fileID: 1611007663192239304}
   player: {fileID: 2392998733942050000, guid: 00a13947dd34430469c79fa240e24467, type: 3}
-  spriteRenderer: {fileID: 9171920532729773521}
 --- !u!114 &8630420835393296282
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -532,10 +532,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67654d00c99ec8f4bbd0e33e238bf282, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 200
+  maxHealth: 70
   healthSlider: {fileID: 7231187042142596268}
   deathEffect: {fileID: 0}
   CoinPrefab: {fileID: 5451605172039159037, guid: bf6dd895dbb98ab4492a8402c67c38a6, type: 3}
+  isInvincible: 0
 --- !u!70 &2955713799781502717
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -595,3 +596,30 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!50 &6745396419786663761
+Rigidbody2D:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8971725487588285677}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 4
