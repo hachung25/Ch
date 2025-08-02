@@ -7214,6 +7214,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac3468a5870f2104e9cca24ae34d55e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  imageSwitcher: {fileID: 0}
 --- !u!114 &1840519828
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8417,7 +8418,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2899055980844335106, guid: 92453c9a678278d4391be280a92432b4, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2980714822729823804, guid: 92453c9a678278d4391be280a92432b4, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
