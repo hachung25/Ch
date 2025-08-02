@@ -72,8 +72,12 @@ public class PlayerMovement : NetworkBehaviour
         if (jumpInput && isGrounded)
         {
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
-            RPC_PlayAnimationTrigger("Player_jump");
+            RPC_SetJump(true);
             jumpInput = false;
+        }
+        else
+        {
+            RPC_SetJump(false); // Không nhảy
         }
 
         RPC_SetRun(horizontalInput != 0 && isGrounded);
@@ -94,14 +98,12 @@ public class PlayerMovement : NetworkBehaviour
             // Gửi trigger hiện tại
             RPC_PlayAnimationTrigger(triggerName);
 
-            // Wait for Animator to update state
             yield return null;
             yield return null;
 
             AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
             float clipLength = stateInfo.length;
 
-            // Wait for 90% of the animation duration
             float timer = 0f;
             while (timer < clipLength * 0.9f)
             {
@@ -113,7 +115,6 @@ public class PlayerMovement : NetworkBehaviour
 
         } while (attackHeld);
 
-        // Wait until animation fully finishes
         while (animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1f)
         {
             yield return null;
@@ -126,6 +127,12 @@ public class PlayerMovement : NetworkBehaviour
     private void RPC_SetRun(bool isRunning)
     {
         animator.SetBool("isRun", isRunning);
+    }
+
+    [Rpc(RpcSources.InputAuthority, RpcTargets.All)]
+    private void RPC_SetJump(bool isJumping)
+    {
+        animator.SetBool("isJump", isJumping);
     }
 
     [Rpc(RpcSources.InputAuthority, RpcTargets.All)]

@@ -1845,12 +1845,12 @@ MonoBehaviour:
     m_GlyphIndex: 49
     m_Scale: 1
   - m_ElementType: 1
-    m_Unicode: 58
-    m_GlyphIndex: 27
-    m_Scale: 1
-  - m_ElementType: 1
     m_Unicode: 10
     m_GlyphIndex: 1
+    m_Scale: 1
+  - m_ElementType: 1
+    m_Unicode: 58
+    m_GlyphIndex: 27
     m_Scale: 1
   m_AtlasTextures:
   - {fileID: 2136716350068085413}
