@@ -220,7 +220,7 @@ public class FireBaseLoginManager : MonoBehaviour
                 string userId = firebaseUser.UserId;
 
                 // Ghi user mới nếu cần
-                User userinGame = new("Username", 0, 0, 0, 0, 0);
+                User userinGame = new("Username", 0, 0,0,0, 0, 0, 0);
                 dataBaseManager.WriteDataBase("Users/" + userId, userinGame.ToString());
 
                 // Load trạng thái map từ Firebase

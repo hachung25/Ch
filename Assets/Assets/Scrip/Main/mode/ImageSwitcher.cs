@@ -18,10 +18,11 @@ public class ImageSwitcher : MonoBehaviour
     public bool Modee;
     public GameObject Unlock;
 
-    private void Start()
-    {
+     void Start()
+     {
         UpData();
-    }
+        BtNextleft.SetActive(false);
+     }
 
     public void UpData()
     {
@@ -45,7 +46,7 @@ public class ImageSwitcher : MonoBehaviour
         }
     }
 
-    // Hàm được gọi sau khi lấy mode từ Firebase
+ 
     private void ApplyMode(bool mode)
     {
        Modee = mode;

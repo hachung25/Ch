@@ -12,10 +12,10 @@ public class IndexPlayerPlayGame : MonoBehaviour
     public static DatabaseReference reference;
     public static string userId;
 
-    private void Awake()
-    {
-        DontDestroyOnLoad(gameObject); // Giữ lại khi chuyển scene
-    }
+    //private void Awake()
+    //{
+    //    DontDestroyOnLoad(gameObject); // Giữ lại khi chuyển scene
+    //}
 
     private void Start()
     {

@@ -7,6 +7,10 @@ public class User
     public int DataGold {get; set;}
     public int DataSet  {get; set;}
     public int DataCard {get; set;}
+    
+    public int DataCardSpin {get; set;}
+    
+    public int DataTicket {get; set;}
     public int Health {get; set;}
     public int Damage {get; set;}
 
@@ -19,12 +23,14 @@ public class User
       
     }
 
-    public User(string username, int dataGold, int dataset, int dataCard, int health, int damage)
+    public User(string username, int dataGold, int dataset, int dataCard,int dataCardspin,int datatikcket, int health, int damage)
     {
         Username = username;
         DataGold = dataGold;
         DataSet = dataset;
         DataCard = dataCard;
+        DataCardSpin = dataCardspin;
+        DataTicket = datatikcket;
         Health = health;
         Damage = damage;
 
