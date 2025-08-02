@@ -147,7 +147,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Witch_Shoot_006_0: 340244590502143395
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

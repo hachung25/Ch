@@ -147,7 +147,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      SkullYeti_Walk_008_0: 4662932360297208190
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

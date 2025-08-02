@@ -147,7 +147,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Dragon_Flying_005_0: -4486720632325614700
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

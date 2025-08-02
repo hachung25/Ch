@@ -147,7 +147,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      SkullArcher_shoot_013_0: -6507258076013515219
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

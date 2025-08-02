@@ -147,7 +147,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      SkullArcher_walk_011_0: 4253815238239403024
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

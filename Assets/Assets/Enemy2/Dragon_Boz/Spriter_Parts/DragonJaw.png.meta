@@ -147,7 +147,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      DragonJaw_0: -5459582643224850060
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

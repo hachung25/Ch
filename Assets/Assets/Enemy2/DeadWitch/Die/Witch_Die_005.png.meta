@@ -222,7 +222,11 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Witch_Die_005_0: -4687787977487670961
+      Witch_Die_005_1: 8153886439731049972
+      Witch_Die_005_2: -7445090118257659140
+      Witch_Die_005_3: 5829503019921832937
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

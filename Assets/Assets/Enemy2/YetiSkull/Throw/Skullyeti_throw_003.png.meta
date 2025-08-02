@@ -172,7 +172,9 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Skullyeti_throw_003_0: -3147286744735778135
+      Skullyeti_throw_003_1: 2244891768062617453
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

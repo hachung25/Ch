@@ -147,7 +147,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      SkullArcher_Idle_006_0: -3247677874973841324
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

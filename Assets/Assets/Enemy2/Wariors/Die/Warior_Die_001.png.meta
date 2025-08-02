@@ -147,7 +147,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Warior_Die_001_0: -7809849804464224668
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

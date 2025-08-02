@@ -147,7 +147,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Witch_Flying_000_0: -1043760486024702683
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

@@ -172,7 +172,9 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Witch_Bewitch_007_0: 6961775131376081712
+      Witch_Bewitch_007_1: 1517988143846400903
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
