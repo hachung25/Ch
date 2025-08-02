@@ -8,12 +8,16 @@ public class MapManager : MonoBehaviour
     {
         public List<GameObject> enemies;       // Các quái trong map
         public GameObject teleportBox;         // Box xuất hiện khi hết quái
-        public Transform playerTargetPosition; // Vị trí dịch chuyển
+        public Transform playerTargetPosition; 
+        public int rewardGold;       
     }
 
     public List<MapData> maps;     // Gồm 5 map
     public Transform player;       // Gán Player vào đây
     private int currentMapIndex = 0;
+
+    public int GoldWave = 0;
+    public int GemWave = 0;
 
     void Update()
     {
@@ -41,19 +45,31 @@ public class MapManager : MonoBehaviour
             {
                 coinAbsorbed = true;
                 Invoke(nameof(AttractCoinsToPlayer), 0.2f); // Delay nhẹ để đợi coin được tạo
+                
+                if (currentMapIndex == 4)
+                {
+                    GemWave = 15;
+                    GoldWave += 50;
+                    Debug.Log("🎉 Nhận thêm phần thưởng đặc biệt map 5: +" + GemWave + " vàng");
+                }
             }
         }
     }
  
 
+ 
     public void MoveToNextMap()
     {
         if (currentMapIndex < maps.Count)
         {
+            // 🌟 Nhận vàng từ map hiện tại
+            GoldWave += maps[currentMapIndex].rewardGold;
+            Debug.Log("Tổng vàng hiện tại: " + GoldWave);
             player.position = maps[currentMapIndex].playerTargetPosition.position;
-            maps[currentMapIndex].teleportBox.SetActive(false); // Ẩn box sau khi chuyển
+            maps[currentMapIndex].teleportBox.SetActive(false);
             currentMapIndex++;
             coinAbsorbed = false;
+            
         }
     }
     private bool coinAbsorbed = false;
