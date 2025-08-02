@@ -11,6 +11,9 @@ public class PlayerAttack : MonoBehaviour
 
     private int damage;
 
+    // Sự kiện khi damage đã sẵn sàng
+    public static event System.Action<int> OnDamageReady;
+
     private void Start()
     {
         StartCoroutine(InitDamageWhenReady());
@@ -18,8 +21,8 @@ public class PlayerAttack : MonoBehaviour
 
     private IEnumerator InitDamageWhenReady()
     {
-        // Chờ đến khi dữ liệu Damage được tải từ Firebase
-        while (IndexPlayerPlayGame.PlayerDamageValue == 0)
+        // Chờ dữ liệu từ Firebase được tải xong
+        while (!IndexPlayerPlayGame.IsLoaded)
             yield return null;
 
         damage = IndexPlayerPlayGame.PlayerDamageValue;
@@ -28,6 +31,8 @@ public class PlayerAttack : MonoBehaviour
             damageText.text = damage.ToString();
 
         Debug.Log("Đã cập nhật Damage từ Firebase: " + damage);
+
+        OnDamageReady?.Invoke(damage); // Gửi thông báo cho các hệ thống khác nếu cần
     }
 
     public void DealDamage()
@@ -48,5 +53,11 @@ public class PlayerAttack : MonoBehaviour
     {
         if (attackPoint != null)
             Gizmos.DrawWireSphere(attackPoint.position, attackRange);
+    }
+
+    // Hàm public nếu muốn lấy damage từ bên ngoài
+    public int GetCurrentDamage()
+    {
+        return damage;
     }
 }

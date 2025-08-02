@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using Firebase.Auth;
 
 public class MapManager : MonoBehaviour
 {
@@ -18,11 +19,11 @@ public class MapManager : MonoBehaviour
 
     public int GoldWave = 0;
     public int GemWave = 0;
+    public GameObject panelWin;
 
     void Update()
     {
         if (currentMapIndex >= maps.Count) return;
-
         MapData currentMap = maps[currentMapIndex];
 
         // Kiểm tra nếu tất cả quái đã bị tiêu diệt
@@ -50,7 +51,8 @@ public class MapManager : MonoBehaviour
                 {
                     GemWave = 15;
                     GoldWave += 50;
-                    Debug.Log("🎉 Nhận thêm phần thưởng đặc biệt map 5: +" + GemWave + " vàng");
+                    FindObjectOfType<FireBaseDataBaseManager>()?.UnlockMode(FirebaseAuth.DefaultInstance.CurrentUser.UserId);
+                  panelWin.SetActive(true);
                 }
             }
         }
@@ -64,7 +66,8 @@ public class MapManager : MonoBehaviour
         {
             // 🌟 Nhận vàng từ map hiện tại
             GoldWave += maps[currentMapIndex].rewardGold;
-            Debug.Log("Tổng vàng hiện tại: " + GoldWave);
+            
+            Debug.Log("Gold wave: " + GoldWave);
             player.position = maps[currentMapIndex].playerTargetPosition.position;
             maps[currentMapIndex].teleportBox.SetActive(false);
             currentMapIndex++;
@@ -79,7 +82,7 @@ public class MapManager : MonoBehaviour
         var coins = FindObjectsOfType<CollectCoin>();
         foreach (var coin in coins)
         {
-            coin.ActivateMagnet(player); // 👉 Truyền player từ MapManager
+            coin.ActivateMagnet(player); 
         }
     }
 
