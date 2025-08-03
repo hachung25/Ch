@@ -29,7 +29,7 @@ public class playmode : MonoBehaviour
        }
        else
        {
-           Thongbao.showTb();
+           Thongbao.ShowTbsCards();
        }
     }
 

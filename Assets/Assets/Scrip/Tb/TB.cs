@@ -3,7 +3,7 @@ using System.Collections;
 
 public class TB : MonoBehaviour
 {
-    public GameObject tb, tbs, tbCards, tbSpin;
+    public GameObject tb, tbs, tbCards, tbSpin,tbnotainguyen;
     public float scaleDuration = 0.5f;     // Thời gian phóng to và thu nhỏ
     public float waitTime = 0.5f;          // Thời gian chờ của tb
     public float waitTimeTbs = 2.5f;       // Thời gian chờ riêng cho tbs
@@ -46,11 +46,21 @@ public class TB : MonoBehaviour
             isRunningTbs = true;
         }
     }
+    
     public void ShowTbSpins()
     {
         if (!isRunningTbs)
         {
             StartCoroutine(ShowWithScaleEffect(tbSpin, originalScaleTbs, waitTimeTbs, () => isRunningTbs = false));
+            isRunningTbs = true;
+        }
+    }
+
+    public void ShowTbNotainguyen()
+    {
+        if (!isRunningTbs)
+        {
+            StartCoroutine(ShowWithScaleEffect(tbnotainguyen, originalScaleTbs, waitTimeTbs, () => isRunningTbs = false));
             isRunningTbs = true;
         }
     }
