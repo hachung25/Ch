@@ -30,7 +30,7 @@ public class LoadingManager : MonoBehaviour
     IEnumerator LoadingRoutine()
     {
         // Chờ 10 giây
-        yield return new WaitForSeconds(5f);
+        yield return new WaitForSeconds(2f);
 
         // Bật slider và text lên
         loadingSlider.gameObject.SetActive(true);

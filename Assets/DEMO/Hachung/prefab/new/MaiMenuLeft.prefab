@@ -195,7 +195,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 4620169355344673509}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: ChestButton, Assembly-CSharp
         m_MethodName: Toggle
         m_Mode: 1
@@ -1252,7 +1252,6 @@ GameObject:
   m_Component:
   - component: {fileID: 756754684694420313}
   - component: {fileID: 6034972537687685510}
-  - component: {fileID: 7805299099126495469}
   m_Layer: 5
   m_Name: MaiMenuLeft
   m_TagString: Untagged
@@ -1290,36 +1289,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3239668111328448827}
   m_CullTransparentMesh: 1
---- !u!114 &7805299099126495469
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3239668111328448827}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_Sprite: {fileID: 0}
-  m_Type: 0
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
-  m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
 --- !u!1 &3291926640856764798
 GameObject:
   m_ObjectHideFlags: 0
@@ -1557,8 +1526,6 @@ GameObject:
   - component: {fileID: 6854903808640175754}
   - component: {fileID: 954872519300469915}
   - component: {fileID: 1533725217773707976}
-  - component: {fileID: 3071515015590917217}
-  - component: {fileID: 4620169355344673509}
   m_Layer: 5
   m_Name: Chest_Info
   m_TagString: Untagged
@@ -1627,33 +1594,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &3071515015590917217
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3902665873796821710}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6dbf1104c6d8a894888c4ce669f61882, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  text2Dame: {fileID: 2818202772778182262}
-  text1heath: {fileID: 7608518108981983087}
---- !u!114 &4620169355344673509
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3902665873796821710}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cdf6c7e99fcf1a642a311ae86305a451, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  targetObject: {fileID: 1021476667660946118}
 --- !u!1 &3939449000321946082
 GameObject:
   m_ObjectHideFlags: 0
@@ -6615,7 +6555,6 @@ ParticleSystemRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 10308, guid: 0000000000000000f000000000000000, type: 0}
-  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -18514,6 +18453,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CardText: {fileID: 4809438539354621428}
+  slider: {fileID: 0}
+  maxCards: 100
 --- !u!114 &5686947477745741577
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -82,7 +82,6 @@ public class SpinController : MonoBehaviour
         {
             rewardText.text = $"Bạn nhận được: {item.rewardAmount} {item.rewardName}";
             
-
             // 👉 Thực hiện phần thưởng (debug hoặc thật)
             switch (item.rewardType)
             {
