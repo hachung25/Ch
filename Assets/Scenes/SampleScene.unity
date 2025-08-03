@@ -24457,6 +24457,34 @@ PrefabInstance:
       propertyPath: m_enableAutoSizing
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2108575875232809822, guid: 331ef7170d4166f4a9bfa44596a0fc2e, type: 3}
+      propertyPath: m_Type
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2108575875232809822, guid: 331ef7170d4166f4a9bfa44596a0fc2e, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 9f07212b176db42b6ad509bb06fa3113, type: 3}
+    - target: {fileID: 2108575875232809822, guid: 331ef7170d4166f4a9bfa44596a0fc2e, type: 3}
+      propertyPath: m_Color.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3243816395050346568, guid: 331ef7170d4166f4a9bfa44596a0fc2e, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 3243816395050346568, guid: 331ef7170d4166f4a9bfa44596a0fc2e, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 3243816395050346568, guid: 331ef7170d4166f4a9bfa44596a0fc2e, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 543.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 3243816395050346568, guid: 331ef7170d4166f4a9bfa44596a0fc2e, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -280.1
+      objectReference: {fileID: 0}
     - target: {fileID: 3479083671125605512, guid: 331ef7170d4166f4a9bfa44596a0fc2e, type: 3}
       propertyPath: m_Name
       value: PanelSetting
@@ -40925,7 +40953,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &2037027957
 RectTransform:
   m_ObjectHideFlags: 0
