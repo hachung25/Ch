@@ -1,38 +1,75 @@
-﻿using Firebase;
-using Firebase.Auth;
-using Firebase.Database;
-using Firebase.Extensions;
+﻿using Firebase.Database;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class OnlineStatusWatcher : MonoBehaviour
 {
-    private DatabaseReference watchRef;
+    private string userId;
+    private string deviceId;
+    private DatabaseReference deviceIdRef;
+    private bool hasConflict = false;
+    public GameObject conflictPopupPrefab;
 
-    public void StartWatching(string userId, string deviceId)
+    public void StartWatching(string _userId, string _deviceId)
     {
-        watchRef = FirebaseDatabase.DefaultInstance
-            .GetReference("Users/" + userId + "/onlineStatus/deviceId");
+        userId = _userId;
+        deviceId = _deviceId;
 
-        watchRef.ValueChanged += (object sender, ValueChangedEventArgs e) =>
+        deviceIdRef = FirebaseDatabase.DefaultInstance
+            .GetReference("Users")
+            .Child(userId)
+            .Child("onlineStatus")
+            .Child("deviceId");
+
+        deviceIdRef.ValueChanged += OnDeviceIdChanged;
+    }
+
+    private void OnDeviceIdChanged(object sender, ValueChangedEventArgs args)
+    {
+        if (!args.Snapshot.Exists || args.Snapshot.Value == null) return;
+
+        string currentOnlineDevice = args.Snapshot.Value.ToString();
+
+        if (currentOnlineDevice != deviceId && !hasConflict)
         {
-            if (e.DatabaseError != null || e.Snapshot == null) return;
+            Debug.LogWarning("⚠️ Phát hiện đăng nhập ở thiết bị khác!");
 
-            string storedDeviceId = e.Snapshot.Value?.ToString();
-            if (!string.IsNullOrEmpty(storedDeviceId) && storedDeviceId != deviceId)
-            {
-                Debug.LogWarning("🔁 Đã phát hiện đăng nhập từ thiết bị khác → văng khỏi game.");
-                FirebaseAuth.DefaultInstance.SignOut();
-                SceneManager.LoadScene("LoginTA");
-            }
+            hasConflict = true;
+            ShowConflictPopup();
+        }
+    }
+
+    private void ShowConflictPopup()
+    {
+        if (conflictPopupPrefab == null)
+        {
+            Debug.LogError("❌ conflictPopupPrefab = null! Chưa gán prefab trong FireBaseLoginManager.");
+            return;
+        }
+
+        GameObject popup = Instantiate(conflictPopupPrefab);
+        DontDestroyOnLoad(popup);
+
+        ConflictPopup popupScript = popup.GetComponent<ConflictPopup>();
+        if (popupScript == null)
+        {
+            Debug.LogError("❌ ConflictPopup.cs script không gắn vào prefab!");
+            return;
+        }
+
+        popupScript.onRelogin = () =>
+        {
+            Firebase.Auth.FirebaseAuth.DefaultInstance.SignOut();
+            SceneManager.LoadScene("LoginTA");
         };
     }
 
+
     private void OnDestroy()
     {
-        if (watchRef != null)
+        if (deviceIdRef != null)
         {
-            watchRef.ValueChanged -= null;
+            deviceIdRef.ValueChanged -= OnDeviceIdChanged;
         }
     }
 }

@@ -34,6 +34,10 @@ public class FireBaseLoginManager : MonoBehaviour
     public Button buttonMoveToForgot;
     public Button buttonBackToLoginFromForgot;
 
+    [Header("Conflict Popup")]
+    public GameObject conflictPopupPrefab;
+
+
     public TMP_Text logText;
 
     private FirebaseAuth auth;
@@ -191,8 +195,18 @@ public class FireBaseLoginManager : MonoBehaviour
 
                     GameObject watcherGO = new GameObject("OnlineStatusWatcher");
                     DontDestroyOnLoad(watcherGO);
+
                     OnlineStatusWatcher watcher = watcherGO.AddComponent<OnlineStatusWatcher>();
+
+                    // ✅ GÁN conflictPopupPrefab từ FireBaseLoginManager
+                    watcher.conflictPopupPrefab = this.conflictPopupPrefab;
+
                     watcher.StartWatching(userId, deviceId);
+
+                    Debug.Log("[Watcher] Prefab popup: " + (conflictPopupPrefab != null));
+
+
+
                 });
             }
         });

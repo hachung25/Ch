@@ -46,20 +46,21 @@ public class FireBaseDataBaseManager : MonoBehaviour
     }
 
     // ✅ Ghi giá trị đơn vào path cụ thể (ví dụ: Users/userId/deviceId)
-    public void WriteDataBase(string id, string message)
+    public void WriteDataBase(string path, string message)
     {
-        reference.Child("User").Child(id).SetValueAsync(message).ContinueWithOnMainThread(task =>
+        reference.Child(path).SetValueAsync(message).ContinueWithOnMainThread(task =>
         {
             if (task.IsCompleted)
             {
-                Debug.Log("Ghi du lieu thanh cong");
+                Debug.Log("✅ Ghi dữ liệu thành công tại path: " + path);
             }
             else
             {
-                Debug.Log("Ghi du lieu that bai: " + task.Exception);
+                Debug.LogError("❌ Ghi dữ liệu thất bại tại path " + path + ": " + task.Exception);
             }
         });
     }
+
 
     // ✅ Đọc path tùy ý, trả về string (dùng cho: Users/userId/deviceId...)
     public void ReadDataBase(string path, System.Action<string> onResult)

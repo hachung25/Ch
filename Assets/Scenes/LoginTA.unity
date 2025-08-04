@@ -1611,6 +1611,7 @@ MonoBehaviour:
   ForgotPasswordForm: {fileID: 6916662307896028831}
   buttonMoveToForgot: {fileID: 222844822386568719}
   buttonBackToLoginFromForgot: {fileID: 5648541537138713145}
+  conflictPopupPrefab: {fileID: 5360331767681519179, guid: 752b195a8ad3d4a47a519aaa020d357d, type: 3}
   logText: {fileID: 6723025970317244986}
 --- !u!4 &1840519824
 Transform:
@@ -2079,6 +2080,10 @@ PrefabInstance:
     - target: {fileID: 8463453208381168685, guid: 92453c9a678278d4391be280a92432b4, type: 3}
       propertyPath: m_Name
       value: CanvasLogin
+      objectReference: {fileID: 0}
+    - target: {fileID: 8463453208381168685, guid: 92453c9a678278d4391be280a92432b4, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
