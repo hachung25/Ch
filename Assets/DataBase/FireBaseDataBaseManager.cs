@@ -5,7 +5,6 @@ using UnityEngine;
 using Firebase;
 using Firebase.Extensions;
 
-
 public class FireBaseDataBaseManager : MonoBehaviour
 {
     private DatabaseReference reference;
@@ -15,62 +14,111 @@ public class FireBaseDataBaseManager : MonoBehaviour
     {
         FirebaseApp app = FirebaseApp.DefaultInstance;
 
+        // 🔒 Tắt chế độ lưu offline (tránh lỗi LOCK)
+        FirebaseDatabase.DefaultInstance.SetPersistenceEnabled(false);
+
         reference = FirebaseDatabase.DefaultInstance.RootReference;
     }
 
+
     private void Start()
     {
-        TilemapDetail tilemapDetail = new TilemapDetail(1, 1, TilemapSate.Tilemap);
-
-        WriteDataBase("123", tilemapDetail.ToString());
-
-        ReadDataBase("123");
+        // Test nếu cần
+        // TilemapDetail tilemapDetail = new TilemapDetail(1, 1, TilemapSate.Tilemap);
+        // WriteUserData("123", tilemapDetail.ToString());
+        // ReadRawDataForDebug("123");
     }
 
-    public void WriteDataBase(string id, string message)
+    // ✅ Ghi toàn bộ dữ liệu User (ví dụ: class User → ToString)
+    public void WriteUserData(string id, string message)
     {
-        reference.Child("User").Child(id).SetValueAsync(message).ContinueWithOnMainThread(task =>
+        reference.Child("Users").Child(id).SetValueAsync(message).ContinueWithOnMainThread(task =>
         {
             if (task.IsCompleted)
             {
-                Debug.Log("Ghi du lieu thanh cong");
+                Debug.Log("✅ Ghi dữ liệu thành công.");
             }
             else
             {
-                Debug.Log("Ghi du lieu that bai: " +task.Exception);
+                Debug.LogError("❌ Ghi dữ liệu thất bại: " + task.Exception);
             }
         });
     }
 
-    public void ReadDataBase (string id)
+    // ✅ Ghi giá trị đơn vào path cụ thể (ví dụ: Users/userId/deviceId)
+    public void WriteDataBase(string path, string value)
     {
-        reference.Child("User").Child(id).GetValueAsync().ContinueWithOnMainThread(task =>
+        if (string.IsNullOrEmpty(value))
+        {
+            // Xóa path nếu value là null
+            reference.Child(path).RemoveValueAsync();
+        }
+        else
+        {
+            reference.Child(path).SetValueAsync(value).ContinueWithOnMainThread(task =>
+            {
+                if (task.IsCompleted)
+                    Debug.Log("✅ Ghi giá trị thành công: " + path);
+                else
+                    Debug.LogError("❌ Ghi giá trị thất bại: " + task.Exception);
+            });
+        }
+    }
+
+
+    // ✅ Đọc path tùy ý, trả về string (dùng cho: Users/userId/deviceId...)
+    public void ReadDataBase(string path, System.Action<string> onResult)
+    {
+        reference.Child(path).GetValueAsync().ContinueWithOnMainThread(task =>
         {
             if (task.IsCompleted)
             {
                 DataSnapshot snapshot = task.Result;
-                Debug.Log ("Doc du lieu thanh cong: " +  snapshot.Value.ToString());
+                string value = snapshot?.Value?.ToString();
+                onResult?.Invoke(value);
             }
             else
             {
-                Debug.Log("Doc du lieu that bai: " + task.Exception);
+                Debug.LogError("❌ Lỗi khi đọc dữ liệu: " + task.Exception);
+                onResult?.Invoke(null);
             }
         });
     }
+
+    // ✅ Chỉ dùng test debug toàn bộ node user
+    public void ReadRawDataForDebug(string id)
+    {
+        reference.Child("Users").Child(id).GetValueAsync().ContinueWithOnMainThread(task =>
+        {
+            if (task.IsCompleted)
+            {
+                DataSnapshot snapshot = task.Result;
+                Debug.Log("📦 Dữ liệu user: " + snapshot.Value);
+            }
+            else
+            {
+                Debug.LogError("❌ Đọc dữ liệu thất bại: " + task.Exception);
+            }
+        });
+    }
+
+    // ✅ Cập nhật tên người chơi
     public void UpdateUserName(string userId, string newName)
     {
         reference.Child("Users").Child(userId).Child("Name").SetValueAsync(newName).ContinueWithOnMainThread(task =>
         {
             if (task.IsCompleted)
             {
-                Debug.Log("Tên người chơi đã được cập nhật trên Firebase: " + newName);
+                Debug.Log("✅ Đã cập nhật tên: " + newName);
             }
             else
             {
-                Debug.LogError("Lỗi khi cập nhật tên lên Firebase: " + task.Exception);
+                Debug.LogError("❌ Lỗi khi cập nhật tên: " + task.Exception);
             }
         });
     }
+
+    // ✅ Đọc tên người chơi
     public void LoadUserName(string userId, System.Action<string> onNameLoaded)
     {
         reference.Child("Users").Child(userId).Child("Name").GetValueAsync().ContinueWithOnMainThread(task =>
@@ -83,28 +131,30 @@ public class FireBaseDataBaseManager : MonoBehaviour
             }
             else
             {
-                Debug.LogError("Lỗi khi đọc tên từ Firebase: " + task.Exception);
+                Debug.LogError("❌ Lỗi khi đọc tên: " + task.Exception);
                 onNameLoaded?.Invoke(null);
             }
         });
     }
-    
-    // map
+
+    // ✅ Mở khóa chế độ map (mode = true)
     public void UnlockMode(string userId)
     {
         reference.Child("Users").Child(userId).Child("mode").SetValueAsync(true).ContinueWithOnMainThread(task =>
         {
             if (task.IsCompleted)
             {
-               imageSwitcher.UpData();
+                Debug.Log("✅ Cập nhật mode thành công");
+                imageSwitcher?.UpData();
             }
             else
             {
-                Debug.LogError("Lỗi khi cập nhật mode: " + task.Exception);
+                Debug.LogError("❌ Lỗi khi cập nhật mode: " + task.Exception);
             }
         });
     }
 
+    // ✅ Đọc mode: true/false
     public void LoadMode(string userId, System.Action<bool> onLoaded)
     {
         reference.Child("Users").Child(userId).Child("mode").GetValueAsync().ContinueWithOnMainThread(task =>
@@ -112,24 +162,21 @@ public class FireBaseDataBaseManager : MonoBehaviour
             if (task.IsCompleted)
             {
                 DataSnapshot snapshot = task.Result;
-
                 bool mode = false;
+
                 if (snapshot != null && snapshot.Value != null)
                 {
-                    mode = (bool)snapshot.Value;
+                    bool.TryParse(snapshot.Value.ToString(), out mode);
                 }
 
-                Debug.Log("Giá trị mode từ Firebase: " + mode);
+                Debug.Log("🌐 Mode hiện tại: " + mode);
                 onLoaded?.Invoke(mode);
             }
             else
             {
-                Debug.LogError("Không thể load mode: " + task.Exception);
+                Debug.LogError("❌ Không thể load mode: " + task.Exception);
                 onLoaded?.Invoke(false);
             }
         });
     }
-
-
-
-}  
+}
