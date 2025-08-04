@@ -1,43 +1,83 @@
 using UnityEngine;
+using Firebase.Auth;
+using Firebase.Database;
+using Firebase.Extensions;
 using System;
 
 public class buttonShowStarr : MonoBehaviour
 {
-    private const string LAST_CLAIM_DATE_KEY = "LastDailyClaimDate";
+    public GameObject rewardPanel;
+
+    private FirebaseAuth auth;
+    private DatabaseReference dbRef;
 
     void Start()
-    {
-        // Nếu đã nhận rồi thì ẩn GameObject
-        if (!CanClaimToday())
-        {
-            gameObject.SetActive(false);
-        }
+    {  rewardPanel.SetActive(false);
+        auth = FirebaseAuth.DefaultInstance;
+        dbRef = FirebaseDatabase.DefaultInstance.RootReference;
+        CheckClaimStatus();
     }
 
-    public void Clemd()
+    void CheckClaimStatus()
     {
-        if (CanClaimToday())
+        var user = auth.CurrentUser;
+        if (user == null)
         {
-            CardSpingManeger.AddCardSping(1);
-            PlayerPrefs.SetString(LAST_CLAIM_DATE_KEY, DateTime.Now.ToString("yyyyMMdd")); // Lưu ngày nhận
-            PlayerPrefs.Save();
-
-            // Ẩn nút sau khi nhận
-            gameObject.SetActive(false);
+            rewardPanel.SetActive(false); // Không đăng nhập thì ẩn
+            return;
         }
-    }
 
-    private bool CanClaimToday()
-    {
-        string lastClaim = PlayerPrefs.GetString(LAST_CLAIM_DATE_KEY, "");
+        string userId = user.UserId;
         string today = DateTime.Now.ToString("yyyyMMdd");
 
-        return lastClaim != today;
+        dbRef.Child("users").Child(userId).Child("lastClaimDate").GetValueAsync().ContinueWithOnMainThread(task =>
+        {
+            if (task.IsCompleted)
+            {
+                DataSnapshot snapshot = task.Result;
+                string lastClaimDate = snapshot.Exists ? snapshot.Value.ToString() : "";
+
+                if (lastClaimDate != today)
+                {
+                    rewardPanel.SetActive(true); 
+                }
+                else
+                {
+                    rewardPanel.SetActive(false); 
+                }
+            }
+            else
+            {
+                rewardPanel.SetActive(false); 
+                Debug.LogError("Lỗi khi kiểm tra dữ liệu: " + task.Exception);
+            }
+        });
     }
 
-    public void deletedata()
+    public void OnClaimReward()
     {
-        PlayerPrefs.DeleteKey("LastDailyClaimDate");
-        PlayerPrefs.Save();
+        var user = auth.CurrentUser;
+        if (user == null) return;
+
+        string userId = user.UserId;
+        string today = DateTime.Now.ToString("yyyyMMdd");
+
+        dbRef.Child("users").Child(userId).Child("lastClaimDate").SetValueAsync(today).ContinueWithOnMainThread(task =>
+        {
+            if (task.IsCompleted)
+            {
+                CardSpingManeger.AddCardSping(1);
+            }
+            else
+            {
+                Debug.LogError("Lỗi khi lưu ngày nhận quà: " + task.Exception);
+            }
+        });
+    }
+
+    // 👉 Hàm này để gán vào nút "Tắt"
+    public void HidePanel()
+    {
+        rewardPanel.SetActive(false);
     }
 }
