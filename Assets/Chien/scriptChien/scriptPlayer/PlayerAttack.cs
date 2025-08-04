@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using TMPro;
-using System.Collections;
 
 public class PlayerAttack : MonoBehaviour
 {
@@ -11,23 +10,27 @@ public class PlayerAttack : MonoBehaviour
 
     private int damage;
 
-    private void Start()
+    public static event System.Action<int> OnDamageReady;
+
+    private void OnEnable()
     {
-        StartCoroutine(InitDamageWhenReady());
+        IndexPlayerPlayGame.OnStatsLoaded += SetDamage;
     }
 
-    private IEnumerator InitDamageWhenReady()
+    private void OnDisable()
     {
-        // Chờ đến khi dữ liệu Damage được tải từ Firebase
-        while (IndexPlayerPlayGame.PlayerDamageValue == 0)
-            yield return null;
+        IndexPlayerPlayGame.OnStatsLoaded -= SetDamage;
+    }
 
-        damage = IndexPlayerPlayGame.PlayerDamageValue;
+    private void SetDamage(int health, int damageValue)
+    {
+        damage = damageValue;
 
         if (damageText != null)
             damageText.text = damage.ToString();
 
         Debug.Log("Đã cập nhật Damage từ Firebase: " + damage);
+        OnDamageReady?.Invoke(damage);
     }
 
     public void DealDamage()
@@ -48,5 +51,10 @@ public class PlayerAttack : MonoBehaviour
     {
         if (attackPoint != null)
             Gizmos.DrawWireSphere(attackPoint.position, attackRange);
+    }
+
+    public int GetCurrentDamage()
+    {
+        return damage;
     }
 }

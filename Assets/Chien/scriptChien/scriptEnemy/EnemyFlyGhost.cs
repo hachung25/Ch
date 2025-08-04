@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+[RequireComponent(typeof(Rigidbody2D))]
 public class EnemyFlyGhost : MonoBehaviour
 {
     [Header("Settings")]
@@ -16,39 +17,34 @@ public class EnemyFlyGhost : MonoBehaviour
     private bool isAttacking = false;
     private bool facingRight = true;
 
-    private Rigidbody2D rb;
     private Animator animator;
-    [SerializeField] private SpriteRenderer spriteRenderer;
+    private SpriteRenderer spriteRenderer;
+    private Rigidbody2D rb;
+
+    private bool isFrozen = false;
 
     void Start()
     {
-        rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
-        if (spriteRenderer == null)
-            spriteRenderer = GetComponent<SpriteRenderer>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        rb = GetComponent<Rigidbody2D>();
 
         StartCoroutine(FindPlayerAfterDelay());
-
-       
     }
+
     private IEnumerator FindPlayerAfterDelay()
     {
-        yield return null; // hoặc yield return new WaitForSeconds(0.1f);
-
+        yield return new WaitForSeconds(0.1f);
         GameObject p = GameObject.FindGameObjectWithTag("Player");
         if (p != null)
         {
             player = p.transform;
-            Debug.Log("Enemy found player: " + player.name);
-        }
-        else
-        {
-            Debug.LogWarning("Enemy could NOT find Player!");
         }
     }
+
     void Update()
     {
-        if (player == null) return;
+        if (isFrozen || player == null) return;
 
         float distanceToPlayer = Vector2.Distance(transform.position, player.position);
 
@@ -66,24 +62,24 @@ public class EnemyFlyGhost : MonoBehaviour
                 if (!isAttacking)
                 {
                     isAttacking = true;
-                    // Gọi animation Fire — animation sẽ gọi ShootBullet() qua event
                     Invoke(nameof(ResetAttack), 1f); // cooldown giữa 2 lần bắn
                 }
             }
         }
         else
         {
-            // Không thấy player → idle mặc định
             SetAnimStates(walking: false, firing: false);
         }
     }
 
     void MoveTowardPlayer()
     {
-        Vector2 targetPos = new Vector2(player.position.x, transform.position.y);
-        transform.position = Vector2.MoveTowards(transform.position, targetPos, speed * Time.deltaTime);
+        Vector2 targetPos = new Vector2(player.position.x, rb.position.y);
+        Vector2 newPos = Vector2.MoveTowards(rb.position, targetPos, speed * Time.deltaTime);
+        rb.MovePosition(newPos);
 
-        float dirX = player.position.x - transform.position.x;
+        float dirX = player.position.x - rb.position.x;
+
         if ((dirX > 0 && !facingRight) || (dirX < 0 && facingRight))
         {
             Flip();
@@ -97,8 +93,6 @@ public class EnemyFlyGhost : MonoBehaviour
         GameObject bullet = Instantiate(bulletPrefab, firePoint.position, Quaternion.identity);
         Vector2 direction = (player.position - firePoint.position).normalized;
         bullet.GetComponent<Rigidbody2D>().linearVelocity = direction * 10f;
-
-        Debug.Log("Enemy bắn đạn từ animation event.");
     }
 
     void ResetAttack()
@@ -116,5 +110,14 @@ public class EnemyFlyGhost : MonoBehaviour
     {
         facingRight = !facingRight;
         spriteRenderer.flipX = !facingRight;
+    }
+
+    // Gọi hàm này khi Player chết
+    public void FreezeEnemy()
+    {
+        isFrozen = true;
+        rb.linearVelocity = Vector2.zero;
+        rb.simulated = false;
+        animator.enabled = false;
     }
 }

@@ -16,6 +16,10 @@ public class shopManeger : MonoBehaviour
             lightningManeger.SpendLightning(5);
             _Tb.ShowTbs();
         }
+        else
+        {
+            _Tb.ShowTbNotainguyen();
+        }
       
     } 
     public void slot3()
@@ -26,6 +30,11 @@ public class shopManeger : MonoBehaviour
             lightningManeger.SpendLightning(10);
             _Tb.ShowTbs();
         }
+        else
+        {
+            _Tb.ShowTbNotainguyen();
+        }
+
         
     }
     public void slot4()
@@ -36,6 +45,11 @@ public class shopManeger : MonoBehaviour
              lightningManeger.SpendLightning(30);
              _Tb.ShowTbs();
         }
+        else
+        {
+            _Tb.ShowTbNotainguyen();
+        }
+
        
     }
     public void slot5()
@@ -46,6 +60,11 @@ public class shopManeger : MonoBehaviour
              lightningManeger.SpendLightning(50);
              _Tb.ShowTbs();
         }
+        else
+        {
+            _Tb.ShowTbNotainguyen();
+        }
+
        
     }
     public void slot6()
@@ -56,6 +75,11 @@ public class shopManeger : MonoBehaviour
             lightningManeger.SpendLightning(100);  
             _Tb.ShowTbs();
         }
+        else
+        {
+            _Tb.ShowTbNotainguyen();
+        }
+
     }
 
     public void slot8()
@@ -66,6 +90,11 @@ public class shopManeger : MonoBehaviour
             lightningManeger.SpendLightning(20);
             _Tb.ShowTbs();
         }
+        else
+        {
+            _Tb.ShowTbNotainguyen();
+        }
+
     }
 
     public void sotCards1()
@@ -76,6 +105,11 @@ public class shopManeger : MonoBehaviour
             lightningManeger.SpendLightning(2);
             _Tb.ShowTbs();
         }
+        else
+        {
+            _Tb.ShowTbNotainguyen();
+        }
+
     }
     public void sotCards2()
     {
@@ -85,6 +119,11 @@ public class shopManeger : MonoBehaviour
             lightningManeger.SpendLightning(4);
             _Tb.ShowTbs();
         }
+        else
+        {
+            _Tb.ShowTbNotainguyen();
+        }
+
     }
 
     public void slotEvents2th9()
@@ -95,5 +134,15 @@ public class shopManeger : MonoBehaviour
             lightningManeger.SpendLightning(30);
             _Tb.ShowTbs();
         }
+        else
+        {
+            _Tb.ShowTbNotainguyen();
+        }
+
+    }
+
+    public void SlotNoUnlock()
+    {
+        _Tb.showTb();
     }
 }

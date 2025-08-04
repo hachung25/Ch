@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 public class PlayerHealth : MonoBehaviour, IDamageable
 {
@@ -12,43 +11,35 @@ public class PlayerHealth : MonoBehaviour, IDamageable
     private Animator animator;
     public PlayerMovement2D playerMovement;
     public GameObject LoseGame;
+
+    private void OnEnable()
+    {
+        IndexPlayerPlayGame.OnStatsLoaded += SetHealth;
+    }
+
+    private void OnDisable()
+    {
+        IndexPlayerPlayGame.OnStatsLoaded -= SetHealth;
+    }
+
     private void Start()
     {
         animator = GetComponent<Animator>();
-        Debug.Log("PlayerHealth Start gọi InitHealthWhenReady()");
-        StartCoroutine(InitHealthWhenReady());
     }
 
-    private IEnumerator InitHealthWhenReady()
+    private void SetHealth(int health, int damage)
     {
-        float timeout = 5f; // thời gian chờ tối đa
-        float timer = 0f;
+        if (isDead) return;
 
-        Debug.Log("Đang chờ Firebase load Health...");
-
-        while (IndexPlayerPlayGame.PlayerHealthValue == 0 && timer < timeout)
-        {
-            timer += Time.deltaTime;
-            yield return null;
-        }
-
-        if (IndexPlayerPlayGame.PlayerHealthValue == 0)
-        {
-            Debug.LogError("Không thể lấy máu từ Firebase sau 5 giây. Gán mặc định 100.");
-            MaxHealth = 100; // fallback
-        }
-        else
-        {
-            MaxHealth = IndexPlayerPlayGame.PlayerHealthValue;
-            Debug.Log("Máu đã được gán từ Firebase: " + MaxHealth);
-        }
-
+        MaxHealth = health;
         currentHealth = MaxHealth;
+
+        Debug.Log("Máu đã được gán từ Firebase: " + MaxHealth);
     }
 
     public void TakeDamage(int damage)
     {
-     
+        if (isInvincible || isDead) return;
 
         currentHealth -= damage;
         currentHealth = Mathf.Clamp(currentHealth, 0, MaxHealth);
@@ -58,8 +49,6 @@ public class PlayerHealth : MonoBehaviour, IDamageable
         if (animator != null)
             animator.SetTrigger("Hit");
 
-    
-
         if (currentHealth <= 0)
             Die();
     }
@@ -68,10 +57,13 @@ public class PlayerHealth : MonoBehaviour, IDamageable
     {
         isDead = true;
         Debug.Log("Player đã chết!");
+
         if (playerMovement != null)
             playerMovement.Dead();
+
         GetComponent<Rigidbody2D>().simulated = false;
         StartCoroutine(FlashWhileInvincible());
+
         Destroy(gameObject, 0.7f);
         LoseGame.SetActive(true);
     }
@@ -106,7 +98,8 @@ public class PlayerHealth : MonoBehaviour, IDamageable
         if (playerMovement != null)
             playerMovement.enabled = true;
     }
-    private IEnumerator FlashWhileInvincible()
+
+    private System.Collections.IEnumerator FlashWhileInvincible()
     {
         float duration = 0.7f;
         float timer = 0f;

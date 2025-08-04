@@ -8,20 +8,17 @@ public class IndexPlayerPlayGame : MonoBehaviour
 {
     public static int PlayerHealthValue { get; private set; }
     public static int PlayerDamageValue { get; private set; }
+    public static bool IsLoaded { get; private set; } = false;
 
     public static DatabaseReference reference;
     public static string userId;
 
-    //private void Awake()
-    //{
-    //    DontDestroyOnLoad(gameObject); // Giữ lại khi chuyển scene
-    //}
+    public static event Action<int, int> OnStatsLoaded; // (health, damage)
 
     private void Start()
     {
         reference = FirebaseDatabase.DefaultInstance.RootReference;
         userId = FirebaseAuth.DefaultInstance.CurrentUser?.UserId;
-
         updateIndex();
     }
 
@@ -48,15 +45,18 @@ public class IndexPlayerPlayGame : MonoBehaviour
                 int health = 0;
                 int damage = 0;
 
-                if (snapshot.HasChild("Health"))
-                    int.TryParse(snapshot.Child("Health").Value.ToString(), out health);
-                if (snapshot.HasChild("Damage"))
-                    int.TryParse(snapshot.Child("Damage").Value.ToString(), out damage);
+                if (snapshot.HasChild("Health") && int.TryParse(snapshot.Child("Health").Value.ToString(), out int parsedHealth))
+                    health = parsedHealth;
+
+                if (snapshot.HasChild("Damage") && int.TryParse(snapshot.Child("Damage").Value.ToString(), out int parsedDamage))
+                    damage = parsedDamage;
 
                 PlayerHealthValue = health;
                 PlayerDamageValue = damage;
+                IsLoaded = true;
 
-                Debug.Log($"Đã tải Health: {health}, Damage: {damage}");
+                Debug.Log($"[Firebase] Đã tải chỉ số: Health = {health}, Damage = {damage}");
+                OnStatsLoaded?.Invoke(health, damage); // Gửi event đến các thành phần khác
             }
         });
     }

@@ -103,8 +103,7 @@ public class FireBaseLoginManager : MonoBehaviour
         string userName = email.Split('@')[0];
         if (userName.Length < 6) return "Tên tài khoản phải có ít nhất 6 ký tự!";
         if (userName.Length > 30) return "Tên tài khoản không được quá 30 ký tự!";
-
-        var emailPattern = @"^[a-zA-Z0-9_+&*-]+(?:\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\.)+[a-zA-Z]{2,7}$";
+var emailPattern = @"^[a-zA-Z0-9_+&*-]+(?:\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\.)+[a-zA-Z]{2,7}$";
         if (!Regex.IsMatch(email, emailPattern)) return "Địa chỉ email không hợp lệ!";
         if (email.StartsWith(".") || email.EndsWith(".")) return "Email không được bắt đầu hoặc kết thúc bằng dấu chấm!";
         if (email.Contains("..")) return "Email không được chứa dấu chấm liên tiếp!";
@@ -184,9 +183,7 @@ public class FireBaseLoginManager : MonoBehaviour
             }
         });
     }
-
-
-    public void SignInAccountWithFirebase()
+public void SignInAccountWithFirebase()
     {
         string email = ipLoginEmail.text;
         string password = ipLoginPassword.text;
@@ -272,7 +269,7 @@ public class FireBaseLoginManager : MonoBehaviour
         switch (errorCode)
         {
             case AuthError.InvalidEmail:
-            case AuthError.WrongPassword:
+case AuthError.WrongPassword:
                 return "Sai tài khoản hoặc mật khẩu.";
             case AuthError.UserNotFound:
                 return "Tài khoản của bạn chưa được đăng ký.";
