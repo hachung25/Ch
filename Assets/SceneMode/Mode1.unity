@@ -1860,7 +1860,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6700281333761465422, guid: 99daa0ee046535b4ababbcec50892d46, type: 3}
       propertyPath: damageAmount
-      value: 5
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2638,7 +2638,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7790702800716705332, guid: a811e095cc6a8374eadd6c60d3bef0e1, type: 3}
       propertyPath: attackDamage
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8714024837976121965, guid: a811e095cc6a8374eadd6c60d3bef0e1, type: 3}
       propertyPath: m_LocalPosition.x
@@ -3073,7 +3073,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7790702800716705332, guid: a811e095cc6a8374eadd6c60d3bef0e1, type: 3}
       propertyPath: attackDamage
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8714024837976121965, guid: a811e095cc6a8374eadd6c60d3bef0e1, type: 3}
       propertyPath: m_LocalPosition.x
@@ -19600,7 +19600,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7790702800716705332, guid: a811e095cc6a8374eadd6c60d3bef0e1, type: 3}
       propertyPath: attackDamage
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8714024837976121965, guid: a811e095cc6a8374eadd6c60d3bef0e1, type: 3}
       propertyPath: m_LocalPosition.x
@@ -20505,7 +20505,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6700281333761465422, guid: 99daa0ee046535b4ababbcec50892d46, type: 3}
       propertyPath: damageAmount
-      value: 5
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -20804,7 +20804,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7790702800716705332, guid: a811e095cc6a8374eadd6c60d3bef0e1, type: 3}
       propertyPath: attackDamage
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8714024837976121965, guid: a811e095cc6a8374eadd6c60d3bef0e1, type: 3}
       propertyPath: m_LocalPosition.x
@@ -21400,7 +21400,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6700281333761465422, guid: 99daa0ee046535b4ababbcec50892d46, type: 3}
       propertyPath: damageAmount
-      value: 5
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -21611,7 +21611,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7790702800716705332, guid: a811e095cc6a8374eadd6c60d3bef0e1, type: 3}
       propertyPath: attackDamage
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8714024837976121965, guid: a811e095cc6a8374eadd6c60d3bef0e1, type: 3}
       propertyPath: m_LocalPosition.x
@@ -21954,7 +21954,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7790702800716705332, guid: a811e095cc6a8374eadd6c60d3bef0e1, type: 3}
       propertyPath: attackDamage
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8714024837976121965, guid: a811e095cc6a8374eadd6c60d3bef0e1, type: 3}
       propertyPath: m_LocalPosition.x
@@ -24050,7 +24050,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7790702800716705332, guid: a811e095cc6a8374eadd6c60d3bef0e1, type: 3}
       propertyPath: attackDamage
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8714024837976121965, guid: a811e095cc6a8374eadd6c60d3bef0e1, type: 3}
       propertyPath: m_LocalPosition.x
@@ -24828,7 +24828,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7790702800716705332, guid: a811e095cc6a8374eadd6c60d3bef0e1, type: 3}
       propertyPath: attackDamage
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8714024837976121965, guid: a811e095cc6a8374eadd6c60d3bef0e1, type: 3}
       propertyPath: m_LocalPosition.x
@@ -25934,7 +25934,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6700281333761465422, guid: 99daa0ee046535b4ababbcec50892d46, type: 3}
       propertyPath: damageAmount
-      value: 5
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -26392,14 +26392,14 @@ MonoBehaviour:
     - {fileID: 1832423863}
     teleportBox: {fileID: 1135909777}
     playerTargetPosition: {fileID: 1664039992}
-    rewardGold: 10
+    rewardGold: 30
   - enemies:
     - {fileID: 650819136}
     - {fileID: 1398369596}
     - {fileID: 1415345611}
     teleportBox: {fileID: 82294224}
     playerTargetPosition: {fileID: 2043603028}
-    rewardGold: 20
+    rewardGold: 40
   - enemies:
     - {fileID: 952591566}
     - {fileID: 1958239342}
@@ -26408,7 +26408,7 @@ MonoBehaviour:
     - {fileID: 2057968266}
     teleportBox: {fileID: 825050819}
     playerTargetPosition: {fileID: 1059374412}
-    rewardGold: 25
+    rewardGold: 50
   - enemies:
     - {fileID: 2140630982}
     - {fileID: 2092143159}
@@ -26418,7 +26418,7 @@ MonoBehaviour:
     - {fileID: 1570747858}
     teleportBox: {fileID: 1029553352}
     playerTargetPosition: {fileID: 101818147}
-    rewardGold: 30
+    rewardGold: 60
   - enemies:
     - {fileID: 1499661379}
     - {fileID: 1232352617}
@@ -27522,7 +27522,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6700281333761465422, guid: 99daa0ee046535b4ababbcec50892d46, type: 3}
       propertyPath: damageAmount
-      value: 5
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -29238,7 +29238,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6700281333761465422, guid: 99daa0ee046535b4ababbcec50892d46, type: 3}
       propertyPath: damageAmount
-      value: 5
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -30431,7 +30431,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7790702800716705332, guid: a811e095cc6a8374eadd6c60d3bef0e1, type: 3}
       propertyPath: attackDamage
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8714024837976121965, guid: a811e095cc6a8374eadd6c60d3bef0e1, type: 3}
       propertyPath: m_LocalPosition.x
@@ -30949,7 +30949,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7790702800716705332, guid: a811e095cc6a8374eadd6c60d3bef0e1, type: 3}
       propertyPath: attackDamage
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8714024837976121965, guid: a811e095cc6a8374eadd6c60d3bef0e1, type: 3}
       propertyPath: m_LocalPosition.x
@@ -31199,7 +31199,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6700281333761465422, guid: 99daa0ee046535b4ababbcec50892d46, type: 3}
       propertyPath: damageAmount
-      value: 5
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -31918,7 +31918,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7790702800716705332, guid: a811e095cc6a8374eadd6c60d3bef0e1, type: 3}
       propertyPath: attackDamage
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8714024837976121965, guid: a811e095cc6a8374eadd6c60d3bef0e1, type: 3}
       propertyPath: m_LocalPosition.x
@@ -32825,7 +32825,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7790702800716705332, guid: a811e095cc6a8374eadd6c60d3bef0e1, type: 3}
       propertyPath: attackDamage
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8714024837976121965, guid: a811e095cc6a8374eadd6c60d3bef0e1, type: 3}
       propertyPath: m_LocalPosition.x
@@ -35766,7 +35766,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7790702800716705332, guid: a811e095cc6a8374eadd6c60d3bef0e1, type: 3}
       propertyPath: attackDamage
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8714024837976121965, guid: a811e095cc6a8374eadd6c60d3bef0e1, type: 3}
       propertyPath: m_LocalPosition.x

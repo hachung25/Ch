@@ -34,4 +34,10 @@ public class buttonShowStarr : MonoBehaviour
 
         return lastClaim != today;
     }
+
+    public void deletedata()
+    {
+        PlayerPrefs.DeleteKey("LastDailyClaimDate");
+        PlayerPrefs.Save();
+    }
 }
