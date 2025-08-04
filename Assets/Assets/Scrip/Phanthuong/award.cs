@@ -45,61 +45,47 @@ public class award : MonoBehaviour
     // ✅ Xử lý phần thưởng nhận mỗi 7 ngày
     private void TryClaimWeeklyReward(string rewardKey, bool isGem)
     {
-        string lastClaimKey = $"WeeklyReward_{rewardKey}";
-
-        if (!PlayerPrefs.HasKey(lastClaimKey))
+        string key = $"WeeklyReward_{rewardKey}";
+        RewardFirebaseManager.Instance.GetRewardDate(key, (lastClaim) =>
         {
-            GiveReward(isGem);
-            PlayerPrefs.SetString(lastClaimKey, DateTime.Now.ToString());
-            PlayerPrefs.Save();
-            ShowMessage($"Đã nhận {(isGem ? "set" : "vàng")}thành công!");
-            _tb.ShowTbs();
-        }
-        else
-        {
-            DateTime lastClaim = DateTime.Parse(PlayerPrefs.GetString(lastClaimKey));
-            TimeSpan timeSinceClaim = DateTime.Now - lastClaim;
-
-            if (timeSinceClaim.TotalDays >= cooldownDays)
+            if (lastClaim == null || (DateTime.Now - lastClaim.Value).TotalDays >= cooldownDays)
             {
                 GiveReward(isGem);
-                PlayerPrefs.SetString(lastClaimKey, DateTime.Now.ToString());
-                PlayerPrefs.Save();
+                RewardFirebaseManager.Instance.SaveDate(key);
                 ShowMessage($"Đã nhận {(isGem ? "set" : "vàng")} thành công!");
                 _tb.ShowTbs();
             }
             else
             {
-                int remainingDays = cooldownDays - Mathf.FloorToInt((float)timeSinceClaim.TotalDays);
-                ShowMessage($"Bạn đã nhận rồi,Quay lại sau {remainingDays} ngày nữa.");
+                int remainingDays = cooldownDays - Mathf.FloorToInt((float)(DateTime.Now - lastClaim.Value).TotalDays);
+                ShowMessage($"Bạn đã nhận rồi, quay lại sau {remainingDays} ngày nữa.");
             }
-        }
 
-        UpdateAllIndicators();
+            UpdateAllIndicators();
+        });
     }
 
     // ✅ Xử lý phần thưởng chỉ nhận 1 lần
     private void TryClaimOneTimeReward(string rewardKey)
     {
-        string claimKey = $"OneTimeReward_{rewardKey}";
-
-        if (PlayerPrefs.GetInt(claimKey, 0) == 1)
+        string key = $"OneTimeReward_{rewardKey}";
+        RewardFirebaseManager.Instance.GetRewardClaimed(key, (claimed) =>
         {
-            ShowMessage("Phần thưởng này chỉ nhận 1 lần!");
-        }
-        else
-        {
-            GoldManager.AddGold(50);
-            PlayerPrefs.SetInt(claimKey, 1);
-            PlayerPrefs.Save();
-            
-            ShowMessage($"Nhận 50 vàng từ {rewardKey} thành công!");
-            _tb.ShowTbs();
-        }
+            if (claimed)
+            {
+                ShowMessage("Phần thưởng này chỉ nhận 1 lần!");
+            }
+            else
+            {
+                GoldManager.AddGold(50);
+                RewardFirebaseManager.Instance.SaveBool(key);
+                ShowMessage($"Nhận 50 vàng từ {rewardKey} thành công!");
+                _tb.ShowTbs();
+            }
 
-        UpdateAllIndicators();
+            UpdateAllIndicators();
+        });
     }
-
     private void GiveReward(bool isGem)
     {
         if (isGem)
@@ -162,9 +148,13 @@ public class award : MonoBehaviour
 
     private void CheckOneTimeRewardIndicator(string rewardKey, GameObject indicator)
     {
-        string claimKey = $"OneTimeReward_{rewardKey}";
-        bool claimed = PlayerPrefs.GetInt(claimKey, 0) == 1;
-        indicator.SetActive(!claimed); // Hiện nếu chưa nhận
+        string key = $"OneTimeReward_{rewardKey}";
+        indicator.SetActive(false); // Tạm tắt
+
+        RewardFirebaseManager.Instance.GetRewardClaimed(key, (claimed) =>
+        {
+            indicator.SetActive(!claimed); // Chưa nhận thì hiện
+        });
     }
     public void Next7Days()
     {

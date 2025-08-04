@@ -25,7 +25,6 @@ public class IndexPlayer : MonoBehaviour
     {
         if (string.IsNullOrEmpty(userId))
         {
-            Debug.LogWarning("Chưa đăng nhập Firebase.");
             return;
         }
 
