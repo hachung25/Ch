@@ -43,9 +43,12 @@ public class OnlineStatusWatcher : MonoBehaviour
     {
         if (conflictPopupPrefab == null)
         {
-            Debug.LogError("❌ conflictPopupPrefab = null! Chưa gán prefab trong FireBaseLoginManager.");
+            Debug.LogError("❌ Chưa gán prefab conflictPopup.");
             return;
         }
+
+        // ✅ Dừng game
+        Time.timeScale = 0f;
 
         GameObject popup = Instantiate(conflictPopupPrefab);
         DontDestroyOnLoad(popup);
@@ -53,16 +56,21 @@ public class OnlineStatusWatcher : MonoBehaviour
         ConflictPopup popupScript = popup.GetComponent<ConflictPopup>();
         if (popupScript == null)
         {
-            Debug.LogError("❌ ConflictPopup.cs script không gắn vào prefab!");
+            Debug.LogError("❌ Prefab thiếu script ConflictPopup.cs!");
             return;
         }
 
         popupScript.onRelogin = () =>
         {
             Firebase.Auth.FirebaseAuth.DefaultInstance.SignOut();
+
+            // ✅ Khôi phục lại game time trước khi load login scene
+            Time.timeScale = 1f;
+
             SceneManager.LoadScene("LoginTA");
         };
     }
+
 
 
     private void OnDestroy()
