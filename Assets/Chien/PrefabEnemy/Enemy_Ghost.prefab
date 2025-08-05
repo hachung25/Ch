@@ -423,6 +423,7 @@ GameObject:
   - component: {fileID: 2955713799781502717}
   - component: {fileID: 6878919661223455380}
   - component: {fileID: 6745396419786663761}
+  - component: {fileID: 5790494911188326407}
   m_Layer: 7
   m_Name: Enemy_Ghost
   m_TagString: Enemy
@@ -445,6 +446,7 @@ Transform:
   m_Children:
   - {fileID: 5179981394205509125}
   - {fileID: 1611007663192239304}
+  - {fileID: 1664144742113805123}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &9171920532729773521
@@ -623,3 +625,87 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
+--- !u!114 &5790494911188326407
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8971725487588285677}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d856e343aecf14c47bedcee97d1cb915, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  vfx: {fileID: 1664144742113805124}
+--- !u!1001 &4024677456949863860
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 5826470331652359109}
+    m_Modifications:
+    - target: {fileID: 2360655870356088562, guid: 57a776ff377f3c44e8403e2067a4d41f, type: 3}
+      propertyPath: m_Name
+      value: CFXR4 Sword Trail FIRE (360 Spiral)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2360655870356088567, guid: 57a776ff377f3c44e8403e2067a4d41f, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2360655870356088567, guid: 57a776ff377f3c44e8403e2067a4d41f, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2360655870356088567, guid: 57a776ff377f3c44e8403e2067a4d41f, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2360655870356088567, guid: 57a776ff377f3c44e8403e2067a4d41f, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2360655870356088567, guid: 57a776ff377f3c44e8403e2067a4d41f, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2360655870356088567, guid: 57a776ff377f3c44e8403e2067a4d41f, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2360655870356088567, guid: 57a776ff377f3c44e8403e2067a4d41f, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2360655870356088567, guid: 57a776ff377f3c44e8403e2067a4d41f, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2360655870356088567, guid: 57a776ff377f3c44e8403e2067a4d41f, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2360655870356088567, guid: 57a776ff377f3c44e8403e2067a4d41f, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5253086420792492038, guid: 57a776ff377f3c44e8403e2067a4d41f, type: 3}
+      propertyPath: m_Intensity
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 57a776ff377f3c44e8403e2067a4d41f, type: 3}
+--- !u!4 &1664144742113805123 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2360655870356088567, guid: 57a776ff377f3c44e8403e2067a4d41f, type: 3}
+  m_PrefabInstance: {fileID: 4024677456949863860}
+  m_PrefabAsset: {fileID: 0}
+--- !u!198 &1664144742113805124 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 2360655870356088560, guid: 57a776ff377f3c44e8403e2067a4d41f, type: 3}
+  m_PrefabInstance: {fileID: 4024677456949863860}
+  m_PrefabAsset: {fileID: 0}

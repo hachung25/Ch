@@ -391,6 +391,7 @@ GameObject:
   - component: {fileID: 5097267726838233801}
   - component: {fileID: 280337977769704962}
   - component: {fileID: 7034302618691527998}
+  - component: {fileID: 1033356760666931381}
   m_Layer: 7
   m_Name: Enemy_Giant
   m_TagString: Enemy
@@ -412,6 +413,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 408629031639033070}
+  - {fileID: 1154346377634904464}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &1214261323785610797
@@ -577,3 +579,95 @@ CapsuleCollider2D:
   m_Offset: {x: 0.5796683, y: 0.05851853}
   m_Size: {x: 1.6566081, y: 2.3810918}
   m_Direction: 0
+--- !u!114 &1033356760666931381
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8109973477918554530}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d856e343aecf14c47bedcee97d1cb915, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  vfx: {fileID: 1154346377634904471}
+--- !u!1001 &3514975858889334631
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 2773114931871553165}
+    m_Modifications:
+    - target: {fileID: 2360655870356088562, guid: 57a776ff377f3c44e8403e2067a4d41f, type: 3}
+      propertyPath: m_Name
+      value: CFXR4 Sword Trail FIRE (360 Spiral)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2360655870356088567, guid: 57a776ff377f3c44e8403e2067a4d41f, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2360655870356088567, guid: 57a776ff377f3c44e8403e2067a4d41f, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2360655870356088567, guid: 57a776ff377f3c44e8403e2067a4d41f, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.56
+      objectReference: {fileID: 0}
+    - target: {fileID: 2360655870356088567, guid: 57a776ff377f3c44e8403e2067a4d41f, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.09
+      objectReference: {fileID: 0}
+    - target: {fileID: 2360655870356088567, guid: 57a776ff377f3c44e8403e2067a4d41f, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2360655870356088567, guid: 57a776ff377f3c44e8403e2067a4d41f, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2360655870356088567, guid: 57a776ff377f3c44e8403e2067a4d41f, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2360655870356088567, guid: 57a776ff377f3c44e8403e2067a4d41f, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2360655870356088567, guid: 57a776ff377f3c44e8403e2067a4d41f, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2360655870356088567, guid: 57a776ff377f3c44e8403e2067a4d41f, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2360655870356088567, guid: 57a776ff377f3c44e8403e2067a4d41f, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2360655870356088567, guid: 57a776ff377f3c44e8403e2067a4d41f, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5253086420792492038, guid: 57a776ff377f3c44e8403e2067a4d41f, type: 3}
+      propertyPath: m_Intensity
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 57a776ff377f3c44e8403e2067a4d41f, type: 3}
+--- !u!4 &1154346377634904464 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2360655870356088567, guid: 57a776ff377f3c44e8403e2067a4d41f, type: 3}
+  m_PrefabInstance: {fileID: 3514975858889334631}
+  m_PrefabAsset: {fileID: 0}
+--- !u!198 &1154346377634904471 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 2360655870356088560, guid: 57a776ff377f3c44e8403e2067a4d41f, type: 3}
+  m_PrefabInstance: {fileID: 3514975858889334631}
+  m_PrefabAsset: {fileID: 0}
