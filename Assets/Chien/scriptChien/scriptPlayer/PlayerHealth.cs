@@ -11,7 +11,7 @@ public class PlayerHealth : MonoBehaviour, IDamageable
     private Animator animator;
     public PlayerMovement2D playerMovement;
     public GameObject LoseGame;
-
+    public GameObject hitVFXPrefab;
     private void OnEnable()
     {
         IndexPlayerPlayGame.OnStatsLoaded += SetHealth;
@@ -45,7 +45,10 @@ public class PlayerHealth : MonoBehaviour, IDamageable
         currentHealth = Mathf.Clamp(currentHealth, 0, MaxHealth);
 
         Debug.Log($"Player nhận {damage} sát thương. Máu còn: {currentHealth}");
-
+        if (hitVFXPrefab != null)
+        {
+            Instantiate(hitVFXPrefab, transform.position, Quaternion.identity);
+        }
         if (animator != null)
             animator.SetTrigger("Hit");
 

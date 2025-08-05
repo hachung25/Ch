@@ -346,7 +346,7 @@ GameObject:
   - component: {fileID: 43780279}
   - component: {fileID: 43780278}
   - component: {fileID: 43780277}
-  m_Layer: 5
+  m_Layer: 12
   m_Name: Bg
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -622,9 +622,17 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 776190740510802629, guid: 00a13947dd34430469c79fa240e24467, type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
     - target: {fileID: 1101490484036491336, guid: 00a13947dd34430469c79fa240e24467, type: 3}
       propertyPath: m_IsTrigger
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1515948322418391544, guid: 00a13947dd34430469c79fa240e24467, type: 3}
+      propertyPath: m_Layer
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 1731016027979034662, guid: 00a13947dd34430469c79fa240e24467, type: 3}
       propertyPath: healthText
@@ -690,6 +698,14 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -263
       objectReference: {fileID: 0}
+    - target: {fileID: 3361989659255186877, guid: 00a13947dd34430469c79fa240e24467, type: 3}
+      propertyPath: Lens.OrthographicSize
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 3458427720112823573, guid: 00a13947dd34430469c79fa240e24467, type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
     - target: {fileID: 3458427720112823573, guid: 00a13947dd34430469c79fa240e24467, type: 3}
       propertyPath: m_IsActive
       value: 0
@@ -698,6 +714,22 @@ PrefabInstance:
       propertyPath: damageText
       value: 
       objectReference: {fileID: 1316600772}
+    - target: {fileID: 3567001504523659419, guid: 00a13947dd34430469c79fa240e24467, type: 3}
+      propertyPath: attackVFXPrefab
+      value: 
+      objectReference: {fileID: 6263782476919498309, guid: 1fd2749f2a4056446881dce86ed70c39, type: 3}
+    - target: {fileID: 3709369748128014660, guid: 00a13947dd34430469c79fa240e24467, type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 4305867815792182659, guid: 00a13947dd34430469c79fa240e24467, type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 5118271043755389632, guid: 00a13947dd34430469c79fa240e24467, type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
     - target: {fileID: 5385110975305485389, guid: 00a13947dd34430469c79fa240e24467, type: 3}
       propertyPath: m_AnchorMax.x
       value: 1
@@ -718,9 +750,37 @@ PrefabInstance:
       propertyPath: m_LocalPosition.x
       value: 0.87
       objectReference: {fileID: 0}
+    - target: {fileID: 6147773227317715529, guid: 00a13947dd34430469c79fa240e24467, type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 6262053744066034186, guid: 00a13947dd34430469c79fa240e24467, type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
     - target: {fileID: 6509811402037922370, guid: 00a13947dd34430469c79fa240e24467, type: 3}
       propertyPath: m_Name
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 6509811402037922370, guid: 00a13947dd34430469c79fa240e24467, type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 7992460280729492929, guid: 00a13947dd34430469c79fa240e24467, type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 8001197611211981723, guid: 00a13947dd34430469c79fa240e24467, type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 8287865167813241842, guid: 00a13947dd34430469c79fa240e24467, type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 8306611668655408780, guid: 00a13947dd34430469c79fa240e24467, type: 3}
+      propertyPath: m_Layer
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 8306611668655408780, guid: 00a13947dd34430469c79fa240e24467, type: 3}
       propertyPath: m_IsActive
@@ -730,9 +790,21 @@ PrefabInstance:
       propertyPath: LoseGame
       value: 
       objectReference: {fileID: 1557677772}
+    - target: {fileID: 8666876825677242046, guid: 00a13947dd34430469c79fa240e24467, type: 3}
+      propertyPath: hitVFXPrefab
+      value: 
+      objectReference: {fileID: 4553287630450876385, guid: 15483e51212e3d74886ea57291f4639a, type: 3}
     - target: {fileID: 8914313381677487866, guid: 00a13947dd34430469c79fa240e24467, type: 3}
       propertyPath: m_AnchoredPosition.x
       value: -4.700012
+      objectReference: {fileID: 0}
+    - target: {fileID: 8920514916962071611, guid: 00a13947dd34430469c79fa240e24467, type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 9186226546664360283, guid: 00a13947dd34430469c79fa240e24467, type: 3}
+      propertyPath: m_Layer
+      value: 12
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1033,7 +1105,7 @@ GameObject:
   - component: {fileID: 102192548}
   - component: {fileID: 102192550}
   - component: {fileID: 102192549}
-  m_Layer: 5
+  m_Layer: 12
   m_Name: Incondamge
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1108,7 +1180,7 @@ GameObject:
   - component: {fileID: 117700498}
   - component: {fileID: 117700500}
   - component: {fileID: 117700499}
-  m_Layer: 5
+  m_Layer: 12
   m_Name: Bg_Top
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1190,7 +1262,7 @@ GameObject:
   - component: {fileID: 135724300}
   - component: {fileID: 135724302}
   - component: {fileID: 135724301}
-  m_Layer: 5
+  m_Layer: 12
   m_Name: Text (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1465,7 +1537,7 @@ Camera:
   far clip plane: 1000
   field of view: 34
   orthographic: 1
-  orthographic size: 4.3
+  orthographic size: 6
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -24732,7 +24804,7 @@ GameObject:
   - component: {fileID: 1013709965}
   - component: {fileID: 1013709967}
   - component: {fileID: 1013709966}
-  m_Layer: 5
+  m_Layer: 12
   m_Name: Bg_Bottom
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -28056,7 +28128,7 @@ GameObject:
   - component: {fileID: 1283499627}
   - component: {fileID: 1283499629}
   - component: {fileID: 1283499628}
-  m_Layer: 5
+  m_Layer: 12
   m_Name: Fill
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -28629,7 +28701,7 @@ GameObject:
   - component: {fileID: 1316600771}
   - component: {fileID: 1316600773}
   - component: {fileID: 1316600772}
-  m_Layer: 5
+  m_Layer: 12
   m_Name: Text_Rank
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -30880,7 +30952,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1551618691}
-  m_Layer: 5
+  m_Layer: 12
   m_Name: UserInfo01_Left
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -31013,7 +31085,7 @@ GameObject:
   - component: {fileID: 1582349929}
   - component: {fileID: 1582349928}
   - component: {fileID: 1582349927}
-  m_Layer: 5
+  m_Layer: 12
   m_Name: Slider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -32679,7 +32751,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1805854836}
-  m_Layer: 5
+  m_Layer: 12
   m_Name: Pfofile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -34303,7 +34375,7 @@ GameObject:
   - component: {fileID: 2002559965}
   - component: {fileID: 2002559967}
   - component: {fileID: 2002559966}
-  m_Layer: 5
+  m_Layer: 12
   m_Name: BgInner
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -34987,7 +35059,7 @@ GameObject:
   - component: {fileID: 2101037051}
   - component: {fileID: 2101037053}
   - component: {fileID: 2101037052}
-  m_Layer: 5
+  m_Layer: 12
   m_Name: Icon
   m_TagString: Untagged
   m_Icon: {fileID: 0}

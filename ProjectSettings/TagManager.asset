@@ -12,6 +12,7 @@ TagManager:
   - Enemy
   - Gold
   - UpdateMissionn
+  - FxTemporaire
   layers:
   - Default
   - TransparentFX
@@ -21,11 +22,11 @@ TagManager:
   - UI
   - Ground
   - enemy
-  - Player
+  - 
   - Gold
-  - 
-  - 
-  - 
+  - VFX_Atk
+  - VFX_Blood
+  - Player
   - 
   - 
   - 
