@@ -12,6 +12,7 @@ public class PlayerHealth : MonoBehaviour, IDamageable
     public PlayerMovement2D playerMovement;
     public GameObject LoseGame;
     public GameObject hitVFXPrefab;
+    public GameObject DeadVFXPrefab;
     private void OnEnable()
     {
         IndexPlayerPlayGame.OnStatsLoaded += SetHealth;
@@ -66,7 +67,10 @@ public class PlayerHealth : MonoBehaviour, IDamageable
 
         GetComponent<Rigidbody2D>().simulated = false;
         StartCoroutine(FlashWhileInvincible());
-
+        if(DeadVFXPrefab != null)
+        {
+            Instantiate(DeadVFXPrefab, transform.position , Quaternion.identity);
+        }
         Destroy(gameObject, 0.7f);
         LoseGame.SetActive(true);
     }
