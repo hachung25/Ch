@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8505608708367753199}
   - component: {fileID: 1942047976709664233}
   - component: {fileID: 6146243579815034713}
-  m_Layer: 8
+  m_Layer: 12
   m_Name: Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -85,7 +85,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1541512934549817602}
   - component: {fileID: 1731016027979034662}
-  m_Layer: 8
+  m_Layer: 12
   m_Name: Healthmain
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -134,7 +134,7 @@ GameObject:
   - component: {fileID: 2786514373996324611}
   - component: {fileID: 7410952516446736183}
   - component: {fileID: 416762405705230006}
-  m_Layer: 8
+  m_Layer: 12
   m_Name: bgNameHelth
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -212,7 +212,7 @@ GameObject:
   - component: {fileID: 5385110975305485389}
   - component: {fileID: 7358463767976625225}
   - component: {fileID: 8247231681792385507}
-  m_Layer: 8
+  m_Layer: 12
   m_Name: Fill
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -287,7 +287,7 @@ GameObject:
   - component: {fileID: 138317663238212861}
   - component: {fileID: 4075820189273721554}
   - component: {fileID: 5516431440886201955}
-  m_Layer: 8
+  m_Layer: 12
   m_Name: name
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -423,7 +423,7 @@ GameObject:
   - component: {fileID: 5908466590081990378}
   - component: {fileID: 6081081898311732410}
   - component: {fileID: 6270113522450821603}
-  m_Layer: 8
+  m_Layer: 12
   m_Name: Text (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -559,7 +559,7 @@ GameObject:
   - component: {fileID: 683111973049884779}
   - component: {fileID: 18907785569663340}
   - component: {fileID: 4345706155230909539}
-  m_Layer: 8
+  m_Layer: 12
   m_Name: bgNameHelth (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -635,7 +635,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8452660888508716519}
   - component: {fileID: 3361989659255186877}
-  m_Layer: 8
+  m_Layer: 12
   m_Name: CinemachineCamera
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -717,7 +717,7 @@ GameObject:
   - component: {fileID: 8666876825677242046}
   - component: {fileID: 1913408680073646338}
   - component: {fileID: 7246307218332253866}
-  m_Layer: 8
+  m_Layer: 12
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -903,6 +903,7 @@ MonoBehaviour:
   enemyLayer:
     serializedVersion: 2
     m_Bits: 128
+  attackVFXPrefab: {fileID: 0}
 --- !u!114 &8666876825677242046
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -918,6 +919,8 @@ MonoBehaviour:
   isDead: 0
   isInvincible: 0
   playerMovement: {fileID: 0}
+  LoseGame: {fileID: 0}
+  hitVFXPrefab: {fileID: 0}
 --- !u!114 &1913408680073646338
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -960,7 +963,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2209355329700541013}
   - component: {fileID: 4673577440656072420}
-  m_Layer: 8
+  m_Layer: 12
   m_Name: Slider_Health
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1048,7 +1051,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8948270806515328334}
-  m_Layer: 8
+  m_Layer: 12
   m_Name: GroundCheck
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1079,7 +1082,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8914313381677487866}
-  m_Layer: 8
+  m_Layer: 12
   m_Name: Fill Area
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1118,7 +1121,7 @@ GameObject:
   - component: {fileID: 2605312850145897045}
   - component: {fileID: 2237258439530337829}
   - component: {fileID: 7331360972452303190}
-  m_Layer: 8
+  m_Layer: 12
   m_Name: Canvas_HealthPlayer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1219,7 +1222,7 @@ GameObject:
   - component: {fileID: 5211653823737714394}
   - component: {fileID: 5993933422434137538}
   - component: {fileID: 1665401588675097172}
-  m_Layer: 8
+  m_Layer: 12
   m_Name: Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1292,7 +1295,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6002435008106193263}
-  m_Layer: 8
+  m_Layer: 12
   m_Name: Atk_Point
   m_TagString: Untagged
   m_Icon: {fileID: 0}
