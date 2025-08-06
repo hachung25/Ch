@@ -81,7 +81,7 @@ public abstract class EnemyGroundBase : MonoBehaviour, IDamageable
             UpdateAnimator(); // Dừng animation nếu mất player
             return;
         }
-
+        FlipToFacePlayer();
         float distance = Vector2.Distance(transform.position, player.position);
 
         if (distance <= chaseRange)
@@ -122,11 +122,11 @@ public abstract class EnemyGroundBase : MonoBehaviour, IDamageable
         Vector2 newPos = rb.position + direction * speed * Time.deltaTime;
         rb.MovePosition(newPos);
 
-        if (spriteRenderer != null)
-        {
-            bool isPlayerOnLeft = player.position.x < transform.position.x;
-            spriteRenderer.flipX = isFacingRightByDefault ? isPlayerOnLeft : !isPlayerOnLeft;
-        }
+        //if (spriteRenderer != null)
+        //{
+        //    bool isPlayerOnLeft = player.position.x < transform.position.x;
+        //    spriteRenderer.flipX = isFacingRightByDefault ? isPlayerOnLeft : !isPlayerOnLeft;
+        //}
     }
 
     protected virtual void StopMoving()
@@ -190,4 +190,12 @@ public abstract class EnemyGroundBase : MonoBehaviour, IDamageable
         healthSlider.maxValue = maxHealth;
         healthSlider.value = currentHealth;
     }
+    protected virtual void FlipToFacePlayer()
+    {
+        if (spriteRenderer == null || player == null) return;
+
+        bool isPlayerOnLeft = player.position.x < transform.position.x;
+        spriteRenderer.flipX = isFacingRightByDefault ? isPlayerOnLeft : !isPlayerOnLeft;
+    }
+
 }
