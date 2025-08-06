@@ -10,6 +10,7 @@ public class EnemyGroundGiant : EnemyGroundBase, IDamageable
     public int attackDamage = 8;
     public GameObject CoinPrefab;
     public bool isInvincible = false;
+    public GameObject DeadVFX;
     protected override void Start()
     {
         base.Start();
@@ -61,7 +62,11 @@ public class EnemyGroundGiant : EnemyGroundBase, IDamageable
         Debug.Log($"{gameObject.name} đã chết!");
       //  EnemyManager.Instance?.UnregisterEnemy();
         StartCoroutine(FlashWhileInvincible());
-        Destroy(gameObject, 0.8f);
+        if(DeadVFX != null)
+        {
+            Instantiate(DeadVFX, transform.position, Quaternion.identity);
+        }
+        Destroy(gameObject);
     }
 
     private void UpdateHealthBar()

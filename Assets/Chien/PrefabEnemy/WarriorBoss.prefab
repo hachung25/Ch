@@ -364,6 +364,7 @@ MonoBehaviour:
   attackDamage: 14
   CoinPrefab: {fileID: 5451605172039159037, guid: bf6dd895dbb98ab4492a8402c67c38a6, type: 3}
   isInvincible: 0
+  DeadVFX: {fileID: 725748389856807714, guid: 4bda94453d2ca7444a0fff05b2d425f5, type: 3}
 --- !u!1 &6102151911372081118
 GameObject:
   m_ObjectHideFlags: 0
