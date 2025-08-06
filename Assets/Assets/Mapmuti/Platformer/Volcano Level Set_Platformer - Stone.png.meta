@@ -160,7 +160,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Volcano Level Set_Platformer - Stone_0: 7595409174671834430
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

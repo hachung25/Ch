@@ -160,7 +160,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Volcano Level Set_Environment - Lava 03_0: -7110946003586812255
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

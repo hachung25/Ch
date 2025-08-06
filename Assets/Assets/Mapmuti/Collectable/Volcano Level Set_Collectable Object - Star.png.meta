@@ -160,7 +160,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Volcano Level Set_Collectable Object - Star_0: 6123129642985332121
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
