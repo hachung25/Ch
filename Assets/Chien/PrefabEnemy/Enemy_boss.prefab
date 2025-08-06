@@ -257,9 +257,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingLayerID: -2005116043
+  m_SortingLayer: 3
+  m_SortingOrder: -1
   m_Sprite: {fileID: -3652478399217581236, guid: e9ceab1b0d3f4544d89eda9882a0c6ac, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -387,6 +387,7 @@ MonoBehaviour:
   overrideHealthSlider_boss: {fileID: 8222720243264581555}
   attackDamage: 30
   CoinPrefab: {fileID: 5451605172039159037, guid: bf6dd895dbb98ab4492a8402c67c38a6, type: 3}
+  DeadVFX: {fileID: 0}
 --- !u!114 &809020959858677652
 MonoBehaviour:
   m_ObjectHideFlags: 0

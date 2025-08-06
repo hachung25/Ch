@@ -3,6 +3,7 @@ using UnityEngine;
 public class TeleportBox : MonoBehaviour
 {
     private MapManager mapManager;
+    public TbUnlockMap _Unlock;
 
     private void Start()
     {
@@ -17,4 +18,9 @@ public class TeleportBox : MonoBehaviour
             mapManager.MoveToNextMap();
         }
     }
+    void OnEnable()
+    {
+        _Unlock.showTb();
+    }
+
 }

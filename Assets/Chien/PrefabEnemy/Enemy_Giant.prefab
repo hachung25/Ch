@@ -457,9 +457,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingLayerID: -2005116043
+  m_SortingLayer: 3
+  m_SortingOrder: -1
   m_Sprite: {fileID: -7519065926825568748, guid: 3a2a85d2ded7f564798aa2e036893402, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -542,6 +542,7 @@ MonoBehaviour:
   attackDamage: 8
   CoinPrefab: {fileID: 5451605172039159037, guid: bf6dd895dbb98ab4492a8402c67c38a6, type: 3}
   isInvincible: 0
+  DeadVFX: {fileID: 0}
 --- !u!70 &7034302618691527998
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
