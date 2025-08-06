@@ -172,7 +172,9 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Biggie-Death_11_0: 8521976705362384085
+      Biggie-Death_11_1: -7784672507090017107
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

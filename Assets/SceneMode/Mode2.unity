@@ -939,6 +939,10 @@ PrefabInstance:
       propertyPath: damageText
       value: 
       objectReference: {fileID: 1316600772}
+    - target: {fileID: 3567001504523659419, guid: 00a13947dd34430469c79fa240e24467, type: 3}
+      propertyPath: attackVFXPrefab
+      value: 
+      objectReference: {fileID: 6263782476919498309, guid: 1fd2749f2a4056446881dce86ed70c39, type: 3}
     - target: {fileID: 5385110975305485389, guid: 00a13947dd34430469c79fa240e24467, type: 3}
       propertyPath: m_AnchorMax.x
       value: 1
@@ -979,6 +983,14 @@ PrefabInstance:
       propertyPath: LoseGame
       value: 
       objectReference: {fileID: 1133388392}
+    - target: {fileID: 8666876825677242046, guid: 00a13947dd34430469c79fa240e24467, type: 3}
+      propertyPath: hitVFXPrefab
+      value: 
+      objectReference: {fileID: 4553287630450876385, guid: 15483e51212e3d74886ea57291f4639a, type: 3}
+    - target: {fileID: 8666876825677242046, guid: 00a13947dd34430469c79fa240e24467, type: 3}
+      propertyPath: DeadVFXPrefab
+      value: 
+      objectReference: {fileID: 5985634496115995773, guid: 463cf9f7af4680240898f6aeba3fe3e6, type: 3}
     - target: {fileID: 8666876825677242046, guid: 00a13947dd34430469c79fa240e24467, type: 3}
       propertyPath: playerMovement
       value: 

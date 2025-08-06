@@ -9,6 +9,7 @@ public class Enemyboss : EnemyGroundBase, IDamageable
     [Header("Tùy chỉnh chỉ số")]
     public int attackDamage = 8;
     public GameObject CoinPrefab;
+    public GameObject DeadVFX;
     protected override void Start()
     {
         base.Start();
@@ -52,13 +53,18 @@ public class Enemyboss : EnemyGroundBase, IDamageable
 
         if (animator != null)
             animator.SetTrigger("Die");
-        if(CoinPrefab != null)
+        if (CoinPrefab != null)
         {
             Instantiate(CoinPrefab, transform.position, Quaternion.identity);
         }
         GetComponent<Rigidbody2D>().simulated = false;
         Debug.Log($"{gameObject.name} đã chết!");
-        Destroy(gameObject, 0.3f);
+        if (DeadVFX != null)
+        {
+            Instantiate(DeadVFX, transform.position, Quaternion.identity);
+        }
+
+        Destroy(gameObject);
     }
 
     private void UpdateHealthBar()

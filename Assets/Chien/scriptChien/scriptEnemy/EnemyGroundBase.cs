@@ -53,8 +53,8 @@ public abstract class EnemyGroundBase : MonoBehaviour, IDamageable
         }
         StartCoroutine(FindPlayerAfterDelay());
         //Dem quai trong scene
-        
-        
+
+
     }
     private IEnumerator FindPlayerAfterDelay()
     {
@@ -175,7 +175,7 @@ public abstract class EnemyGroundBase : MonoBehaviour, IDamageable
         //{
         //    Instantiate(CoinPrefab, transform.position, Quaternion.identity);
         //}
-        
+
         Destroy(gameObject, 0.5f);
     }
 
@@ -194,8 +194,11 @@ public abstract class EnemyGroundBase : MonoBehaviour, IDamageable
     {
         if (spriteRenderer == null || player == null) return;
 
-        bool isPlayerOnLeft = player.position.x < transform.position.x;
-        spriteRenderer.flipX = isFacingRightByDefault ? isPlayerOnLeft : !isPlayerOnLeft;
+        bool isPlayerOnRight = player.position.x > transform.position.x;
+
+        // Nếu mặc định nhìn trái, thì flipX phải = true khi player ở bên phải
+        spriteRenderer.flipX = isPlayerOnRight;
     }
+
 
 }
