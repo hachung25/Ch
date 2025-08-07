@@ -38719,7 +38719,7 @@ GameObject:
   - component: {fileID: 1881503183}
   - component: {fileID: 1881503182}
   m_Layer: 0
-  m_Name: GameObject
+  m_Name: OnlineStatusWatcher
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

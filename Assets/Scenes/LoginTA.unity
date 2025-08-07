@@ -1576,6 +1576,7 @@ GameObject:
   - component: {fileID: 1840519827}
   - component: {fileID: 1840519828}
   - component: {fileID: 1840519829}
+  - component: {fileID: 1840519830}
   m_Layer: 0
   m_Name: FireBaseManger
   m_TagString: Untagged
@@ -1709,6 +1710,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d05025cf940e79a4a8939c9304591f9f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1840519830
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1840519822}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6621d4489e881a24ab16c0385d025f74, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &1896559873 stripped

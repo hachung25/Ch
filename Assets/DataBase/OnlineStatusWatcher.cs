@@ -1,11 +1,11 @@
 ﻿using Firebase.Database;
+using Firebase.Extensions;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class OnlineStatusWatcher : MonoBehaviour
 {
-    private string userId;
-    private string deviceId;
+    private string userId, deviceId;
     private DatabaseReference deviceIdRef;
     private bool hasConflict = false;
     public GameObject conflictPopupPrefab;
@@ -14,26 +14,18 @@ public class OnlineStatusWatcher : MonoBehaviour
     {
         userId = _userId;
         deviceId = _deviceId;
-
         deviceIdRef = FirebaseDatabase.DefaultInstance
-            .GetReference("Users")
-            .Child(userId)
-            .Child("onlineStatus")
-            .Child("deviceId");
-
+            .GetReference($"deviceStatus/{userId}/deviceId");
         deviceIdRef.ValueChanged += OnDeviceIdChanged;
+        Debug.Log($"👁️ [Watcher] Bắt đầu theo dõi: {deviceId}");
     }
 
     private void OnDeviceIdChanged(object sender, ValueChangedEventArgs args)
     {
-        if (!args.Snapshot.Exists || args.Snapshot.Value == null) return;
-
-        string currentOnlineDevice = args.Snapshot.Value.ToString();
-
-        if (currentOnlineDevice != deviceId && !hasConflict)
+        string current = args.Snapshot?.Value?.ToString();
+        Debug.Log($"[Watcher] Firebase: {current}, local: {deviceId}");
+        if (!hasConflict && !string.IsNullOrEmpty(current) && current != deviceId)
         {
-            Debug.LogWarning("⚠️ Phát hiện đăng nhập ở thiết bị khác!");
-
             hasConflict = true;
             ShowConflictPopup();
         }
@@ -43,33 +35,33 @@ public class OnlineStatusWatcher : MonoBehaviour
     {
         if (conflictPopupPrefab == null)
         {
-            Debug.LogError("❌ conflictPopupPrefab = null! Chưa gán prefab trong FireBaseLoginManager.");
+            Debug.LogError("Popup prefab không gán!");
             return;
         }
-
         GameObject popup = Instantiate(conflictPopupPrefab);
         DontDestroyOnLoad(popup);
-
-        ConflictPopup popupScript = popup.GetComponent<ConflictPopup>();
-        if (popupScript == null)
+        var cp = popup.GetComponent<ConflictPopup>();
+        cp.onRelogin = () =>
         {
-            Debug.LogError("❌ ConflictPopup.cs script không gắn vào prefab!");
-            return;
-        }
-
-        popupScript.onRelogin = () =>
-        {
-            Firebase.Auth.FirebaseAuth.DefaultInstance.SignOut();
-            SceneManager.LoadScene("LoginTA");
+            string newId = FireBaseLoginManager.GetDeviceID();
+            FirebaseDatabase.DefaultInstance
+                .GetReference($"deviceStatus/{userId}/deviceId")
+                .SetValueAsync(newId)
+                .ContinueWithOnMainThread(t =>
+                {
+                    if (t.IsCompleted)
+                    {
+                        Debug.Log("🎉 Đã giành lại quyền!");
+                        Firebase.Auth.FirebaseAuth.DefaultInstance.SignOut();
+                        SceneManager.LoadScene("LoginTA");
+                    }
+                });
         };
     }
-
 
     private void OnDestroy()
     {
         if (deviceIdRef != null)
-        {
             deviceIdRef.ValueChanged -= OnDeviceIdChanged;
-        }
     }
 }

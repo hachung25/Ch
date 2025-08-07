@@ -134,19 +134,6 @@ var emailPattern = @"^[a-zA-Z0-9_+&*-]+(?:\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+
         return null;
     }
 
-    public static string GetDeviceID()
-    {
-        if (!PlayerPrefs.HasKey("LocalDeviceID"))
-        {
-            string generatedId = System.Guid.NewGuid().ToString();
-            PlayerPrefs.SetString("LocalDeviceID", generatedId);
-            PlayerPrefs.Save();
-        }
-
-        return PlayerPrefs.GetString("LocalDeviceID");
-    }
-
-
     public void RegisterAccountWithFirebase()
     {
         string email = ipRegisterEmail.text;
@@ -253,10 +240,6 @@ public void SignInAccountWithFirebase()
                         Debug.LogWarning("Không tìm thấy MapUIController trong scene.");
                     }
                 });
-
-                
-
-
                 // Gọi các chức năng khác nếu cần
                 if (FirebaseAuth.DefaultInstance.CurrentUser != null)
                 {
@@ -265,35 +248,17 @@ public void SignInAccountWithFirebase()
 
                 FindObjectOfType<Dataload>().LoadAllDataFromFirebase();
 
-                // Kiểm tra thiết bị đã đăng nhập
-                conflictManager.ReadDataBase("Users/" + userId + "/onlineStatus/deviceId", (storedDeviceId) =>
-                {
-                    if (!string.IsNullOrEmpty(storedDeviceId) && storedDeviceId != deviceId)
-                    {
-                        LogToText("Tài khoản của bạn đang được đăng nhập ở thiết bị khác.");
-                        auth.SignOut();
-                        return;
-                    }
+                // Tạo watcher ngay tại đây (đầu tiên)
+                GameObject watcherGO = new GameObject("OnlineStatusWatcher");
+                DontDestroyOnLoad(watcherGO);
+                var watcher = watcherGO.AddComponent<OnlineStatusWatcher>();
+                watcher.conflictPopupPrefab = conflictPopupPrefab;
+                watcher.StartWatching(userId, deviceId);
 
-                    conflictManager.WriteDataBase("Users/" + userId + "/onlineStatus/deviceId", deviceId);
+                // Ghi deviceId mới
+                conflictManager.WriteFullDeviceInfo(userId, deviceId);
 
 
-
-                    GameObject watcherGO = new GameObject("OnlineStatusWatcher");
-                    DontDestroyOnLoad(watcherGO);
-
-                    OnlineStatusWatcher watcher = watcherGO.AddComponent<OnlineStatusWatcher>();
-
-                    // ✅ GÁN conflictPopupPrefab từ FireBaseLoginManager
-                    watcher.conflictPopupPrefab = this.conflictPopupPrefab;
-
-                    watcher.StartWatching(userId, deviceId);
-
-                    Debug.Log("[Watcher] Prefab popup: " + (conflictPopupPrefab != null));
-
-
-
-                });
             }
 
         });
@@ -310,9 +275,24 @@ public void SignInAccountWithFirebase()
         if (auth != null && auth.CurrentUser != null)
         {
             string userId = auth.CurrentUser.UserId;
-            conflictManager.WriteDataBase("Users/" + userId + "/onlineStatus/deviceId", null);
+            conflictManager.WriteDeviceStatus(userId, "deviceId", null);
         }
     }
+
+
+
+    public static string GetDeviceID()
+    {
+        string key = "LocalDeviceID_" + Application.identifier;
+        if (!PlayerPrefs.HasKey(key))
+        {
+            PlayerPrefs.SetString(key, System.Guid.NewGuid().ToString());
+            PlayerPrefs.Save();
+        }
+        return PlayerPrefs.GetString(key);
+    }
+
+
 
 
     private string ParseFirebaseLoginError(System.AggregateException exception)

@@ -1,100 +1,35 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using Firebase.Database;
-using UnityEngine;
-using Firebase;
+﻿using Firebase.Database;
 using Firebase.Extensions;
+using UnityEngine;
 
 public class DeviceConflictManager : MonoBehaviour
 {
     private DatabaseReference reference;
-    
 
     private void Awake()
     {
-        FirebaseApp app = FirebaseApp.DefaultInstance;
-
-        // 🔒 Tắt chế độ lưu offline (tránh lỗi LOCK)
         FirebaseDatabase.DefaultInstance.SetPersistenceEnabled(false);
-
-        
+        reference = FirebaseDatabase.DefaultInstance.RootReference;
     }
 
-    private void Start()
+    public void WriteDeviceStatus(string userId, string field, string value)
     {
-        TilemapDetail tilemapDetail = new TilemapDetail(1, 1, TilemapSate.Tilemap);
-
-        WriteDataBase("123", tilemapDetail.ToString());
-
-        ReadDataBase("123");
+        reference.Child($"deviceStatus/{userId}/{field}")
+            .SetValueAsync(value)
+            .ContinueWithOnMainThread(task =>
+            {
+                if (task.IsCompleted)
+                    Debug.Log($"Ghi thành công {field} = {value}");
+                else
+                    Debug.LogError($"Lỗi ghi {field}: {task.Exception}");
+            });
     }
 
-    // ✅ Ghi toàn bộ dữ liệu User (ví dụ: class User → ToString)
-    public void WriteUserData(string id, string message)
+    public void WriteFullDeviceInfo(string userId, string deviceId)
     {
-        reference.Child("Users").Child(id).SetValueAsync(message).ContinueWithOnMainThread(task =>
-        {
-            if (task.IsCompleted)
-            {
-                Debug.Log("✅ Ghi dữ liệu thành công.");
-            }
-            else
-            {
-                Debug.LogError("❌ Ghi dữ liệu thất bại: " + task.Exception);
-            }
-        });
-    }
-
-    // ✅ Ghi giá trị đơn vào path cụ thể (ví dụ: Users/userId/deviceId)
-    public void WriteDataBase(string path, string message)
-    {
-        reference.Child(path).SetValueAsync(message).ContinueWithOnMainThread(task =>
-        {
-            if (task.IsCompleted)
-            {
-                Debug.Log("✅ Ghi dữ liệu thành công tại path: " + path);
-            }
-            else
-            {
-                Debug.LogError("❌ Ghi dữ liệu thất bại tại path " + path + ": " + task.Exception);
-            }
-        });
-    }
-
-
-    // ✅ Đọc path tùy ý, trả về string (dùng cho: Users/userId/deviceId...)
-    public void ReadDataBase(string path, System.Action<string> onResult)
-    {
-        reference.Child(path).GetValueAsync().ContinueWithOnMainThread(task =>
-        {
-            if (task.IsCompleted)
-            {
-                DataSnapshot snapshot = task.Result;
-                string value = snapshot?.Value?.ToString();
-                onResult?.Invoke(value);
-            }
-            else
-            {
-                Debug.LogError("❌ Lỗi khi đọc dữ liệu: " + task.Exception);
-                onResult?.Invoke(null);
-            }
-        });
-    }
-
-    // ✅ Chỉ dùng test debug toàn bộ node user
-    public void ReadDataBase(string id)
-    {
-        reference.Child("User").Child(id).GetValueAsync().ContinueWithOnMainThread(task =>
-        {
-            if (task.IsCompleted)
-            {
-                DataSnapshot snapshot = task.Result;
-                Debug.Log("Doc du lieu thanh cong: " + snapshot.Value.ToString());
-            }
-            else
-            {
-                Debug.Log("Doc du lieu that bai: " + task.Exception);
-            }
-        });
+        WriteDeviceStatus(userId, "deviceId", deviceId);
+        WriteDeviceStatus(userId, "deviceName", SystemInfo.deviceName);
+        WriteDeviceStatus(userId, "appVersion", Application.version);
+        WriteDeviceStatus(userId, "lastOnline", System.DateTime.UtcNow.ToString("o"));
     }
 }
