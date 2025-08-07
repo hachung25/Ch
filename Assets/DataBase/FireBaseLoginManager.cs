@@ -35,6 +35,9 @@ public class FireBaseLoginManager : MonoBehaviour
     public Button buttonMoveToForgot;
     public Button buttonBackToLoginFromForgot;
 
+    [Header("Conflict Popup")]
+    public GameObject conflictPopupPrefab;
+
 
     public TMP_Text logText;
 
@@ -43,11 +46,12 @@ public class FireBaseLoginManager : MonoBehaviour
     private Coroutine logCoroutine;
 
     private FireBaseDataBaseManager dataBaseManager;
+    private DeviceConflictManager conflictManager;
     private void Start()
     {
         auth = FirebaseAuth.DefaultInstance;
         dataBaseManager = GetComponent<FireBaseDataBaseManager>();
-
+        conflictManager = GetComponent<DeviceConflictManager>();
 
     }
 
@@ -130,6 +134,17 @@ var emailPattern = @"^[a-zA-Z0-9_+&*-]+(?:\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+
         return null;
     }
 
+    public static string GetDeviceID()
+    {
+        if (!PlayerPrefs.HasKey("LocalDeviceID"))
+        {
+            string generatedId = System.Guid.NewGuid().ToString();
+            PlayerPrefs.SetString("LocalDeviceID", generatedId);
+            PlayerPrefs.Save();
+        }
+
+        return PlayerPrefs.GetString("LocalDeviceID");
+    }
 
 
     public void RegisterAccountWithFirebase()
@@ -215,6 +230,7 @@ public void SignInAccountWithFirebase()
     
                 FirebaseUser firebaseUser = task.Result.User;
                 string userId = firebaseUser.UserId;
+                string deviceId = GetDeviceID();
 
                 // Ghi user mới nếu cần
                 User userinGame = new("Username", 0, 0,0,0, 0, 0, 0);
@@ -238,6 +254,8 @@ public void SignInAccountWithFirebase()
                     }
                 });
 
+                
+
 
                 // Gọi các chức năng khác nếu cần
                 if (FirebaseAuth.DefaultInstance.CurrentUser != null)
@@ -246,6 +264,36 @@ public void SignInAccountWithFirebase()
                 }
 
                 FindObjectOfType<Dataload>().LoadAllDataFromFirebase();
+
+                // Kiểm tra thiết bị đã đăng nhập
+                conflictManager.ReadDataBase("Users/" + userId + "/onlineStatus/deviceId", (storedDeviceId) =>
+                {
+                    if (!string.IsNullOrEmpty(storedDeviceId) && storedDeviceId != deviceId)
+                    {
+                        LogToText("Tài khoản của bạn đang được đăng nhập ở thiết bị khác.");
+                        auth.SignOut();
+                        return;
+                    }
+
+                    conflictManager.WriteDataBase("Users/" + userId + "/onlineStatus/deviceId", deviceId);
+
+
+
+                    GameObject watcherGO = new GameObject("OnlineStatusWatcher");
+                    DontDestroyOnLoad(watcherGO);
+
+                    OnlineStatusWatcher watcher = watcherGO.AddComponent<OnlineStatusWatcher>();
+
+                    // ✅ GÁN conflictPopupPrefab từ FireBaseLoginManager
+                    watcher.conflictPopupPrefab = this.conflictPopupPrefab;
+
+                    watcher.StartWatching(userId, deviceId);
+
+                    Debug.Log("[Watcher] Prefab popup: " + (conflictPopupPrefab != null));
+
+
+
+                });
             }
 
         });
@@ -256,6 +304,16 @@ public void SignInAccountWithFirebase()
         CardsManeger.LoadCardsFromFirebase();
         
     }
+
+    private void OnApplicationQuit()
+    {
+        if (auth != null && auth.CurrentUser != null)
+        {
+            string userId = auth.CurrentUser.UserId;
+            conflictManager.WriteDataBase("Users/" + userId + "/onlineStatus/deviceId", null);
+        }
+    }
+
 
     private string ParseFirebaseLoginError(System.AggregateException exception)
     {
