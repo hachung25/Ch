@@ -45,7 +45,7 @@ public class EnemyFlyGhost : MonoBehaviour
     void Update()
     {
         if (isFrozen || player == null) return;
-
+        FlipToFacePlayer();
         float distanceToPlayer = Vector2.Distance(transform.position, player.position);
 
         if (distanceToPlayer <= chaseRange)
@@ -80,10 +80,7 @@ public class EnemyFlyGhost : MonoBehaviour
 
         float dirX = player.position.x - rb.position.x;
 
-        if ((dirX > 0 && !facingRight) || (dirX < 0 && facingRight))
-        {
-            Flip();
-        }
+        
     }
 
     public void ShootBullet() // Gọi từ Animation Event
@@ -106,10 +103,14 @@ public class EnemyFlyGhost : MonoBehaviour
         animator.SetBool("EnemyFire", firing);
     }
 
-    void Flip()
+    protected virtual void FlipToFacePlayer()
     {
-        facingRight = !facingRight;
-        spriteRenderer.flipX = !facingRight;
+        if (spriteRenderer == null || player == null) return;
+
+        bool isPlayerOnRight = player.position.x > transform.position.x;
+
+        // Nếu mặc định nhìn trái, thì flipX phải = true khi player ở bên phải
+        spriteRenderer.flipX = !isPlayerOnRight;
     }
 
     // Gọi hàm này khi Player chết

@@ -309,7 +309,7 @@ MonoBehaviour:
   stopRange: 1.5
   CoinPrefab: {fileID: 5451605172039159037, guid: bf6dd895dbb98ab4492a8402c67c38a6, type: 3}
   isInvincible: 0
-  damageAmount: 9
+  damageAmount: 5
   maxHealth: 40
   healthBar: {fileID: 8425572847307372482}
 --- !u!114 &2948361995191417191

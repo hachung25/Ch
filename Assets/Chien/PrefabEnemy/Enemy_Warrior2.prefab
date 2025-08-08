@@ -435,10 +435,10 @@ MonoBehaviour:
   chaseRange: 5
   attackRange: 1
   player: {fileID: 0}
-  maxHealth: 100
+  maxHealth: 30
   isFacingRightByDefault: 0
   overrideHealthSlider_Warrior: {fileID: 1370930584297653683}
-  attackDamage: 8
+  attackDamage: 3
   CoinPrefab: {fileID: 5451605172039159037, guid: bf6dd895dbb98ab4492a8402c67c38a6, type: 3}
   isInvincible: 0
 --- !u!114 &959655154205663368
