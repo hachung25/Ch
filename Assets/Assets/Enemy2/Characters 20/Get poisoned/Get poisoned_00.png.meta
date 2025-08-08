@@ -147,7 +147,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Get poisoned_00_0: -5268492414614120511
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
