@@ -158,5 +158,6 @@ public class PlayerMovement2D : MonoBehaviour
         animator.SetBool("isDead", true);
     }
 
+    
 }
 
