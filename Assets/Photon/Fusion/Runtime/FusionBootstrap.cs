@@ -673,4 +673,6 @@ namespace Fusion {
     public bool ShouldShowGUI => StartMode == StartModes.UserInterface &&
                                  !(AutoConnectVirtualInstances && FusionMppm.Status == FusionMppmStatus.VirtualInstance);
   }
+
+
 }
