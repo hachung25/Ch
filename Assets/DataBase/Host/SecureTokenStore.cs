@@ -11,10 +11,12 @@ public static class SecureTokenStore
 
     private static byte[] GetKey()
     {
-        var baseStr = SystemInfo.deviceUniqueIdentifier + "_YourProjectKey";
+        // Khóa phụ thuộc device + tên app
+        var baseStr = SystemInfo.deviceUniqueIdentifier + "_YourAppKey";
         using var kdf = new Rfc2898DeriveBytes(baseStr, Salt, 10000, HashAlgorithmName.SHA256);
-        return kdf.GetBytes(32); // AES-256
+        return kdf.GetBytes(32);
     }
+
     private static byte[] NewIV()
     {
         var iv = new byte[16];
@@ -24,17 +26,19 @@ public static class SecureTokenStore
 
     public static void Save(string idToken, bool rememberMe, string userId)
     {
+        var payload = $"{userId}|{rememberMe}|{idToken}";
         var key = GetKey();
         var iv = NewIV();
-        var payload = $"{userId}|{rememberMe}|{idToken}";
+
         using var aes = Aes.Create();
         aes.Key = key; aes.IV = iv; aes.Mode = CipherMode.CBC; aes.Padding = PaddingMode.PKCS7;
 
         using var ms = new MemoryStream();
-        ms.Write(iv, 0, iv.Length);
+        ms.Write(iv, 0, iv.Length); // prepend IV
         using (var cs = new CryptoStream(ms, aes.CreateEncryptor(), CryptoStreamMode.Write))
         using (var sw = new StreamWriter(cs, Encoding.UTF8))
             sw.Write(payload);
+
         File.WriteAllBytes(FilePath, ms.ToArray());
     }
 
@@ -49,6 +53,7 @@ public static class SecureTokenStore
 
         using var aes = Aes.Create();
         aes.Key = GetKey(); aes.IV = iv; aes.Mode = CipherMode.CBC; aes.Padding = PaddingMode.PKCS7;
+
         using var ms = new MemoryStream(cipher);
         using var cs = new CryptoStream(ms, aes.CreateDecryptor(), CryptoStreamMode.Read);
         using var sr = new StreamReader(cs, Encoding.UTF8);
