@@ -22,6 +22,7 @@ public class MapManager : MonoBehaviour
     public List<MapData> maps;             // Danh sách các map (gồm nhiều wave)
     public Transform player;               // Gán player từ Inspector
     public GameObject panelWin;
+    public GameObject VFXWin;
 
     public int GoldWave = 0;
     public int GemWave = 0;
@@ -29,6 +30,7 @@ public class MapManager : MonoBehaviour
     private int currentMapIndex = 0;
     private int currentWaveIndex = 0;
     private bool coinAbsorbed = false;
+ 
 
     void Start()
     {
@@ -46,7 +48,9 @@ public class MapManager : MonoBehaviour
         {
             if (!currentMap.teleportBox.activeSelf)
                 currentMap.teleportBox.SetActive(true);
-
+            
+          
+            
             if (!coinAbsorbed)
             {
                 coinAbsorbed = true;
@@ -58,6 +62,7 @@ public class MapManager : MonoBehaviour
                     GoldWave += 50;
                     FindObjectOfType<FireBaseDataBaseManager>()?.UnlockMode(FirebaseAuth.DefaultInstance.CurrentUser.UserId);
                     panelWin.SetActive(true);
+                    VFXWin.SetActive(true);
                 }
             }
 
@@ -76,6 +81,7 @@ public class MapManager : MonoBehaviour
             SpawnWave(currentWaveIndex);
         }
     }
+    
 
     private void SpawnWave(int waveIndex)
     {
@@ -101,6 +107,7 @@ public class MapManager : MonoBehaviour
             player.position = maps[currentMapIndex].playerTargetPosition.position;
 
             maps[currentMapIndex].teleportBox.SetActive(false);
+       
             currentMapIndex++;
             currentWaveIndex = 0;
             coinAbsorbed = false;
