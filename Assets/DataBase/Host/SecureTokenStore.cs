@@ -6,74 +6,66 @@ using UnityEngine;
 
 public static class SecureTokenStore
 {
-    private static readonly string FilePath = Path.Combine(Application.persistentDataPath, "auth.dat");
-    // Tự đặt muối riêng của game (đừng commit public)
-    private const string Salt = "YourGame$Pepper#2025";
+    private static readonly string FilePath = Path.Combine(Application.persistentDataPath, "session.dat");
+    private static readonly byte[] Salt = Encoding.UTF8.GetBytes("Change_This_Salt!");
 
-    static byte[] GetKeyAndIV(out byte[] iv)
+    private static byte[] GetKey()
     {
-        // KHÔNG dùng device id làm khoá duy nhất, chỉ làm nguyên liệu dẫn xuất
-        string material = SystemInfo.deviceUniqueIdentifier + "|" + Salt;
-        using var sha = SHA256.Create();
-        byte[] hash = sha.ComputeHash(Encoding.UTF8.GetBytes(material));
-        // 32 bytes key, 16 bytes iv từ hash
-        byte[] key = hash;
-        iv = new byte[16];
-        Array.Copy(hash, 0, iv, 0, 16);
-        return key;
+        var baseStr = SystemInfo.deviceUniqueIdentifier + "_YourProjectKey";
+        using var kdf = new Rfc2898DeriveBytes(baseStr, Salt, 10000, HashAlgorithmName.SHA256);
+        return kdf.GetBytes(32); // AES-256
+    }
+    private static byte[] NewIV()
+    {
+        var iv = new byte[16];
+        RandomNumberGenerator.Fill(iv);
+        return iv;
     }
 
-    public static void Save(string token, bool rememberMe)
+    public static void Save(string idToken, bool rememberMe, string userId)
     {
-        var payload = JsonUtility.ToJson(new TokenPayload { token = token, remember = rememberMe });
-        byte[] plain = Encoding.UTF8.GetBytes(payload);
-        byte[] key = GetKeyAndIV(out var iv);
-
+        var key = GetKey();
+        var iv = NewIV();
+        var payload = $"{userId}|{rememberMe}|{idToken}";
         using var aes = Aes.Create();
-        aes.Key = key;
-        aes.IV = iv;
+        aes.Key = key; aes.IV = iv; aes.Mode = CipherMode.CBC; aes.Padding = PaddingMode.PKCS7;
+
         using var ms = new MemoryStream();
+        ms.Write(iv, 0, iv.Length);
         using (var cs = new CryptoStream(ms, aes.CreateEncryptor(), CryptoStreamMode.Write))
-            cs.Write(plain, 0, plain.Length);
+        using (var sw = new StreamWriter(cs, Encoding.UTF8))
+            sw.Write(payload);
         File.WriteAllBytes(FilePath, ms.ToArray());
     }
 
-    public static bool TryLoad(out string token, out bool remember)
+    public static (bool ok, string userId, bool rememberMe, string idToken) TryLoad()
     {
-        token = null; remember = false;
-        if (!File.Exists(FilePath)) return false;
+        if (!File.Exists(FilePath)) return (false, null, false, null);
+        var all = File.ReadAllBytes(FilePath);
+        var iv = new byte[16];
+        Buffer.BlockCopy(all, 0, iv, 0, 16);
+        var cipher = new byte[all.Length - 16];
+        Buffer.BlockCopy(all, 16, cipher, 0, cipher.Length);
 
-        byte[] cipher = File.ReadAllBytes(FilePath);
-        byte[] key = GetKeyAndIV(out var iv);
-
-        try
-        {
-            using var aes = Aes.Create();
-            aes.Key = key;
-            aes.IV = iv;
-            using var ms = new MemoryStream(cipher);
-            using var cs = new CryptoStream(ms, aes.CreateDecryptor(), CryptoStreamMode.Read);
-            using var sr = new StreamReader(cs, Encoding.UTF8);
-            var json = sr.ReadToEnd();
-            var p = JsonUtility.FromJson<TokenPayload>(json);
-            token = p.token; remember = p.remember;
-            return !string.IsNullOrEmpty(token);
-        }
-        catch { return false; }
+        using var aes = Aes.Create();
+        aes.Key = GetKey(); aes.IV = iv; aes.Mode = CipherMode.CBC; aes.Padding = PaddingMode.PKCS7;
+        using var ms = new MemoryStream(cipher);
+        using var cs = new CryptoStream(ms, aes.CreateDecryptor(), CryptoStreamMode.Read);
+        using var sr = new StreamReader(cs, Encoding.UTF8);
+        var text = sr.ReadToEnd();
+        var parts = text.Split('|');
+        if (parts.Length != 3) return (false, null, false, null);
+        return (true, parts[0], bool.Parse(parts[1]), parts[2]);
     }
 
-    public static void DeleteIfNotRemember()
+    public static void DeleteIfNotRemembered()
     {
-        if (TryLoad(out _, out bool remember))
-        {
-            if (!remember && File.Exists(FilePath)) File.Delete(FilePath);
-        }
+        var t = TryLoad();
+        if (t.ok && !t.rememberMe) TryDelete();
     }
 
-    public static void ForceDelete()
+    public static void TryDelete()
     {
         if (File.Exists(FilePath)) File.Delete(FilePath);
     }
-
-    [Serializable] class TokenPayload { public string token; public bool remember; }
 }
