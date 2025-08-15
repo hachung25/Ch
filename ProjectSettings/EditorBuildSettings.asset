@@ -11,13 +11,13 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/SampleScene.unity
     guid: 8c9cfa26abfee488c85f1582747f6a02
-  - enabled: 1
+  - enabled: 0
     path: Assets/SceneMode/Mode1.unity
     guid: cfeb7a876cff35e409c832044ed9c118
-  - enabled: 1
+  - enabled: 0
     path: Assets/SceneMode/Mode2.unity
     guid: de903524f889d934d92b648f81f23208
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/TestMuti.unity
     guid: 90cb8aec716847748b68592b4d6cc879
   m_configObjects:

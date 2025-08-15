@@ -1,5 +1,6 @@
 ﻿using Firebase;
 using Firebase.Auth;
+using Firebase.Database;
 using Firebase.Extensions;
 using System.Collections;
 using System.Text.RegularExpressions;
@@ -35,6 +36,9 @@ public class FireBaseLoginManager : MonoBehaviour
     public Button buttonMoveToForgot;
     public Button buttonBackToLoginFromForgot;
 
+    [Header("Conflict Popup")]
+    public GameObject conflictPopupPrefab;
+
 
     public TMP_Text logText;
 
@@ -43,12 +47,26 @@ public class FireBaseLoginManager : MonoBehaviour
     private Coroutine logCoroutine;
 
     private FireBaseDataBaseManager dataBaseManager;
+    [SerializeField] private DeviceConflictManager conflictManager;
+
     private void Start()
     {
         auth = FirebaseAuth.DefaultInstance;
         dataBaseManager = GetComponent<FireBaseDataBaseManager>();
+        conflictManager = GetComponent<DeviceConflictManager>();
 
+    }
 
+    private void Awake()
+    {
+        auth = FirebaseAuth.DefaultInstance;
+
+        if (conflictManager == null)
+            conflictManager = GetComponent<DeviceConflictManager>();
+        if (conflictManager == null)
+            conflictManager = FindObjectOfType<DeviceConflictManager>(true);
+        if (conflictManager == null)
+            conflictManager = gameObject.AddComponent<DeviceConflictManager>();
     }
 
     public void SwitchToForgotPasswordForm()
@@ -129,8 +147,6 @@ var emailPattern = @"^[a-zA-Z0-9_+&*-]+(?:\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+
 
         return null;
     }
-
-
 
     public void RegisterAccountWithFirebase()
     {
@@ -215,6 +231,7 @@ public void SignInAccountWithFirebase()
     
                 FirebaseUser firebaseUser = task.Result.User;
                 string userId = firebaseUser.UserId;
+                string deviceId = GetDeviceID();
 
                 // Ghi user mới nếu cần
                 User userinGame = new("Username", 0, 0,0,0, 0, 0, 0);
@@ -237,8 +254,6 @@ public void SignInAccountWithFirebase()
                         Debug.LogWarning("Không tìm thấy MapUIController trong scene.");
                     }
                 });
-
-
                 // Gọi các chức năng khác nếu cần
                 if (FirebaseAuth.DefaultInstance.CurrentUser != null)
                 {
@@ -246,6 +261,27 @@ public void SignInAccountWithFirebase()
                 }
 
                 FindObjectOfType<Dataload>().LoadAllDataFromFirebase();
+
+                /// Tạo watcher
+                GameObject watcherGO = new GameObject("OnlineStatusWatcher");
+                DontDestroyOnLoad(watcherGO);
+                var watcher = watcherGO.AddComponent<OnlineStatusWatcher>();
+                watcher.conflictPopupPrefab = conflictPopupPrefab;
+                watcher.StartWatching(userId, deviceId);
+
+                // Ghi device info
+                conflictManager.WriteFullDeviceInfo(userId, deviceId);
+
+                // Đăng ký dọn dẹp khi disconnect
+                Firebase.Database.FirebaseDatabase.DefaultInstance
+                    .GetReference($"deviceStatus/{userId}/deviceId")
+                    .OnDisconnect()
+                    .SetValue(null);
+
+
+                
+
+
             }
 
         });
@@ -256,6 +292,49 @@ public void SignInAccountWithFirebase()
         CardsManeger.LoadCardsFromFirebase();
         
     }
+
+    private void OnApplicationQuit()
+    {
+        try
+        {
+            if (auth != null && auth.CurrentUser != null)
+            {
+                string userId = auth.CurrentUser.UserId;
+
+                if (conflictManager != null)
+                {
+                    conflictManager.WriteDeviceStatus(userId, "deviceId", null);
+                }
+                else
+                {
+                    Firebase.Database.FirebaseDatabase.DefaultInstance
+                        .GetReference($"deviceStatus/{userId}/deviceId")
+                        .SetValueAsync(null);
+                }
+            }
+        }
+        catch (System.Exception e)
+        {
+            Debug.LogWarning($"OnApplicationQuit cleanup failed: {e.Message}");
+        }
+    }
+
+
+
+
+    public static string GetDeviceID()
+    {
+        string key = "LocalDeviceID_" + Application.identifier;
+        if (!PlayerPrefs.HasKey(key))
+        {
+            PlayerPrefs.SetString(key, System.Guid.NewGuid().ToString());
+            PlayerPrefs.Save();
+        }
+        return PlayerPrefs.GetString(key);
+    }
+
+
+
 
     private string ParseFirebaseLoginError(System.AggregateException exception)
     {
@@ -348,6 +427,31 @@ case AuthError.WrongPassword:
             }
         });
     }
+
+    public void Logout()
+    {
+        // 1) Cleanup deviceId trên Firebase nếu còn đăng nhập
+        if (auth != null && auth.CurrentUser != null)
+        {
+            string userId = auth.CurrentUser.UserId;
+            if (conflictManager != null)
+                conflictManager.WriteDeviceStatus(userId, "deviceId", null);
+            else
+                Firebase.Database.FirebaseDatabase.DefaultInstance
+                    .GetReference($"deviceStatus/{userId}/deviceId")
+                    .SetValueAsync(null);
+        }
+
+        // 2) Dừng watcher nếu đang chạy
+        var watcher = FindObjectOfType<OnlineStatusWatcher>(true);
+        if (watcher != null) watcher.StopWatching(); // sẽ tự Destroy
+
+        // 3) Sign out và về Login
+        Firebase.Auth.FirebaseAuth.DefaultInstance.SignOut();
+        UnityEngine.SceneManagement.SceneManager.LoadScene("LoginTA");
+    }
+
+
 
 
 }
