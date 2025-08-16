@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 using Firebase.Auth;
 using Firebase.Database;
 using Firebase.Extensions;
@@ -7,12 +8,15 @@ using System;
 public class buttonShowStarr : MonoBehaviour
 {
     public GameObject rewardPanel;
+    public Button claimButton;   // 👉 Gán button Claim ở Inspector
+    public Color claimedColor = Color.gray; // 👉 Màu sau khi nhận thưởng
 
     private FirebaseAuth auth;
     private DatabaseReference dbRef;
 
     void Start()
-    {  rewardPanel.SetActive(false);
+    {
+        rewardPanel.SetActive(false);
         auth = FirebaseAuth.DefaultInstance;
         dbRef = FirebaseDatabase.DefaultInstance.RootReference;
         CheckClaimStatus();
@@ -23,7 +27,7 @@ public class buttonShowStarr : MonoBehaviour
         var user = auth.CurrentUser;
         if (user == null)
         {
-            rewardPanel.SetActive(false); // Không đăng nhập thì ẩn
+            rewardPanel.SetActive(false);
             return;
         }
 
@@ -39,16 +43,20 @@ public class buttonShowStarr : MonoBehaviour
 
                 if (lastClaimDate != today)
                 {
-                    rewardPanel.SetActive(true); 
+                    rewardPanel.SetActive(true);
+                    claimButton.interactable = true; // Cho bấm lại
+                    claimButton.GetComponent<Image>().color = Color.white; // Reset màu
                 }
                 else
                 {
-                    rewardPanel.SetActive(false); 
+                    rewardPanel.SetActive(false);
+                    claimButton.interactable = false; 
+                    claimButton.GetComponent<Image>().color = claimedColor;
                 }
             }
             else
             {
-                rewardPanel.SetActive(false); 
+                rewardPanel.SetActive(false);
                 Debug.LogError("Lỗi khi kiểm tra dữ liệu: " + task.Exception);
             }
         });
@@ -67,6 +75,10 @@ public class buttonShowStarr : MonoBehaviour
             if (task.IsCompleted)
             {
                 CardSpingManeger.AddCardSping(1);
+
+                // 👉 Đổi màu + vô hiệu hóa nút
+                claimButton.interactable = false;
+                claimButton.GetComponent<Image>().color = claimedColor;
             }
             else
             {
@@ -75,7 +87,6 @@ public class buttonShowStarr : MonoBehaviour
         });
     }
 
-    // 👉 Hàm này để gán vào nút "Tắt"
     public void HidePanel()
     {
         rewardPanel.SetActive(false);
