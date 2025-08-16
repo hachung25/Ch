@@ -27115,7 +27115,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PauseMain: {fileID: 2119826346}
-  GameHome: SampleScene
 --- !u!1 &1670628316
 GameObject:
   m_ObjectHideFlags: 0
@@ -32063,6 +32062,10 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1670172953}
+    - target: {fileID: 2304902645626487802, guid: e13e5f465c2c57940b89ebc0a2819492, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2304902645626487802, guid: e13e5f465c2c57940b89ebc0a2819492, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 

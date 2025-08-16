@@ -13,7 +13,7 @@ public class CardsManeger : MonoBehaviour
     private static DatabaseReference reference => FirebaseDatabase.DefaultInstance.RootReference;
     private static string UserId => FirebaseAuth.DefaultInstance.CurrentUser?.UserId;
 
-    // Thêm Cards
+    // Thêm Cards   
     public static void AddCards(int amount)
     {
         currentCards += amount;

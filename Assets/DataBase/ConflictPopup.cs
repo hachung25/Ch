@@ -7,7 +7,6 @@ public class ConflictPopup : MonoBehaviour
 {
     public TMP_Text messageText;
     public Button reloginButton;
-
     public Action onRelogin;
 
     private void Start()
