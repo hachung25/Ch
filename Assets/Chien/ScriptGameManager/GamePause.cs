@@ -5,7 +5,6 @@ using UnityEngine.SceneManagement;
 public class GamePause : MonoBehaviour
 {
     public GameObject PauseMain;
-    public string GameHome;
 
     public void Start()
     {
@@ -25,7 +24,7 @@ public class GamePause : MonoBehaviour
 
     public void BackHome()
     {
-        SceneManager.LoadScene(GameHome);
+        SceneManager.LoadScene("SampleScene");
     }
     public void OnRetryButton()
     {
