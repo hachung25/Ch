@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class playmode : MonoBehaviour
 {
@@ -7,7 +8,7 @@ public class playmode : MonoBehaviour
    public TB Thongbao;
    public void Playmode()
    {
-      playMode.SetActive(true);
+        playMode.SetActive(true);
         CanvasCreatePlayer.SetActive(false);
 
     }
@@ -35,7 +36,8 @@ public class playmode : MonoBehaviour
 
     public void Mutiplayer()
     {
-        CanvasCreatePlayer.SetActive(true);
-        playMode.SetActive(false);
+        //CanvasCreatePlayer.SetActive(true);
+        //playMode.SetActive(false);
+        SceneManager.LoadScene("Lobby");
     }
 }

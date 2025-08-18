@@ -4,6 +4,7 @@ public class EnemyBullet : MonoBehaviour
 {
     public int damage = 7;
     public float lifeTime = 5f;
+    public float speed = 10f;
     public GameObject hitEffect;
 
     private Vector2 targetDirection;
@@ -12,6 +13,7 @@ public class EnemyBullet : MonoBehaviour
     {
         targetDirection = direction.normalized;
         RotateTowardsDirection(targetDirection);
+        Destroy(gameObject, lifeTime); // Tự hủy sau thời gian sống
     }
 
     private void RotateTowardsDirection(Vector2 direction)
@@ -22,7 +24,7 @@ public class EnemyBullet : MonoBehaviour
 
     private void Update()
     {
-        transform.Translate(Vector2.right * Time.deltaTime * 10f); // giả sử tốc độ là 10
+        transform.Translate(targetDirection * speed * Time.deltaTime, Space.World);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -33,6 +35,11 @@ public class EnemyBullet : MonoBehaviour
         if (damageable != null)
         {
             damageable.TakeDamage(damage);
+        }
+
+        if (hitEffect != null)
+        {
+            Instantiate(hitEffect, transform.position, Quaternion.identity);
         }
 
         Destroy(gameObject);
