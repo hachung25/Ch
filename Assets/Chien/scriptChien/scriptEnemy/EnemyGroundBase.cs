@@ -118,16 +118,12 @@ public abstract class EnemyGroundBase : MonoBehaviour, IDamageable
 
     protected virtual void MoveTowardsPlayer()
     {
-        Vector2 direction = (player.position - transform.position).normalized;
-        Vector2 newPos = rb.position + direction * speed * Time.deltaTime;
+        // Chỉ lấy vị trí X của player, giữ nguyên Y của enemy
+        Vector2 targetPosition = new Vector2(player.position.x, rb.position.y);
+        Vector2 newPos = Vector2.MoveTowards(rb.position, targetPosition, speed * Time.deltaTime);
         rb.MovePosition(newPos);
-
-        //if (spriteRenderer != null)
-        //{
-        //    bool isPlayerOnLeft = player.position.x < transform.position.x;
-        //    spriteRenderer.flipX = isFacingRightByDefault ? isPlayerOnLeft : !isPlayerOnLeft;
-        //}
     }
+
 
     protected virtual void StopMoving()
     {

@@ -423,7 +423,7 @@ MonoBehaviour:
   chaseRange: 8
   attackRange: 7
   player: {fileID: 0}
-  maxHealth: 100
+  maxHealth: 30
   isFacingRightByDefault: 0
   HealthUIBeggie: {fileID: 8330863605622729233}
   attackDamage: 5

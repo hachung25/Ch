@@ -15,13 +15,11 @@ public class EnemyFlyGhost : MonoBehaviour
     public Transform player;
 
     private bool isAttacking = false;
-    private bool facingRight = true;
+    private bool isFrozen = false;
 
     private Animator animator;
     private SpriteRenderer spriteRenderer;
     private Rigidbody2D rb;
-
-    private bool isFrozen = false;
 
     void Start()
     {
@@ -44,7 +42,18 @@ public class EnemyFlyGhost : MonoBehaviour
 
     void Update()
     {
-        if (isFrozen || player == null) return;
+        // Nếu đã bị đóng băng hoặc không có player thì dừng animation
+        if (isFrozen)
+            return;
+
+        // Nếu player null hoặc đã rơi khỏi map
+        if (player == null || Mathf.Abs(player.position.y) > 100f) // ví dụ: player rơi quá xa
+        {
+            FreezeEnemy(); // Dừng enemy lại
+            return;
+        }
+
+        FlipToFacePlayer();
 
         float distanceToPlayer = Vector2.Distance(transform.position, player.position);
 
@@ -62,7 +71,7 @@ public class EnemyFlyGhost : MonoBehaviour
                 if (!isAttacking)
                 {
                     isAttacking = true;
-                    Invoke(nameof(ResetAttack), 1f); // cooldown giữa 2 lần bắn
+                    Invoke(nameof(ResetAttack), 1f); // Cooldown bắn
                 }
             }
         }
@@ -72,28 +81,24 @@ public class EnemyFlyGhost : MonoBehaviour
         }
     }
 
+
     void MoveTowardPlayer()
     {
         Vector2 targetPos = new Vector2(player.position.x, rb.position.y);
         Vector2 newPos = Vector2.MoveTowards(rb.position, targetPos, speed * Time.deltaTime);
         rb.MovePosition(newPos);
-
-        float dirX = player.position.x - rb.position.x;
-
-        if ((dirX > 0 && !facingRight) || (dirX < 0 && facingRight))
-        {
-            Flip();
-        }
     }
 
     public void ShootBullet() // Gọi từ Animation Event
     {
         if (player == null || bulletPrefab == null || firePoint == null) return;
 
-        GameObject bullet = Instantiate(bulletPrefab, firePoint.position, Quaternion.identity);
         Vector2 direction = (player.position - firePoint.position).normalized;
-        bullet.GetComponent<Rigidbody2D>().linearVelocity = direction * 10f;
+
+        GameObject bullet = Instantiate(bulletPrefab, firePoint.position, Quaternion.identity);
+        bullet.GetComponent<EnemyBullet>().Initialize(direction);
     }
+
 
     void ResetAttack()
     {
@@ -106,18 +111,31 @@ public class EnemyFlyGhost : MonoBehaviour
         animator.SetBool("EnemyFire", firing);
     }
 
-    void Flip()
+    protected virtual void FlipToFacePlayer()
     {
-        facingRight = !facingRight;
-        spriteRenderer.flipX = !facingRight;
+        if (spriteRenderer == null || player == null) return;
+
+        bool isPlayerOnRight = player.position.x > transform.position.x;
+        spriteRenderer.flipX = !isPlayerOnRight;
+
+        // Flip firePoint theo hướng nhìn
+        if (firePoint != null)
+        {
+            Vector3 localPos = firePoint.localPosition;
+            localPos.x = Mathf.Abs(localPos.x) * (isPlayerOnRight ? 1 : -1);
+            firePoint.localPosition = localPos;
+        }
     }
 
-    // Gọi hàm này khi Player chết
+    // Gọi khi Player chết
     public void FreezeEnemy()
     {
         isFrozen = true;
+
         rb.linearVelocity = Vector2.zero;
         rb.simulated = false;
+
+        SetAnimStates(false, false); // Tắt trạng thái animation
         animator.enabled = false;
     }
 }
