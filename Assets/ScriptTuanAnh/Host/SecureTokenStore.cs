@@ -9,13 +9,14 @@ public static class SecureTokenStore
     private static readonly string FilePath = Path.Combine(Application.persistentDataPath, "session.dat");
     private static readonly byte[] Salt = Encoding.UTF8.GetBytes("Change_This_Salt!");
 
-    // Tạo 64 byte, chia 32 cho mã hoá + 32 cho HMAC
+    // Sinh 64 byte -> 32 cho mã hoá, 32 cho HMAC
     private static void GetKeys(out byte[] encKey, out byte[] macKey)
     {
-        var baseStr = SystemInfo.deviceUniqueIdentifier + "_YourAppKey"; // Đổi chuỗi này cho app của bạn
+        var baseStr = SystemInfo.deviceUniqueIdentifier + "_YourAppKey"; // đổi chuỗi này cho app riêng
         using var kdf = new Rfc2898DeriveBytes(baseStr, Salt, 10000, HashAlgorithmName.SHA256);
         var key64 = kdf.GetBytes(64);
-        encKey = new byte[32]; macKey = new byte[32];
+        encKey = new byte[32];
+        macKey = new byte[32];
         Buffer.BlockCopy(key64, 0, encKey, 0, 32);
         Buffer.BlockCopy(key64, 32, macKey, 0, 32);
     }
@@ -27,10 +28,9 @@ public static class SecureTokenStore
         return iv;
     }
 
-    public static void Save(string idToken, bool rememberMe, string userId)
+    public static void Save(string email, string password, bool rememberMe)
     {
-        // Giữ payload cũ để tương thích; có thể bổ sung version sau.
-        var payload = $"{userId}|{rememberMe}|{idToken}";
+        var payload = $"{email}|{password}|{rememberMe}";
         GetKeys(out var encKey, out var macKey);
         var iv = NewIV();
 
@@ -46,7 +46,6 @@ public static class SecureTokenStore
             cipherBytes = ms.ToArray();
         }
 
-        // Gói dữ liệu: [IV][CIPHERTEXT][HMAC(IV||CIPHERTEXT)]
         var pack = new byte[iv.Length + cipherBytes.Length];
         Buffer.BlockCopy(iv, 0, pack, 0, iv.Length);
         Buffer.BlockCopy(cipherBytes, 0, pack, iv.Length, cipherBytes.Length);
@@ -62,31 +61,28 @@ public static class SecureTokenStore
         File.WriteAllBytes(FilePath, final);
     }
 
-    public static (bool ok, string userId, bool rememberMe, string idToken) TryLoad()
+    public static (bool ok, string email, string password, bool rememberMe) TryLoad()
     {
+        if (!File.Exists(FilePath)) return (false, null, null, false);
         try
         {
-            if (!File.Exists(FilePath)) return (false, null, false, null);
             var all = File.ReadAllBytes(FilePath);
-            if (all.Length < 16 + 1 + 32) return (false, null, false, null);
+            if (all.Length < 16 + 1 + 32) return (false, null, null, false);
 
             GetKeys(out var encKey, out var macKey);
 
-            // Tách tag
             var tag = new byte[32];
             Buffer.BlockCopy(all, all.Length - 32, tag, 0, 32);
             var packLen = all.Length - 32;
             var pack = new byte[packLen];
             Buffer.BlockCopy(all, 0, pack, 0, packLen);
 
-            // Verify HMAC
             byte[] calcTag;
             using (var hmac = new HMACSHA256(macKey))
                 calcTag = hmac.ComputeHash(pack);
             if (!CryptographicOperations.FixedTimeEquals(tag, calcTag))
-                return (false, null, false, null);
+                return (false, null, null, false);
 
-            // Tách IV + ciphertext
             var iv = new byte[16];
             Buffer.BlockCopy(pack, 0, iv, 0, 16);
             var cipher = new byte[pack.Length - 16];
@@ -98,15 +94,16 @@ public static class SecureTokenStore
             using var ms = new MemoryStream(cipher);
             using var cs = new CryptoStream(ms, aes.CreateDecryptor(), CryptoStreamMode.Read);
             using var sr = new StreamReader(cs, Encoding.UTF8);
-
             var text = sr.ReadToEnd();
+
             var parts = text.Split('|');
-            if (parts.Length != 3) return (false, null, false, null);
-            return (true, parts[0], bool.Parse(parts[1]), parts[2]);
+            if (parts.Length != 3) return (false, null, null, false);
+
+            return (true, parts[0], parts[1], bool.Parse(parts[2]));
         }
         catch
         {
-            return (false, null, false, null);
+            return (false, null, null, false);
         }
     }
 

@@ -58,7 +58,32 @@ public class FireBaseLoginManager : MonoBehaviour
         dataBaseManager = GetComponent<FireBaseDataBaseManager>();
         conflictManager = GetComponent<DeviceConflictManager>();
 
+        var t = SecureTokenStore.TryLoad();
+        if (t.ok && t.rememberMe && !string.IsNullOrEmpty(t.email) && !string.IsNullOrEmpty(t.password))
+        {
+            Debug.Log("Có Remember Me, thử auto-login...");
+
+            auth.SignInWithEmailAndPasswordAsync(t.email, t.password)
+                .ContinueWithOnMainThread(task =>
+                {
+                    if (task.IsCompleted && !task.IsFaulted && !task.IsCanceled)
+                    {
+                        Debug.Log("Auto-login thành công!");
+                        SceneManager.LoadScene("SampleScene");
+                    }
+                    else
+                    {
+                        Debug.LogWarning("Auto-login thất bại, xóa dữ liệu.");
+                        SecureTokenStore.TryDelete();
+                    }
+                });
+        }
+        else
+        {
+            Debug.Log("Không có Remember Me hoặc chưa lưu thông tin.");
+        }
     }
+
 
     private void Awake()
     {
@@ -188,22 +213,26 @@ var emailPattern = @"^[a-zA-Z0-9_+&*-]+(?:\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+
             {
                 LogToText("Tài khoản " + email + " đã được đăng ký thành công!", SwitchForm);
 
-                var user = auth.CurrentUser;
-                if (user != null)
-                {
-                    user.TokenAsync(true).ContinueWithOnMainThread(tokTask =>
-                    {
-                        if (tokTask.IsCompleted && !tokTask.IsFaulted && !tokTask.IsCanceled)
-                        {
-                            bool remember = (rememberMe != null && rememberMe.isOn);
-                            SecureTokenStore.Save(tokTask.Result, remember, user.UserId);
-                        }
-                        else
-                        {
-                            Debug.LogWarning("Register OK nhưng lấy token thất bại.");
-                        }
-                    });
-                }
+                bool remember = (rememberMe != null && rememberMe.isOn);
+                SecureTokenStore.Save(email, password, remember);
+
+
+                //var user = auth.CurrentUser;
+                //if (user != null)
+                //{
+                //    user.TokenAsync(true).ContinueWithOnMainThread(tokTask =>
+                //    {
+                //        if (tokTask.IsCompleted && !tokTask.IsFaulted && !tokTask.IsCanceled)
+                //        {
+                //            bool remember = (rememberMe != null && rememberMe.isOn);
+                //            SecureTokenStore.Save(tokTask.Result, remember, user.UserId);
+                //        }
+                //        else
+                //        {
+                //            Debug.LogWarning("Register OK nhưng lấy token thất bại.");
+                //        }
+                //    });
+                //}
             }
         });
     }
@@ -231,19 +260,23 @@ var emailPattern = @"^[a-zA-Z0-9_+&*-]+(?:\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+
             string userId = firebaseUser.UserId;
             string deviceId = GetDeviceID();
 
+            bool remember = (rememberMe != null && rememberMe.isOn);
+            SecureTokenStore.Save(email, password, remember);
+
+
             // LƯU PHIÊN
-            firebaseUser.TokenAsync(true).ContinueWithOnMainThread(tokTask =>
-            {
-                if (tokTask.IsCompleted && !tokTask.IsFaulted && !tokTask.IsCanceled)
-                {
-                    bool remember = (rememberMe != null && rememberMe.isOn);
-                    SecureTokenStore.Save(tokTask.Result, remember, firebaseUser.UserId);
-                }
-                else
-                {
-                    Debug.LogWarning("Login OK nhưng lấy token thất bại.");
-                }
-            });
+            //firebaseUser.TokenAsync(true).ContinueWithOnMainThread(tokTask =>
+            //{
+            //    if (tokTask.IsCompleted && !tokTask.IsFaulted && !tokTask.IsCanceled)
+            //    {
+            //        bool remember = (rememberMe != null && rememberMe.isOn);
+            //        SecureTokenStore.Save(tokTask.Result, remember, firebaseUser.UserId);
+            //    }
+            //    else
+            //    {
+            //        Debug.LogWarning("Login OK nhưng lấy token thất bại.");
+            //    }
+            //});
 
             // --- PHẦN CÒN LẠI CỦA BẠN GIỮ NGUYÊN ---
             User userinGame = new("Username", 0, 0, 0, 0, 0, 0, 0);
