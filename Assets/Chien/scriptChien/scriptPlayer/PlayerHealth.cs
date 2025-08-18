@@ -13,6 +13,7 @@ public class PlayerHealth : MonoBehaviour, IDamageable
     public GameObject LoseGame;
     public GameObject hitVFXPrefab;
     public GameObject DeadVFXPrefab;
+    public EnemyFlyGhost Ghost;
     private void OnEnable()
     {
         IndexPlayerPlayGame.OnStatsLoaded += SetHealth;
@@ -73,6 +74,7 @@ public class PlayerHealth : MonoBehaviour, IDamageable
         }
         Destroy(gameObject, 0.7f);
         LoseGame.SetActive(true);
+        Ghost.FreezeEnemy();
     }
 
     public void Heal(int amount)

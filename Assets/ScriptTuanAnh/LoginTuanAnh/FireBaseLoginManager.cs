@@ -39,6 +39,9 @@ public class FireBaseLoginManager : MonoBehaviour
     [Header("Conflict Popup")]
     public GameObject conflictPopupPrefab;
 
+    [Header("Remember Me")]
+    public Toggle rememberMe;      // Toggle ở form Đăng nhập
+
 
     public TMP_Text logText;
 
@@ -54,8 +57,8 @@ public class FireBaseLoginManager : MonoBehaviour
         auth = FirebaseAuth.DefaultInstance;
         dataBaseManager = GetComponent<FireBaseDataBaseManager>();
         conflictManager = GetComponent<DeviceConflictManager>();
-
     }
+
 
     private void Awake()
     {
@@ -160,19 +163,10 @@ var emailPattern = @"^[a-zA-Z0-9_+&*-]+(?:\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+
         string passwordError = ValidatePassword(password);
         if (!string.IsNullOrEmpty(passwordError)) { LogToText(passwordError); return; }
 
-        if (string.IsNullOrEmpty(confirmPassword))
-        {
-            LogToText("Bạn chưa xác thực mật khẩu!");
-            return;
-        }
+        if (string.IsNullOrEmpty(confirmPassword)) { LogToText("Bạn chưa xác thực mật khẩu!"); return; }
+        if (password != confirmPassword) { LogToText("Xác thực mật khẩu không khớp!"); return; }
 
-        if (password != confirmPassword)
-        {
-            LogToText("Xác thực mật khẩu không khớp!");
-            return;
-        }
-
-        // Đăng ký trực tiếp
+        // ĐĂNG KÝ THỰC SỰ Ở ĐÂY
         auth.CreateUserWithEmailAndPasswordAsync(email, password).ContinueWithOnMainThread(registerTask =>
         {
             if (registerTask.IsCanceled)
@@ -182,24 +176,40 @@ var emailPattern = @"^[a-zA-Z0-9_+&*-]+(?:\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+
             else if (registerTask.IsFaulted)
             {
                 FirebaseException firebaseEx = registerTask.Exception?.GetBaseException() as FirebaseException;
-                AuthError errorCode = (AuthError)firebaseEx.ErrorCode;
+                var errorCode = firebaseEx != null ? (AuthError)firebaseEx.ErrorCode : 0;
 
                 if (errorCode == AuthError.EmailAlreadyInUse)
-                {
                     LogToText("Email đã được sử dụng!");
-                }
                 else
-                {
-                    LogToText("Đăng ký thất bạ "/* + firebaseEx.Message*/);
-                }
+                    LogToText("Đăng ký thất bại");
+
             }
-            else
+            else // Thành công
             {
                 LogToText("Tài khoản " + email + " đã được đăng ký thành công!", SwitchForm);
+
+
+                var user = auth.CurrentUser;
+                if (user != null)
+                {
+                    user.TokenAsync(true).ContinueWithOnMainThread(tokTask =>
+                    {
+                        if (tokTask.IsCompleted && !tokTask.IsFaulted && !tokTask.IsCanceled)
+                        {
+                            bool remember = (rememberMe != null && rememberMe.isOn);
+                            SecureTokenStore.Save(tokTask.Result, remember, user.UserId);
+                        }
+                        else
+                        {
+                            Debug.LogWarning("Register OK nhưng lấy token thất bại.");
+                        }
+                    });
+                }
             }
         });
     }
-public void SignInAccountWithFirebase()
+
+    public void SignInAccountWithFirebase()
     {
         string email = ipLoginEmail.text;
         string password = ipLoginPassword.text;
@@ -212,80 +222,66 @@ public void SignInAccountWithFirebase()
 
         auth.SignInWithEmailAndPasswordAsync(email, password).ContinueWithOnMainThread(task =>
         {
-            if (task.IsCanceled)
+            if (task.IsCanceled) { LogToText("Đăng nhập bị hủy."); return; }
+            if (task.IsFaulted) { LogToText(ParseFirebaseLoginError(task.Exception)); return; }
+
+            // Thành công
+            LogToText("Đăng nhập thành công");
+
+            var firebaseUser = task.Result.User;               // KHÔNG khai báo lại lần 2
+            string userId = firebaseUser.UserId;
+            string deviceId = GetDeviceID();
+
+
+
+
+            //LƯU PHIÊN
+            firebaseUser.TokenAsync(true).ContinueWithOnMainThread(tokTask =>
             {
-                LogToText("Đăng nhập bị hủy.");
-                return;
-            }
-
-            if (task.IsFaulted)
-            {
-                string errorMessage = ParseFirebaseLoginError(task.Exception);
-                LogToText(errorMessage);
-                return;
-            }
-
-            if (task.IsCompleted)
-            {
-                LogToText("Đăng nhập thành công");
-    
-                FirebaseUser firebaseUser = task.Result.User;
-                string userId = firebaseUser.UserId;
-                string deviceId = GetDeviceID();
-
-                // Ghi user mới nếu cần
-                User userinGame = new("Username", 0, 0,0,0, 0, 0, 0);
-                dataBaseManager.WriteDataBase("Users/" + userId, userinGame.ToString());
-
-                // Load trạng thái map từ Firebase
-                // Load trạng thái map từ Firebase
-                dataBaseManager.LoadMode(userId, (mode) =>
+                if (tokTask.IsCompleted && !tokTask.IsFaulted && !tokTask.IsCanceled)
                 {
-                    Debug.Log("Trạng thái mode: " + mode); // false = map1, true = map2
-
-                    // Gọi controller UI để xử lý giao diện map
-                    MapUIController mapUI = FindObjectOfType<MapUIController>();
-                    if (mapUI != null)
-                    {
-                        mapUI.ShowMode(mode);
-                    }
-                    else
-                    {
-                        Debug.LogWarning("Không tìm thấy MapUIController trong scene.");
-                    }
-                });
-                // Gọi các chức năng khác nếu cần
-                if (FirebaseAuth.DefaultInstance.CurrentUser != null)
-                {
-                    SaveManeger.LoadDailylogin();
+                    bool remember = (rememberMe != null && rememberMe.isOn);
+                    SecureTokenStore.Save(tokTask.Result, remember, firebaseUser.UserId);
                 }
+                else
+                {
+                    Debug.LogWarning("Login OK nhưng lấy token thất bại.");
+                }
+            });
 
-                FindObjectOfType<Dataload>().LoadAllDataFromFirebase();
+            // --- PHẦN CÒN LẠI CỦA BẠN GIỮ NGUYÊN ---
+            User userinGame = new("Username", 0, 0, 0, 0, 0, 0, 0);
+            dataBaseManager.WriteDataBase("Users/" + userId, userinGame.ToString());
 
-                /// Tạo watcher
-                GameObject watcherGO = new GameObject("OnlineStatusWatcher");
-                DontDestroyOnLoad(watcherGO);
-                var watcher = watcherGO.AddComponent<OnlineStatusWatcher>();
-                watcher.conflictPopupPrefab = conflictPopupPrefab;
-                watcher.StartWatching(userId, deviceId);
+            dataBaseManager.LoadMode(userId, (mode) =>
+            {
+                Debug.Log("Trạng thái mode: " + mode);
+                MapUIController mapUI = FindObjectOfType<MapUIController>();
+                if (mapUI != null) mapUI.ShowMode(mode);
+                else Debug.LogWarning("Không tìm thấy MapUIController trong scene.");
+            });
 
-                // Ghi device info
-                conflictManager.WriteFullDeviceInfo(userId, deviceId);
-
-                // Đăng ký dọn dẹp khi disconnect
-                Firebase.Database.FirebaseDatabase.DefaultInstance
-                    .GetReference($"deviceStatus/{userId}/deviceId")
-                    .OnDisconnect()
-                    .SetValue(null);
-
-
-                
-
-
+            if (FirebaseAuth.DefaultInstance.CurrentUser != null)
+            {
+                SaveManeger.LoadDailylogin();
             }
 
+            FindObjectOfType<Dataload>().LoadAllDataFromFirebase();
+
+            GameObject watcherGO = new GameObject("OnlineStatusWatcher");
+            DontDestroyOnLoad(watcherGO);
+            var watcher = watcherGO.AddComponent<OnlineStatusWatcher>();
+            watcher.conflictPopupPrefab = conflictPopupPrefab;
+            watcher.StartWatching(userId, deviceId);
+
+            conflictManager.WriteFullDeviceInfo(userId, deviceId);
+
+            FirebaseDatabase.DefaultInstance
+                .GetReference($"deviceStatus/{userId}/deviceId")
+                .OnDisconnect().SetValue(null);
         });
     }
+
 
     public void loaddataBaseManager()
     {
@@ -316,6 +312,12 @@ public void SignInAccountWithFirebase()
         catch (System.Exception e)
         {
             Debug.LogWarning($"OnApplicationQuit cleanup failed: {e.Message}");
+        }
+
+        finally
+        {
+            // <<< THÊM DÒNG NÀY
+            SecureTokenStore.DeleteIfNotRemembered();
         }
     }
 
@@ -448,6 +450,7 @@ case AuthError.WrongPassword:
 
         // 3) Sign out và về Login
         Firebase.Auth.FirebaseAuth.DefaultInstance.SignOut();
+        SecureTokenStore.TryDelete(); // <<< THÊM DÒNG NÀY
         UnityEngine.SceneManagement.SceneManager.LoadScene("LoginTA");
     }
 
