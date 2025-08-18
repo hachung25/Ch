@@ -1613,7 +1613,7 @@ MonoBehaviour:
   buttonMoveToForgot: {fileID: 6285579189921838789}
   buttonBackToLoginFromForgot: {fileID: 1082050095789280715}
   conflictPopupPrefab: {fileID: 5360331767681519179, guid: 752b195a8ad3d4a47a519aaa020d357d, type: 3}
-  rememberMe: {fileID: 0}
+  rememberMe: {fileID: 1066166565247872792}
   logText: {fileID: 3078942241823001796}
   conflictManager: {fileID: 1840519830}
 --- !u!4 &1840519824
@@ -2059,6 +2059,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0582147964bc3ff48826e9c4d3495613, type: 3}
+--- !u!114 &1066166565247872792 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1814928901790341940, guid: 0582147964bc3ff48826e9c4d3495613, type: 3}
+  m_PrefabInstance: {fileID: 1066166565247872791}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9085046f02f69544eb97fd06b6048fe2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1072368923125441390 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3550892370281190435, guid: 0582147964bc3ff48826e9c4d3495613, type: 3}

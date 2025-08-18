@@ -5280,7 +5280,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 278807470}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 396c7f970ce050a4b8f0f90c826ab8af, type: 3}
   m_Name: 
@@ -5302,6 +5302,7 @@ MonoBehaviour:
   buttonMoveToForgot: {fileID: 0}
   buttonBackToLoginFromForgot: {fileID: 0}
   conflictPopupPrefab: {fileID: 0}
+  rememberMe: {fileID: 0}
   logText: {fileID: 0}
   conflictManager: {fileID: 0}
 --- !u!114 &278807497
@@ -45825,7 +45826,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 7081431160417434548}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 278807496}
+        m_TargetAssemblyTypeName: FireBaseLoginManager, Assembly-CSharp
+        m_MethodName: Logout
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!224 &3171070138330188413
 RectTransform:
   m_ObjectHideFlags: 0
