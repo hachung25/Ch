@@ -5302,6 +5302,7 @@ MonoBehaviour:
   buttonMoveToForgot: {fileID: 0}
   buttonBackToLoginFromForgot: {fileID: 0}
   conflictPopupPrefab: {fileID: 0}
+  rememberMe: {fileID: 0}
   logText: {fileID: 0}
   conflictManager: {fileID: 0}
 --- !u!114 &278807497
@@ -42551,6 +42552,10 @@ PrefabInstance:
     - target: {fileID: 8291620767380404110, guid: 297e4cae0ad3d574abd12f5d5111e652, type: 3}
       propertyPath: m_hasFontAssetChanged
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9006698646054230889, guid: 297e4cae0ad3d574abd12f5d5111e652, type: 3}
+      propertyPath: m_text
+      value: 0/30
       objectReference: {fileID: 0}
     - target: {fileID: 9107011962890215309, guid: 297e4cae0ad3d574abd12f5d5111e652, type: 3}
       propertyPath: m_SizeDelta.x

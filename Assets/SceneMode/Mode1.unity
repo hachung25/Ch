@@ -14954,9 +14954,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tb: {fileID: 1422693971}
-  scaleDuration: 0.2
-  waitTime: 0.2
-  waitTimeTbs: 2.5
+  scaleDuration: 0.5
+  waitTime: 0.5
+  waitTimeTbs: 4
 --- !u!114 &401750513
 MonoBehaviour:
   m_ObjectHideFlags: 0

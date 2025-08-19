@@ -29468,7 +29468,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PauseMain: {fileID: 2119826346}
-  GameHome: SampleScene
 --- !u!1 &1690129238
 GameObject:
   m_ObjectHideFlags: 0
