@@ -12,6 +12,13 @@ public class AudioPlayer : MonoBehaviour
 
     // Gọi từ Animation Event
     // Gắn trên đúng frame trong animation Attack
+    //void Update()
+    //{
+    //    if (Input.GetKeyDown(KeyCode.T)) // khi bấm phím T
+    //    {
+    //        audioSource.PlayOneShot(attackSound); // phát âm thanh attack
+    //    }
+    //}
     public void PlayAttackSound()
     {
         if (hasAttackedOnce) // nếu cần tránh phát lại lần đầu

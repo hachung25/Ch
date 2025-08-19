@@ -14,6 +14,10 @@ public class PlayerHealth : MonoBehaviour, IDamageable
     public GameObject hitVFXPrefab;
     public GameObject DeadVFXPrefab;
     public EnemyFlyGhost Ghost;
+
+    public AudioClip hitSound;       // âm thanh bạn chọn
+    private AudioSource audioSource; // để phát âm thanh
+    public AudioClip OverSound;
     private void OnEnable()
     {
         IndexPlayerPlayGame.OnStatsLoaded += SetHealth;
@@ -27,6 +31,12 @@ public class PlayerHealth : MonoBehaviour, IDamageable
     private void Start()
     {
         animator = GetComponent<Animator>();
+        // Lấy AudioSource sẵn có hoặc tự thêm
+        audioSource = GetComponent<AudioSource>();
+        if (audioSource == null)
+        {
+            audioSource = gameObject.AddComponent<AudioSource>();
+        }
     }
 
     private void SetHealth(int health, int damage)
@@ -54,6 +64,9 @@ public class PlayerHealth : MonoBehaviour, IDamageable
         if (animator != null)
             animator.SetTrigger("Hit");
 
+        if (hitSound != null && audioSource != null)
+            audioSource.PlayOneShot(hitSound);
+
         if (currentHealth <= 0)
             Die();
     }
@@ -72,6 +85,8 @@ public class PlayerHealth : MonoBehaviour, IDamageable
         {
             Instantiate(DeadVFXPrefab, transform.position , Quaternion.identity);
         }
+        if(OverSound != null && audioSource != null)
+            audioSource.PlayOneShot(OverSound);
         Destroy(gameObject, 0.7f);
         LoseGame.SetActive(true);
         Ghost.FreezeEnemy();
