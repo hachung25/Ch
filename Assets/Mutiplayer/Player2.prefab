@@ -1913,7 +1913,7 @@ GameObject:
   - component: {fileID: 7291662996809259922}
   - component: {fileID: 2675598074069683692}
   - component: {fileID: 5944748434555411810}
-  - component: {fileID: 5235338612198246319}
+  - component: {fileID: 2415769429635278127}
   m_Layer: 0
   m_Name: Player2
   m_TagString: Untagged
@@ -1984,9 +1984,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingLayerID: -2005116043
+  m_SortingLayer: 3
+  m_SortingOrder: 2
   m_Sprite: {fileID: -3586740000490696627, guid: 35dfbe93881a2424cb25fb832d3db2ea, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -2078,7 +2078,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24500aa997d51164f86f1aa4b0dcc403, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _CurrentHP: 100
   maxHP: 100
 --- !u!114 &4643254046239519868
 MonoBehaviour:
@@ -2115,6 +2114,7 @@ MonoBehaviour:
   - {fileID: 2316295677882166761}
   - {fileID: 2675598074069683692}
   - {fileID: 5944748434555411810}
+  - {fileID: 2415769429635278127}
   ForceRemoteRenderTimeframe: 0
 --- !u!61 &7291662996809259922
 BoxCollider2D:
@@ -2198,7 +2198,7 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 64
---- !u!114 &5235338612198246319
+--- !u!114 &2415769429635278127
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2207,11 +2207,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 8440956860131690837}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 1541381998, guid: e725a070cec140c4caffb81624c8c787, type: 3}
+  m_Script: {fileID: 11500000, guid: 7d80f7e67465eb0448accf0fc44036f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Guid:
-    RawGuidValue: 07cf808c3acd86440879ca862281e2fd
 --- !u!1 &8598553272172993883
 GameObject:
   m_ObjectHideFlags: 0

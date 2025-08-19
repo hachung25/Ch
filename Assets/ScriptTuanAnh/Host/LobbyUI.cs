@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -29,7 +30,7 @@ public class LobbyUI : MonoBehaviour
 
     void OnEnable()
     {
-        // Bắt đầu lắng nghe danh sách phòng
+        // Lắng nghe danh sách phòng
         RoomService.I.StartRoomDirectory();
         RoomService.I.OnRoomListChanged += RefreshRoomList;
         RoomService.I.OnPlayersChanged += OnPlayersChanged;
@@ -49,6 +50,7 @@ public class LobbyUI : MonoBehaviour
         {
             RoomService.I.OnRoomListChanged -= RefreshRoomList;
             RoomService.I.OnPlayersChanged -= OnPlayersChanged;
+            RoomService.I.StopRoomDirectory();
         }
         if (btnCreateRoom) btnCreateRoom.onClick.RemoveListener(OnClickCreateRoom);
         if (btnJoinById) btnJoinById.onClick.RemoveListener(OnClickJoinById);
@@ -62,14 +64,29 @@ public class LobbyUI : MonoBehaviour
         try
         {
             var id = await RoomService.I.CreateRoom(gameplayBuildIndex);
-            statusLabel?.SetText($"Created room: {id}");
+            statusLabel?.SetText($"Tạo phòng: {id}");
             UpdateTopBar();
+
+            // ==== FIX: ép UI refresh ngay cho host ====
+            var playersSnap = await Firebase.Database.FirebaseDatabase.DefaultInstance
+                .GetReference("rooms").Child(id).Child("players").GetValueAsync();
+
+            var dict = new Dictionary<string, PlayerInfo>();
+            foreach (var ch in playersSnap.Children)
+            {
+                var json = ch.GetRawJsonValue();
+                if (!string.IsNullOrEmpty(json))
+                    dict[ch.Key] = JsonUtility.FromJson<PlayerInfo>(json);
+            }
+            OnPlayersChanged(id, dict);
+            // =========================================
         }
-        catch (System.SystemException e)
+        catch (System.Exception e)
         {
             statusLabel?.SetText($"Create failed: {e.Message}");
         }
     }
+
 
     public async void OnClickJoinById()
     {
@@ -79,10 +96,10 @@ public class LobbyUI : MonoBehaviour
         try
         {
             await RoomService.I.JoinRoom(id);
-            statusLabel?.SetText($"Joined: {id}");
+            statusLabel?.SetText($"Đã vào phòng: {id}");
             UpdateTopBar();
         }
-        catch (System.SystemException e)
+        catch (System.Exception e)
         {
             statusLabel?.SetText($"Join failed: {e.Message}");
         }
@@ -90,12 +107,14 @@ public class LobbyUI : MonoBehaviour
 
     public async void OnClickStartAsHost()
     {
-        await RoomService.I.HostTriggerStart();
+        try { await RoomService.I.HostTriggerStart(); }
+        catch (System.Exception e) { statusLabel?.SetText($"Start failed: {e.Message}"); }
     }
 
     public async void OnClickLeaveRoom()
     {
-        await RoomService.I.LeaveRoom();
+        try { await RoomService.I.LeaveRoom(); }
+        catch (System.Exception e) { statusLabel?.SetText($"Leave failed: {e.Message}"); }
         ClearPlayerList();
         UpdateTopBar();
     }
@@ -103,6 +122,8 @@ public class LobbyUI : MonoBehaviour
     // ===== Event handlers =====
     void RefreshRoomList(List<(string roomId, RoomInfo info)> rooms)
     {
+        if (!roomListRoot || !roomItemPrefab) return;
+
         // Clear
         foreach (Transform c in roomListRoot) Destroy(c.gameObject);
 
@@ -116,7 +137,7 @@ public class LobbyUI : MonoBehaviour
             item.Setup(roomId, count, async (id) =>
             {
                 await RoomService.I.JoinRoom(id);
-                statusLabel?.SetText($"Joined: {id}");
+                statusLabel?.SetText($"Đã vào phòng: {id}");
                 UpdateTopBar();
             });
         }
@@ -124,14 +145,18 @@ public class LobbyUI : MonoBehaviour
 
     void OnPlayersChanged(string roomId, Dictionary<string, PlayerInfo> players)
     {
-        // Chỉ render danh sách nếu là phòng mình đang ở
         if (roomId != RoomService.I.CurrentRoomId) return;
+        if (!playerListRoot || !playerItemPrefab) return;
 
         // Clear
         ClearPlayerList();
 
+        // Sort: Host trước, sau đó theo joinedAt
+        var list = players?.ToList() ?? new List<KeyValuePair<string, PlayerInfo>>();
+        list = list.OrderByDescending(kv => kv.Value.isHost).ThenBy(kv => kv.Value.joinedAt).ToList();
+
         // Fill
-        foreach (var kv in players)
+        foreach (var kv in list)
         {
             var go = Instantiate(playerItemPrefab, playerListRoot);
             var ui = go.GetComponent<PlayerListItemUI>();
@@ -142,7 +167,7 @@ public class LobbyUI : MonoBehaviour
             ui.Setup(name, isHost);
         }
 
-        // Bật/tắt nút Start theo quyền Host
+        // Bật/tắt nút Start theo quyền Host (UI client-side; quyền thực tế do rules server)
         btnStartAsHost?.gameObject.SetActive(IsMeHost(players));
         UpdateTopBar();
     }
@@ -156,8 +181,9 @@ public class LobbyUI : MonoBehaviour
 
     void ClearPlayerList()
     {
+        if (!playerListRoot) return;
         foreach (Transform c in playerListRoot) Destroy(c.gameObject);
-        btnStartAsHost?.gameObject.SetActive(false);
+        if (btnStartAsHost) btnStartAsHost.gameObject.SetActive(false);
     }
 
     bool IsMeHost(Dictionary<string, PlayerInfo> players)

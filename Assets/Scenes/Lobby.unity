@@ -1807,7 +1807,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1030935468}
   - component: {fileID: 1030935467}
-  - component: {fileID: 1030935466}
+  - component: {fileID: 1030935469}
   m_Layer: 0
   m_Name: NetRoom
   m_TagString: Untagged
@@ -1815,19 +1815,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1030935466
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1030935465}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ad73c798b4a6b9445a611966773205ba, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  room: {fileID: 1030935467}
 --- !u!114 &1030935467
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1855,6 +1842,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1030935469
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1030935465}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eb2af2ed8a7541c438ff2c506af47c75, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1095167057
 GameObject:
   m_ObjectHideFlags: 0
@@ -2641,6 +2640,51 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1308151991}
   m_CullTransparentMesh: 1
+--- !u!1 &1410321196
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1410321198}
+  - component: {fileID: 1410321197}
+  m_Layer: 0
+  m_Name: SceneFlowManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1410321197
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1410321196}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad73c798b4a6b9445a611966773205ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  room: {fileID: 1030935467}
+--- !u!4 &1410321198
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1410321196}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 3, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1534630701
 GameObject:
   m_ObjectHideFlags: 0
@@ -4136,3 +4180,4 @@ SceneRoots:
   - {fileID: 1597305492}
   - {fileID: 1849058488}
   - {fileID: 2049882013}
+  - {fileID: 1410321198}
