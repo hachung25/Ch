@@ -65,8 +65,14 @@ public class FireBaseLoginManager : MonoBehaviour
 
     private void Start()
     {
+        // 🔹 Set lại trạng thái toggle RememberMe từ PlayerPrefs
+        if (rememberMe != null)
+            rememberMe.isOn = PlayerPrefs.GetInt("RememberMe", 0) == 1;
+
         var user = auth.CurrentUser;
-        if (!hasAutoLoggedIn && user != null && !user.IsAnonymous)
+        bool remember = PlayerPrefs.GetInt("RememberMe", 0) == 1;
+
+        if (!hasAutoLoggedIn && user != null && !user.IsAnonymous && remember)
         {
             hasAutoLoggedIn = true;
             Debug.Log("Auto login thành công");
@@ -75,7 +81,7 @@ public class FireBaseLoginManager : MonoBehaviour
         }
         else
         {
-            Debug.Log("Chưa login hoặc anonymous → ở lại màn hình login");
+            Debug.Log("Chưa login hoặc chưa chọn RememberMe → ở lại màn hình login");
             if (LoginForm != null) LoginForm.SetActive(true);
         }
     }
@@ -118,7 +124,6 @@ public class FireBaseLoginManager : MonoBehaviour
             .OnDisconnect().SetValue(null);
     }
 
-    // ====================== REGISTER ======================
     public void RegisterAccountWithFirebase()
     {
         string email = ipRegisterEmail.text;
@@ -152,10 +157,23 @@ public class FireBaseLoginManager : MonoBehaviour
             }
             else
             {
+                // ✅ Tạo user thành công
+                FirebaseUser newUser = registerTask.Result.User;
+                string userId = newUser.UserId;
+
+                // ✅ Lưu thông tin cơ bản vào Realtime Database
+                DatabaseReference userRef = FirebaseDatabase.DefaultInstance.GetReference("Users").Child(userId);
+                userRef.Child("email").SetValueAsync(email);
+                userRef.Child("createdAt").SetValueAsync(System.DateTime.UtcNow.ToString());
+
+                // Nếu muốn có thêm username mặc định
+                userRef.Child("username").SetValueAsync("Player_" + Random.Range(1000, 9999));
+
                 LogToText("Tài khoản " + email + " đã được đăng ký thành công!", SwitchForm);
             }
         });
     }
+
 
     // ====================== LOGIN ======================
     public void SignInAccountWithFirebase()
@@ -177,6 +195,13 @@ public class FireBaseLoginManager : MonoBehaviour
             // Thành công
             LogToText("Đăng nhập thành công");
 
+            // 🔹 Lưu trạng thái RememberMe
+            if (rememberMe != null && rememberMe.isOn)
+                PlayerPrefs.SetInt("RememberMe", 1);
+            else
+                PlayerPrefs.SetInt("RememberMe", 0);
+            PlayerPrefs.Save();
+
             var firebaseUser = task.Result.User;
             OnLoginSuccess(firebaseUser);
 
@@ -191,22 +216,49 @@ public class FireBaseLoginManager : MonoBehaviour
         string emailError = IsValidGoogleEmail(email);
         if (!string.IsNullOrEmpty(emailError)) { LogToText(emailError); return; }
 
-        auth.SendPasswordResetEmailAsync(email).ContinueWithOnMainThread(task =>
-        {
-            if (task.IsCanceled)
-                LogToText("Yêu cầu đặt lại mật khẩu đã bị hủy.");
-            else if (task.IsFaulted)
+        // Kiểm tra email trong Database trước
+        FirebaseDatabase.DefaultInstance
+            .GetReference("Users")
+            .OrderByChild("email").EqualTo(email)
+            .GetValueAsync().ContinueWithOnMainThread(task =>
             {
-                FirebaseException firebaseEx = task.Exception?.GetBaseException() as FirebaseException;
-                AuthError errorCode = (AuthError)firebaseEx.ErrorCode;
-                if (errorCode == AuthError.InvalidEmail) LogToText("Email không hợp lệ.");
-                else if (errorCode == AuthError.UserNotFound) LogToText("Không tìm thấy tài khoản với email này.");
-                else LogToText("Lỗi đặt lại mật khẩu");
-            }
-            else
-                LogToText("Yêu cầu đặt lại mật khẩu đã được gửi! Vui lòng kiểm tra email.");
-        });
+                if (task.IsCanceled || task.IsFaulted)
+                {
+                    LogToText("Không thể kiểm tra email trong Database.");
+                    return;
+                }
+
+                DataSnapshot snapshot = task.Result;
+                if (snapshot == null || !snapshot.Exists)
+                {
+                    // Không tìm thấy email trong DB
+                    LogToText("Email này chưa được đăng ký trong hệ thống!");
+                    return;
+                }
+
+                // ✅ Email có tồn tại → gửi yêu cầu reset password
+                auth.SendPasswordResetEmailAsync(email).ContinueWithOnMainThread(resetTask =>
+                {
+                    if (resetTask.IsCanceled)
+                    {
+                        LogToText("Yêu cầu đặt lại mật khẩu đã bị hủy.");
+                    }
+                    else if (resetTask.IsFaulted)
+                    {
+                        FirebaseException firebaseEx = resetTask.Exception?.GetBaseException() as FirebaseException;
+                        AuthError errorCode = (AuthError)firebaseEx.ErrorCode;
+                        if (errorCode == AuthError.InvalidEmail) LogToText("Email không hợp lệ.");
+                        else if (errorCode == AuthError.UserNotFound) LogToText("Không tìm thấy tài khoản với email này.");
+                        else LogToText("Lỗi đặt lại mật khẩu");
+                    }
+                    else
+                    {
+                        LogToText("Yêu cầu đặt lại mật khẩu đã được gửi! Vui lòng kiểm tra email.");
+                    }
+                });
+            });
     }
+
 
     // ====================== LOGOUT ======================
     public void Logout()
@@ -226,6 +278,11 @@ public class FireBaseLoginManager : MonoBehaviour
         if (watcher != null) watcher.StopWatching();
 
         auth.SignOut();
+
+        // 🔹 Xóa RememberMe khi logout
+        PlayerPrefs.SetInt("RememberMe", 0);
+        PlayerPrefs.Save();
+
         SceneManager.LoadScene("LoginTA");
     }
 
@@ -306,6 +363,30 @@ public class FireBaseLoginManager : MonoBehaviour
         }
     }
 
+    // ====================== FORM FORGOT PASSWORD ======================
+    public void MoveToForgotPassword()
+    {
+        if (LoginForm != null) LoginForm.SetActive(false);
+        if (RegisterForm != null) RegisterForm.SetActive(false);
+        if (ForgotPasswordForm != null) ForgotPasswordForm.SetActive(true);
+
+        // Xóa dữ liệu cũ
+        if (ipResetEmail != null) ipResetEmail.text = "";
+        if (logText != null) logText.text = "";
+    }
+
+    public void BackToLoginFromForgot()
+    {
+        if (ForgotPasswordForm != null) ForgotPasswordForm.SetActive(false);
+        if (LoginForm != null) LoginForm.SetActive(true);
+
+        // Xóa dữ liệu cũ
+        if (ipLoginEmail != null) ipLoginEmail.text = "";
+        if (ipLoginPassword != null) ipLoginPassword.text = "";
+        if (logText != null) logText.text = "";
+    }
+
+
     public void SwitchForm()
     {
         // Đảo trạng thái của hai form
@@ -330,5 +411,4 @@ public class FireBaseLoginManager : MonoBehaviour
         if (logText != null)
             logText.text = "";
     }
-
 }
