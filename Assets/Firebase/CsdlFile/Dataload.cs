@@ -3,7 +3,7 @@ using UnityEngine.SceneManagement;
 public class Dataload : MonoBehaviour
 {
     private int loadDoneCount = 0;
-    private const int totalToLoad = 3; // Cards + Gold
+    private const int totalToLoad = 6; // Cards + Gold
 
     // Hàm kiểm tra đã tải đủ chưa
     private void CheckAllLoaded()
@@ -24,5 +24,6 @@ public class Dataload : MonoBehaviour
         lightningManeger.LoadLightningFromFirebase(CheckAllLoaded);
         CardSpingManeger.LoadCardSpingFromFirebase(CheckAllLoaded);
         TicketManeger.LoadTicketFromFirebase(CheckAllLoaded);
+        LevelManager.LoadLevelFromFirebase(CheckAllLoaded);
     }
 }
