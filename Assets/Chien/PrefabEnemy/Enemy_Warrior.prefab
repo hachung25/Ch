@@ -496,7 +496,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 3
   chaseRange: 5
-  attackRange: 2
+  attackRange: 1
   player: {fileID: 0}
   maxHealth: 20
   isFacingRightByDefault: 0
