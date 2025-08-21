@@ -67,7 +67,10 @@ public class LobbyUI : MonoBehaviour
             statusLabel?.SetText($"Tạo phòng: {id}");
             UpdateTopBar();
 
-            // ==== FIX: ép UI refresh ngay cho host ====
+            // ✅ Ép UI hiển thị nút Start ngay lập tức cho host
+            if (btnStartAsHost) btnStartAsHost.gameObject.SetActive(true);
+
+            // ==== Đoạn fix refresh players (giữ nguyên để đồng bộ chắc chắn) ====
             var playersSnap = await Firebase.Database.FirebaseDatabase.DefaultInstance
                 .GetReference("rooms").Child(id).Child("players").GetValueAsync();
 
@@ -78,14 +81,16 @@ public class LobbyUI : MonoBehaviour
                 if (!string.IsNullOrEmpty(json))
                     dict[ch.Key] = JsonUtility.FromJson<PlayerInfo>(json);
             }
+
+            // Gọi lại OnPlayersChanged lần nữa để đồng bộ UI
             OnPlayersChanged(id, dict);
-            // =========================================
         }
         catch (System.Exception e)
         {
             statusLabel?.SetText($"Create failed: {e.Message}");
         }
     }
+
 
 
     public async void OnClickJoinById()
@@ -189,7 +194,16 @@ public class LobbyUI : MonoBehaviour
     bool IsMeHost(Dictionary<string, PlayerInfo> players)
     {
         var uid = FirebaseAuth.DefaultInstance.CurrentUser?.UserId;
-        if (string.IsNullOrEmpty(uid) || players == null) return false;
-        return players.TryGetValue(uid, out var me) && me.isHost;
+        if (string.IsNullOrEmpty(uid)) return false;
+
+        // Ưu tiên check hostUid từ RoomService
+        if (RoomService.I != null && !string.IsNullOrEmpty(RoomService.I.LastKnownHostUid))
+        {
+            if (RoomService.I.LastKnownHostUid == uid) return true;
+        }
+
+        // Fallback: check trong players
+        return players != null && players.TryGetValue(uid, out var me) && me.isHost;
     }
+
 }
