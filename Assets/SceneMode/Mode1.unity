@@ -745,7 +745,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6509811402037922370, guid: 00a13947dd34430469c79fa240e24467, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7781626510592584104, guid: 00a13947dd34430469c79fa240e24467, type: 3}
       propertyPath: Loop
@@ -16748,7 +16748,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &595229489
 RectTransform:
   m_ObjectHideFlags: 0
@@ -22195,6 +22195,7 @@ GameObject:
   - component: {fileID: 1132110055}
   - component: {fileID: 1132110058}
   - component: {fileID: 1132110057}
+  - component: {fileID: 1132110059}
   m_Layer: 0
   m_Name: Mapp
   m_TagString: Untagged
@@ -22423,6 +22424,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   volumeSlider: {fileID: 2119826347}
   audioSource: {fileID: 1132110057}
+--- !u!114 &1132110059
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1132110053}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 387906d6d0cdc64429e6e426f1c7c163, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetObject: {fileID: 595229488}
+  Playerrr: {fileID: 1309621571}
 --- !u!1 &1133949596
 GameObject:
   m_ObjectHideFlags: 0
@@ -23899,7 +23914,7 @@ RectTransform:
   m_Father: {fileID: 1582349926}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
