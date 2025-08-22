@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 2b0d165b47ce2484d843bab3292bda37
+guid: 2f57b5e39c6fbb1419780fb5c04a515e
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 3531399862458275551
-    second: ChatGPT Image 22_58_35 12 thg 7, 2025_0
+      213: -6754207046206574252
+    second: trungthu-Photoroom (1)_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -109,40 +109,27 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 4
-    buildTarget: iOS
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: ChatGPT Image 22_58_35 12 thg 7, 2025_0
+      name: trungthu-Photoroom (1)_0
       rect:
         serializedVersion: 2
-        x: 5
-        y: 0
-        width: 1019
-        height: 1024
+        x: 29
+        y: 243
+        width: 782
+        height: 945
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: fd650b9f67d020130800000000000000
-      internalID: 3531399862458275551
+      spriteID: 451ba6f0a7c3442a0800000000000000
+      internalID: -6754207046206574252
       vertices: []
       indices: 
       edges: []
@@ -151,7 +138,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: e73b86688e2859543a7f36a6a267630e
     internalID: 0
     vertices: []
     indices: 
@@ -161,7 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      ChatGPT Image 22_58_35 12 thg 7, 2025_0: 3531399862458275551
+      trungthu-Photoroom (1)_0: -6754207046206574252
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
