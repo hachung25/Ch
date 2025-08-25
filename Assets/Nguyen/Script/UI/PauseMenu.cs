@@ -34,7 +34,13 @@ public class PauseMenu : MonoBehaviour
         Time.timeScale = 1f;
     }
 
-    public void GiveUpToMainMenu()
+    public void GiveUpToMainMenuOffline()
+    {
+        SceneManager.LoadScene("SampleScene");
+    }
+
+
+    public void GiveUpToMainMenuOnline ()
     {
         Time.timeScale = 1f;
 
@@ -45,13 +51,6 @@ public class PauseMenu : MonoBehaviour
             runner.Shutdown(true, ShutdownReason.Ok);
         }
 
-        // Delay one frame to make sure shutdown is done
-        StartCoroutine(LoadMainMenuNextFrame());
-    }
-
-    private System.Collections.IEnumerator LoadMainMenuNextFrame()
-    {
-        yield return null; // đợi 1 frame
         SceneManager.LoadScene("SampleScene");
     }
 
