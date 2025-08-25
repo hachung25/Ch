@@ -2351,7 +2351,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7441164634862130683}
-  - component: {fileID: 6208100629928962641}
   m_Layer: 5
   m_Name: Play_Pause
   m_TagString: Untagged
@@ -2384,20 +2383,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 2560, y: 1440}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &6208100629928962641
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7441164634862130676}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 30c9368f06abbc94bb7db043864d9df3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  mapManager: {fileID: 0}
-  textlose: {fileID: 8371325892343310694}
 --- !u!1 &7958384672263633681
 GameObject:
   m_ObjectHideFlags: 0

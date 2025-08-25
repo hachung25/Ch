@@ -1,83 +1,71 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using Fusion;
-using TMPro;
-using UnityEngine.UI;
 
 public class ChatManager : NetworkBehaviour
 {
     public static ChatManager Instance;
 
     private const int maxMessages = 50;
-    private List<GameObject> spawnedMessages = new List<GameObject>();
+    private readonly List<GameObject> spawnedMessages = new();
 
     public ChatUI chatUI;
 
     [Header("Prefabs")]
-    public GameObject listWhitePrefab; // bạn gửi
-    public GameObject listBluePrefab;  // người khác gửi
+    public GameObject listWhitePrefab; // tin của tôi
+    public GameObject listBluePrefab;  // tin của người khác
 
     [Header("Content để chứa tin nhắn")]
     public Transform contentTransform;
 
-    private void Awake()
-    {
-        Instance = this;
-    }
+    void Awake() { Instance = this; }
 
+    // ===== GỬI =====
     public void SendChatMessage(string rawMessage)
     {
-        string playerName = "Unknown";
-        foreach (var player in FindObjectsOfType<PlayerNetwork>())
-        {
-            if (player.HasInputAuthority)
-            {
-                playerName = player.PlayerName;
-                break;
-            }
-        }
+        string cleaned = (rawMessage ?? "").Replace("\r", "").Replace("\n", " ").Trim();
+        if (string.IsNullOrWhiteSpace(cleaned)) return;
 
-        // Làm sạch chuỗi, giữ tiếng Việt
-        string cleanedMessage = rawMessage.Replace("\r", "").Replace("\n", " ").Trim();
+        var runner = Runner ? Runner : FindObjectOfType<NetworkRunner>();
+        if (runner == null) { Debug.LogWarning("[Chat] Runner chưa sẵn sàng."); return; }
 
-        RpcReceiveChatMessage(playerName, cleanedMessage);
+        if (!runner.TryGetPlayerObject(runner.LocalPlayer, out var pObj) || pObj == null)
+        { Debug.LogWarning("[Chat] Local PlayerObject chưa sẵn sàng."); return; }
+
+        // Lấy tên từ NicknameSync (networked) – không dùng PlayerName.Current
+        var nick = pObj.GetComponent<NicknameSync>();
+        string displayName = nick ? nick.Nickname.ToString() : $"Player#{runner.LocalPlayer.RawEncoded}";
+
+        // gửi kèm id người gửi (RawEncoded) để client tự xác định isMine
+        RpcReceiveChatMessage(displayName, cleaned, runner.LocalPlayer.RawEncoded, false);
     }
 
     public void SendSystemMessage(string message)
     {
-        RpcReceiveChatMessage("SYSTEM", message, true);
+        RpcReceiveChatMessage("SYSTEM", message ?? "", int.MinValue, true);
     }
 
+    // ===== NHẬN (mọi client) =====
     [Rpc(RpcSources.All, RpcTargets.All)]
-    public void RpcReceiveChatMessage(string playerName, string message, bool isSystem = false)
+    void RpcReceiveChatMessage(string fromName, string message, int senderRaw, bool isSystem)
     {
         if (string.IsNullOrWhiteSpace(message)) return;
 
-        bool isMine = false;
-        foreach (var player in FindObjectsOfType<PlayerNetwork>())
-        {
-            if (player.HasInputAuthority && player.PlayerName == playerName)
-            {
-                isMine = true;
-                break;
-            }
-        }
+        bool isMine = !isSystem && Runner && Runner.LocalPlayer.RawEncoded == senderRaw;
 
-        GameObject prefabToUse = isMine ? listWhitePrefab : listBluePrefab;
-
-        if (prefabToUse == null || contentTransform == null)
+        var prefab = isMine ? listWhitePrefab : listBluePrefab;
+        if (prefab == null || contentTransform == null)
         {
-            Debug.LogWarning("❌ Prefab hoặc contentTransform chưa được gán.");
+            Debug.LogWarning("[Chat] Prefab hoặc contentTransform chưa gán.");
             return;
         }
 
-        GameObject msgObj = Instantiate(prefabToUse, contentTransform);
-        ChatMessageUI msgUI = msgObj.GetComponent<ChatMessageUI>();
-        if (msgUI != null)
+        var msgObj = Instantiate(prefab, contentTransform);
+        var ui = msgObj.GetComponent<ChatMessageUI>();
+        if (ui != null)
         {
-            string displayName = isSystem ? "SYSTEM" : playerName;
-            msgUI.Setup(displayName, message);
-            msgUI.SetAlignment(isMine); // nếu bạn có căn phải/trái
+            ui.Setup(isSystem ? "SYSTEM" : fromName, message);
+            ui.SetAlignment(isMine); // căn phải/trái nếu bạn có
             spawnedMessages.Add(msgObj);
         }
 
