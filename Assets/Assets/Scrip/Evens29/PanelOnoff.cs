@@ -12,13 +12,12 @@ public class PanelOnoff : MonoBehaviour
 
     public void ShowPanelSpin()
     {
-        Debug.Log("Đã nhấn1");
         panelSpin.SetActive(true);
         panelRanking.SetActive(false);
     }
     public void ShowPanelRanking()
     {
-        Debug.Log("Đã nhấn2");
+       
         panelRanking.SetActive(true);
         panelSpin.SetActive(false);
     }

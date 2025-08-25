@@ -424,6 +424,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bootstrap: {fileID: 1846258737}
   roomIdPrefKey: lastRoomId
+  clientRetryCount: 5
+  clientRetryDelay: 1
 --- !u!4 &241293175
 Transform:
   m_ObjectHideFlags: 0
@@ -516,7 +518,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerPrefabs:
-  - RawGuidValue: 07cf808c3acd86440879ca862281e2fd
+  - RawGuidValue: 9dc118ccfb6031b41a527ac239f05db7
   spawnPoints:
   - {fileID: 1976191102}
 --- !u!114 &283251923

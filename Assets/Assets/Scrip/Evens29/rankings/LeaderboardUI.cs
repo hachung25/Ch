@@ -2,6 +2,7 @@
 using UnityEngine;
 using TMPro;
 using Firebase.Auth;
+using System.Text.RegularExpressions;
 
 public class LeaderboardUI : MonoBehaviour
 {
@@ -14,6 +15,8 @@ public class LeaderboardUI : MonoBehaviour
     public TMP_Text currentTicketText;
     public TMP_Text currentRankText;
 
+    public GameObject rank1, rank2, rank3, rank4, rank5;
+    public GameObject UI1, UI2 ,bt1, bt2;
     public void ShowTop6AndCurrentUser(List<RankingData> fullData)
     {
         // 👉 Sắp xếp giảm dần theo số ticket
@@ -59,4 +62,48 @@ public class LeaderboardUI : MonoBehaviour
                 : "Bạn chưa có trong bảng xếp hạng";
         }
     }
+    
+
+    public void CheckWinRank()
+    {
+        
+        if (currentRankText != null)
+        {
+            string rankString = currentRankText.text; 
+            int rank = -1; 
+            
+            Match match = Regex.Match(rankString, @"\d+");
+            if (match.Success)
+            {
+                rank = int.Parse(match.Value);
+            }
+            if (rank == 1)
+            {
+              rank1.SetActive(true);
+            }
+            if (rank == 2)
+            {
+                rank2.SetActive(true);
+            }
+            if (rank == 3)
+            {
+               rank3.SetActive(true);
+            }
+            if (rank >= 4 && rank <= 10)
+            {
+                rank4.SetActive(true);
+            }
+            if (rank > 10)
+            {
+                rank5.SetActive(true);
+            }
+            
+        }
+        UI1.SetActive(false);
+        UI2.SetActive(false);
+        bt1.SetActive(false);
+        bt2.SetActive(false);
+    }
+
+
 }

@@ -9,6 +9,10 @@ public class CountdownTimer2th9 : MonoBehaviour
 
     private DateTime targetTime;
     private bool isCounting = false;
+    
+    public LeaderboardUI leaderboardUi;
+    
+    public PopupWin29 popupWin;
 
     void Start()
     {
@@ -31,9 +35,7 @@ public class CountdownTimer2th9 : MonoBehaviour
 
         if (remaining.TotalSeconds <= 0)
         {
-            countdownText.text = "Đã hết thời gian!";
-            isCounting = false;
-            return;
+            TimeOver();
         }
 
         // Nếu còn trên 1 ngày
@@ -48,5 +50,22 @@ public class CountdownTimer2th9 : MonoBehaviour
             string timeFormatted = $"{remaining.Hours:D2}:{remaining.Minutes:D2}:{remaining.Seconds:D2}";
             countdownText.text = $"Còn {timeFormatted}";
         }
+    }
+    
+    private void TimeOver()
+    {
+        countdownText.text = "Đã hết thời gian!";
+        isCounting = false;
+
+        if (leaderboardUi != null)
+        {
+            leaderboardUi.CheckWinRank();
+        }
+        popupWin.OnPopup();
+    }
+
+    public void ForceTimeOver()
+    {
+        TimeOver();
     }
 }
