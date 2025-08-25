@@ -5,7 +5,7 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/waiting room.unity
     guid: 5336b2b388cbdcf4cb59e87ea6ab0663
   - enabled: 1
