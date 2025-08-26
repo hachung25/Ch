@@ -99,4 +99,4 @@ public class PlayerSpawner : SimulationBehaviour, IPlayerJoined, IPlayerLeft
         }
         return new Vector3(0f, 1f, 0f);
     }
-}
+}

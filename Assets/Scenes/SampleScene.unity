@@ -5194,8 +5194,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 14698f77eaeb34044a2ac15857f55b53, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  canvasRoom: {fileID: 0}
-  canvasPlayer: {fileID: 0}
+  PlayMode: {fileID: 0}
+  CanvasCreatePlayer: {fileID: 0}
   factionImages:
   - {fileID: 415240356829676305}
   - {fileID: 8445916014759199397}
@@ -5205,9 +5205,7 @@ MonoBehaviour:
   selectedSize: {x: 350, y: 450}
   normalSize: {x: 300, y: 400}
   chooseButton: {fileID: 5279067713691097404}
-  backButton: {fileID: 0}
-  countdownLabel: {fileID: 0}
-  selectionDelaySec: 15
+  nextSceneName: gamePlay
 --- !u!114 &278807491
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -45796,7 +45794,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2055081655
 RectTransform:
   m_ObjectHideFlags: 0

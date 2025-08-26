@@ -8,12 +8,16 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class LobbyUI : MonoBehaviour
 {
     [Header("General")]
-    [Tooltip("Build Index của scene Gameplay trong Build Settings")]
     public int gameplayBuildIndex = 2;
+
+    [Header("Countdown Settings")]
+    [Tooltip("Thời gian đếm ngược khi host bấm Start (giây)")]
+    public int hostCountdownSeconds = 10;   // 👈 chỉnh được trong Inspector
 
     [Header("Create / Join")]
     public TMP_InputField inputJoinRoomId;
@@ -34,28 +38,31 @@ public class LobbyUI : MonoBehaviour
     public TMP_Text statusLabel;
 
     [Header("Countdowns")]
-    [Tooltip("Label ở CanvasRoom: hiển thị 'Auto delete in mm:ss'")]
     public TMP_Text countdownLabel;               // đếm auto-delete (CanvasRoom)
-    [Tooltip("Label ở CanvasPlayer: hiển thị 'Game will start in xx s'")]
-    public TMP_Text startHostCountdownLabel;      // đếm 30s khi host bấm Start (CanvasPlayer)
+    public TMP_Text startHostCountdownLabel;      // đếm khi host bấm Start (CanvasPlayer)
 
     [Header("Canvas chuyển đổi")]
     public GameObject CanvasRoom;
     public GameObject CanvasPlayer;
 
-    // State cho 2 countdown khác nhau
-    private bool _expiryCountdownRunning;         // cho BeginCountdownByExpiry
-    private Coroutine _startHostCountdownRoutine; // cho StartHostCountdown 30s
+    // State
+    private bool _expiryCountdownRunning;
+    private Coroutine _startHostCountdownRoutine;
+
+    // Firebase status listener (để client đổi UI khi host bấm Start)
+    private DatabaseReference _statusRef;
+    private EventHandler<ValueChangedEventArgs> _statusHandler;
 
     // ===== Unity =====
     async void OnEnable()
     {
-        await CleanupZombieRooms(); // dọn rác phòng rỗng/hết hạn ngay khi vào Lobby
+        await CleanupZombieRooms();
 
         RoomService.I.StartRoomDirectory();
         RoomService.I.OnRoomListChanged += RefreshRoomList;
         RoomService.I.OnPlayersChanged += OnPlayersChanged;
         RoomService.I.OnHostChanged += OnHostChanged;
+        RoomService.I.OnSceneLoadTriggered += OnSceneLoadTriggered;
 
         if (btnCreateRoom) btnCreateRoom.onClick.AddListener(OnClickCreateRoom);
         if (btnJoinById) btnJoinById.onClick.AddListener(OnClickJoinById);
@@ -66,9 +73,9 @@ public class LobbyUI : MonoBehaviour
         UpdateTopBar();
         UpdateButtons();
 
-        // Clear cả 2 label khi mở Lobby
         ClearStartHostLabel();
         ClearExpiryLabel();
+
         _expiryCountdownRunning = false;
         _startHostCountdownRoutine = null;
     }
@@ -80,6 +87,7 @@ public class LobbyUI : MonoBehaviour
             RoomService.I.OnRoomListChanged -= RefreshRoomList;
             RoomService.I.OnPlayersChanged -= OnPlayersChanged;
             RoomService.I.OnHostChanged -= OnHostChanged;
+            RoomService.I.OnSceneLoadTriggered -= OnSceneLoadTriggered;
             RoomService.I.StopRoomDirectory();
         }
 
@@ -89,6 +97,7 @@ public class LobbyUI : MonoBehaviour
         if (btnDeleteRoom) btnDeleteRoom.onClick.RemoveListener(OnClickDeleteRoom);
         if (btnLeaveRoom) btnLeaveRoom.onClick.RemoveListener(OnClickLeaveRoom);
 
+        DetachStatusListener();
         StopExpiryCountdown();
         StopStartHostCountdown();
     }
@@ -104,7 +113,6 @@ public class LobbyUI : MonoBehaviour
             UpdateButtons();
 
             await ForceRefreshPlayersUI(id);
-            // Chỉ host mới thấy countdown expiry, handler OnHostChanged sẽ tự xử lý
             _ = BeginCountdownByExpiry(id);
         }
         catch (Exception e)
@@ -126,23 +134,34 @@ public class LobbyUI : MonoBehaviour
             UpdateButtons();
 
             await ForceRefreshPlayersUI(id);
-            _ = BeginCountdownByExpiry(id); // nếu là host mới hiển thị
+            _ = BeginCountdownByExpiry(id);
         }
         catch (Exception e) { statusLabel?.SetText($"Join failed: {e.Message}"); }
     }
 
-    public void OnClickStartAsHost()
+    // Host bấm Start
+    public async void OnClickStartAsHost()
     {
-        // Ẩn CanvasRoom, hiện CanvasPlayer
+        try
+        {
+            var roomId = RoomService.I.CurrentRoomId;
+            if (!string.IsNullOrEmpty(roomId))
+            {
+                await FirebaseDatabase.DefaultInstance
+                    .GetReference("rooms").Child(roomId).Child("status")
+                    .SetValueAsync("prestart");
+            }
+        }
+        catch { }
+
         if (CanvasRoom) CanvasRoom.SetActive(false);
         if (CanvasPlayer) CanvasPlayer.SetActive(true);
 
-        // Khi bắt đầu start host: dừng countdown expiry để tránh ghi đè text
         StopExpiryCountdown();
-
-        // Dừng countdown 30s cũ (nếu có) và chạy lại
         StopStartHostCountdown();
-        _startHostCountdownRoutine = StartCoroutine(StartHostCountdown(30)); // 30 giây
+
+        // dùng biến inspector thay vì fix 30
+        _startHostCountdownRoutine = StartCoroutine(StartHostCountdown(hostCountdownSeconds));
     }
 
     private IEnumerator StartHostCountdown(int seconds)
@@ -160,7 +179,6 @@ public class LobbyUI : MonoBehaviour
         ClearStartHostLabel();
         _startHostCountdownRoutine = null;
 
-        // Hết 30s -> chạy logic gốc
         _ = HostStartGame();
     }
 
@@ -182,9 +200,17 @@ public class LobbyUI : MonoBehaviour
 
     public async void OnClickDeleteRoom()
     {
-        try { await RoomService.I.DeleteRoom(); statusLabel?.SetText("Đã xoá phòng."); }
-        catch (Exception e) { statusLabel?.SetText($"Delete failed: {e.Message}"); }
+        try
+        {
+            await RoomService.I.DeleteRoom();
+            statusLabel?.SetText("Đã xoá phòng.");
+        }
+        catch (Exception e)
+        {
+            statusLabel?.SetText($"Delete failed: {e.Message}");
+        }
 
+        DetachStatusListener();
         ClearPlayerList();
         UpdateTopBar();
         UpdateButtons();
@@ -198,6 +224,7 @@ public class LobbyUI : MonoBehaviour
         try { await RoomService.I.LeaveRoom(); statusLabel?.SetText("Đã rời phòng."); }
         catch (Exception e) { statusLabel?.SetText($"Leave failed: {e.Message}"); }
 
+        DetachStatusListener();
         ClearPlayerList();
         UpdateTopBar();
         UpdateButtons();
@@ -233,6 +260,18 @@ public class LobbyUI : MonoBehaviour
 
     void OnPlayersChanged(string roomId, Dictionary<string, PlayerInfo> players)
     {
+        if (string.IsNullOrEmpty(roomId) || players.Count == 0)
+        {
+            statusLabel?.SetText("Phòng đã bị xoá hoặc trống.");
+            DetachStatusListener();
+            ClearPlayerList();
+            UpdateTopBar();
+            UpdateButtons();
+            StopExpiryCountdown();
+            StopStartHostCountdown();
+            return;
+        }
+
         if (roomId != RoomService.I.CurrentRoomId) return;
         if (!playerListRoot || !playerItemPrefab) return;
 
@@ -259,6 +298,16 @@ public class LobbyUI : MonoBehaviour
     {
         UpdateButtons();
         _ = BeginCountdownByExpiry(RoomService.I.CurrentRoomId);
+    }
+
+    void OnSceneLoadTriggered(int sceneIndex, string roundId)
+    {
+        Debug.Log($"[LobbyUI] SceneLoadTriggered {sceneIndex}, round {roundId}");
+
+        if (CanvasRoom) CanvasRoom.SetActive(false);
+        if (CanvasPlayer) CanvasPlayer.SetActive(false);
+
+        SceneManager.LoadScene(sceneIndex);
     }
 
     // ===== Helpers =====
@@ -288,7 +337,6 @@ public class LobbyUI : MonoBehaviour
         if (btnDeleteRoom) btnDeleteRoom.gameObject.SetActive(inRoom && isHost);
         if (btnLeaveRoom) btnLeaveRoom.gameObject.SetActive(inRoom);
 
-        // Nếu không phải host, tắt countdown expiry (vì chỉ host thấy)
         if (!isHost) StopExpiryCountdown();
     }
 
@@ -307,11 +355,12 @@ public class LobbyUI : MonoBehaviour
                     dict[ch.Key] = JsonUtility.FromJson<PlayerInfo>(json);
             }
             OnPlayersChanged(roomId, dict);
+
+            AttachStatusListener(roomId);
         }
-        catch { /* ignore */ }
+        catch { }
     }
 
-    // ===== Expiry Countdown (CanvasRoom) =====
     async Task BeginCountdownByExpiry(string roomId)
     {
         if (string.IsNullOrEmpty(roomId)) { StopExpiryCountdown(); return; }
@@ -330,7 +379,6 @@ public class LobbyUI : MonoBehaviour
 
         while (_expiryCountdownRunning)
         {
-            // nếu không còn là host thì dừng
             isHost = RoomService.I.LastKnownHostUid == FirebaseAuth.DefaultInstance.CurrentUser?.UserId;
             if (!isHost) { StopExpiryCountdown(); break; }
 
@@ -339,10 +387,10 @@ public class LobbyUI : MonoBehaviour
             if (remain <= 0)
             {
                 StopExpiryCountdown();
-                break; // phòng sẽ bị watchdog xoá
+                break;
             }
 
-            if (countdownLabel)   // label này thuộc CanvasRoom
+            if (countdownLabel)
             {
                 int m = (int)(remain / 1000) / 60;
                 int s = (int)(remain / 1000) % 60;
@@ -378,7 +426,6 @@ public class LobbyUI : MonoBehaviour
         if (startHostCountdownLabel) startHostCountdownLabel.SetText("");
     }
 
-    // Dọn rác: xoá phòng rỗng hoặc đã quá hạn khi mở Lobby
     static async Task CleanupZombieRooms()
     {
         try
@@ -402,6 +449,40 @@ public class LobbyUI : MonoBehaviour
                 }
             }
         }
-        catch { /* bỏ qua lỗi nhỏ */ }
+        catch { }
+    }
+
+    void AttachStatusListener(string roomId)
+    {
+        DetachStatusListener();
+        if (string.IsNullOrEmpty(roomId)) return;
+
+        _statusRef = FirebaseDatabase.DefaultInstance
+            .GetReference("rooms").Child(roomId).Child("status");
+
+        _statusHandler = (s, e) =>
+        {
+            var val = e.Snapshot?.Value?.ToString();
+            if (!string.IsNullOrEmpty(val))
+            {
+                Debug.Log("[LobbyUI] room status = " + val);
+                if (val == "prestart")
+                {
+                    if (CanvasRoom) CanvasRoom.SetActive(false);
+                    if (CanvasPlayer) CanvasPlayer.SetActive(true);
+                }
+            }
+        };
+        _statusRef.ValueChanged += _statusHandler;
+    }
+
+    void DetachStatusListener()
+    {
+        if (_statusRef != null && _statusHandler != null)
+        {
+            _statusRef.ValueChanged -= _statusHandler;
+            _statusHandler = null;
+            _statusRef = null;
+        }
     }
 }

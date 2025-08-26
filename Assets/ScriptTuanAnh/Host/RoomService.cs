@@ -14,7 +14,6 @@ public class RoomService : MonoBehaviour
     public string CurrentRoomId { get; private set; }
     public string LastKnownHostUid { get; private set; }
 
-    // Sự kiện cho UI
     public event Action<List<(string roomId, RoomInfo info)>> OnRoomListChanged;
     public event Action<string, Dictionary<string, PlayerInfo>> OnPlayersChanged;
     public event Action<string> OnHostChanged;
@@ -36,7 +35,6 @@ public class RoomService : MonoBehaviour
 
     static long NowMs() => DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
 
-    // ===== Utils =====
     static async Task<T> WithTimeout<T>(Task<T> task, int ms = 10000)
     {
         var finished = await Task.WhenAny(task, Task.Delay(ms));
@@ -50,24 +48,7 @@ public class RoomService : MonoBehaviour
         throw new TimeoutException("Firebase operation timed out.");
     }
 
-    // Lấy tên đã lưu bởi NameManager: /Users/{uid}/Name
-    async Task<string> GetSavedName(string uid)
-    {
-        try
-        {
-            var snap = await WithTimeout(_db.Child("Users").Child(uid).Child("Name").GetValueAsync(), 8000);
-            if (snap.Exists && snap.Value != null)
-            {
-                var s = snap.Value.ToString();
-                if (!string.IsNullOrWhiteSpace(s)) return s.Trim();
-            }
-        }
-        catch { /* ignore */ }
-
-        return FirebaseAuth.DefaultInstance.CurrentUser?.DisplayName ?? uid;
-    }
-
-    // ===== Danh sách phòng (parse thủ công players) =====
+    // ===== Directory =====
     DatabaseReference _roomsRef;
     EventHandler<ValueChangedEventArgs> _roomsHandler;
 
@@ -126,7 +107,7 @@ public class RoomService : MonoBehaviour
         }
     }
 
-    // ===== Tạo phòng (ghi expiryAt = 5 phút) =====
+    // ===== Create & Join =====
     public async Task<string> CreateRoomAndJoin()
     {
         var uid = FirebaseAuth.DefaultInstance.CurrentUser?.UserId;
@@ -134,7 +115,6 @@ public class RoomService : MonoBehaviour
 
         string roomId = Guid.NewGuid().ToString("N").Substring(0, 8);
         var roomRef = _db.Child("rooms").Child(roomId);
-
         long now = NowMs();
 
         var room = new RoomInfo
@@ -145,14 +125,9 @@ public class RoomService : MonoBehaviour
             sceneToLoad = new SceneEvent { index = -1, trigger = false, roundId = "", triggerAt = 0 },
             players = new Dictionary<string, PlayerInfo>()
         };
+        var me = new PlayerInfo { name = uid, joinedAt = now, isHost = true };
 
-        var savedName = await GetSavedName(uid);
-        var me = new PlayerInfo { name = savedName, joinedAt = now, isHost = true };
-
-        // Ghi room trước (JsonUtility không serialize Dictionary)
         await WithTimeout(roomRef.SetRawJsonValueAsync(JsonUtility.ToJson(room)), 10000);
-
-        // GHI RIÊNG node players/{uid} để chắc chắn có dữ liệu
         await WithTimeout(roomRef.Child("players").Child(uid).SetRawJsonValueAsync(JsonUtility.ToJson(me)), 10000);
 
         long expiryAt = now + 5 * 60 * 1000;
@@ -169,41 +144,9 @@ public class RoomService : MonoBehaviour
         OnHostChanged?.Invoke(uid);
 
         _ = AutoDeleteIfExpired(roomId);
-
         return roomId;
     }
 
-    // Kiểm tra định kỳ, quá hạn là xoá
-    async Task AutoDeleteIfExpired(string roomId)
-    {
-        try
-        {
-            while (true)
-            {
-                await Task.Delay(15000);
-
-                var snap = await _db.Child("rooms").Child(roomId).GetValueAsync();
-                if (!snap.Exists) break;
-
-                long expiryAt = 0;
-                var exp = snap.Child("expiryAt").Value;
-                if (exp != null) long.TryParse(exp.ToString(), out expiryAt);
-
-                if (expiryAt > 0 && NowMs() >= expiryAt)
-                {
-                    try { await _db.Child("rooms").Child(roomId).RemoveValueAsync(); } catch { }
-                    if (roomId == CurrentRoomId) ResetLocal();
-                    break;
-                }
-            }
-        }
-        catch (Exception ex)
-        {
-            Debug.LogWarning("[RoomService] AutoDeleteIfExpired error: " + ex.Message);
-        }
-    }
-
-    // ===== Tham gia phòng =====
     public async Task JoinRoom(string roomId)
     {
         var uid = FirebaseAuth.DefaultInstance.CurrentUser?.UserId;
@@ -216,9 +159,7 @@ public class RoomService : MonoBehaviour
         var hostSnap = await WithTimeout(roomPath.Child("hostUid").GetValueAsync(), 8000);
         LastKnownHostUid = hostSnap.Exists ? hostSnap.Value?.ToString() : null;
 
-        var savedName = await GetSavedName(uid);
-        var player = new PlayerInfo { name = savedName, joinedAt = NowMs(), isHost = (uid == LastKnownHostUid) };
-
+        var player = new PlayerInfo { name = uid, joinedAt = NowMs(), isHost = (uid == LastKnownHostUid) };
         await WithTimeout(roomPath.Child("players").Child(uid).SetRawJsonValueAsync(JsonUtility.ToJson(player)), 10000);
         try { roomPath.Child("players").Child(uid).OnDisconnect().RemoveValue(); } catch { }
 
@@ -229,19 +170,18 @@ public class RoomService : MonoBehaviour
         _ = AutoDeleteIfExpired(roomId);
     }
 
-    // ===== Lắng nghe 1 phòng =====
-    DatabaseReference _roomRefForCurrent, _playersRef, _sceneRef, _hostUidRef, _statusRef;
-    EventHandler<ValueChangedEventArgs> _playersHandler, _sceneHandler, _hostUidHandler, _statusHandler;
+    // ===== Subscribe a room =====
+    DatabaseReference _playersRef, _sceneRef, _hostUidRef;
+    EventHandler<ValueChangedEventArgs> _playersHandler, _sceneHandler, _hostUidHandler;
 
     void SubscribeRoom(string roomId)
     {
         UnsubscribeRoom();
 
-        _roomRefForCurrent = FirebaseDatabase.DefaultInstance.GetReference("rooms").Child(roomId);
+        var roomRef = FirebaseDatabase.DefaultInstance.GetReference("rooms").Child(roomId);
 
-        // Players
-        _playersRef = _roomRefForCurrent.Child("players");
-        _playersHandler = async (s, e) =>
+        _playersRef = roomRef.Child("players");
+        _playersHandler = (s, e) =>
         {
             var dict = new Dictionary<string, PlayerInfo>();
             if (e.Snapshot != null && e.Snapshot.Exists)
@@ -253,40 +193,11 @@ public class RoomService : MonoBehaviour
                         dict[ch.Key] = JsonUtility.FromJson<PlayerInfo>(json);
                 }
             }
-
-            if (dict.Count == 0)
-            {
-                // Phòng trống -> xoá
-                try { await _roomRefForCurrent.RemoveValueAsync(); } catch { }
-                ResetLocal();
-            }
-            else
-            {
-                // Host cũ biến mất -> chọn host mới (cập nhật "gần-atom")
-                if (!string.IsNullOrEmpty(LastKnownHostUid) && !dict.ContainsKey(LastKnownHostUid))
-                {
-                    try
-                    {
-                        string newHost = dict.Keys.First();
-                        var updates = new Dictionary<string, object>
-                        {
-                            ["hostUid"] = newHost,
-                            [$"players/{newHost}/isHost"] = true
-                        };
-                        await _roomRefForCurrent.UpdateChildrenAsync(updates);
-                        LastKnownHostUid = newHost;
-                        OnHostChanged?.Invoke(newHost);
-                    }
-                    catch { /* race-condition acceptable */ }
-                }
-            }
-
             OnPlayersChanged?.Invoke(roomId, dict);
         };
         _playersRef.ValueChanged += _playersHandler;
 
-        // HostUid
-        _hostUidRef = _roomRefForCurrent.Child("hostUid");
+        _hostUidRef = roomRef.Child("hostUid");
         _hostUidHandler = (s, e) =>
         {
             var newHost = e.Snapshot?.Value?.ToString();
@@ -298,8 +209,7 @@ public class RoomService : MonoBehaviour
         };
         _hostUidRef.ValueChanged += _hostUidHandler;
 
-        // Scene trigger
-        _sceneRef = _roomRefForCurrent.Child("sceneToLoad");
+        _sceneRef = roomRef.Child("sceneToLoad");
         _sceneHandler = (s, e) =>
         {
             if (e.Snapshot == null || !e.Snapshot.Exists) return;
@@ -314,10 +224,6 @@ public class RoomService : MonoBehaviour
             if (trig && idx >= 0) OnSceneLoadTriggered?.Invoke(idx, rid);
         };
         _sceneRef.ValueChanged += _sceneHandler;
-
-        _statusRef = _roomRefForCurrent.Child("status");
-        _statusHandler = (s, e) => { /* optional */ };
-        _statusRef.ValueChanged += _statusHandler;
     }
 
     void UnsubscribeRoom()
@@ -325,11 +231,9 @@ public class RoomService : MonoBehaviour
         if (_playersRef != null && _playersHandler != null) { _playersRef.ValueChanged -= _playersHandler; _playersHandler = null; _playersRef = null; }
         if (_sceneRef != null && _sceneHandler != null) { _sceneRef.ValueChanged -= _sceneHandler; _sceneHandler = null; _sceneRef = null; }
         if (_hostUidRef != null && _hostUidHandler != null) { _hostUidRef.ValueChanged -= _hostUidHandler; _hostUidHandler = null; _hostUidRef = null; }
-        if (_statusRef != null && _statusHandler != null) { _statusRef.ValueChanged -= _statusHandler; _statusHandler = null; _statusRef = null; }
-        _roomRefForCurrent = null;
     }
 
-    // ===== Host bấm Start =====
+    // ===== Host start → broadcast scene =====
     public async Task HostTriggerStart(int gameplayBuildIndex)
     {
         if (string.IsNullOrEmpty(CurrentRoomId)) return;
@@ -353,11 +257,10 @@ public class RoomService : MonoBehaviour
             ["triggerAt"] = now
         }), 8000);
 
-        // Gia hạn TTL khi bắt đầu game (ví dụ 60 phút)
         await WithTimeout(path.Child("expiryAt").SetValueAsync(now + 60L * 60 * 1000), 5000);
     }
 
-    // ===== Rời phòng =====
+    // ===== Leave / Delete =====
     public async Task LeaveRoom()
     {
         if (string.IsNullOrEmpty(CurrentRoomId)) return;
@@ -368,36 +271,16 @@ public class RoomService : MonoBehaviour
 
         await WithTimeout(path.Child("players").Child(uid).RemoveValueAsync(), 10000);
 
+        // nếu phòng trống thì xóa luôn
         var playersSnap = await WithTimeout(path.Child("players").GetValueAsync(), 8000);
-
         if (!playersSnap.Exists || playersSnap.ChildrenCount == 0)
-        {
             await WithTimeout(path.RemoveValueAsync(), 8000);
-        }
-        else
-        {
-            var hostSnap = await WithTimeout(path.Child("hostUid").GetValueAsync(), 8000);
-            string hostUid = hostSnap.Exists ? hostSnap.Value?.ToString() : null;
-
-            if (uid == hostUid)
-            {
-                var remain = playersSnap.Children.Select(ch => ch.Key).ToList();
-                string newHost = remain[UnityEngine.Random.Range(0, remain.Count)];
-                var updates = new Dictionary<string, object>
-                {
-                    ["hostUid"] = newHost,
-                    [$"players/{newHost}/isHost"] = true
-                };
-                await WithTimeout(path.UpdateChildrenAsync(updates), 8000);
-            }
-        }
 
         ResetLocal();
         UnsubscribeRoom();
         OnPlayersChanged?.Invoke("", new Dictionary<string, PlayerInfo>());
     }
 
-    // ===== Xoá phòng (chỉ host) =====
     public async Task DeleteRoom()
     {
         if (string.IsNullOrEmpty(CurrentRoomId)) return;
@@ -418,13 +301,39 @@ public class RoomService : MonoBehaviour
 
     // ===== Local =====
     static void SaveRoomId(string id) { PlayerPrefs.SetString(PPKey, id); PlayerPrefs.Save(); }
-    public static string LoadRoomId() => PlayerPrefs.GetString(PPKey, "");
-    static void DeleteRoomId() { PlayerPrefs.DeleteKey(PPKey); }
-
     public void ResetLocal()
     {
         CurrentRoomId = null;
         LastKnownHostUid = null;
-        DeleteRoomId();
+        PlayerPrefs.DeleteKey(PPKey);
+    }
+
+    // ===== TTL watchdog =====
+    async Task AutoDeleteIfExpired(string roomId)
+    {
+        try
+        {
+            while (true)
+            {
+                await Task.Delay(15000);
+                var snap = await _db.Child("rooms").Child(roomId).GetValueAsync();
+                if (!snap.Exists) break;
+
+                long expiryAt = 0;
+                var exp = snap.Child("expiryAt").Value;
+                if (exp != null) long.TryParse(exp.ToString(), out expiryAt);
+
+                if (expiryAt > 0 && NowMs() >= expiryAt)
+                {
+                    try { await _db.Child("rooms").Child(roomId).RemoveValueAsync(); } catch { }
+                    if (roomId == CurrentRoomId) ResetLocal();
+                    break;
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            Debug.LogWarning("[RoomService] AutoDeleteIfExpired error: " + ex.Message);
+        }
     }
 }
