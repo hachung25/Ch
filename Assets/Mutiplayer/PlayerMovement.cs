@@ -5,7 +5,10 @@ using System.Collections;
 [RequireComponent(typeof(Rigidbody2D), typeof(Animator))]
 public class PlayerMovement : NetworkBehaviour
 {
+    [Header("Move")]
     public float moveSpeed = 5f;
+
+    [Header("Jump (giữ cảm giác cũ)")]
     public float jumpForce = 8f;
 
     private Rigidbody2D rb;
@@ -16,14 +19,28 @@ public class PlayerMovement : NetworkBehaviour
     public float groundCheckRadius = 0.2f;
     public LayerMask groundLayer;
 
-    private bool jumpInput = false;
-    private float lastDirection = 1;
-
-    // Combo attack
-    private bool isAttacking = false;
     private bool attackHeld = false;
+    private bool isAttacking = false;
     private int attackIndex = 0;
     private readonly string[] attackTriggers = { "isAtk1", "isAtk2", "isAtk3", "isAtk4" };
+
+    private float lastDirection = 1;
+
+    // ===== INPUT chuyển từ client -> Host (StateAuthority) =====
+    private float _moveX_FromClient;     // giá trị -1..1 do client gửi sang
+    private bool _jumpPressedEdge;       // cờ nhảy 1-tick do client báo sang (giữ cảm giác nhảy cũ)
+
+    [Rpc(RpcSources.InputAuthority, RpcTargets.StateAuthority, Channel = RpcChannel.Unreliable)]
+    private void RPC_SetMove(float moveX)
+    {
+        _moveX_FromClient = Mathf.Clamp(moveX, -1f, 1f);
+    }
+
+    [Rpc(RpcSources.InputAuthority, RpcTargets.StateAuthority, Channel = RpcChannel.Unreliable)]
+    private void RPC_JumpPressed()
+    {
+        _jumpPressedEdge = true; // đọc 1 lần ở FixedUpdateNetwork
+    }
 
     public override void Spawned()
     {
@@ -38,56 +55,61 @@ public class PlayerMovement : NetworkBehaviour
         if (!HasInputAuthority) return;
         if (ChatState.IsChatting) return;
 
+        // ==== INPUT CỤC BỘ (client tự mình) ====
+        float moveX = Input.GetAxisRaw("Horizontal");
+        RPC_SetMove(moveX); // gửi sang Host
+
         if (Input.GetKeyDown(KeyCode.Y))
-            jumpInput = true;
+        {
+            // giữ cảm giác nhảy cũ: bấm là nhảy (nếu đang grounded bên Host)
+            RPC_JumpPressed();
+        }
 
         attackHeld = Input.GetKey(KeyCode.T);
-
         if (!isAttacking && attackHeld)
-            StartCoroutine(PerformAttackSequence());
+            StartCoroutine(PerformAttackSequence()); // trigger trên client như cũ
     }
 
     public override void FixedUpdateNetwork()
     {
-        // ⛔ Trước đây bạn chỉ cho InputAuthority chạy physics → gây giật.
-        // Nên để StateAuthority (thường là Host) xử lý chuyển động.
+        // Chỉ Host/StateAuthority xử lý physics để đồng bộ
         if (!Object.HasStateAuthority) return;
         if (ChatState.IsChatting) return;
 
-        isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
+        // Ground check
+        isGrounded = Physics2D.OverlapCircle(
+            groundCheck ? groundCheck.position : transform.position,
+            groundCheckRadius, groundLayer);
 
-        float horizontalInput = 0f;
+        // ===== DI CHUYỂN (dùng input do client gửi sang) =====
+        float horizontalInput = _moveX_FromClient;
 
-        // Lấy input cục bộ nếu chính Host đang điều khiển object này
-        if (HasInputAuthority)
-            horizontalInput = Input.GetAxisRaw("Horizontal");
-        else
-            horizontalInput = Input.GetAxisRaw("Horizontal"); // nếu bạn đã có pipeline input riêng, thay dòng này bằng giá trị nhận từ đó
-
-        // Dùng velocity đúng của Rigidbody2D
         rb.linearVelocity = new Vector2(horizontalInput * moveSpeed, rb.linearVelocity.y);
 
         if (horizontalInput != 0)
         {
+            // Flip theo hướng chạy (giữ cách cũ bằng localScale)
             Vector3 scale = transform.localScale;
             scale.x = Mathf.Sign(horizontalInput);
             transform.localScale = scale;
             lastDirection = scale.x;
-            RPC_FlipDirection(lastDirection); // gọi từ StateAuthority
+            RPC_FlipDirection(lastDirection); // sync cho mọi client
         }
 
-        if (jumpInput && isGrounded)
+        // ===== NHẢY (giữ logic cũ: bấm là nhảy nếu đang grounded) =====
+        if (_jumpPressedEdge && isGrounded)
         {
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
-            RPC_SetJump(true);   // gọi từ StateAuthority
-            jumpInput = false;
+            RPC_SetJump(true);
         }
         else
         {
-            RPC_SetJump(false);  // gọi từ StateAuthority
+            RPC_SetJump(false);
         }
+        _jumpPressedEdge = false; // reset edge
 
-        RPC_SetRun(horizontalInput != 0 && isGrounded); // gọi từ StateAuthority
+        // Animator run
+        RPC_SetRun(horizontalInput != 0 && isGrounded);
     }
 
     private IEnumerator PerformAttackSequence()
@@ -99,10 +121,11 @@ public class PlayerMovement : NetworkBehaviour
             string triggerName = attackTriggers[attackIndex];
 
             foreach (string trig in attackTriggers)
-                RPC_ResetTrigger(trig);          // gọi từ InputAuthority
+                RPC_ResetTrigger(trig);
 
-            RPC_PlayAnimationTrigger(triggerName); // gọi từ InputAuthority
+            RPC_PlayAnimationTrigger(triggerName);
 
+            // chờ vào state
             yield return null;
             yield return null;
 
@@ -120,13 +143,14 @@ public class PlayerMovement : NetworkBehaviour
 
         } while (attackHeld);
 
+        // chờ thoát state
         while (animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1f)
             yield return null;
 
         isAttacking = false;
     }
 
-    // ===== CHỈ SỬA ATTRIBUTE 3 RPC NÀY: cho phép StateAuthority gọi =====
+    // ===== RPC Animator như cũ =====
     [Rpc(RpcSources.StateAuthority | RpcSources.InputAuthority, RpcTargets.All)]
     private void RPC_SetRun(bool isRunning)
     {
@@ -147,7 +171,6 @@ public class PlayerMovement : NetworkBehaviour
         transform.localScale = scale;
     }
 
-    // Hai RPC dưới đây vẫn để InputAuthority vì được gọi trong coroutine combo (client)
     [Rpc(RpcSources.InputAuthority, RpcTargets.All)]
     private void RPC_PlayAnimationTrigger(string trigger)
     {
@@ -159,4 +182,15 @@ public class PlayerMovement : NetworkBehaviour
     {
         animator.ResetTrigger(trigger);
     }
+
+#if UNITY_EDITOR
+    private void OnDrawGizmosSelected()
+    {
+        if (groundCheck != null)
+        {
+            Gizmos.color = Color.yellow;
+            Gizmos.DrawWireSphere(groundCheck.position, groundCheckRadius);
+        }
+    }
+#endif
 }
