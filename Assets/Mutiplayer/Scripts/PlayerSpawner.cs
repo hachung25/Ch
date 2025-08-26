@@ -1,7 +1,8 @@
 ﻿using Fusion;
+using System.Collections.Generic;
 using UnityEngine;
 using System.Collections;
-using System.Collections.Generic;
+
 
 [DefaultExecutionOrder(-10000)]
 [DisallowMultipleComponent]
@@ -62,7 +63,10 @@ public class PlayerSpawner : SimulationBehaviour, IPlayerJoined, IPlayerLeft
         }
         if (_spawned.TryGetValue(player, out var already) && already) return;
 
-        var prefab = ResolvePrefab(0);
+        // Mỗi client lưu nhân vật riêng trong PlayerPrefs
+        int prefabIndex = PlayerPrefs.GetInt("SelectedCharacterIndex", 0);
+
+        var prefab = ResolvePrefab(prefabIndex);
         if (!prefab.IsValid) { Debug.LogError("[PlayerSpawner] PrefabRef invalid."); return; }
 
         var obj = runner.Spawn(prefab, GetSpawnPos(player), Quaternion.identity, player);
@@ -72,6 +76,7 @@ public class PlayerSpawner : SimulationBehaviour, IPlayerJoined, IPlayerLeft
 
         _spawned[player] = obj;
     }
+
 
     NetworkPrefabRef ResolvePrefab(int index)
     {
