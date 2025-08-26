@@ -125,7 +125,13 @@ public class RoomService : MonoBehaviour
             sceneToLoad = new SceneEvent { index = -1, trigger = false, roundId = "", triggerAt = 0 },
             players = new Dictionary<string, PlayerInfo>()
         };
-        var me = new PlayerInfo { name = uid, joinedAt = now, isHost = true };
+
+        // ✅ Lấy tên thật từ FirebaseAuth hoặc PlayerName
+        string displayName = FirebaseAuth.DefaultInstance.CurrentUser?.DisplayName
+                             ?? PlayerName.Current
+                             ?? uid;
+
+        var me = new PlayerInfo { name = displayName, joinedAt = now, isHost = true };
 
         await WithTimeout(roomRef.SetRawJsonValueAsync(JsonUtility.ToJson(room)), 10000);
         await WithTimeout(roomRef.Child("players").Child(uid).SetRawJsonValueAsync(JsonUtility.ToJson(me)), 10000);
@@ -159,7 +165,12 @@ public class RoomService : MonoBehaviour
         var hostSnap = await WithTimeout(roomPath.Child("hostUid").GetValueAsync(), 8000);
         LastKnownHostUid = hostSnap.Exists ? hostSnap.Value?.ToString() : null;
 
-        var player = new PlayerInfo { name = uid, joinedAt = NowMs(), isHost = (uid == LastKnownHostUid) };
+        // ✅ Lấy tên thật từ FirebaseAuth hoặc PlayerName
+        string displayName = FirebaseAuth.DefaultInstance.CurrentUser?.DisplayName
+                             ?? PlayerName.Current
+                             ?? uid;
+
+        var player = new PlayerInfo { name = displayName, joinedAt = NowMs(), isHost = (uid == LastKnownHostUid) };
         await WithTimeout(roomPath.Child("players").Child(uid).SetRawJsonValueAsync(JsonUtility.ToJson(player)), 10000);
         try { roomPath.Child("players").Child(uid).OnDisconnect().RemoveValue(); } catch { }
 
