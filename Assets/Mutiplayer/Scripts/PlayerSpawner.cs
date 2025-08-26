@@ -1,7 +1,10 @@
 ﻿using Fusion;
 using UnityEngine;
+using System.Collections;
 using System.Collections.Generic;
 
+[DefaultExecutionOrder(-10000)]
+[DisallowMultipleComponent]
 public class PlayerSpawner : SimulationBehaviour, IPlayerJoined, IPlayerLeft
 {
     [Header("Network Player Prefabs (đã đăng ký trong NetworkProjectConfig)")]
@@ -11,40 +14,70 @@ public class PlayerSpawner : SimulationBehaviour, IPlayerJoined, IPlayerLeft
     public Transform[] spawnPoints;
 
     private readonly Dictionary<PlayerRef, NetworkObject> _spawned = new();
+    private Coroutine _catchUpCo;
+
+    void OnEnable() => _catchUpCo = StartCoroutine(CatchUpSpawnWhenRunnerReady());
+    void OnDisable() { if (_catchUpCo != null) StopCoroutine(_catchUpCo); _spawned.Clear(); }
+
+    IEnumerator CatchUpSpawnWhenRunnerReady()
+    {
+        NetworkRunner runner = null;
+        while ((runner = FindObjectOfType<NetworkRunner>()) == null) yield return null;
+        yield return null; // 1 frame
+
+        if (!runner.IsServer) yield break;
+
+        foreach (var p in runner.ActivePlayers)
+            EnsureSpawnFor(runner, p);
+    }
 
     public void PlayerJoined(PlayerRef player)
     {
-        // 🔴 CHỈ SERVER/HOST ĐƯỢC SPAWN
-        if (!Runner.IsServer)
-            return;
-
-        // Chọn prefab: tạm dùng phần tử 0 (nếu có nhiều nhân vật thì xử lý ở PlayerAppearance)
-        var prefab = ResolvePrefab(0);
-
-        Vector3 pos = GetSpawnPos(player);
-
-        // Spawn và gán InputAuthority cho player
-        var no = Runner.Spawn(prefab, pos, Quaternion.identity, player);
-        _spawned[player] = no;
+        if (!Runner.IsServer) return;
+        EnsureSpawnFor(Runner, player);
     }
 
     public void PlayerLeft(PlayerRef player)
     {
         if (!Runner.IsServer) return;
 
-        if (_spawned.TryGetValue(player, out var obj) && obj != null)
+        if (Runner.TryGetPlayerObject(player, out var pObj) && pObj)
+        {
+            Runner.Despawn(pObj);
+            _spawned.Remove(player);
+        }
+        else if (_spawned.TryGetValue(player, out var obj) && obj)
         {
             Runner.Despawn(obj);
             _spawned.Remove(player);
         }
     }
 
-    // ---------- Helpers ----------
+    void EnsureSpawnFor(NetworkRunner runner, PlayerRef player)
+    {
+        if (runner.TryGetPlayerObject(player, out var existing) && existing)
+        {
+            _spawned[player] = existing;
+            return;
+        }
+        if (_spawned.TryGetValue(player, out var already) && already) return;
+
+        var prefab = ResolvePrefab(0);
+        if (!prefab.IsValid) { Debug.LogError("[PlayerSpawner] PrefabRef invalid."); return; }
+
+        var obj = runner.Spawn(prefab, GetSpawnPos(player), Quaternion.identity, player);
+
+        if (!runner.TryGetPlayerObject(player, out _))
+            runner.SetPlayerObject(player, obj);
+
+        _spawned[player] = obj;
+    }
+
     NetworkPrefabRef ResolvePrefab(int index)
     {
         if (playerPrefabs == null || playerPrefabs.Length == 0)
         {
-            Debug.LogError("[PlayerSpawner] Chưa gán playerPrefabs trong Inspector.");
+            Debug.LogError("[PlayerSpawner] Thiếu playerPrefabs.");
             return default;
         }
         index = Mathf.Clamp(index, 0, playerPrefabs.Length - 1);
@@ -55,9 +88,9 @@ public class PlayerSpawner : SimulationBehaviour, IPlayerJoined, IPlayerLeft
     {
         if (spawnPoints != null && spawnPoints.Length > 0)
         {
-            // ❗ KHÔNG ép (int)player → dùng RawEncoded để ra int ổn định
             int i = Mathf.Abs(player.RawEncoded) % spawnPoints.Length;
-            return spawnPoints[i].position;
+            var t = spawnPoints[i];
+            if (t) return t.position;
         }
         return new Vector3(0f, 1f, 0f);
     }

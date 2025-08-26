@@ -26,9 +26,8 @@ public class PlayerUpgradeManager : MonoBehaviour
     private DatabaseReference reference;
     private string userId;
 
-  
+    public LevelCount LevelCountt;
     
-
     private void Awake()
     {
         reference = FirebaseDatabase.DefaultInstance.RootReference;
@@ -45,6 +44,7 @@ public class PlayerUpgradeManager : MonoBehaviour
             lightningManeger.SpendLightning(10);
             currentHealth += healthUpgradeAmount;
             SaveHealth();
+            UpdateLevelCount();
             Debug.Log($"Đã nâng cấp máu lên: {currentHealth}");
         }
         else
@@ -61,6 +61,7 @@ public class PlayerUpgradeManager : MonoBehaviour
             GoldManager.SpendGold(100);
             currentHealth += healthUpgradeAmount;
             SaveHealth();
+            UpdateLevelCount();
             Debug.Log($"Đã nâng cấp máu lên: {currentHealth}");
         }
         else
@@ -77,6 +78,7 @@ public class PlayerUpgradeManager : MonoBehaviour
             lightningManeger.SpendLightning(10);
             currentDamage += damageUpgradeAmount;
             SaveDamage();
+            UpdateLevelCount();
             Debug.Log($"Đã nâng cấp dame lên: {currentDamage}");
         }
         else
@@ -93,6 +95,7 @@ public class PlayerUpgradeManager : MonoBehaviour
             GoldManager.SpendGold(100);
             currentDamage += damageUpgradeAmount;
             SaveDamage();
+            UpdateLevelCount();
             Debug.Log($"Đã nâng cấp dame lên: {currentDamage}");
         }
         else
@@ -132,7 +135,6 @@ public class PlayerUpgradeManager : MonoBehaviour
                     currentDamage = 10;
                     SaveDamage(); 
                 }
-                
             }
             else
             {
@@ -143,6 +145,50 @@ public class PlayerUpgradeManager : MonoBehaviour
         });
     }
 
+    public void UpdateLevelCount()
+    {
+        if (currentHealth >= 120 && currentDamage >= 15)
+        {
+            LevelCountt.AdddLevel1();
+        }
+        if (currentHealth >= 150 && currentDamage >= 20)
+        {
+            LevelCountt.AdddLevel2();
+        }
+        if (currentHealth >= 170 && currentDamage >= 25)
+        {
+            LevelCountt.AdddLevel3();
+        }
+        if (currentHealth >= 200 && currentDamage >= 30)
+        {
+            LevelCountt.AdddLevel4();
+        }
+        if (currentHealth >= 240 && currentDamage >= 35)
+        {
+            LevelCountt.AdddLevel5();
+        }
+        if (currentHealth >= 280 && currentDamage >= 40)
+        {
+            LevelCountt.AdddLevel6();
+        }
+        if (currentHealth >= 350 && currentDamage >= 45)
+        {
+            LevelCountt.AdddLevel7();
+        }
+        if (currentHealth >= 420 && currentDamage >= 50)
+        {
+            LevelCountt.AdddLevel8();
+        }
+        if (currentHealth >= 450 && currentDamage >= 55)
+        {
+            LevelCountt.AdddLevel9();
+        }
+        if (currentHealth >= 500 && currentDamage >= 60)
+        {
+            LevelCountt.AdddLevel10();
+        }
+        
+    }
 
     
     public void SaveHealth()

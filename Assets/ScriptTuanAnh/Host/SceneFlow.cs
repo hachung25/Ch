@@ -6,7 +6,6 @@ public class SceneFlow : MonoBehaviour
 {
     [SerializeField] private RoomService room;
 
-    // Tránh xử lý trùng cùng 1 roundId
     private readonly HashSet<string> _processedRounds = new();
 
     void Awake()
@@ -26,12 +25,12 @@ public class SceneFlow : MonoBehaviour
 
     void HandleStartGame(int buildIndex, string roundId)
     {
+        // 🔒 Bảo vệ: chỉ load khi thật sự có Start
         if (buildIndex < 0) return;
-        if (!string.IsNullOrEmpty(roundId))
-        {
-            if (_processedRounds.Contains(roundId)) return;
-            _processedRounds.Add(roundId);
-        }
+        if (string.IsNullOrEmpty(roundId)) return;
+        if (_processedRounds.Contains(roundId)) return;
+
+        _processedRounds.Add(roundId);
         SceneManager.LoadScene(buildIndex);
     }
 }

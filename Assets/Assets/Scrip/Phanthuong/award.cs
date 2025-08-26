@@ -132,19 +132,23 @@ public class award : MonoBehaviour
 
     private void CheckWeeklyRewardIndicator(string rewardKey, GameObject indicator)
     {
-        string lastClaimKey = $"WeeklyReward_{rewardKey}";
+        string key = $"WeeklyReward_{rewardKey}";
+        indicator.SetActive(false); // mặc định tắt
 
-        if (!PlayerPrefs.HasKey(lastClaimKey))
+        RewardFirebaseManager.Instance.GetRewardDate(key, (lastClaim) =>
         {
-            indicator.SetActive(true); // Chưa từng nhận, có thể nhận
-        }
-        else
-        {
-            DateTime lastClaim = DateTime.Parse(PlayerPrefs.GetString(lastClaimKey));
-            bool canClaim = (DateTime.Now - lastClaim).TotalDays >= cooldownDays;
-            indicator.SetActive(canClaim);
-        }
+            if (lastClaim == null)
+            {
+                indicator.SetActive(true); // chưa bao giờ nhận → bật
+            }
+            else
+            {
+                bool canClaim = (DateTime.Now - lastClaim.Value).TotalDays >= cooldownDays;
+                indicator.SetActive(canClaim); // chỉ bật khi đã đủ 7 ngày
+            }
+        });
     }
+
 
     private void CheckOneTimeRewardIndicator(string rewardKey, GameObject indicator)
     {
