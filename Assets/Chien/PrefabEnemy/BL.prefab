@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 7835325447329486573}
   - component: {fileID: 3326302778182745827}
   - component: {fileID: 6708320508256176325}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: BL
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -177,4 +177,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damage: 7
   lifeTime: 5
+  speed: 10
   hitEffect: {fileID: 0}

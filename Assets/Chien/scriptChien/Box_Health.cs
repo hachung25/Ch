@@ -30,9 +30,18 @@ public class BreakableBox : MonoBehaviour, IDamageable
             for (int i = 0; i < dropAmount; i++)
             {
                 Vector3 pos = spawnPoint != null ? spawnPoint.position : transform.position;
-                Instantiate(healthPickupPrefab, pos, Quaternion.identity);
-                Instantiate(VFXHealth, pos, Quaternion.identity);
+
+                // Spawn máu
+                var hpObj = Instantiate(healthPickupPrefab, pos, Quaternion.identity);
+
+                // Spawn VFX và GÁN LÀM CON của máu
+                if (VFXHealth != null)
+                {
+                    var vfx = Instantiate(VFXHealth, pos, Quaternion.identity, hpObj.transform);
+                    vfx.transform.localPosition = Vector3.zero; // canh tâm (tùy)
+                }
             }
+
         }
 
         // VFX
