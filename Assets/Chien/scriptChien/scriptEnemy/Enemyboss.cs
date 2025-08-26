@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
-
+using System.Collections;
 public class Enemyboss : EnemyGroundBase, IDamageable
 {
     [Header("Thanh máu riêng")]
@@ -10,6 +10,9 @@ public class Enemyboss : EnemyGroundBase, IDamageable
     public int attackDamage = 8;
     public GameObject CoinPrefab;
     public GameObject DeadVFX;
+    public AudioClip Sound_Destroy;
+    private AudioSource Sound_Play;
+    public bool isInvincible = false;
     protected override void Start()
     {
         base.Start();
@@ -23,6 +26,11 @@ public class Enemyboss : EnemyGroundBase, IDamageable
         }
 
         UpdateHealthBar();
+        if(Sound_Play == null)
+        {
+            Sound_Play = gameObject.AddComponent<AudioSource>();
+        }
+        
     }
 
     // ===== NHẬN SÁT THƯƠNG TỪ PLAYER =====
@@ -42,6 +50,34 @@ public class Enemyboss : EnemyGroundBase, IDamageable
         }
     }
 
+    //protected override void Die()
+    //{
+    //    if (isDead) return;
+
+    //    isDead = true;
+
+    //    if (healthSlider != null)
+    //        healthSlider.gameObject.SetActive(false);
+
+    //    if (animator != null)
+    //        animator.SetTrigger("Die");
+    //    if (CoinPrefab != null)
+    //    {
+    //        Instantiate(CoinPrefab, transform.position, Quaternion.identity);
+    //    }
+    //    GetComponent<Rigidbody2D>().simulated = false;
+    //    Debug.Log($"{gameObject.name} đã chết!");
+    //    if (DeadVFX != null)
+    //    {
+    //        Instantiate(DeadVFX, transform.position, Quaternion.identity);
+    //    }
+
+    //    Destroy(gameObject);
+    //    if(Sound_Destroy != null && Sound_Play != null) 
+    //    {
+    //        Sound_Play.PlayOneShot(Sound_Destroy);
+    //    }
+    //}
     protected override void Die()
     {
         if (isDead) return;
@@ -53,18 +89,29 @@ public class Enemyboss : EnemyGroundBase, IDamageable
 
         if (animator != null)
             animator.SetTrigger("Die");
+
         if (CoinPrefab != null)
-        {
             Instantiate(CoinPrefab, transform.position, Quaternion.identity);
-        }
-        GetComponent<Rigidbody2D>().simulated = false;
-        Debug.Log($"{gameObject.name} đã chết!");
+
+        var rb = GetComponent<Rigidbody2D>();
+        if (rb) rb.simulated = false;
+
         if (DeadVFX != null)
-        {
             Instantiate(DeadVFX, transform.position, Quaternion.identity);
+
+        // ✅ Phát âm thanh HUỶ trước, rồi Destroy sau theo độ dài clip
+        float destroyDelay = 0f;
+        if (Sound_Destroy != null)
+        {
+            if (Sound_Play == null) Sound_Play = gameObject.AddComponent<AudioSource>();
+            Sound_Play.playOnAwake = false;
+            Sound_Play.PlayOneShot(Sound_Destroy);
+            destroyDelay = Sound_Destroy.length; // đảm bảo clip phát hết
         }
 
-        Destroy(gameObject);
+        // Huỷ object sau khi âm thanh phát xong (nếu có), nếu không thì huỷ ngay
+        StartCoroutine(FlashWhileInvincible());
+        Destroy(gameObject, destroyDelay);
     }
 
     private void UpdateHealthBar()
@@ -104,6 +151,21 @@ public class Enemyboss : EnemyGroundBase, IDamageable
     {
         base.UpdateAnimator();
     }
+    private IEnumerator FlashWhileInvincible()
+    {
+        float duration = 2f;
+        float timer = 0f;
+        SpriteRenderer sr = GetComponent<SpriteRenderer>();
 
+        while (timer < duration)
+        {
+            sr.enabled = !sr.enabled;
+            yield return new WaitForSeconds(0.1f);
+            timer += 0.1f;
+        }
+
+        sr.enabled = true;
+        isInvincible = false;
+    }
 
 }

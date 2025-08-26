@@ -18,6 +18,8 @@ public class PlayerHealth : MonoBehaviour, IDamageable
     public AudioClip hitSound;       // âm thanh bạn chọn
     private AudioSource audioSource; // để phát âm thanh
     public AudioClip OverSound;
+    
+
     private void OnEnable()
     {
         IndexPlayerPlayGame.OnStatsLoaded += SetHealth;
@@ -96,9 +98,13 @@ public class PlayerHealth : MonoBehaviour, IDamageable
     {
         if (isDead) return;
 
+        int before = currentHealth;
+
         currentHealth += amount;
         currentHealth = Mathf.Clamp(currentHealth, 0, MaxHealth);
+
     }
+
 
     public int GetCurrentHealth()
     {

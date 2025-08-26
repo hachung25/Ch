@@ -573,7 +573,7 @@ MonoBehaviour:
   chaseRange: 5
   attackRange: 1.5
   player: {fileID: 0}
-  maxHealth: 50
+  maxHealth: 40
   isFacingRightByDefault: 0
   overrideHealthSlider_Warrior: {fileID: 8562176784964210827}
   attackDamage: 8
