@@ -26,13 +26,13 @@ public class CharacterSelectionUI : MonoBehaviour
     public string nextSceneName = "gamePlay";
 
     private int selectedImageIndex = -1; // Ban đầu chưa chọn gì
-    
+
     private int currentFactionIndex = 0;
 
-    void Start() 
+    void Start()
     {
         chooseButton.interactable = false;
-        
+
     }
     public void OnBackButtonClicked()
     {
@@ -54,7 +54,7 @@ public class CharacterSelectionUI : MonoBehaviour
                 rt.DOSizeDelta(normalSize, 0.25f).SetEase(Ease.OutBack);
 
             selectedImageIndex = -1;
-            
+
             chooseButton.interactable = false;
             return;
         }
@@ -77,23 +77,27 @@ public class CharacterSelectionUI : MonoBehaviour
 
         selectedImageIndex = index;
         currentFactionIndex = index;
-        
+
         chooseButton.interactable = true;
     }
 
 
     public void OnConfirmButtonClick()
     {
-        // Kiểm tra xem đã chọn nhân vật chưa
-        if (CharacterSelectionManager.Instance != null && CharacterSelectionManager.Instance.selectedCharacterIndex != -1)
+        if (selectedImageIndex != -1 && CharacterSelectionManager.Instance != null)
         {
-            // Nếu đã chọn, chuyển sang scene tiếp theo
-            SceneManager.LoadScene("TestMuti");
+            CharacterSelectionManager.Instance.SetSelectedCharacter(selectedImageIndex);
+            Debug.Log("Confirmed character index: " + selectedImageIndex);
+
+            // Khi countdown 30s kết thúc thì sẽ tự start game
+            // Ở đây chỉ cần đóng UI hoặc báo đã chọn
         }
         else
         {
-            Debug.Log("Vui lòng chọn một nhân vật trước khi xác nhận!");
-            // Tùy chọn: hiển thị một thông báo cho người dùng
+            Debug.Log("Vui lòng chọn nhân vật trước khi xác nhận!");
         }
     }
+
+
+
 }

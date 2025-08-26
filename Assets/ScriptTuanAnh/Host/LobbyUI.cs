@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Collections;
 
 public class LobbyUI : MonoBehaviour
 {
@@ -31,9 +32,20 @@ public class LobbyUI : MonoBehaviour
     public GameObject playerItemPrefab;
     public TMP_Text currentRoomLabel;
     public TMP_Text statusLabel;
-    public TMP_Text countdownLabel; // hiển thị đếm ngược (host)
 
-    private bool _countdownRunning;
+    [Header("Countdowns")]
+    [Tooltip("Label ở CanvasRoom: hiển thị 'Auto delete in mm:ss'")]
+    public TMP_Text countdownLabel;               // đếm auto-delete (CanvasRoom)
+    [Tooltip("Label ở CanvasPlayer: hiển thị 'Game will start in xx s'")]
+    public TMP_Text startHostCountdownLabel;      // đếm 30s khi host bấm Start (CanvasPlayer)
+
+    [Header("Canvas chuyển đổi")]
+    public GameObject CanvasRoom;
+    public GameObject CanvasPlayer;
+
+    // State cho 2 countdown khác nhau
+    private bool _expiryCountdownRunning;         // cho BeginCountdownByExpiry
+    private Coroutine _startHostCountdownRoutine; // cho StartHostCountdown 30s
 
     // ===== Unity =====
     async void OnEnable()
@@ -53,7 +65,12 @@ public class LobbyUI : MonoBehaviour
 
         UpdateTopBar();
         UpdateButtons();
-        StopCountdown();
+
+        // Clear cả 2 label khi mở Lobby
+        ClearStartHostLabel();
+        ClearExpiryLabel();
+        _expiryCountdownRunning = false;
+        _startHostCountdownRoutine = null;
     }
 
     void OnDisable()
@@ -71,6 +88,9 @@ public class LobbyUI : MonoBehaviour
         if (btnStartAsHost) btnStartAsHost.onClick.RemoveListener(OnClickStartAsHost);
         if (btnDeleteRoom) btnDeleteRoom.onClick.RemoveListener(OnClickDeleteRoom);
         if (btnLeaveRoom) btnLeaveRoom.onClick.RemoveListener(OnClickLeaveRoom);
+
+        StopExpiryCountdown();
+        StopStartHostCountdown();
     }
 
     // ===== Buttons =====
@@ -81,27 +101,17 @@ public class LobbyUI : MonoBehaviour
             var id = await RoomService.I.CreateRoomAndJoin();
             statusLabel?.SetText($"Tạo phòng & vào phòng: {id}");
             UpdateTopBar();
-            UpdateButtons(); // nếu bạn có hàm cập nhật nút
+            UpdateButtons();
 
-            // (tuỳ chọn) ép refresh UI players lần đầu
-            var playersSnap = await Firebase.Database.FirebaseDatabase.DefaultInstance
-                .GetReference("rooms").Child(id).Child("players").GetValueAsync();
-
-            var dict = new Dictionary<string, PlayerInfo>();
-            foreach (var ch in playersSnap.Children)
-            {
-                var json = ch.GetRawJsonValue();
-                if (!string.IsNullOrEmpty(json))
-                    dict[ch.Key] = JsonUtility.FromJson<PlayerInfo>(json);
-            }
-            OnPlayersChanged(id, dict); // gọi lại handler UI hiện danh sách
+            await ForceRefreshPlayersUI(id);
+            // Chỉ host mới thấy countdown expiry, handler OnHostChanged sẽ tự xử lý
+            _ = BeginCountdownByExpiry(id);
         }
-        catch (System.Exception e)
+        catch (Exception e)
         {
             statusLabel?.SetText($"Create failed: {e.Message}");
         }
     }
-
 
     public async void OnClickJoinById()
     {
@@ -112,43 +122,88 @@ public class LobbyUI : MonoBehaviour
         {
             await RoomService.I.JoinRoom(id);
             statusLabel?.SetText($"Đã vào phòng: {id}");
-            UpdateTopBar(); UpdateButtons();
+            UpdateTopBar();
+            UpdateButtons();
 
             await ForceRefreshPlayersUI(id);
-            _ = BeginCountdownByExpiry(id); // nếu được chuyển thành host thì sẽ hiển thị
+            _ = BeginCountdownByExpiry(id); // nếu là host mới hiển thị
         }
-        catch (System.Exception e) { statusLabel?.SetText($"Join failed: {e.Message}"); }
+        catch (Exception e) { statusLabel?.SetText($"Join failed: {e.Message}"); }
     }
 
-    public async void OnClickStartAsHost()
+    public void OnClickStartAsHost()
+    {
+        // Ẩn CanvasRoom, hiện CanvasPlayer
+        if (CanvasRoom) CanvasRoom.SetActive(false);
+        if (CanvasPlayer) CanvasPlayer.SetActive(true);
+
+        // Khi bắt đầu start host: dừng countdown expiry để tránh ghi đè text
+        StopExpiryCountdown();
+
+        // Dừng countdown 30s cũ (nếu có) và chạy lại
+        StopStartHostCountdown();
+        _startHostCountdownRoutine = StartCoroutine(StartHostCountdown(30)); // 30 giây
+    }
+
+    private IEnumerator StartHostCountdown(int seconds)
+    {
+        int remain = seconds;
+        while (remain > 0)
+        {
+            if (startHostCountdownLabel)
+                startHostCountdownLabel.SetText($"Game will start in {remain}s");
+
+            yield return new WaitForSeconds(1f);
+            remain--;
+        }
+
+        ClearStartHostLabel();
+        _startHostCountdownRoutine = null;
+
+        // Hết 30s -> chạy logic gốc
+        _ = HostStartGame();
+    }
+
+    private async Task HostStartGame()
     {
         try
         {
+            int selectedIndex = PlayerPrefs.GetInt("SelectedCharacterIndex", 0);
+            Debug.Log("Game starting, my character index = " + selectedIndex);
+
             await RoomService.I.HostTriggerStart(gameplayBuildIndex);
             statusLabel?.SetText("Game Started!");
-            // vẫn giữ countdown vì phòng sẽ xoá sau 5p kể từ khi tạo
         }
-        catch (System.Exception e) { statusLabel?.SetText($"Start failed: {e.Message}"); }
+        catch (Exception e)
+        {
+            statusLabel?.SetText($"Start failed: {e.Message}");
+        }
     }
 
     public async void OnClickDeleteRoom()
     {
         try { await RoomService.I.DeleteRoom(); statusLabel?.SetText("Đã xoá phòng."); }
-        catch (System.Exception e) { statusLabel?.SetText($"Delete failed: {e.Message}"); }
+        catch (Exception e) { statusLabel?.SetText($"Delete failed: {e.Message}"); }
 
         ClearPlayerList();
-        UpdateTopBar(); UpdateButtons();
-        StopCountdown();
+        UpdateTopBar();
+        UpdateButtons();
+
+        StopExpiryCountdown();
+        StopStartHostCountdown();
     }
 
     public async void OnClickLeaveRoom()
     {
         try { await RoomService.I.LeaveRoom(); statusLabel?.SetText("Đã rời phòng."); }
-        catch (System.Exception e) { statusLabel?.SetText($"Leave failed: {e.Message}"); }
+        catch (Exception e) { statusLabel?.SetText($"Leave failed: {e.Message}"); }
 
         ClearPlayerList();
-        UpdateTopBar(); UpdateButtons();
-        StopCountdown();
+        UpdateTopBar();
+        UpdateButtons();
+
+        StopExpiryCountdown();
+        StopStartHostCountdown();
     }
 
     // ===== Event handlers =====
@@ -168,7 +223,8 @@ public class LobbyUI : MonoBehaviour
             {
                 await RoomService.I.JoinRoom(id);
                 statusLabel?.SetText($"Đã vào phòng: {id}");
-                UpdateTopBar(); UpdateButtons();
+                UpdateTopBar();
+                UpdateButtons();
                 await ForceRefreshPlayersUI(id);
                 _ = BeginCountdownByExpiry(id);
             });
@@ -232,7 +288,8 @@ public class LobbyUI : MonoBehaviour
         if (btnDeleteRoom) btnDeleteRoom.gameObject.SetActive(inRoom && isHost);
         if (btnLeaveRoom) btnLeaveRoom.gameObject.SetActive(inRoom);
 
-        if (!isHost) StopCountdown(); // nhãn countdown chỉ host thấy
+        // Nếu không phải host, tắt countdown expiry (vì chỉ host thấy)
+        if (!isHost) StopExpiryCountdown();
     }
 
     async Task ForceRefreshPlayersUI(string roomId)
@@ -254,38 +311,38 @@ public class LobbyUI : MonoBehaviour
         catch { /* ignore */ }
     }
 
-    // Đếm ngược theo expiryAt (ghi khi tạo phòng). Chỉ host hiển thị.
+    // ===== Expiry Countdown (CanvasRoom) =====
     async Task BeginCountdownByExpiry(string roomId)
     {
-        if (string.IsNullOrEmpty(roomId)) { StopCountdown(); return; }
+        if (string.IsNullOrEmpty(roomId)) { StopExpiryCountdown(); return; }
 
         bool isHost = RoomService.I.LastKnownHostUid == FirebaseAuth.DefaultInstance.CurrentUser?.UserId;
-        if (!isHost) { StopCountdown(); return; }
+        if (!isHost) { StopExpiryCountdown(); return; }
 
         var snap = await FirebaseDatabase.DefaultInstance
             .GetReference("rooms").Child(roomId).Child("expiryAt").GetValueAsync();
-        if (!snap.Exists) { StopCountdown(); return; }
+        if (!snap.Exists) { StopExpiryCountdown(); return; }
 
         long expiryAt = 0; long.TryParse(snap.Value.ToString(), out expiryAt);
-        if (expiryAt <= 0) { StopCountdown(); return; }
+        if (expiryAt <= 0) { StopExpiryCountdown(); return; }
 
-        _countdownRunning = true;
+        _expiryCountdownRunning = true;
 
-        while (_countdownRunning)
+        while (_expiryCountdownRunning)
         {
             // nếu không còn là host thì dừng
             isHost = RoomService.I.LastKnownHostUid == FirebaseAuth.DefaultInstance.CurrentUser?.UserId;
-            if (!isHost) { StopCountdown(); break; }
+            if (!isHost) { StopExpiryCountdown(); break; }
 
             long now = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
             long remain = expiryAt - now;
             if (remain <= 0)
             {
-                StopCountdown();
+                StopExpiryCountdown();
                 break; // phòng sẽ bị watchdog xoá
             }
 
-            if (countdownLabel)
+            if (countdownLabel)   // label này thuộc CanvasRoom
             {
                 int m = (int)(remain / 1000) / 60;
                 int s = (int)(remain / 1000) % 60;
@@ -295,10 +352,30 @@ public class LobbyUI : MonoBehaviour
         }
     }
 
-    void StopCountdown()
+    void StopExpiryCountdown()
     {
-        _countdownRunning = false;
+        _expiryCountdownRunning = false;
+        ClearExpiryLabel();
+    }
+
+    void ClearExpiryLabel()
+    {
         if (countdownLabel) countdownLabel.SetText("");
+    }
+
+    void StopStartHostCountdown()
+    {
+        if (_startHostCountdownRoutine != null)
+        {
+            StopCoroutine(_startHostCountdownRoutine);
+            _startHostCountdownRoutine = null;
+        }
+        ClearStartHostLabel();
+    }
+
+    void ClearStartHostLabel()
+    {
+        if (startHostCountdownLabel) startHostCountdownLabel.SetText("");
     }
 
     // Dọn rác: xoá phòng rỗng hoặc đã quá hạn khi mở Lobby
