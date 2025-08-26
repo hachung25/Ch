@@ -100,7 +100,7 @@ Transform:
   m_GameObject: {fileID: 122664582589362291}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.205, y: -0.733, z: 0}
+  m_LocalPosition: {x: -0.205, y: -0.782, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2126,6 +2126,7 @@ GameObject:
   - component: {fileID: 1899064951422996478}
   - component: {fileID: -1238332132716884245}
   - component: {fileID: 6172894281914944117}
+  - component: {fileID: -8268667865935315853}
   m_Layer: 7
   m_Name: PlayerN
   m_TagString: Untagged
@@ -2255,6 +2256,7 @@ MonoBehaviour:
   - {fileID: 662866936164132257}
   - {fileID: -1238332132716884245}
   - {fileID: 6172894281914944117}
+  - {fileID: -8268667865935315853}
   ForceRemoteRenderTimeframe: 0
 --- !u!61 &7329209554851741317
 BoxCollider2D:
@@ -2363,7 +2365,7 @@ Rigidbody2D:
     m_Bits: 0
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 4
 --- !u!114 &988308054318827740
 MonoBehaviour:
@@ -2439,6 +2441,20 @@ MonoBehaviour:
     _length: 0
     _data:
       Data: 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+--- !u!114 &-8268667865935315853
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7665432593707683337}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a3474955b2231cf489aebe7f9f968e10, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  followTarget: {fileID: 0}
+  localAudio: {fileID: 0}
 --- !u!1 &8986416333364836211
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,0 +1,1209 @@
+fileFormatVersion: 2
+guid: 79973b369558e8849b80e14f5b4b5c75
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 362097272336351264
+    second: Volcano Level Set_Background - Layer 01_0
+  - first:
+      213: -2836969487169978096
+    second: Volcano Level Set_Background - Layer 01_1
+  - first:
+      213: -5076553715184070679
+    second: Volcano Level Set_Background - Layer 01_2
+  - first:
+      213: 6395341077517721761
+    second: Volcano Level Set_Background - Layer 01_3
+  - first:
+      213: -3534566427214949495
+    second: Volcano Level Set_Background - Layer 01_4
+  - first:
+      213: -4212672974331659601
+    second: Volcano Level Set_Background - Layer 01_5
+  - first:
+      213: -7655368634247536435
+    second: Volcano Level Set_Background - Layer 01_6
+  - first:
+      213: -2248314394787187268
+    second: Volcano Level Set_Background - Layer 01_7
+  - first:
+      213: 8916165514768096078
+    second: Volcano Level Set_Background - Layer 01_8
+  - first:
+      213: -3424413227489285042
+    second: Volcano Level Set_Background - Layer 01_9
+  - first:
+      213: 2167687481933926944
+    second: Volcano Level Set_Background - Layer 01_10
+  - first:
+      213: -7775093949179896607
+    second: Volcano Level Set_Background - Layer 01_11
+  - first:
+      213: -2838075756662373611
+    second: Volcano Level Set_Background - Layer 01_12
+  - first:
+      213: 8689749348771819827
+    second: Volcano Level Set_Background - Layer 01_13
+  - first:
+      213: -6712069235289143098
+    second: Volcano Level Set_Background - Layer 01_14
+  - first:
+      213: -235537545258554018
+    second: Volcano Level Set_Background - Layer 01_15
+  - first:
+      213: 5221641901281967885
+    second: Volcano Level Set_Background - Layer 01_16
+  - first:
+      213: -1800403119480902191
+    second: Volcano Level Set_Background - Layer 01_17
+  - first:
+      213: 1050908215939627160
+    second: Volcano Level Set_Background - Layer 01_18
+  - first:
+      213: -5990818555169839639
+    second: Volcano Level Set_Background - Layer 01_19
+  - first:
+      213: 1505384573977986903
+    second: Volcano Level Set_Background - Layer 01_20
+  - first:
+      213: -2896436476438624103
+    second: Volcano Level Set_Background - Layer 01_21
+  - first:
+      213: -929707921261304736
+    second: Volcano Level Set_Background - Layer 01_22
+  - first:
+      213: -4470542295498065726
+    second: Volcano Level Set_Background - Layer 01_23
+  - first:
+      213: 6308418091262764570
+    second: Volcano Level Set_Background - Layer 01_24
+  - first:
+      213: 3258207539769850524
+    second: Volcano Level Set_Background - Layer 01_25
+  - first:
+      213: -4541934235219799182
+    second: Volcano Level Set_Background - Layer 01_26
+  - first:
+      213: -467919916309061757
+    second: Volcano Level Set_Background - Layer 01_27
+  - first:
+      213: 3602475777425286261
+    second: Volcano Level Set_Background - Layer 01_28
+  - first:
+      213: -7704892027043598809
+    second: Volcano Level Set_Background - Layer 01_29
+  - first:
+      213: -947001899946169463
+    second: Volcano Level Set_Background - Layer 01_30
+  - first:
+      213: -7809455388927169568
+    second: Volcano Level Set_Background - Layer 01_31
+  - first:
+      213: 1733579987863984702
+    second: Volcano Level Set_Background - Layer 01_32
+  - first:
+      213: -9112688350681559328
+    second: Volcano Level Set_Background - Layer 01_33
+  - first:
+      213: -2805065571025126975
+    second: Volcano Level Set_Background - Layer 01_34
+  - first:
+      213: -7751503374526171815
+    second: Volcano Level Set_Background - Layer 01_35
+  - first:
+      213: 1568495564229820766
+    second: Volcano Level Set_Background - Layer 01_36
+  - first:
+      213: 4708496477166494954
+    second: Volcano Level Set_Background - Layer 01_37
+  - first:
+      213: 3689026195649840088
+    second: Volcano Level Set_Background - Layer 01_38
+  - first:
+      213: -510540725362652901
+    second: Volcano Level Set_Background - Layer 01_39
+  - first:
+      213: -3056901976208334251
+    second: Volcano Level Set_Background - Layer 01_40
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: iOS
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Volcano Level Set_Background - Layer 01_0
+      rect:
+        serializedVersion: 2
+        x: 927
+        y: 562
+        width: 11
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0200fbbfc8d660500800000000000000
+      internalID: 362097272336351264
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Volcano Level Set_Background - Layer 01_1
+      rect:
+        serializedVersion: 2
+        x: 469
+        y: 532
+        width: 12
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0118c96484f01a8d0800000000000000
+      internalID: -2836969487169978096
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Volcano Level Set_Background - Layer 01_2
+      rect:
+        serializedVersion: 2
+        x: 418
+        y: 514
+        width: 13
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9ef8343fa457c89b0800000000000000
+      internalID: -5076553715184070679
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Volcano Level Set_Background - Layer 01_3
+      rect:
+        serializedVersion: 2
+        x: 877
+        y: 520
+        width: 11
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1a068e673d0d0c850800000000000000
+      internalID: 6395341077517721761
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Volcano Level Set_Background - Layer 01_4
+      rect:
+        serializedVersion: 2
+        x: 915
+        y: 503
+        width: 8
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 983d4d6bf82b2fec0800000000000000
+      internalID: -3534566427214949495
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Volcano Level Set_Background - Layer 01_5
+      rect:
+        serializedVersion: 2
+        x: 929
+        y: 507
+        width: 7
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: faab212ef349985c0800000000000000
+      internalID: -4212672974331659601
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Volcano Level Set_Background - Layer 01_6
+      rect:
+        serializedVersion: 2
+        x: 439
+        y: 493
+        width: 12
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: dc0220b79caa2c590800000000000000
+      internalID: -7655368634247536435
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Volcano Level Set_Background - Layer 01_7
+      rect:
+        serializedVersion: 2
+        x: 851
+        y: 486
+        width: 11
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cb5ff4358f16cc0e0800000000000000
+      internalID: -2248314394787187268
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Volcano Level Set_Background - Layer 01_8
+      rect:
+        serializedVersion: 2
+        x: 443
+        y: 480
+        width: 8
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e4b175abb459cbb70800000000000000
+      internalID: 8916165514768096078
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Volcano Level Set_Background - Layer 01_9
+      rect:
+        serializedVersion: 2
+        x: 855
+        y: 475
+        width: 7
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e4c2a5b105a0a70d0800000000000000
+      internalID: -3424413227489285042
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Volcano Level Set_Background - Layer 01_10
+      rect:
+        serializedVersion: 2
+        x: 871
+        y: 469
+        width: 11
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0229bb8a74c251e10800000000000000
+      internalID: 2167687481933926944
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Volcano Level Set_Background - Layer 01_11
+      rect:
+        serializedVersion: 2
+        x: 929
+        y: 477
+        width: 7
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1ecd7d75f31591490800000000000000
+      internalID: -7775093949179896607
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Volcano Level Set_Background - Layer 01_12
+      rect:
+        serializedVersion: 2
+        x: 389
+        y: 459
+        width: 12
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 513cd76d2212d98d0800000000000000
+      internalID: -2838075756662373611
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Volcano Level Set_Background - Layer 01_13
+      rect:
+        serializedVersion: 2
+        x: 478
+        y: 466
+        width: 9
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 331f9b01ef0389870800000000000000
+      internalID: 8689749348771819827
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Volcano Level Set_Background - Layer 01_14
+      rect:
+        serializedVersion: 2
+        x: 471
+        y: 453
+        width: 8
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6c843c2b790f9d2a0800000000000000
+      internalID: -6712069235289143098
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Volcano Level Set_Background - Layer 01_15
+      rect:
+        serializedVersion: 2
+        x: 507
+        y: 455
+        width: 8
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e5da89bb9d33bbcf0800000000000000
+      internalID: -235537545258554018
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Volcano Level Set_Background - Layer 01_16
+      rect:
+        serializedVersion: 2
+        x: 523
+        y: 453
+        width: 8
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d0ff43ec4aff67840800000000000000
+      internalID: 5221641901281967885
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Volcano Level Set_Background - Layer 01_17
+      rect:
+        serializedVersion: 2
+        x: 879
+        y: 451
+        width: 7
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1dde5dad6eea307e0800000000000000
+      internalID: -1800403119480902191
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Volcano Level Set_Background - Layer 01_18
+      rect:
+        serializedVersion: 2
+        x: 910
+        y: 453
+        width: 7
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 898fe965473959e00800000000000000
+      internalID: 1050908215939627160
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Volcano Level Set_Background - Layer 01_19
+      rect:
+        serializedVersion: 2
+        x: 487
+        y: 441
+        width: 8
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9e56849c3465cdca0800000000000000
+      internalID: -5990818555169839639
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Volcano Level Set_Background - Layer 01_20
+      rect:
+        serializedVersion: 2
+        x: 506
+        y: 433
+        width: 9
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7578f4e4b4334e410800000000000000
+      internalID: 1505384573977986903
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Volcano Level Set_Background - Layer 01_21
+      rect:
+        serializedVersion: 2
+        x: 892
+        y: 441
+        width: 8
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9984463ee5acdc7d0800000000000000
+      internalID: -2896436476438624103
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Volcano Level Set_Background - Layer 01_22
+      rect:
+        serializedVersion: 2
+        x: 909
+        y: 434
+        width: 8
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0646a5842930913f0800000000000000
+      internalID: -929707921261304736
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Volcano Level Set_Background - Layer 01_23
+      rect:
+        serializedVersion: 2
+        x: 505
+        y: 418
+        width: 12
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2c87a7bd77175f1c0800000000000000
+      internalID: -4470542295498065726
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Volcano Level Set_Background - Layer 01_24
+      rect:
+        serializedVersion: 2
+        x: 871
+        y: 421
+        width: 11
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a166d50a4d00c8750800000000000000
+      internalID: 6308418091262764570
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Volcano Level Set_Background - Layer 01_25
+      rect:
+        serializedVersion: 2
+        x: 403
+        y: 401
+        width: 9
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c9a3b74ae7a773d20800000000000000
+      internalID: 3258207539769850524
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Volcano Level Set_Background - Layer 01_26
+      rect:
+        serializedVersion: 2
+        x: 420
+        y: 403
+        width: 9
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 273d98490eec7f0c0800000000000000
+      internalID: -4541934235219799182
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Volcano Level Set_Background - Layer 01_27
+      rect:
+        serializedVersion: 2
+        x: 820
+        y: 407
+        width: 8
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 38f5115b05d9189f0800000000000000
+      internalID: -467919916309061757
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Volcano Level Set_Background - Layer 01_28
+      rect:
+        serializedVersion: 2
+        x: 835
+        y: 408
+        width: 8
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 574226102a09ef130800000000000000
+      internalID: 3602475777425286261
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Volcano Level Set_Background - Layer 01_29
+      rect:
+        serializedVersion: 2
+        x: 417
+        y: 388
+        width: 12
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 72ea35f0689b21590800000000000000
+      internalID: -7704892027043598809
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Volcano Level Set_Background - Layer 01_30
+      rect:
+        serializedVersion: 2
+        x: 832
+        y: 396
+        width: 11
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 98ba6181ac29bd2f0800000000000000
+      internalID: -947001899946169463
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Volcano Level Set_Background - Layer 01_31
+      rect:
+        serializedVersion: 2
+        x: 502
+        y: 360
+        width: 9
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0eb6cb533bd3f9390800000000000000
+      internalID: -7809455388927169568
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Volcano Level Set_Background - Layer 01_32
+      rect:
+        serializedVersion: 2
+        x: 768
+        y: 356
+        width: 12
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e3adb5660d9ee0810800000000000000
+      internalID: 1733579987863984702
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Volcano Level Set_Background - Layer 01_33
+      rect:
+        serializedVersion: 2
+        x: 880
+        y: 356
+        width: 12
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0ee09c4e93a398180800000000000000
+      internalID: -9112688350681559328
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Volcano Level Set_Background - Layer 01_34
+      rect:
+        serializedVersion: 2
+        x: 342
+        y: 342
+        width: 14
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1c97e5b99b76219d0800000000000000
+      internalID: -2805065571025126975
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Volcano Level Set_Background - Layer 01_35
+      rect:
+        serializedVersion: 2
+        x: 472
+        y: 342
+        width: 14
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 955302600c02d6490800000000000000
+      internalID: -7751503374526171815
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Volcano Level Set_Background - Layer 01_36
+      rect:
+        serializedVersion: 2
+        x: 777
+        y: 343
+        width: 7
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e51c1b9c76a64c510800000000000000
+      internalID: 1568495564229820766
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Volcano Level Set_Background - Layer 01_37
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 1334
+        height: 331
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ae4efab6990f75140800000000000000
+      internalID: 4708496477166494954
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Volcano Level Set_Background - Layer 01_38
+      rect:
+        serializedVersion: 2
+        x: 353
+        y: 326
+        width: 8
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8d3c1d697cd023330800000000000000
+      internalID: 3689026195649840088
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Volcano Level Set_Background - Layer 01_39
+      rect:
+        serializedVersion: 2
+        x: 813
+        y: 329
+        width: 8
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b19836d4ae13ae8f0800000000000000
+      internalID: -510540725362652901
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Volcano Level Set_Background - Layer 01_40
+      rect:
+        serializedVersion: 2
+        x: 849
+        y: 329
+        width: 7
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 552a9ea49d3b395d0800000000000000
+      internalID: -3056901976208334251
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      Volcano Level Set_Background - Layer 01_0: 362097272336351264
+      Volcano Level Set_Background - Layer 01_1: -2836969487169978096
+      Volcano Level Set_Background - Layer 01_10: 2167687481933926944
+      Volcano Level Set_Background - Layer 01_11: -7775093949179896607
+      Volcano Level Set_Background - Layer 01_12: -2838075756662373611
+      Volcano Level Set_Background - Layer 01_13: 8689749348771819827
+      Volcano Level Set_Background - Layer 01_14: -6712069235289143098
+      Volcano Level Set_Background - Layer 01_15: -235537545258554018
+      Volcano Level Set_Background - Layer 01_16: 5221641901281967885
+      Volcano Level Set_Background - Layer 01_17: -1800403119480902191
+      Volcano Level Set_Background - Layer 01_18: 1050908215939627160
+      Volcano Level Set_Background - Layer 01_19: -5990818555169839639
+      Volcano Level Set_Background - Layer 01_2: -5076553715184070679
+      Volcano Level Set_Background - Layer 01_20: 1505384573977986903
+      Volcano Level Set_Background - Layer 01_21: -2896436476438624103
+      Volcano Level Set_Background - Layer 01_22: -929707921261304736
+      Volcano Level Set_Background - Layer 01_23: -4470542295498065726
+      Volcano Level Set_Background - Layer 01_24: 6308418091262764570
+      Volcano Level Set_Background - Layer 01_25: 3258207539769850524
+      Volcano Level Set_Background - Layer 01_26: -4541934235219799182
+      Volcano Level Set_Background - Layer 01_27: -467919916309061757
+      Volcano Level Set_Background - Layer 01_28: 3602475777425286261
+      Volcano Level Set_Background - Layer 01_29: -7704892027043598809
+      Volcano Level Set_Background - Layer 01_3: 6395341077517721761
+      Volcano Level Set_Background - Layer 01_30: -947001899946169463
+      Volcano Level Set_Background - Layer 01_31: -7809455388927169568
+      Volcano Level Set_Background - Layer 01_32: 1733579987863984702
+      Volcano Level Set_Background - Layer 01_33: -9112688350681559328
+      Volcano Level Set_Background - Layer 01_34: -2805065571025126975
+      Volcano Level Set_Background - Layer 01_35: -7751503374526171815
+      Volcano Level Set_Background - Layer 01_36: 1568495564229820766
+      Volcano Level Set_Background - Layer 01_37: 4708496477166494954
+      Volcano Level Set_Background - Layer 01_38: 3689026195649840088
+      Volcano Level Set_Background - Layer 01_39: -510540725362652901
+      Volcano Level Set_Background - Layer 01_4: -3534566427214949495
+      Volcano Level Set_Background - Layer 01_40: -3056901976208334251
+      Volcano Level Set_Background - Layer 01_5: -4212672974331659601
+      Volcano Level Set_Background - Layer 01_6: -7655368634247536435
+      Volcano Level Set_Background - Layer 01_7: -2248314394787187268
+      Volcano Level Set_Background - Layer 01_8: 8916165514768096078
+      Volcano Level Set_Background - Layer 01_9: -3424413227489285042
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
