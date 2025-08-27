@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Collections;
 
-
 [DefaultExecutionOrder(-10000)]
 [DisallowMultipleComponent]
 public class PlayerSpawner : SimulationBehaviour, IPlayerJoined, IPlayerLeft
@@ -63,8 +62,24 @@ public class PlayerSpawner : SimulationBehaviour, IPlayerJoined, IPlayerLeft
         }
         if (_spawned.TryGetValue(player, out var already) && already) return;
 
-        // Mỗi client lưu nhân vật riêng trong PlayerPrefs
-        int prefabIndex = PlayerPrefs.GetInt("SelectedCharacterIndex", 0);
+        // ✅ Lấy characterIndex từ RoomService cache
+        int prefabIndex = 0; // fallback
+        string uid = player.PlayerId.ToString();
+
+        if (RoomService.I != null)
+        {
+            var dict = RoomService.I.GetPlayersSnapshot();
+            if (dict != null && dict.TryGetValue(uid, out var info))
+            {
+                prefabIndex = info.characterIndex;
+                Debug.Log($"[PlayerSpawner] Spawn player {uid} với characterIndex = {prefabIndex}");
+            }
+            else
+            {
+                prefabIndex = PlayerPrefs.GetInt("SelectedCharacterIndex", 0);
+                Debug.LogWarning($"[PlayerSpawner] Không tìm thấy characterIndex trong RoomService cho {uid}, fallback = {prefabIndex}");
+            }
+        }
 
         var prefab = ResolvePrefab(prefabIndex);
         if (!prefab.IsValid) { Debug.LogError("[PlayerSpawner] PrefabRef invalid."); return; }
@@ -76,7 +91,6 @@ public class PlayerSpawner : SimulationBehaviour, IPlayerJoined, IPlayerLeft
 
         _spawned[player] = obj;
     }
-
 
     NetworkPrefabRef ResolvePrefab(int index)
     {

@@ -6,6 +6,8 @@ using Firebase.Auth;
 using Firebase.Database;
 using UnityEngine;
 
+[Serializable]
+
 public class RoomService : MonoBehaviour
 {
     public static RoomService I;
@@ -20,6 +22,10 @@ public class RoomService : MonoBehaviour
     public event Action<int, string> OnSceneLoadTriggered;
 
     const string PPKey = "lastRoomId";
+
+    // ===== cache để PlayerSpawner đọc =====
+    private Dictionary<string, PlayerInfo> _cachedPlayers = new();
+    public Dictionary<string, PlayerInfo> GetPlayersSnapshot() => _cachedPlayers;
 
     void Awake()
     {
@@ -126,12 +132,18 @@ public class RoomService : MonoBehaviour
             players = new Dictionary<string, PlayerInfo>()
         };
 
-        // ✅ Lấy tên thật từ FirebaseAuth hoặc PlayerName
         string displayName = FirebaseAuth.DefaultInstance.CurrentUser?.DisplayName
                              ?? PlayerName.Current
                              ?? uid;
 
-        var me = new PlayerInfo { name = displayName, joinedAt = now, isHost = true };
+        int charIndex = PlayerPrefs.GetInt("SelectedCharacterIndex", 0);
+        var me = new PlayerInfo
+        {
+            name = displayName,
+            joinedAt = now,
+            isHost = true,
+            characterIndex = charIndex
+        };
 
         await WithTimeout(roomRef.SetRawJsonValueAsync(JsonUtility.ToJson(room)), 10000);
         await WithTimeout(roomRef.Child("players").Child(uid).SetRawJsonValueAsync(JsonUtility.ToJson(me)), 10000);
@@ -165,12 +177,19 @@ public class RoomService : MonoBehaviour
         var hostSnap = await WithTimeout(roomPath.Child("hostUid").GetValueAsync(), 8000);
         LastKnownHostUid = hostSnap.Exists ? hostSnap.Value?.ToString() : null;
 
-        // ✅ Lấy tên thật từ FirebaseAuth hoặc PlayerName
         string displayName = FirebaseAuth.DefaultInstance.CurrentUser?.DisplayName
                              ?? PlayerName.Current
                              ?? uid;
 
-        var player = new PlayerInfo { name = displayName, joinedAt = NowMs(), isHost = (uid == LastKnownHostUid) };
+        int charIndex = PlayerPrefs.GetInt("SelectedCharacterIndex", 0);
+        var player = new PlayerInfo
+        {
+            name = displayName,
+            joinedAt = NowMs(),
+            isHost = (uid == LastKnownHostUid),
+            characterIndex = charIndex
+        };
+
         await WithTimeout(roomPath.Child("players").Child(uid).SetRawJsonValueAsync(JsonUtility.ToJson(player)), 10000);
         try { roomPath.Child("players").Child(uid).OnDisconnect().RemoveValue(); } catch { }
 
@@ -204,6 +223,7 @@ public class RoomService : MonoBehaviour
                         dict[ch.Key] = JsonUtility.FromJson<PlayerInfo>(json);
                 }
             }
+            _cachedPlayers = dict; // ✅ lưu cache để PlayerSpawner đọc
             OnPlayersChanged?.Invoke(roomId, dict);
         };
         _playersRef.ValueChanged += _playersHandler;
@@ -282,7 +302,6 @@ public class RoomService : MonoBehaviour
 
         await WithTimeout(path.Child("players").Child(uid).RemoveValueAsync(), 10000);
 
-        // nếu phòng trống thì xóa luôn
         var playersSnap = await WithTimeout(path.Child("players").GetValueAsync(), 8000);
         if (!playersSnap.Exists || playersSnap.ChildrenCount == 0)
             await WithTimeout(path.RemoveValueAsync(), 8000);
@@ -317,6 +336,7 @@ public class RoomService : MonoBehaviour
         CurrentRoomId = null;
         LastKnownHostUid = null;
         PlayerPrefs.DeleteKey(PPKey);
+        _cachedPlayers.Clear();
     }
 
     // ===== TTL watchdog =====
