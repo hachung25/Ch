@@ -783,6 +783,7 @@ GameObject:
   - component: {fileID: 1160266599871036862}
   - component: {fileID: 2648037380075677546}
   - component: {fileID: 5540585425871806074}
+  - component: {fileID: 8843898040367028474}
   m_Layer: 0
   m_Name: Player3
   m_TagString: Untagged
@@ -985,6 +986,7 @@ MonoBehaviour:
   - {fileID: 1160266599871036862}
   - {fileID: 2648037380075677546}
   - {fileID: 5540585425871806074}
+  - {fileID: 8843898040367028474}
   ForceRemoteRenderTimeframe: 0
 --- !u!114 &1121209473820850065
 MonoBehaviour:
@@ -1096,6 +1098,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 290a6e99c6b268a46a5b790c607faa96, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &8843898040367028474
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3337173961700205182}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a3474955b2231cf489aebe7f9f968e10, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  followTarget: {fileID: 0}
+  localAudio: {fileID: 0}
 --- !u!1 &3428223450664985034
 GameObject:
   m_ObjectHideFlags: 0

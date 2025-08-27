@@ -1931,6 +1931,7 @@ GameObject:
   - component: {fileID: 2415769429635278127}
   - component: {fileID: 6261762628063946521}
   - component: {fileID: 5224885070367640854}
+  - component: {fileID: -7360999109928711857}
   m_Layer: 0
   m_Name: Player2
   m_TagString: Untagged
@@ -2134,6 +2135,7 @@ MonoBehaviour:
   - {fileID: 2415769429635278127}
   - {fileID: 6261762628063946521}
   - {fileID: 5224885070367640854}
+  - {fileID: -7360999109928711857}
   ForceRemoteRenderTimeframe: 0
 --- !u!61 &7291662996809259922
 BoxCollider2D:
@@ -2257,6 +2259,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 290a6e99c6b268a46a5b790c607faa96, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &-7360999109928711857
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8440956860131690837}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a3474955b2231cf489aebe7f9f968e10, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  followTarget: {fileID: 0}
+  localAudio: {fileID: 0}
 --- !u!1 &8598553272172993883
 GameObject:
   m_ObjectHideFlags: 0
