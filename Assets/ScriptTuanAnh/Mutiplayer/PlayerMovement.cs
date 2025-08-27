@@ -2,7 +2,7 @@
 using Fusion;
 using System.Collections;
 
-[RequireComponent(typeof(Rigidbody2D), typeof(Animator))]
+[RequireComponent(typeof(Rigidbody2D), typeof(Animator), typeof(AudioSource))]
 public class PlayerMovement : NetworkBehaviour
 {
     [Header("Move")]
@@ -13,6 +13,10 @@ public class PlayerMovement : NetworkBehaviour
 
     private Rigidbody2D rb;
     private Animator animator;
+    private AudioSource audioSource;   // AudioSource phát SFX
+
+    [Header("Attack Sound")]
+    public AudioClip attackClip;       // Kéo file SFX vào đây trong Inspector
 
     private bool isGrounded;
     public Transform groundCheck;
@@ -27,8 +31,8 @@ public class PlayerMovement : NetworkBehaviour
     private float lastDirection = 1;
 
     // ===== INPUT chuyển từ client -> Host (StateAuthority) =====
-    private float _moveX_FromClient;     // giá trị -1..1 do client gửi sang
-    private bool _jumpPressedEdge;       // cờ nhảy 1-tick do client báo sang (giữ cảm giác nhảy cũ)
+    private float _moveX_FromClient;     // -1..1 do client gửi sang
+    private bool _jumpPressedEdge;       // cờ nhảy 1-tick do client báo sang
 
     [Rpc(RpcSources.InputAuthority, RpcTargets.StateAuthority, Channel = RpcChannel.Unreliable)]
     private void RPC_SetMove(float moveX)
@@ -46,12 +50,23 @@ public class PlayerMovement : NetworkBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
+        audioSource = GetComponent<AudioSource>();
+
+        // Thiết lập cơ bản cho rigidbody
         rb.gravityScale = 2;
         rb.constraints = RigidbodyConstraints2D.FreezeRotation;
+
+        // Tuỳ chọn: đảm bảo AudioSource không loop và phát 2D
+        if (audioSource != null)
+        {
+            audioSource.loop = false;
+            audioSource.spatialBlend = 0f; // 0 = 2D, 1 = 3D
+        }
     }
 
     private void Update()
     {
+        // Chỉ client sở hữu input xử lý phím bấm
         if (!HasInputAuthority) return;
         if (ChatState.IsChatting) return;
 
@@ -67,7 +82,11 @@ public class PlayerMovement : NetworkBehaviour
 
         attackHeld = Input.GetKey(KeyCode.T);
         if (!isAttacking && attackHeld)
-            StartCoroutine(PerformAttackSequence()); // trigger trên client như cũ
+        {
+            // KHÔNG phát local ở đây nữa để tránh double-play,
+            // âm thanh sẽ phát trong RPC dưới cho tất cả client.
+            StartCoroutine(PerformAttackSequence());
+        }
     }
 
     public override void FixedUpdateNetwork()
@@ -120,9 +139,11 @@ public class PlayerMovement : NetworkBehaviour
         {
             string triggerName = attackTriggers[attackIndex];
 
+            // Reset toàn bộ trigger trước khi set trigger mới
             foreach (string trig in attackTriggers)
                 RPC_ResetTrigger(trig);
 
+            // Gửi trigger & PHÁT ÂM THANH CHO TẤT CẢ CLIENT
             RPC_PlayAnimationTrigger(triggerName);
 
             // chờ vào state
@@ -143,14 +164,14 @@ public class PlayerMovement : NetworkBehaviour
 
         } while (attackHeld);
 
-        // chờ thoát state
+        // chờ thoát state hiện tại
         while (animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1f)
             yield return null;
 
         isAttacking = false;
     }
 
-    // ===== RPC Animator như cũ =====
+    // ===== RPC Animator & Audio =====
     [Rpc(RpcSources.StateAuthority | RpcSources.InputAuthority, RpcTargets.All)]
     private void RPC_SetRun(bool isRunning)
     {
@@ -171,10 +192,15 @@ public class PlayerMovement : NetworkBehaviour
         transform.localScale = scale;
     }
 
+    // === TRIGGER ANIM + PLAY SFX TRÊN TẤT CẢ CLIENT ===
     [Rpc(RpcSources.InputAuthority, RpcTargets.All)]
     private void RPC_PlayAnimationTrigger(string trigger)
     {
         animator.SetTrigger(trigger);
+
+        // Phát âm thanh tấn công ở tất cả client khi nhận trigger
+        if (attackClip != null && audioSource != null)
+            audioSource.PlayOneShot(attackClip);
     }
 
     [Rpc(RpcSources.InputAuthority, RpcTargets.All)]

@@ -1069,7 +1069,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4bd186835c883cc4eb75641d53fe9bee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackSound: {fileID: 8300000, guid: 20c34d3f59b11ba45bdcb03147ee3996, type: 3}
+  attackSound: {fileID: 8300000, guid: 0fe6c5e1bfa6ace409459fa5f4834585, type: 3}
 --- !u!114 &-1675187546394447447
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1082,6 +1082,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bfb05f35e6312614f98b502804af3f8b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isUnlocked: 0
+  lockOnGameStart: 0
   castKey: 107
   cooldownSeconds: 10
   projectilePrefab: {fileID: 5705423786212701604, guid: 6a7198c13339f194ba22e399ec75d645, type: 3}
