@@ -14,10 +14,15 @@ public class PlayerSpawner2 : SimulationBehaviour, IPlayerJoined, IPlayerLeft
     public Transform[] spawnPoints;
 
     private readonly Dictionary<PlayerRef, NetworkObject> _spawned = new();
+
+    // === NEW: quản lý slot spawn đang dùng ===
+    private readonly HashSet<int> _usedSpawnIndices = new();
+    private readonly Dictionary<PlayerRef, int> _playerSpawnIndex = new();
+
     private Coroutine _catchUpCo;
 
     void OnEnable() => _catchUpCo = StartCoroutine(CatchUpSpawnWhenRunnerReady());
-    void OnDisable() { if (_catchUpCo != null) StopCoroutine(_catchUpCo); _spawned.Clear(); }
+    void OnDisable() { if (_catchUpCo != null) StopCoroutine(_catchUpCo); _spawned.Clear(); _usedSpawnIndices.Clear(); _playerSpawnIndex.Clear(); }
 
     IEnumerator CatchUpSpawnWhenRunnerReady()
     {
@@ -46,6 +51,14 @@ public class PlayerSpawner2 : SimulationBehaviour, IPlayerJoined, IPlayerLeft
             Runner.Despawn(pObj);
         }
         _spawned.Remove(player);
+
+        // === NEW: giải phóng slot spawn đã giữ cho player này
+        if (_playerSpawnIndex.TryGetValue(player, out var idx))
+        {
+            _usedSpawnIndices.Remove(idx);
+            _playerSpawnIndex.Remove(player);
+        }
+
         FusionIdentityBridge.Clear(player); // dọn map
     }
 
@@ -58,14 +71,12 @@ public class PlayerSpawner2 : SimulationBehaviour, IPlayerJoined, IPlayerLeft
         }
         if (_spawned.TryGetValue(player, out var already) && already) return;
 
-        // CHỈNH MỚI: đợi RPC_Announce map PlayerRef -> Firebase UID/charIndex
         StartCoroutine(SpawnWhenIdentityReady(runner, player));
     }
 
     IEnumerator SpawnWhenIdentityReady(NetworkRunner runner, PlayerRef player)
     {
         float t = 0f;
-        // đợi tối đa 3s lấy danh tính
         while (!FusionIdentityBridge.PlayerToFirebaseUid.ContainsKey(player) && t < 3f)
         {
             t += Time.deltaTime;
@@ -74,7 +85,6 @@ public class PlayerSpawner2 : SimulationBehaviour, IPlayerJoined, IPlayerLeft
 
         int prefabIndex = 0;
 
-        // Ưu tiên: lấy từ RoomService cache (đảm bảo authoritative từ Lobby)
         if (FusionIdentityBridge.PlayerToFirebaseUid.TryGetValue(player, out var firebaseUid))
         {
             var dict = RoomService.I?.GetPlayersSnapshot();
@@ -84,7 +94,6 @@ public class PlayerSpawner2 : SimulationBehaviour, IPlayerJoined, IPlayerLeft
             }
             else if (FusionIdentityBridge.PlayerToCharIndex.TryGetValue(player, out var ci))
             {
-                // fallback tin cậy từ RPC của client
                 prefabIndex = ci;
             }
             else
@@ -95,7 +104,6 @@ public class PlayerSpawner2 : SimulationBehaviour, IPlayerJoined, IPlayerLeft
         }
         else if (FusionIdentityBridge.PlayerToCharIndex.TryGetValue(player, out var ci2))
         {
-            // Trường hợp hiếm khi uid chưa tới nhưng charIndex đã có
             prefabIndex = ci2;
         }
         else
@@ -107,7 +115,16 @@ public class PlayerSpawner2 : SimulationBehaviour, IPlayerJoined, IPlayerLeft
         var prefab = ResolvePrefab(prefabIndex);
         if (!prefab.IsValid) { Debug.LogError("[PlayerSpawner] PrefabRef invalid."); yield break; }
 
-        var obj = runner.Spawn(prefab, GetSpawnPos(player), Quaternion.identity, player);
+        // === NEW: nếu đây là respawn, giải phóng slot cũ để random lại
+        if (_playerSpawnIndex.TryGetValue(player, out var prevIdx))
+        {
+            _usedSpawnIndices.Remove(prevIdx);
+            _playerSpawnIndex.Remove(player);
+        }
+
+        var spawnPos = GetRandomSpawnPosAndReserve(player);
+
+        var obj = runner.Spawn(prefab, spawnPos, Quaternion.identity, player);
 
         if (!runner.TryGetPlayerObject(player, out _))
             runner.SetPlayerObject(player, obj);
@@ -127,14 +144,42 @@ public class PlayerSpawner2 : SimulationBehaviour, IPlayerJoined, IPlayerLeft
         return playerPrefabs[index];
     }
 
-    Vector3 GetSpawnPos(PlayerRef player)
+    // === NEW: random mỗi lần spawn, ưu tiên slot chưa ai dùng
+    Vector3 GetRandomSpawnPosAndReserve(PlayerRef player)
     {
         if (spawnPoints != null && spawnPoints.Length > 0)
         {
-            int i = Mathf.Abs(player.RawEncoded) % spawnPoints.Length;
-            var t = spawnPoints[i];
-            if (t) return t.position;
+            int n = spawnPoints.Length;
+
+            // gom các index đang rảnh
+            List<int> free = null;
+            if (_usedSpawnIndices.Count < n)
+            {
+                free = new List<int>(n - _usedSpawnIndices.Count);
+                for (int i = 0; i < n; i++)
+                {
+                    if (!_usedSpawnIndices.Contains(i)) free.Add(i);
+                }
+
+                int idx = free[Random.Range(0, free.Count)];
+                _usedSpawnIndices.Add(idx);
+                _playerSpawnIndex[player] = idx;
+
+                var t = spawnPoints[idx];
+                if (t) return t.position;
+            }
+            else
+            {
+                // tất cả đều đang dùng → cho phép chọn trùng
+                int idx = Random.Range(0, n);
+                _playerSpawnIndex[player] = idx;
+
+                var t = spawnPoints[idx];
+                if (t) return t.position;
+            }
         }
-        return new Vector3(0f, 1f, 0f);
+
+        // fallback khi không có spawnPoints
+        return new Vector3(Random.Range(-3f, 3f), 1f, Random.Range(-3f, 3f));
     }
 }
