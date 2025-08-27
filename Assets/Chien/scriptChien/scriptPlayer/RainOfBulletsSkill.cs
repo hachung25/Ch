@@ -3,6 +3,12 @@ using UnityEngine;
 
 public class RainOfBulletsSkill : MonoBehaviour
 {
+    private const string PrefKey = "RainSkillUnlocked";
+
+    [Header("Unlock State")]
+    [Tooltip("Sẽ bị override bởi PlayerPrefs vào Awake()")]
+    public bool isUnlocked = false;
+
     [Header("Key & Cooldown")]
     public KeyCode castKey = KeyCode.K;
     public float cooldownSeconds = 10f;
@@ -33,21 +39,40 @@ public class RainOfBulletsSkill : MonoBehaviour
     [Tooltip("Khoảng delay tối đa giữa 2 viên")]
     public float perBulletDelayMax = 0.15f;
 
-    float nextReadyTime;
-    Camera cam;
-    bool spawning; // tránh chồng coroutine (không bắt buộc vì đã có cooldown)
+    private float nextReadyTime;
+    private Camera cam;
+    private bool spawning; // tránh chồng coroutine (không bắt buộc vì đã có cooldown)
 
-    void Awake() => cam = Camera.main;
+    void Awake()
+    {
+        cam = Camera.main;
+        // Đọc trạng thái mở khóa đã lưu (vĩnh viễn qua scene & lần chạy)
+        isUnlocked = PlayerPrefs.GetInt(PrefKey, 0) == 1;
+    }
+
+    void OnEnable()
+    {
+        // Phòng trường hợp Player được tái tạo sau khi Unlock đã lưu
+        isUnlocked = PlayerPrefs.GetInt(PrefKey, 0) == 1;
+    }
 
     void Update()
     {
-        if (Input.GetKeyDown(castKey))
-            TryCast();
+        if (!isUnlocked) return;                 // chưa mở thì phím không có tác dụng
+        if (Input.GetKeyDown(castKey)) TryCast();
+    }
+
+    public void Unlock()
+    {
+        isUnlocked = true;
+        PlayerPrefs.SetInt(PrefKey, 1);
+        PlayerPrefs.Save();
+        Debug.Log("Rain of Bullets skill unlocked (persisted)!");
     }
 
     public float CooldownRemaining() => Mathf.Max(0f, nextReadyTime - Time.time);
 
-    void TryCast()
+    private void TryCast()
     {
         if (Time.time < nextReadyTime) return;
         if (!projectilePrefab) return;
@@ -58,7 +83,7 @@ public class RainOfBulletsSkill : MonoBehaviour
         StartCoroutine(SpawnRainRoutine());
     }
 
-    IEnumerator SpawnRainRoutine()
+    private IEnumerator SpawnRainRoutine()
     {
         spawning = true;
 
