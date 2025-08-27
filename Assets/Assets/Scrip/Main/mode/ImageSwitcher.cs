@@ -8,7 +8,8 @@ public class ImageSwitcher : MonoBehaviour
     public bool Modee;           // cờ kiểm tra mở mode 2
     public GameObject lockImage; // Image báo khóa (kéo vào từ Inspector)
     public GameObject PanelMode1;
-    public GameObject PanelMode2;
+    
+    public TB tb;
 
     void Start()
     {
@@ -69,9 +70,12 @@ public class ImageSwitcher : MonoBehaviour
         if (Modee)
         {
             SceneManager.LoadScene("Mode2");
-            PanelMode2.SetActive(false);
             PanelMode1.SetActive(false);
             
+        }
+        else
+        {
+            tb.ShowMode2();
         }
     }
 }

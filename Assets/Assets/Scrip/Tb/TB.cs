@@ -3,7 +3,7 @@ using System.Collections;
 
 public class TB : MonoBehaviour
 {
-    public GameObject tb, tbs, tbCards, tbSpin,tbnotainguyen;
+    public GameObject tb, tbs, tbCards, tbSpin,tbnotainguyen, mode;
     public float scaleDuration = 0.5f;     // Thời gian phóng to và thu nhỏ
     public float waitTime = 0.5f;          // Thời gian chờ của tb
     public float waitTimeTbs = 2.5f;       // Thời gian chờ riêng cho tbs
@@ -61,6 +61,14 @@ public class TB : MonoBehaviour
         if (!isRunningTbs)
         {
             StartCoroutine(ShowWithScaleEffect(tbnotainguyen, originalScaleTbs, waitTimeTbs, () => isRunningTbs = false));
+            isRunningTbs = true;
+        }
+    }
+    public void ShowMode2()
+    {
+        if (!isRunningTbs)
+        {
+            StartCoroutine(ShowWithScaleEffect(mode, originalScaleTbs, waitTimeTbs, () => isRunningTbs = false));
             isRunningTbs = true;
         }
     }
