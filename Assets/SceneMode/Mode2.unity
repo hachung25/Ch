@@ -19701,6 +19701,7 @@ GameObject:
   - component: {fileID: 474053718}
   - component: {fileID: 474053720}
   - component: {fileID: 474053719}
+  - component: {fileID: 474053721}
   m_Layer: 0
   m_Name: Mapp
   m_TagString: Untagged
@@ -19843,6 +19844,11 @@ MonoBehaviour:
   VFXWin: {fileID: 154124920}
   GoldWave: 0
   GemWave: 0
+  rainSkill: {fileID: 0}
+  unlockMapIndex: 1
+  winClip: {fileID: 0}
+  winVolume: 1
+  mixerReference: {fileID: 0}
 --- !u!114 &474053719
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19954,6 +19960,19 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &474053721
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 474053716}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ac3468a5870f2104e9cca24ae34d55e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  imageSwitcher: {fileID: 0}
 --- !u!1001 &488404260
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -22263,6 +22263,7 @@ GameObject:
   - component: {fileID: 1132110058}
   - component: {fileID: 1132110057}
   - component: {fileID: 1132110059}
+  - component: {fileID: 1132110060}
   m_Layer: 0
   m_Name: Mapp
   m_TagString: Untagged
@@ -22510,6 +22511,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   targetObject: {fileID: 595229488}
   Playerrr: {fileID: 1309621571}
+--- !u!114 &1132110060
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1132110053}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ac3468a5870f2104e9cca24ae34d55e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  imageSwitcher: {fileID: 0}
 --- !u!1 &1133949596
 GameObject:
   m_ObjectHideFlags: 0
