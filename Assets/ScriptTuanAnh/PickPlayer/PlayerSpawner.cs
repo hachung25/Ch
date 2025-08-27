@@ -1,7 +1,6 @@
 ﻿using Fusion;
 using System.Collections.Generic;
 using UnityEngine;
-using System.Collections;
 
 [DefaultExecutionOrder(-10000)]
 [DisallowMultipleComponent]
@@ -14,32 +13,35 @@ public class PlayerSpawner : SimulationBehaviour, IPlayerJoined, IPlayerLeft
     public Transform[] spawnPoints;
 
     private readonly Dictionary<PlayerRef, NetworkObject> _spawned = new();
-    private Coroutine _catchUpCo;
 
-    void OnEnable() => _catchUpCo = StartCoroutine(CatchUpSpawnWhenRunnerReady());
-    void OnDisable() { if (_catchUpCo != null) StopCoroutine(_catchUpCo); _spawned.Clear(); }
-
-    IEnumerator CatchUpSpawnWhenRunnerReady()
+    void Start()
     {
-        NetworkRunner runner = null;
-        while ((runner = FindObjectOfType<NetworkRunner>()) == null) yield return null;
-        yield return null; // 1 frame
-
-        if (!runner.IsServer) yield break;
-
-        foreach (var p in runner.ActivePlayers)
-            EnsureSpawnFor(runner, p);
+        // Khi Runner đã sẵn sàng -> catch-up toàn bộ player đang có
+        if (IsServerOrMaster() && Runner != null)
+        {
+            Debug.Log("[PlayerSpawner] Catch-up ActivePlayers khi Start()");
+            foreach (var p in Runner.ActivePlayers)
+            {
+                EnsureSpawnFor(Runner, p);
+            }
+        }
     }
 
+    // Khi player mới join
     public void PlayerJoined(PlayerRef player)
     {
-        if (!Runner.IsServer) return;
+        if (!IsServerOrMaster()) return;
+
+        Debug.Log($"[PlayerSpawner] PlayerJoined: {player}");
         EnsureSpawnFor(Runner, player);
     }
 
+    // Khi player rời đi
     public void PlayerLeft(PlayerRef player)
     {
-        if (!Runner.IsServer) return;
+        if (!IsServerOrMaster()) return;
+
+        Debug.Log($"[PlayerSpawner] PlayerLeft: {player}");
 
         if (Runner.TryGetPlayerObject(player, out var pObj) && pObj)
         {
@@ -53,34 +55,47 @@ public class PlayerSpawner : SimulationBehaviour, IPlayerJoined, IPlayerLeft
         }
     }
 
-    void EnsureSpawnFor(NetworkRunner runner, PlayerRef player)
+    // Hàm spawn an toàn
+    private void EnsureSpawnFor(NetworkRunner runner, PlayerRef player)
     {
         if (runner.TryGetPlayerObject(player, out var existing) && existing)
         {
+            Debug.Log($"[PlayerSpawner] Player {player} đã có object: {existing.name}");
             _spawned[player] = existing;
             return;
         }
-        if (_spawned.TryGetValue(player, out var already) && already) return;
 
-        // ✅ Luôn spawn prefab đầu tiên
-        if (playerPrefabs == null || playerPrefabs.Length == 0)
+        if (_spawned.TryGetValue(player, out var already) && already)
         {
-            Debug.LogError("[PlayerSpawner] Thiếu playerPrefabs.");
+            Debug.Log($"[PlayerSpawner] Player {player} đã tồn tại trong _spawned.");
             return;
         }
 
+        if (playerPrefabs == null || playerPrefabs.Length == 0)
+        {
+            Debug.LogError("[PlayerSpawner] ❌ Thiếu playerPrefabs trong inspector.");
+            return;
+        }
+
+        // ✅ Luôn spawn prefab đầu tiên
         var prefab = playerPrefabs[0];
-        var obj = runner.Spawn(prefab, GetSpawnPos(player), Quaternion.identity, player);
+        var pos = GetSpawnPos(player);
+
+        Debug.Log($"[PlayerSpawner] Đang spawn prefab {prefab} cho player {player} tại {pos}");
+        var obj = runner.Spawn(prefab, pos, Quaternion.identity, player);
 
         if (!runner.TryGetPlayerObject(player, out _))
+        {
+            Debug.Log($"[PlayerSpawner] Gán SetPlayerObject cho {player}");
             runner.SetPlayerObject(player, obj);
+        }
 
         _spawned[player] = obj;
-
-        Debug.Log($"[PlayerSpawner] Spawned fixed prefab {prefab} cho player {player}");
+        Debug.Log($"[PlayerSpawner] ✅ Spawn thành công cho player {player}");
     }
 
-    Vector3 GetSpawnPos(PlayerRef player)
+    // Lấy vị trí spawn
+    private Vector3 GetSpawnPos(PlayerRef player)
     {
         if (spawnPoints != null && spawnPoints.Length > 0)
         {
@@ -89,5 +104,11 @@ public class PlayerSpawner : SimulationBehaviour, IPlayerJoined, IPlayerLeft
             if (t) return t.position;
         }
         return new Vector3(0f, 1f, 0f);
+    }
+
+    // Kiểm tra quyền server/master
+    private bool IsServerOrMaster()
+    {
+        return Runner != null && (Runner.IsServer || Runner.IsSharedModeMasterClient);
     }
 }
