@@ -36,23 +36,45 @@ public class PauseMenu : MonoBehaviour
 
     public void GiveUpToMainMenuOffline()
     {
-        SceneManager.LoadScene("SampleScene");
+        // Đảm bảo TimeScale về mặc định
+        Time.timeScale = 1f;
+
+        // Gọi Dataload để load dữ liệu trước khi vào scene
+        var dataload = FindObjectOfType<Dataload>();
+        if (dataload != null)
+        {
+            dataload.LoadAllDataFromFirebase();
+        }
+        else
+        {
+            // Nếu không có Dataload, fallback load scene trực tiếp
+            SceneManager.LoadScene("SampleScene");
+        }
     }
 
-
-    public void GiveUpToMainMenuOnline ()
+    public async void GiveUpToMainMenuOnline()
     {
         Time.timeScale = 1f;
 
         var runner = FindObjectOfType<NetworkRunner>();
         if (runner != null)
         {
-            // Stop the network runner cleanly
-            runner.Shutdown(true, ShutdownReason.Ok);
+            // Dừng runner sạch sẽ
+            await runner.Shutdown(true, ShutdownReason.Ok);
         }
 
-        SceneManager.LoadScene("SampleScene");
+        // Gọi Dataload để load dữ liệu trước khi vào scene
+        var dataload = FindObjectOfType<Dataload>();
+        if (dataload != null)
+        {
+            dataload.LoadAllDataFromFirebase();
+        }
+        else
+        {
+            SceneManager.LoadScene("SampleScene");
+        }
     }
+
 
     public void OnSettingButtonClick()
     {
