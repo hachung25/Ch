@@ -2259,13 +2259,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentHP: 0
   maxHP: 100
+  healthUIRoot: {fileID: 3455764837923065838}
   respawnPoint: {fileID: 0}
   respawnDelay: 5
-  deathAnimDelay: 0
   dieStateName: Die
   dieLayer: 0
   hideAtNormalized: 0.95
   respawnAfterAnim: 1
+  deathAnimStateTimeout: 2
+  deathAnimFinishTimeout: 5
 --- !u!114 &662866936164132257
 MonoBehaviour:
   m_ObjectHideFlags: 0

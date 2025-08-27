@@ -12,6 +12,8 @@ public class PlayerHealth2 : NetworkBehaviour, IDamageable
     // ===== UI & Animator =====
     private PlayerHealthUI2 healthUI;
     private Animator animator;
+    [Header("Health UI Root (optional)")]
+    public GameObject healthUIRoot; // <-- GÁN GAMEOBJECT UI THANH MÁU RIÊNG Ở ĐÂY
 
     // ===== Respawn / Death Flow =====
     [Header("Respawn Settings")]
@@ -19,20 +21,19 @@ public class PlayerHealth2 : NetworkBehaviour, IDamageable
     public float respawnDelay = 3f;        // Thời gian chờ hồi sinh (3s)
 
     [Header("Death Animation")]
-    public float deathAnimDelay = 1f;      // Đợi 1s rồi mới vào anim Die
     public string dieStateName = "Die";    // Tên state animation chết
     public int dieLayer = 0;               // Layer chứa state chết
     [Range(0f, 1f)] public float hideAtNormalized = 0.95f; // Ẩn khi anim gần xong
-    public bool respawnAfterAnim = true;   // true: bắt đầu đếm respawn SAU khi anim die xong
+    public bool respawnAfterAnim = true;   // true: đếm respawn SAU khi anim die xong
+    public float deathAnimStateTimeout = 2f;   // timeout chờ vào state "Die"
+    public float deathAnimFinishTimeout = 5f;  // timeout chờ anim chạy gần hết
 
-    // ===== Caches để bật/tắt nhanh =====
+    // ===== Caches =====
     private Renderer[] renderers;
     private Collider2D[] colliders2D;
     private Collider[] colliders3D;
     private Rigidbody2D rb2D;
     private Rigidbody rb3D;
-
-    // Tự động gom các script có khả năng là điều khiển chuyển động/nhập liệu để disable lúc chết
     private MonoBehaviour[] movementScripts;
 
     public override void Spawned()
@@ -40,17 +41,19 @@ public class PlayerHealth2 : NetworkBehaviour, IDamageable
         if (HasStateAuthority)
             currentHP = maxHP;
 
-        healthUI = GetComponentInChildren<PlayerHealthUI2>();
+        healthUI = GetComponentInChildren<PlayerHealthUI2>(true);
         animator = GetComponentInChildren<Animator>();
 
-        // Cache comps
+        // Fallback: nếu chưa gán healthUIRoot, dùng object chứa PlayerHealthUI2
+        if (healthUIRoot == null && healthUI != null)
+            healthUIRoot = healthUI.gameObject;
+
         renderers = GetComponentsInChildren<Renderer>(includeInactive: true);
         colliders2D = GetComponentsInChildren<Collider2D>(includeInactive: true);
         colliders3D = GetComponentsInChildren<Collider>(includeInactive: true);
         rb2D = GetComponentInChildren<Rigidbody2D>();
         rb3D = GetComponentInChildren<Rigidbody>();
 
-        // Gom các script điều khiển hay gặp
         movementScripts = GetComponentsInChildren<MonoBehaviour>(true)
             .Where(m => m != null && (
                 m.GetType().Name.Contains("Movement") ||
@@ -59,20 +62,20 @@ public class PlayerHealth2 : NetworkBehaviour, IDamageable
             )).ToArray();
 
         if (HasStateAuthority)
-            RPC_UpdateHealthUI(currentHP, maxHP); // Gửi máu ban đầu
+            RPC_UpdateHealthUI(currentHP, maxHP);
     }
 
     private void Update()
     {
-        // Nút test chết ngay: phím K (chỉ quyền StateAuthority)
+        // Nút test chết: phím K
         if (HasStateAuthority && Input.GetKeyDown(KeyCode.K))
         {
             Debug.Log("⚡ TEST DIE pressed");
-            TakeDamage(currentHP); // Gây sát thương = máu hiện tại → chết
+            TakeDamage(currentHP);
         }
     }
 
-    // ======= Damage Flow =======
+    // ===== Damage Flow =====
     public void TakeDamage(int amount)
     {
         if (HasStateAuthority)
@@ -93,7 +96,7 @@ public class PlayerHealth2 : NetworkBehaviour, IDamageable
         if (currentHP <= 0)
         {
             Debug.Log("💀 Người chơi đã chết");
-            RPC_HandleDeath(); // Gọi cho tất cả client để hiển thị thống nhất
+            RPC_HandleDeath();
         }
     }
 
@@ -105,25 +108,17 @@ public class PlayerHealth2 : NetworkBehaviour, IDamageable
     {
         currentHP = hp;
         maxHP = maxHp;
-        UpdateHealthUI(force: true);
-    }
-
-    private void UpdateHealthUI(bool force = false)
-    {
         if (healthUI != null)
             healthUI.SetHealth(currentHP, maxHP);
     }
 
-    // ======= Death / Respawn =======
+    // ===== Death / Respawn =====
     [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
     private void RPC_HandleDeath()
     {
         Debug.Log("🔁 RPC_HandleDeath gọi!");
-
-        // Khoá gameplay ngay khi chết (tắt va chạm/điều khiển, khoá rigidbody)
         SetActiveGameplay(false);
 
-        // Chạy flow: delay 1s → anim Die → chờ gần hết → ẩn → đếm respawn → hồi sinh
         if (animator != null)
             StartCoroutine(IE_DeathFlow());
         else
@@ -132,35 +127,39 @@ public class PlayerHealth2 : NetworkBehaviour, IDamageable
 
     private IEnumerator IE_DeathFlow()
     {
-        // 1) Đợi 1s mới bật anim chết
-        yield return new WaitForSeconds(deathAnimDelay);
-
-        // 2) Bật anim chết (đảm bảo thật sự nhảy vào state Die)
+        // 1) Bật anim Die ngay
         animator.SetBool("isDead", true);
         animator.CrossFade(dieStateName, 0.05f, dieLayer, 0f);
-        yield return null; // chờ 1 frame cho animator cập nhật
+        yield return null;
 
-        // 3) Chờ tới khi đã vào đúng state "Die"
+        // 2) Chờ VÀO state "Die" (có timeout để không kẹt)
+        float t = 0f;
         var info = animator.GetCurrentAnimatorStateInfo(dieLayer);
-        float safety = 0f;
-        while (!info.IsName(dieStateName) && safety < 1f) // safety ~1s
+        while (!info.IsName(dieStateName) && t < deathAnimStateTimeout)
         {
             yield return null;
             info = animator.GetCurrentAnimatorStateInfo(dieLayer);
-            safety += Time.deltaTime;
+            t += Time.deltaTime;
         }
+        if (!info.IsName(dieStateName))
+            Debug.LogWarning($"[DeathFlow] Không vào được state '{dieStateName}' trong {deathAnimStateTimeout}s — vẫn tiếp tục flow.");
 
-        // 4) Chờ anim chạy gần hết mới ẩn để không "mất anim die"
-        while (info.IsName(dieStateName) && info.normalizedTime < hideAtNormalized)
+        // 3) Nếu đã vào state "Die", chờ tới khi gần hết (có timeout an toàn)
+        t = 0f;
+        while (info.IsName(dieStateName) && info.normalizedTime < hideAtNormalized && t < deathAnimFinishTimeout)
         {
             yield return null;
             info = animator.GetCurrentAnimatorStateInfo(dieLayer);
+            t += Time.deltaTime;
         }
+        if (t >= deathAnimFinishTimeout)
+            Debug.LogWarning($"[DeathFlow] Anim '{dieStateName}' không đạt normalized {hideAtNormalized} trong {deathAnimFinishTimeout}s — vẫn tiếp tục.");
 
-        // 5) Ẩn player (render) sau khi anim gần xong
+        // 4) Ẩn model + Ẩn UI máu (qua healthUIRoot)
         SetVisible(false);
+        SetHealthUIVisible(false);
 
-        // 6) Bắt đầu đếm respawn
+        // 5) Chờ respawn
         if (respawnAfterAnim)
         {
             yield return new WaitForSeconds(respawnDelay);
@@ -168,9 +167,10 @@ public class PlayerHealth2 : NetworkBehaviour, IDamageable
         }
     }
 
-    // Không có animator vẫn respawn sau delay
     private IEnumerator IE_RespawnOnly()
     {
+        // Không có animator: vẫn ẩn UI trong thời gian chờ
+        SetHealthUIVisible(false);
         yield return new WaitForSeconds(respawnDelay);
         SetVisible(false);
         DoRespawn();
@@ -178,22 +178,23 @@ public class PlayerHealth2 : NetworkBehaviour, IDamageable
 
     private void DoRespawn()
     {
-        // a) HP & UI: chỉ StateAuthority mới set HP và sync UI
+        // a) HP & UI: StateAuthority set và sync
         if (HasStateAuthority)
         {
             currentHP = maxHP;
             RPC_UpdateHealthUI(currentHP, maxHP);
         }
 
-        // b) Đặt lại vị trí: chỉ StateAuthority set transform.position
+        // b) Đặt lại vị trí
         if (HasStateAuthority && respawnPoint != null)
             transform.position = respawnPoint.position;
 
-        // c) Reset animator để không kẹt state chết
+        // c) Reset animator để không kẹt
         ResetAnimator();
 
-        // d) Hiện lại render & bật gameplay
+        // d) Hiện lại model + UI máu + mở gameplay
         SetVisible(true);
+        SetHealthUIVisible(true);
         SetActiveGameplay(true);
 
         Debug.Log("🌱 Player đã hồi sinh!");
@@ -204,16 +205,12 @@ public class PlayerHealth2 : NetworkBehaviour, IDamageable
         if (animator == null) return;
 
         animator.SetBool("isDead", false);
-        animator.ResetTrigger("Die");   // Nếu có dùng trigger
-        animator.Rebind();              // Reset toàn bộ state machine về default
+        animator.ResetTrigger("Die"); // nếu có dùng trigger
+        animator.Rebind();
         animator.Update(0f);
-
-        // (Tuỳ chọn) đảm bảo về Idle (đổi tên "Idle" nếu khác)
-        // animator.Play("Idle", dieLayer, 0f);
-        // animator.Update(0f);
     }
 
-    // ======= Helpers: Visible / Gameplay =======
+    // ===== Helpers =====
     private void SetVisible(bool visible)
     {
         if (renderers == null) return;
@@ -221,13 +218,20 @@ public class PlayerHealth2 : NetworkBehaviour, IDamageable
             if (r) r.enabled = visible;
     }
 
+    private void SetHealthUIVisible(bool visible)
+    {
+        // Ưu tiên dùng root do bạn gán; nếu chưa gán thì fallback qua component
+        if (healthUIRoot != null)
+            healthUIRoot.SetActive(visible);
+        else if (healthUI != null && healthUI.gameObject != null)
+            healthUI.gameObject.SetActive(visible);
+    }
+
     private void SetActiveGameplay(bool enable)
     {
-        // Bật/tắt collider
         if (colliders2D != null) foreach (var c in colliders2D) if (c) c.enabled = enable;
         if (colliders3D != null) foreach (var c in colliders3D) if (c) c.enabled = enable;
 
-        // Khoá rigidbody để khỏi trôi khi chết
         if (rb2D)
         {
             if (!enable) { rb2D.linearVelocity = Vector2.zero; rb2D.angularVelocity = 0f; }
@@ -236,10 +240,9 @@ public class PlayerHealth2 : NetworkBehaviour, IDamageable
         if (rb3D)
         {
             if (!enable) { rb3D.linearVelocity = Vector3.zero; rb3D.angularVelocity = Vector3.zero; }
-            rb3D.isKinematic = !enable; // chỉ bật nếu logic game phù hợp
+            rb3D.isKinematic = !enable;
         }
 
-        // Tắt các script chuyển động/nhập liệu
         if (movementScripts != null)
             foreach (var s in movementScripts) if (s) s.enabled = enable;
     }
