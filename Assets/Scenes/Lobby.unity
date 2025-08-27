@@ -4143,7 +4143,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameplayBuildIndex: 2
-  hostCountdownSeconds: 15
+  hostCountdownSeconds: 10
   inputJoinRoomId: {fileID: 224155797}
   btnCreateRoom: {fileID: 1291323082}
   btnJoinById: {fileID: 1138208741}
