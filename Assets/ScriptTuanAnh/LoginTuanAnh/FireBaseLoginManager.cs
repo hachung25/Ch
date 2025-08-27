@@ -47,6 +47,7 @@ public class FireBaseLoginManager : MonoBehaviour
     private Coroutine logCoroutine;
     private FireBaseDataBaseManager dataBaseManager;
     [SerializeField] private DeviceConflictManager conflictManager;
+    private const string PREF_LAST_DEVICE_KEY = "LastFullDeviceKey";
 
     private static bool hasAutoLoggedIn = false;
 
@@ -100,48 +101,72 @@ public class FireBaseLoginManager : MonoBehaviour
         }
     }
 
-    private void OnLoginSuccess(FirebaseUser firebaseUser)
-    {
-        string userId = firebaseUser.UserId;
-        string deviceId = GetDeviceID();
-        string sessionId = GetSessionID();
-        string fullDeviceKey = deviceId + "_" + sessionId;
+   private void OnLoginSuccess(FirebaseUser firebaseUser, bool isManualLogin = false)
+{
+    string userId = firebaseUser.UserId;
 
-        // Trước khi ghi thiết bị mới → xoá toàn bộ node cũ
+    // Nếu là manual login => tạo session mới
+    string deviceId = GetDeviceID();
+    string sessionId;
+    string fullDeviceKey;
+
+    if (isManualLogin)
+    {
+        sessionId = GetSessionID();
+        fullDeviceKey = deviceId + "_" + sessionId;
+
+        // Xoá session cũ
         FirebaseDatabase.DefaultInstance
             .GetReference($"deviceStatus/{userId}")
-            .RemoveValueAsync()
-            .ContinueWithOnMainThread(_ =>
-            {
-                // Ghi dữ liệu mẫu (tuỳ chỉnh theo game của bạn)
-                User userinGame = new("Username", 0, 0, 0, 0, 0, 0, 0);
-                dataBaseManager.WriteDataBase("Users/" + userId, userinGame.ToString());
-
-                // Load mode
-                dataBaseManager.LoadMode(userId, (mode) =>
-                {
-                    MapUIController mapUI = FindObjectOfType<MapUIController>();
-                    if (mapUI != null) mapUI.ShowMode(mode);
-                });
-
-                SaveManeger.LoadDailylogin();
-
-                // Tạo watcher để tránh xung đột thiết bị
-                GameObject watcherGO = new GameObject("OnlineStatusWatcher");
-                DontDestroyOnLoad(watcherGO);
-                var watcher = watcherGO.AddComponent<OnlineStatusWatcher>();
-                watcher.conflictPopupPrefab = conflictPopupPrefab;
-                watcher.StartWatching(userId, fullDeviceKey);
-
-                // Ghi lại device hiện tại (kèm sessionId)
-                conflictManager.WriteFullDeviceInfo(userId, fullDeviceKey);
-
-                // Khi disconnect thì xoá dấu thiết bị
-                FirebaseDatabase.DefaultInstance
-                    .GetReference($"deviceStatus/{userId}/{fullDeviceKey}")
-                    .OnDisconnect().SetValue(null);
-            });
+            .RemoveValueAsync();
     }
+    else
+    {
+        // Auto-login → tái sử dụng device key lưu local
+        fullDeviceKey = PlayerPrefs.GetString(PREF_LAST_DEVICE_KEY, "");
+        if (string.IsNullOrEmpty(fullDeviceKey))
+        {
+            // fallback nếu chưa có (VD: lần đầu bật RememberMe)
+            sessionId = GetSessionID();
+            fullDeviceKey = deviceId + "_" + sessionId;
+        }
+    }
+
+    // Save local để lần sau reuse
+    if (rememberMe != null && rememberMe.isOn)
+    {
+        PlayerPrefs.SetString(PREF_LAST_DEVICE_KEY, fullDeviceKey);
+        PlayerPrefs.Save();
+    }
+
+    // Ghi dữ liệu user
+    User userinGame = new("Username", 0, 0, 0, 0, 0, 0, 0);
+    dataBaseManager.WriteDataBase("Users/" + userId, userinGame.ToString());
+
+    // Load mode
+    dataBaseManager.LoadMode(userId, (mode) =>
+    {
+        MapUIController mapUI = FindObjectOfType<MapUIController>();
+        if (mapUI != null) mapUI.ShowMode(mode);
+    });
+
+    SaveManeger.LoadDailylogin();
+
+    // Tạo watcher
+    GameObject watcherGO = new GameObject("OnlineStatusWatcher");
+    DontDestroyOnLoad(watcherGO);
+    var watcher = watcherGO.AddComponent<OnlineStatusWatcher>();
+    watcher.conflictPopupPrefab = conflictPopupPrefab;
+    watcher.StartWatching(userId, fullDeviceKey);
+
+    // Ghi device
+    conflictManager.WriteFullDeviceInfo(userId, fullDeviceKey);
+
+    // Khi disconnect thì xoá node này
+    FirebaseDatabase.DefaultInstance
+        .GetReference($"deviceStatus/{userId}/{fullDeviceKey}")
+        .OnDisconnect().SetValue(null);
+}
 
     // ====================== SIGN IN ======================
     public void SignInAccountWithFirebase()

@@ -19702,6 +19702,7 @@ GameObject:
   - component: {fileID: 474053720}
   - component: {fileID: 474053719}
   - component: {fileID: 474053721}
+  - component: {fileID: 474053722}
   m_Layer: 0
   m_Name: Mapp
   m_TagString: Untagged
@@ -19974,6 +19975,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   imageSwitcher: {fileID: 0}
+--- !u!114 &474053722
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 474053716}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a561516bf8fdf14c9a504e2342a3a00, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &488404260
 PrefabInstance:
   m_ObjectHideFlags: 0
