@@ -2197,7 +2197,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 5
-  jumpForce: 8
+  jumpForce: 15
   groundCheck: {fileID: 1640952172548322894}
   groundCheckRadius: 0.2
   groundLayer:
@@ -2379,8 +2379,8 @@ CapsuleCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: -0.25923342, y: 0}
-  m_Size: {x: 0.87424505, y: 1.7478261}
+  m_Offset: {x: -0.25923342, y: 0.061169147}
+  m_Size: {x: 0.87424505, y: 1.6254878}
   m_Direction: 0
 --- !u!114 &6823399934523163735
 MonoBehaviour:
