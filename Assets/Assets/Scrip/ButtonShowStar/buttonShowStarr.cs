@@ -39,15 +39,15 @@ public class buttonShowStarr : MonoBehaviour
         string localDate = PlayerPrefs.GetString("lastClaimDate", "");
         string localUser = PlayerPrefs.GetString("lastClaimUserId", "");
 
-        // Nếu login bằng account khác -> xoá dữ liệu cũ
+        // 👉 Nếu login bằng account khác -> reset local
         if (!string.IsNullOrEmpty(localUser) && localUser != userId)
         {
             ClearRewardLocalData();
             localDate = "";
         }
 
-        // Nếu local lưu ngày hôm nay -> chặn luôn
-        if (localDate == today)
+        // 👉 Nếu local đã có dữ liệu hôm nay và đúng user hiện tại -> chặn
+        if (localDate == today && localUser == userId)
         {
             rewardPanel.SetActive(false);
             claimButton.interactable = false;
@@ -55,7 +55,7 @@ public class buttonShowStarr : MonoBehaviour
             return;
         }
 
-        // Nếu local chưa có -> check Firebase
+        // 👉 Nếu chưa có trong local -> check Firebase
         dbRef.Child("users").Child(userId).Child("lastClaimDate")
             .GetValueAsync().ContinueWithOnMainThread(task =>
         {
@@ -66,12 +66,14 @@ public class buttonShowStarr : MonoBehaviour
 
                 if (lastClaimDate != today)
                 {
+                    // Người chơi mới hoặc chưa nhận hôm nay
                     rewardPanel.SetActive(true);
                     claimButton.interactable = true;
                     claimButton.GetComponent<Image>().color = Color.white;
                 }
                 else
                 {
+                    // Đã nhận hôm nay rồi
                     rewardPanel.SetActive(false);
                     claimButton.interactable = false;
                     claimButton.GetComponent<Image>().color = claimedColor;
