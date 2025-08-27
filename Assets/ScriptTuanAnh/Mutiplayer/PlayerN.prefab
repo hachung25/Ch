@@ -2257,7 +2257,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24500aa997d51164f86f1aa4b0dcc403, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentHP: 0
   maxHP: 100
+  respawnPoint: {fileID: 0}
+  respawnDelay: 5
+  deathAnimDelay: 0
+  dieStateName: Die
+  dieLayer: 0
+  hideAtNormalized: 0.95
+  respawnAfterAnim: 1
 --- !u!114 &662866936164132257
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2290,7 +2298,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   healthSlider: {fileID: 153149671142602885}
-  lerpSpeed: 15
+  lerpSpeed: 1500
 --- !u!114 &-1238332132716884245
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2367,8 +2375,8 @@ CapsuleCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
-  m_Size: {x: 1.7478261, y: 1.6478261}
+  m_Offset: {x: -0.25923342, y: 0}
+  m_Size: {x: 0.87424505, y: 1.7478261}
   m_Direction: 0
 --- !u!1 &8986416333364836211
 GameObject:
