@@ -1829,8 +1829,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerPrefabs:
-  - RawGuidValue: 8b300930ef6fe1142a131d4c86811954
-  - RawGuidValue: 07cf808c3acd86440879ca862281e2fd
   - RawGuidValue: 9dc118ccfb6031b41a527ac239f05db7
   spawnPoints:
   - {fileID: 1976191102}

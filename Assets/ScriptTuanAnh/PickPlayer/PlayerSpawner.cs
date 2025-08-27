@@ -7,7 +7,7 @@ using System.Collections;
 [DisallowMultipleComponent]
 public class PlayerSpawner : SimulationBehaviour, IPlayerJoined, IPlayerLeft
 {
-    [Header("Network Player Prefabs (đã đăng ký trong NetworkProjectConfig)")]
+    [Header("Network Player Prefabs (chỉ lấy prefab đầu tiên)")]
     public NetworkPrefabRef[] playerPrefabs;
 
     [Header("Spawn Points (tuỳ chọn)")]
@@ -62,45 +62,22 @@ public class PlayerSpawner : SimulationBehaviour, IPlayerJoined, IPlayerLeft
         }
         if (_spawned.TryGetValue(player, out var already) && already) return;
 
-        // ✅ Lấy characterIndex từ RoomService cache
-        int prefabIndex = 0; // fallback
-        string uid = player.PlayerId.ToString();
-
-        if (RoomService.I != null)
+        // ✅ Luôn spawn prefab đầu tiên
+        if (playerPrefabs == null || playerPrefabs.Length == 0)
         {
-            var dict = RoomService.I.GetPlayersSnapshot();
-            if (dict != null && dict.TryGetValue(uid, out var info))
-            {
-                prefabIndex = info.characterIndex;
-                Debug.Log($"[PlayerSpawner] Spawn player {uid} với characterIndex = {prefabIndex}");
-            }
-            else
-            {
-                prefabIndex = PlayerPrefs.GetInt("SelectedCharacterIndex", 0);
-                Debug.LogWarning($"[PlayerSpawner] Không tìm thấy characterIndex trong RoomService cho {uid}, fallback = {prefabIndex}");
-            }
+            Debug.LogError("[PlayerSpawner] Thiếu playerPrefabs.");
+            return;
         }
 
-        var prefab = ResolvePrefab(prefabIndex);
-        if (!prefab.IsValid) { Debug.LogError("[PlayerSpawner] PrefabRef invalid."); return; }
-
+        var prefab = playerPrefabs[0];
         var obj = runner.Spawn(prefab, GetSpawnPos(player), Quaternion.identity, player);
 
         if (!runner.TryGetPlayerObject(player, out _))
             runner.SetPlayerObject(player, obj);
 
         _spawned[player] = obj;
-    }
 
-    NetworkPrefabRef ResolvePrefab(int index)
-    {
-        if (playerPrefabs == null || playerPrefabs.Length == 0)
-        {
-            Debug.LogError("[PlayerSpawner] Thiếu playerPrefabs.");
-            return default;
-        }
-        index = Mathf.Clamp(index, 0, playerPrefabs.Length - 1);
-        return playerPrefabs[index];
+        Debug.Log($"[PlayerSpawner] Spawned fixed prefab {prefab} cho player {player}");
     }
 
     Vector3 GetSpawnPos(PlayerRef player)

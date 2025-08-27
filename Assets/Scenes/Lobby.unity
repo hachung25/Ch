@@ -4143,7 +4143,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameplayBuildIndex: 2
-  hostCountdownSeconds: 10
   inputJoinRoomId: {fileID: 224155797}
   btnCreateRoom: {fileID: 1291323082}
   btnJoinById: {fileID: 1138208741}
@@ -4156,10 +4155,6 @@ MonoBehaviour:
   playerItemPrefab: {fileID: 9111629975449302239, guid: a2753a3ba4a9844498cc3a23afc5f55e, type: 3}
   currentRoomLabel: {fileID: 1838608267}
   statusLabel: {fileID: 1696296194}
-  countdownLabel: {fileID: 344476121}
-  startHostCountdownLabel: {fileID: 699545976}
-  CanvasRoom: {fileID: 9163322}
-  CanvasPlayer: {fileID: 767760488}
 --- !u!4 &1975202897
 Transform:
   m_ObjectHideFlags: 0
