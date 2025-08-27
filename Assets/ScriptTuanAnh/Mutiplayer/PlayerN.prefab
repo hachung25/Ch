@@ -2117,6 +2117,7 @@ GameObject:
   - component: {fileID: 5498506015866930192}
   - component: {fileID: 7593269442436371314}
   - component: {fileID: 52095193943930894}
+  - component: {fileID: 7329209554851741317}
   - component: {fileID: 7567557684795740344}
   - component: {fileID: 8235567560149968853}
   - component: {fileID: 2437150713165101563}
@@ -2126,7 +2127,7 @@ GameObject:
   - component: {fileID: -1238332132716884245}
   - component: {fileID: 6172894281914944117}
   - component: {fileID: -8268667865935315853}
-  - component: {fileID: 3609523677951687145}
+  - component: {fileID: 3372304414871334948}
   m_Layer: 7
   m_Name: PlayerN
   m_TagString: Untagged
@@ -2258,6 +2259,52 @@ MonoBehaviour:
   - {fileID: 6172894281914944117}
   - {fileID: -8268667865935315853}
   ForceRemoteRenderTimeframe: 0
+--- !u!61 &7329209554851741317
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7665432593707683337}
+  m_Enabled: 0
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: -0.28481352, y: 0.04758078}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1.7478261, y: 1.6478261}
+    newSize: {x: 3.86, y: 3.86}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 0.9997709, y: 1.5526644}
+  m_EdgeRadius: 0
 --- !u!114 &7567557684795740344
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2409,7 +2456,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   followTarget: {fileID: 0}
   localAudio: {fileID: 0}
---- !u!70 &3609523677951687145
+--- !u!70 &3372304414871334948
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
