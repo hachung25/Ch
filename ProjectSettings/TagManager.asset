@@ -24,7 +24,7 @@ TagManager:
   - UI
   - Ground
   - enemy
-  - 
+  - CameraBounds
   - Gold
   - VFX_Atk
   - VFX_Blood
