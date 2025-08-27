@@ -1,29 +1,21 @@
 using System;
 using UnityEngine;
-using UnityEngine.UI;
-using System.Collections;
 using Firebase.Auth;
+using UnityEngine.SceneManagement;
 
 public class ImageSwitcher : MonoBehaviour
 {
-    public Image targetImage;
-    public Sprite[] sprites;
-    public float fadeDuration = 0.5f;
-    private int currentIndex = 0;
-    private bool isTransitioning = false;
+    public bool Modee;           // cờ kiểm tra mở mode 2
+    public GameObject lockImage; // Image báo khóa (kéo vào từ Inspector)
+    public GameObject PanelMode1;
+    public GameObject PanelMode2;
 
-    public GameObject bt1, bt2, bt3;
-    public GameObject BtNextleft, BtNextRight;
-
-    public bool Modee;
-    public GameObject Unlock;
-
-     void Start()
-     {
+    void Start()
+    {
         UpData();
-        BtNextleft.SetActive(false);
-     }
+    }
 
+    // Load trạng thái Mode2 từ Firebase
     public void UpData()
     {
         string userId = FirebaseAuth.DefaultInstance.CurrentUser?.UserId;
@@ -46,102 +38,40 @@ public class ImageSwitcher : MonoBehaviour
         }
     }
 
- 
     private void ApplyMode(bool mode)
     {
-       Modee = mode;
-       Debug.Log(Modee);
+        Modee = mode;
+        CheckMode2(); // Debug + cập nhật image ngay khi load xong
     }
 
-    public void ShowPrevious()
+    // === BUTTON DUY NHẤT GỌI HÀM NÀY ===
+    public void OnClickCheckMode2()
     {
-        if (!isTransitioning)
-        {
-            currentIndex--;
-            if (currentIndex < 0)
-                currentIndex = sprites.Length - 1;
-
-            StartCoroutine(FadeToSprite(sprites[currentIndex]));
-        }
-        Unlock.SetActive(false);
-        BtNextleft.SetActive(false);
-        BtNextRight.SetActive(true);
-        
+        CheckMode2();
     }
 
-    public void ShowNext()
+    private void CheckMode2()
     {
-        if (!isTransitioning)
+        if (Modee)
         {
-            currentIndex++;
-            if (currentIndex >= sprites.Length)
-                currentIndex = 0;
-
-            StartCoroutine(FadeToSprite(sprites[currentIndex]));
-        }
-        if (Modee == true)
-        {
-            Unlock.SetActive(false);
+            Debug.Log("Mode 2 đã mở");
+            if (lockImage != null) lockImage.SetActive(false);
         }
         else
         {
-            Unlock.SetActive(true);
+            Debug.Log("Mode 2 chưa mở");
+            if (lockImage != null) lockImage.SetActive(true);
         }
-        BtNextRight.SetActive(false);
-       BtNextleft.SetActive(true);
-        
     }
 
-    private IEnumerator FadeToSprite(Sprite newSprite)
+    public void LoadMode2()
     {
-        isTransitioning = true;
-
-        // Fade out
-        float elapsed = 0f;
-        Color originalColor = targetImage.color;
-        while (elapsed < fadeDuration)
+        if (Modee)
         {
-            float alpha = Mathf.Lerp(1f, 0f, elapsed / fadeDuration);
-            targetImage.color = new Color(originalColor.r, originalColor.g, originalColor.b, alpha);
-            elapsed += Time.deltaTime;
-            yield return null;
-        }
-
-        // Thay sprite
-        targetImage.sprite = newSprite;
-
-        // Fade in
-        elapsed = 0f;
-        while (elapsed < fadeDuration)
-        {
-            float alpha = Mathf.Lerp(0f, 1f, elapsed / fadeDuration);
-            targetImage.color = new Color(originalColor.r, originalColor.g, originalColor.b, alpha);
-            elapsed += Time.deltaTime;
-            yield return null;
-        }
-
-        targetImage.color = originalColor;
-        isTransitioning = false;
-        
-        if (newSprite.name == "Arena2_0")
-        {
-            bt1.SetActive(false);
-            if (Modee == true)
-            {
-                bt3.SetActive(true);
-                Debug.Log("mở mode 2");
-            }
-            else
-            {
-                bt2.SetActive(true);
-            }
+            SceneManager.LoadScene("Mode2");
+            PanelMode2.SetActive(false);
+            PanelMode1.SetActive(false);
             
-        }
-        else
-        {
-            bt1.SetActive(true);
-            bt2.SetActive(false);
-            bt3.SetActive(false);
         }
     }
 }
