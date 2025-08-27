@@ -1,15 +1,12 @@
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement; // <-- THÊM
-using Firebase.Auth;
+using UnityEngine.SceneManagement;
+using Firebase.Auth; // vẫn giữ nếu bạn dùng UnlockMode ở map cuối
 
 public class MapManager : MonoBehaviour
 {
     [System.Serializable]
-    public class WaveData
-    {
-        public List<GameObject> enemies;
-    }
+    public class WaveData { public List<GameObject> enemies; }
 
     [System.Serializable]
     public class MapData
@@ -33,30 +30,41 @@ public class MapManager : MonoBehaviour
     [Header("Skill Unlock")]
     public RainOfBulletsSkill rainSkill;
     [Tooltip("0 = Map 1, 1 = Map 2, 2 = Map 3 ...")]
-    public int unlockMapIndex = 1;
-    private bool rainUnlockedFired = false;
+    public int unlockMapIndex = 1;     // Map 2
+    private bool rainUnlockedFired = false; // chặn double-call trong phiên
 
-    // === ÂM THANH THẮNG CUỘC ===
+    // ===== Persist (local only)
+    private const string RAIN_SKILL_KEY = "rain_skill_unlocked";
+    private const string RAIN_BANNER_KEY = "rain_skill_banner_shown";
+    private bool rainUnlockedPersistent = false;
+    private bool rainBannerShownPersistent = false;
+
+    [Header("Unlock UI Banner")]
+    public TbUnlockSkill unlockBanner; // kéo object UI có TbUnlockSkill
+
+    // === Âm thanh thắng cuộc ===
     [Header("Win Audio")]
-    public AudioClip winClip;                   // KÉO clip chiến thắng vào đây
+    public AudioClip winClip;
     [Range(0f, 1f)] public float winVolume = 1f;
-    public AudioSource mixerReference;          // (tuỳ chọn) kéo AudioSource để giữ OutputAudioMixerGroup
-    private GameObject winAudioGO;              // GO phát âm thanh sống tới khi đổi scene
-    private bool winAudioHooked = false;        // đã gắn callback scene change chưa
-    private bool winSoundPlayed = false;        // đảm bảo chỉ phát 1 lần
+    public AudioSource mixerReference;
+    private GameObject winAudioGO;
+    private bool winAudioHooked = false;
+    private bool winSoundPlayed = false;
 
     private int currentMapIndex = 0;
     private int currentWaveIndex = 0;
     private bool coinAbsorbed = false;
 
+    // ===================== LIFECYCLE =====================
     void Start()
     {
+        LoadRainFlags();
+        EnsureRainSkillIfUnlocked();
         SpawnWave(currentWaveIndex);
     }
 
     void OnDisable()
     {
-        // dọn dẹp listener nếu object bị disable trước khi đổi scene
         CleanupWinAudio(false);
     }
 
@@ -64,29 +72,31 @@ public class MapManager : MonoBehaviour
     {
         if (currentMapIndex >= maps.Count) return;
 
-        MapData currentMap = maps[currentMapIndex];
+        var currentMap = maps[currentMapIndex];
 
-        // Nếu đã hoàn thành hết các wave trong map
         if (currentWaveIndex >= currentMap.waves.Count)
         {
             if (currentMap.teleportBox && !currentMap.teleportBox.activeSelf)
                 currentMap.teleportBox.SetActive(true);
 
-            // Thử mở khóa skill khi clear xong map cần mở
-            TryUnlockRainSkill();
-
+            // !!! Chỉ chạy 1 lần khi vừa clear map
             if (!coinAbsorbed)
             {
                 coinAbsorbed = true;
+
+                // Mở khoá skill tại map 2 (one-shot)
+                if (currentMapIndex == unlockMapIndex)
+                    HandleRainUnlockOnce();
+
+                // Hút coin
                 Invoke(nameof(AttractCoinsToPlayer), 0.2f);
 
-                // Map cuối cùng: phát nhạc win tới khi chuyển scene
+                // Map cuối: win sound + UI
                 if (currentMapIndex == maps.Count - 1)
                 {
                     GemWave = 15;
                     GoldWave += 50;
 
-                    // Phát nhạc chiến thắng (tồn tại qua scene trừ khi scene đổi)
                     PlayWinSoundUntilSceneChange();
 
                     FindObjectOfType<FireBaseDataBaseManager>()?.UnlockMode(FirebaseAuth.DefaultInstance.CurrentUser.UserId);
@@ -94,17 +104,14 @@ public class MapManager : MonoBehaviour
                     if (VFXWin) VFXWin.SetActive(true);
                 }
             }
-
             return;
         }
 
-        WaveData currentWave = currentMap.waves[currentWaveIndex];
+        // Dọn list quái & sang wave kế
+        var wave = currentMap.waves[currentWaveIndex];
+        wave.enemies.RemoveAll(e => e == null);
 
-        // Xoá quái đã bị tiêu diệt
-        currentWave.enemies.RemoveAll(enemy => enemy == null);
-
-        // Nếu wave hiện tại đã diệt hết quái
-        if (currentWave.enemies.Count == 0)
+        if (wave.enemies.Count == 0)
         {
             currentWaveIndex++;
             SpawnWave(currentWaveIndex);
@@ -115,15 +122,11 @@ public class MapManager : MonoBehaviour
     {
         if (currentMapIndex >= maps.Count) return;
 
-        MapData currentMap = maps[currentMapIndex];
+        var currentMap = maps[currentMapIndex];
         if (waveIndex >= currentMap.waves.Count) return;
 
-        WaveData wave = currentMap.waves[waveIndex];
-        foreach (var enemy in wave.enemies)
-        {
-            if (enemy != null)
-                enemy.SetActive(true);
-        }
+        foreach (var enemy in currentMap.waves[waveIndex].enemies)
+            if (enemy != null) enemy.SetActive(true);
     }
 
     public void MoveToNextMap()
@@ -148,29 +151,77 @@ public class MapManager : MonoBehaviour
 
     private void AttractCoinsToPlayer()
     {
-        var coins = FindObjectsOfType<CollectCoin>();
-        foreach (var coin in coins)
-        {
+        foreach (var coin in FindObjectsOfType<CollectCoin>())
             coin.ActivateMagnet(player);
+    }
+
+    // ===================== RAIN PERSIST =====================
+    private void LoadRainFlags()
+    {
+        rainUnlockedPersistent = PlayerPrefs.GetInt(RAIN_SKILL_KEY, 0) == 1;
+        rainBannerShownPersistent = PlayerPrefs.GetInt(RAIN_BANNER_KEY, 0) == 1;
+    }
+
+    private void SaveRainUnlocked()
+    {
+        PlayerPrefs.SetInt(RAIN_SKILL_KEY, 1);
+        PlayerPrefs.Save();
+        rainUnlockedPersistent = true;
+    }
+
+    private void MarkBannerShown()
+    {
+        PlayerPrefs.SetInt(RAIN_BANNER_KEY, 1);
+        PlayerPrefs.Save();
+        rainBannerShownPersistent = true;
+    }
+
+    private void EnsureRainSkillIfUnlocked()
+    {
+        if (rainUnlockedPersistent && rainSkill != null)
+        {
+            rainSkill.enabled = true;
+            // nếu skill cần áp trạng thái, gọi thêm API của bạn tại đây
+            // ví dụ: rainSkill.ApplyUnlockedState();
         }
     }
 
-    // ==== Skill unlock hook ====
-    private void TryUnlockRainSkill()
+    /// <summary>
+    /// Chỉ chạy 1 lần ngay khoảnh khắc clear map 2.
+    /// Nếu đã mở vĩnh viễn -> chỉ bật skill, KHÔNG hiện banner.
+    /// Nếu chưa mở -> mở + lưu + hiện banner (chỉ lần đầu).
+    /// </summary>
+    private void HandleRainUnlockOnce()
     {
-        if (rainUnlockedFired) return;
-        if (currentMapIndex != unlockMapIndex) return;
+        // nếu đã mở từ trước -> đảm bảo bật skill, không hiện banner
+        if (rainUnlockedPersistent)
+        {
+            EnsureRainSkillIfUnlocked();
+            return;
+        }
 
+        // chặn double-call trong phiên (phòng trường hợp call lại do logic khác)
+        if (rainUnlockedFired) return;
         rainUnlockedFired = true;
 
+        // mở lần đầu
         if (rainSkill != null)
         {
-            rainSkill.Unlock();
+            rainSkill.Unlock();      // nếu bạn có logic nội bộ
             rainSkill.enabled = true;
         }
 
-        Debug.Log("Unlocked RainOfBullets at map index: " + currentMapIndex);
-        // FindObjectOfType<FireBaseDataBaseManager>()?.SetRainSkillUnlocked(FirebaseAuth.DefaultInstance.CurrentUser.UserId, true);
+        SaveRainUnlocked();
+
+        // Hiện banner lần đầu (set flag trước để không bị lặp trong cùng frame)
+        if (!rainBannerShownPersistent)
+        {
+            MarkBannerShown();
+            if (unlockBanner != null) unlockBanner.showTb();
+            else FindObjectOfType<TbUnlockSkill>()?.showTb();
+        }
+
+        Debug.Log("[MapManager] RainOfBullets unlocked (first time).");
     }
 
     // ===================== WIN SOUND =====================
@@ -179,22 +230,19 @@ public class MapManager : MonoBehaviour
         if (winSoundPlayed || winClip == null) return;
         winSoundPlayed = true;
 
-        // tạo GO và AudioSource độc lập
         winAudioGO = new GameObject("WinSound_UntilSceneChange");
         var src = winAudioGO.AddComponent<AudioSource>();
         src.clip = winClip;
         src.playOnAwake = false;
         src.loop = false;
-        src.spatialBlend = 0f; // 2D
+        src.spatialBlend = 0f;
         src.volume = winVolume;
 
-        // giữ routing mixer nếu có
         if (mixerReference != null && mixerReference.outputAudioMixerGroup != null)
             src.outputAudioMixerGroup = mixerReference.outputAudioMixerGroup;
 
         DontDestroyOnLoad(winAudioGO);
 
-        // đăng ký callback đổi scene (1 lần)
         if (!winAudioHooked)
         {
             SceneManager.activeSceneChanged += OnActiveSceneChanged_StopWinAudio;
@@ -202,26 +250,18 @@ public class MapManager : MonoBehaviour
         }
 
         src.Play();
-
-        // nếu không đổi scene thì GO tự hủy sau khi phát xong
         StartCoroutine(DestroyAfterUnscaled(src.clip.length + 0.1f));
     }
 
     private System.Collections.IEnumerator DestroyAfterUnscaled(float seconds)
     {
         float t = 0f;
-        while (t < seconds)
-        {
-            t += Time.unscaledDeltaTime;
-            yield return null;
-        }
-        // phát xong mà chưa đổi scene -> cleanup
+        while (t < seconds) { t += Time.unscaledDeltaTime; yield return null; }
         CleanupWinAudio(false);
     }
 
     private void OnActiveSceneChanged_StopWinAudio(Scene oldScene, Scene newScene)
     {
-        // vừa đổi scene -> dừng và hủy ngay
         CleanupWinAudio(true);
     }
 
@@ -236,9 +276,7 @@ public class MapManager : MonoBehaviour
         if (winAudioGO != null)
         {
             var src = winAudioGO.GetComponent<AudioSource>();
-            if (src != null && fromSceneChange && src.isPlaying)
-                src.Stop();
-
+            if (src != null && fromSceneChange && src.isPlaying) src.Stop();
             Destroy(winAudioGO);
             winAudioGO = null;
         }
