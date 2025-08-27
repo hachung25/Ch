@@ -8828,7 +8828,7 @@ GameObject:
   - component: {fileID: 388358261280111871}
   - component: {fileID: 8630179855658970661}
   m_Layer: 5
-  m_Name: List_Me
+  m_Name: Ran
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -25392,6 +25392,7 @@ GameObject:
   - component: {fileID: 546083549610179134}
   - component: {fileID: 4540316670006186188}
   - component: {fileID: 8547911741349015234}
+  - component: {fileID: 8547911741349015235}
   m_Layer: 5
   m_Name: Button_GiveUp
   m_TagString: Untagged
@@ -26035,6 +26036,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   content: {fileID: 93608123767125521}
   rowPrefab: {fileID: 4987220153810654208, guid: 13fe214765c074541966b68ade23e4d6, type: 3}
+  medalIcons:
+  - {fileID: 21300000, guid: a3f6ade06695e433b90d2395867e368a, type: 3}
+  - {fileID: 21300000, guid: 4da9e92e9eaca4909941db29d7425baa, type: 3}
+  - {fileID: 21300000, guid: bfd61c98d74144657b1aa56db3fd048a, type: 3}
 --- !u!1 &7712826996523353864
 GameObject:
   m_ObjectHideFlags: 0
@@ -26864,7 +26869,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 8547911741349015235}
         m_TargetAssemblyTypeName: PauseMenu, Assembly-CSharp
         m_MethodName: GiveUpToMainMenuOnline
         m_Mode: 1
@@ -26876,6 +26881,19 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &8547911741349015235
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6778272441155337848}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 21c4827ae4056cc4b8dcc19f555bf98e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pausePanel: {fileID: 6778272441155337848}
 --- !u!114 &8584395650734207488
 MonoBehaviour:
   m_ObjectHideFlags: 0
