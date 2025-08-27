@@ -26,9 +26,12 @@ public class GamePause : MonoBehaviour
 
     public void BackHome()
     {
-      
-        SceneManager.LoadScene("SampleScene");
-
+        // SceneManager.LoadScene("SampleScene");
+        var dataload = FindObjectOfType<Dataload>();
+        if (dataload != null)
+        {
+            dataload.LoadAllDataFromFirebase();
+        }
     }
 
     public void Dele()

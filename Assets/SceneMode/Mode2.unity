@@ -19702,6 +19702,7 @@ GameObject:
   - component: {fileID: 474053720}
   - component: {fileID: 474053719}
   - component: {fileID: 474053721}
+  - component: {fileID: 474053722}
   m_Layer: 0
   m_Name: Mapp
   m_TagString: Untagged
@@ -19974,6 +19975,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   imageSwitcher: {fileID: 0}
+--- !u!114 &474053722
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 474053716}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a561516bf8fdf14c9a504e2342a3a00, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &488404260
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -21395,10 +21408,14 @@ PrefabInstance:
     - target: {fileID: 2304902645626487802, guid: e13e5f465c2c57940b89ebc0a2819492, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 1670172953}
+      objectReference: {fileID: 1670172954}
     - target: {fileID: 2304902645626487802, guid: e13e5f465c2c57940b89ebc0a2819492, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: BackHome
+      value: SceneLoad
+      objectReference: {fileID: 0}
+    - target: {fileID: 2304902645626487802, guid: e13e5f465c2c57940b89ebc0a2819492, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: LoadScene, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 2604969259549745167, guid: e13e5f465c2c57940b89ebc0a2819492, type: 3}
       propertyPath: m_Name
@@ -24618,10 +24635,14 @@ PrefabInstance:
     - target: {fileID: 4804201951122599189, guid: e922140366b17474f8bc28a19d125263, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 1670172953}
+      objectReference: {fileID: 1670172954}
     - target: {fileID: 4804201951122599189, guid: e922140366b17474f8bc28a19d125263, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: BackHome
+      value: SceneLoad
+      objectReference: {fileID: 0}
+    - target: {fileID: 4804201951122599189, guid: e922140366b17474f8bc28a19d125263, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: LoadScene, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 7565107572666651255, guid: e922140366b17474f8bc28a19d125263, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -29584,6 +29605,7 @@ GameObject:
   - component: {fileID: 1670172950}
   - component: {fileID: 1670172949}
   - component: {fileID: 1670172953}
+  - component: {fileID: 1670172954}
   m_Layer: 5
   m_Name: GameSetting
   m_TagString: Untagged
@@ -29688,6 +29710,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PauseMain: {fileID: 2119826346}
+--- !u!114 &1670172954
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1670172948}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c749e8428e93d5247a17efcfacfeee73, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1690129238
 GameObject:
   m_ObjectHideFlags: 0
@@ -33065,7 +33099,15 @@ PrefabInstance:
     - target: {fileID: 7441164633208928925, guid: f9cd6fffc6ad846969fe938fe26f9eac, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 1670172953}
+      objectReference: {fileID: 1670172954}
+    - target: {fileID: 7441164633208928925, guid: f9cd6fffc6ad846969fe938fe26f9eac, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: SceneLoad
+      objectReference: {fileID: 0}
+    - target: {fileID: 7441164633208928925, guid: f9cd6fffc6ad846969fe938fe26f9eac, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: LoadScene, Assembly-CSharp
+      objectReference: {fileID: 0}
     - target: {fileID: 7441164633881638936, guid: f9cd6fffc6ad846969fe938fe26f9eac, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
