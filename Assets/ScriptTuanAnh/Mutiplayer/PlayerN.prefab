@@ -2052,6 +2052,7 @@ GameObject:
   - component: {fileID: 6172894281914944117}
   - component: {fileID: -8268667865935315853}
   - component: {fileID: 3372304414871334948}
+  - component: {fileID: 6823399934523163735}
   m_Layer: 7
   m_Name: PlayerN
   m_TagString: Untagged
@@ -2181,6 +2182,7 @@ MonoBehaviour:
   - {fileID: -1238332132716884245}
   - {fileID: 6172894281914944117}
   - {fileID: -8268667865935315853}
+  - {fileID: 6823399934523163735}
   ForceRemoteRenderTimeframe: 0
 --- !u!114 &7567557684795740344
 MonoBehaviour:
@@ -2380,6 +2382,20 @@ CapsuleCollider2D:
   m_Offset: {x: -0.25923342, y: 0}
   m_Size: {x: 0.87424505, y: 1.7478261}
   m_Direction: 0
+--- !u!114 &6823399934523163735
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7665432593707683337}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95353973af461b04aa9c46685169c172, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _Kills: 0
+  _Deaths: 0
 --- !u!1 &8986416333364836211
 GameObject:
   m_ObjectHideFlags: 0

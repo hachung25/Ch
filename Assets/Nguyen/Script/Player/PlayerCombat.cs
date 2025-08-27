@@ -10,10 +10,13 @@ public class PlayerCombat : NetworkBehaviour
     public LayerMask enemyLayer;
     public TextMeshProUGUI damageText;
 
+    private PlayerStats myStats;
+
     private void Start()
     {
         damage = PlayerPrefs.GetInt("Upgrade_Damage", damage);
         UpdateDamageText();
+        myStats = GetComponent<PlayerStats>();
     }
 
     private void OnEnable() => UpdateDamageText();
@@ -39,7 +42,7 @@ public class PlayerCombat : NetworkBehaviour
             if (netObj != null && netObj.TryGetBehaviour<PlayerHealth2>(out var health))
             {
                 Debug.Log("🎯 Gửi sát thương tới " + hit.name);
-                health.RPC_ApplyDamage(damage);
+                health.TakeDamageFrom(myStats, damage);
             }
         }
     }
