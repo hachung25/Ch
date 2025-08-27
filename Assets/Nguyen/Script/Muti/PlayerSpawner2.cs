@@ -5,7 +5,7 @@ using System.Collections;
 
 [DefaultExecutionOrder(-10000)]
 [DisallowMultipleComponent]
-public class PlayerSpawner : SimulationBehaviour, IPlayerJoined, IPlayerLeft
+public class PlayerSpawner2 : SimulationBehaviour, IPlayerJoined, IPlayerLeft
 {
     [Header("Network Player Prefabs (đã đăng ký trong NetworkProjectConfig)")]
     public NetworkPrefabRef[] playerPrefabs;
@@ -44,13 +44,9 @@ public class PlayerSpawner : SimulationBehaviour, IPlayerJoined, IPlayerLeft
         if (Runner.TryGetPlayerObject(player, out var pObj) && pObj)
         {
             Runner.Despawn(pObj);
-            _spawned.Remove(player);
         }
-        else if (_spawned.TryGetValue(player, out var obj) && obj)
-        {
-            Runner.Despawn(obj);
-            _spawned.Remove(player);
-        }
+        _spawned.Remove(player);
+        FusionIdentityBridge.Clear(player); // dọn map
     }
 
     void EnsureSpawnFor(NetworkRunner runner, PlayerRef player)
@@ -62,27 +58,54 @@ public class PlayerSpawner : SimulationBehaviour, IPlayerJoined, IPlayerLeft
         }
         if (_spawned.TryGetValue(player, out var already) && already) return;
 
-        // ✅ Lấy characterIndex từ RoomService cache
-        int prefabIndex = 0; // fallback
-        string uid = player.PlayerId.ToString();
+        // CHỈNH MỚI: đợi RPC_Announce map PlayerRef -> Firebase UID/charIndex
+        StartCoroutine(SpawnWhenIdentityReady(runner, player));
+    }
 
-        if (RoomService.I != null)
+    IEnumerator SpawnWhenIdentityReady(NetworkRunner runner, PlayerRef player)
+    {
+        float t = 0f;
+        // đợi tối đa 3s lấy danh tính
+        while (!FusionIdentityBridge.PlayerToFirebaseUid.ContainsKey(player) && t < 3f)
         {
-            var dict = RoomService.I.GetPlayersSnapshot();
-            if (dict != null && dict.TryGetValue(uid, out var info))
+            t += Time.deltaTime;
+            yield return null;
+        }
+
+        int prefabIndex = 0;
+
+        // Ưu tiên: lấy từ RoomService cache (đảm bảo authoritative từ Lobby)
+        if (FusionIdentityBridge.PlayerToFirebaseUid.TryGetValue(player, out var firebaseUid))
+        {
+            var dict = RoomService.I?.GetPlayersSnapshot();
+            if (dict != null && dict.TryGetValue(firebaseUid, out var info))
             {
                 prefabIndex = info.characterIndex;
-                Debug.Log($"[PlayerSpawner] Spawn player {uid} với characterIndex = {prefabIndex}");
+            }
+            else if (FusionIdentityBridge.PlayerToCharIndex.TryGetValue(player, out var ci))
+            {
+                // fallback tin cậy từ RPC của client
+                prefabIndex = ci;
             }
             else
             {
-                prefabIndex = PlayerPrefs.GetInt("SelectedCharacterIndex", 0);
-                Debug.LogWarning($"[PlayerSpawner] Không tìm thấy characterIndex trong RoomService cho {uid}, fallback = {prefabIndex}");
+                prefabIndex = 0;
+                Debug.LogWarning($"[PlayerSpawner] No cache for {firebaseUid}, default 0");
             }
+        }
+        else if (FusionIdentityBridge.PlayerToCharIndex.TryGetValue(player, out var ci2))
+        {
+            // Trường hợp hiếm khi uid chưa tới nhưng charIndex đã có
+            prefabIndex = ci2;
+        }
+        else
+        {
+            prefabIndex = 0;
+            Debug.LogWarning("[PlayerSpawner] Identity not ready, default 0");
         }
 
         var prefab = ResolvePrefab(prefabIndex);
-        if (!prefab.IsValid) { Debug.LogError("[PlayerSpawner] PrefabRef invalid."); return; }
+        if (!prefab.IsValid) { Debug.LogError("[PlayerSpawner] PrefabRef invalid."); yield break; }
 
         var obj = runner.Spawn(prefab, GetSpawnPos(player), Quaternion.identity, player);
 
@@ -90,6 +113,7 @@ public class PlayerSpawner : SimulationBehaviour, IPlayerJoined, IPlayerLeft
             runner.SetPlayerObject(player, obj);
 
         _spawned[player] = obj;
+        Debug.Log($"[PlayerSpawner] Spawned {player} with prefab index {prefabIndex}");
     }
 
     NetworkPrefabRef ResolvePrefab(int index)

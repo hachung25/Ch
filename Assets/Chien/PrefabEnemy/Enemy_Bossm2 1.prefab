@@ -513,6 +513,8 @@ MonoBehaviour:
   attackDamage: 12
   CoinPrefab: {fileID: 5451605172039159037, guid: bf6dd895dbb98ab4492a8402c67c38a6, type: 3}
   DeadVFX: {fileID: 725748389856807714, guid: 4bda94453d2ca7444a0fff05b2d425f5, type: 3}
+  Sound_Destroy: {fileID: 0}
+  isInvincible: 0
 --- !u!114 &6416557885435084659
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -525,7 +527,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d856e343aecf14c47bedcee97d1cb915, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  vfx: {fileID: 2205265577084385727}
+  vfx: {fileID: 0}
 --- !u!1 &4917937118838036480
 GameObject:
   m_ObjectHideFlags: 0
@@ -673,10 +675,5 @@ PrefabInstance:
 --- !u!4 &2205265577084385720 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2360655870356088567, guid: 57a776ff377f3c44e8403e2067a4d41f, type: 3}
-  m_PrefabInstance: {fileID: 4492359706546872143}
-  m_PrefabAsset: {fileID: 0}
---- !u!198 &2205265577084385727 stripped
-ParticleSystem:
-  m_CorrespondingSourceObject: {fileID: 2360655870356088560, guid: 57a776ff377f3c44e8403e2067a4d41f, type: 3}
   m_PrefabInstance: {fileID: 4492359706546872143}
   m_PrefabAsset: {fileID: 0}

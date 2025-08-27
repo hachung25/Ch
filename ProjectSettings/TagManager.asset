@@ -13,6 +13,8 @@ TagManager:
   - Gold
   - UpdateMissionn
   - FxTemporaire
+  - Meat
+  - BoxHealth
   layers:
   - Default
   - TransparentFX
@@ -27,7 +29,7 @@ TagManager:
   - VFX_Atk
   - VFX_Blood
   - Player
-  - 
+  - Bullet
   - 
   - 
   - 

@@ -433,9 +433,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 4
   chaseRange: 5
-  attackRange: 1
+  attackRange: 1.5
   player: {fileID: 0}
-  maxHealth: 30
+  maxHealth: 20
   isFacingRightByDefault: 0
   overrideHealthSlider_Warrior: {fileID: 1370930584297653683}
   attackDamage: 3

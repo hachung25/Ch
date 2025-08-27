@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 7034851194853826537}
   - component: {fileID: 8060537619576819673}
   - component: {fileID: 5671301714569153844}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: C=3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -177,4 +177,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damage: 9
   lifeTime: 5
+  speed: 10
   hitEffect: {fileID: 0}

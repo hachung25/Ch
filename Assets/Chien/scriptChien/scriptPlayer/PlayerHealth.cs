@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerHealth : MonoBehaviour, IDamageable
 {
@@ -18,6 +19,9 @@ public class PlayerHealth : MonoBehaviour, IDamageable
     public AudioClip hitSound;       // âm thanh bạn chọn
     private AudioSource audioSource; // để phát âm thanh
     public AudioClip OverSound;
+
+    private GameObject overAudioGO;
+    private bool overAudioHooked = false;
     private void OnEnable()
     {
         IndexPlayerPlayGame.OnStatsLoaded += SetHealth;
@@ -81,24 +85,92 @@ public class PlayerHealth : MonoBehaviour, IDamageable
 
         GetComponent<Rigidbody2D>().simulated = false;
         StartCoroutine(FlashWhileInvincible());
-        if(DeadVFXPrefab != null)
-        {
-            Instantiate(DeadVFXPrefab, transform.position , Quaternion.identity);
-        }
-        if(OverSound != null && audioSource != null)
-            audioSource.PlayOneShot(OverSound);
+
+        if (DeadVFXPrefab != null)
+            Instantiate(DeadVFXPrefab, transform.position, Quaternion.identity);
+
+        // PHÁT ÂM THANH TÁCH RỜI & TẮT KHI CHUYỂN SCENE
+        PlayOverSoundUntilSceneChange(OverSound, audioSource);
+
         Destroy(gameObject, 0.7f);
-        LoseGame.SetActive(true);
-        Ghost.FreezeEnemy();
+
+        if (LoseGame != null) LoseGame.SetActive(true);
+        if (Ghost != null) Ghost.FreezeEnemy();
     }
 
+    // === THÊM: phát âm thanh tách rời, sống qua scene cho đến khi scene đổi
+    private void PlayOverSoundUntilSceneChange(AudioClip clip, AudioSource reference = null, float volume = 1f)
+    {
+        if (clip == null) return;
+
+        // Tạo GO + AudioSource độc lập
+        overAudioGO = new GameObject("OverSound_PlayerDeath");
+        var src = overAudioGO.AddComponent<AudioSource>();
+        src.clip = clip;
+        src.playOnAwake = false;
+        src.loop = false;           // không lặp, chỉ phát 1 lần
+        src.spatialBlend = 0f;      // 2D
+        src.volume = volume;
+
+        // Giữ routing mixer nếu bạn có dùng Mixer
+        if (reference != null && reference.outputAudioMixerGroup != null)
+            src.outputAudioMixerGroup = reference.outputAudioMixerGroup;
+
+        DontDestroyOnLoad(overAudioGO);
+
+        // Đăng ký callback 1 lần
+        if (!overAudioHooked)
+        {
+            SceneManager.activeSceneChanged += OnActiveSceneChanged_StopOverAudio;
+            overAudioHooked = true;
+        }
+
+        // Phát
+        src.Play();
+
+        // Tự cleanup nếu clip phát xong mà không đổi scene
+        overAudioGO.AddComponent<AutoDestroyAfter>()
+                   .Init(src.clip.length + 0.1f, () =>
+                   {
+                       // nếu GO này vẫn còn và chưa bị scene change hủy
+                       CleanupOverAudio(false);
+                   });
+    }
+    private void OnActiveSceneChanged_StopOverAudio(Scene oldScene, Scene newScene)
+    {
+        CleanupOverAudio(true);
+    }
+    private void CleanupOverAudio(bool fromSceneChange)
+    {
+        // hủy đăng ký callback
+        if (overAudioHooked)
+        {
+            SceneManager.activeSceneChanged -= OnActiveSceneChanged_StopOverAudio;
+            overAudioHooked = false;
+        }
+
+        if (overAudioGO != null)
+        {
+            var src = overAudioGO.GetComponent<AudioSource>();
+            if (src != null)
+            {
+                if (fromSceneChange && src.isPlaying) src.Stop();
+            }
+            Destroy(overAudioGO);
+            overAudioGO = null;
+        }
+    }
     public void Heal(int amount)
     {
         if (isDead) return;
 
+        int before = currentHealth;
+
         currentHealth += amount;
         currentHealth = Mathf.Clamp(currentHealth, 0, MaxHealth);
+
     }
+
 
     public int GetCurrentHealth()
     {
