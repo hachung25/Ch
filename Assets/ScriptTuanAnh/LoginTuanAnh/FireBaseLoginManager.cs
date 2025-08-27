@@ -104,34 +104,43 @@ public class FireBaseLoginManager : MonoBehaviour
     {
         string userId = firebaseUser.UserId;
         string deviceId = GetDeviceID();
+        string sessionId = GetSessionID();
+        string fullDeviceKey = deviceId + "_" + sessionId;
 
-        // Ghi dữ liệu mẫu (tuỳ chỉnh theo game của bạn)
-        User userinGame = new("Username", 0, 0, 0, 0, 0, 0, 0);
-        dataBaseManager.WriteDataBase("Users/" + userId, userinGame.ToString());
-
-        // Load mode
-        dataBaseManager.LoadMode(userId, (mode) =>
-        {
-            MapUIController mapUI = FindObjectOfType<MapUIController>();
-            if (mapUI != null) mapUI.ShowMode(mode);
-        });
-
-        SaveManeger.LoadDailylogin();
-
-        // Tạo watcher để tránh xung đột thiết bị
-        GameObject watcherGO = new GameObject("OnlineStatusWatcher");
-        DontDestroyOnLoad(watcherGO);
-        var watcher = watcherGO.AddComponent<OnlineStatusWatcher>();
-        watcher.conflictPopupPrefab = conflictPopupPrefab;
-        watcher.StartWatching(userId, deviceId);
-
-        // Ghi lại device hiện tại
-        conflictManager.WriteFullDeviceInfo(userId, deviceId);
-
-        // Khi disconnect thì xoá dấu thiết bị
+        // Trước khi ghi thiết bị mới → xoá toàn bộ node cũ
         FirebaseDatabase.DefaultInstance
-            .GetReference($"deviceStatus/{userId}/deviceId")
-            .OnDisconnect().SetValue(null);
+            .GetReference($"deviceStatus/{userId}")
+            .RemoveValueAsync()
+            .ContinueWithOnMainThread(_ =>
+            {
+                // Ghi dữ liệu mẫu (tuỳ chỉnh theo game của bạn)
+                User userinGame = new("Username", 0, 0, 0, 0, 0, 0, 0);
+                dataBaseManager.WriteDataBase("Users/" + userId, userinGame.ToString());
+
+                // Load mode
+                dataBaseManager.LoadMode(userId, (mode) =>
+                {
+                    MapUIController mapUI = FindObjectOfType<MapUIController>();
+                    if (mapUI != null) mapUI.ShowMode(mode);
+                });
+
+                SaveManeger.LoadDailylogin();
+
+                // Tạo watcher để tránh xung đột thiết bị
+                GameObject watcherGO = new GameObject("OnlineStatusWatcher");
+                DontDestroyOnLoad(watcherGO);
+                var watcher = watcherGO.AddComponent<OnlineStatusWatcher>();
+                watcher.conflictPopupPrefab = conflictPopupPrefab;
+                watcher.StartWatching(userId, fullDeviceKey);
+
+                // Ghi lại device hiện tại (kèm sessionId)
+                conflictManager.WriteFullDeviceInfo(userId, fullDeviceKey);
+
+                // Khi disconnect thì xoá dấu thiết bị
+                FirebaseDatabase.DefaultInstance
+                    .GetReference($"deviceStatus/{userId}/{fullDeviceKey}")
+                    .OnDisconnect().SetValue(null);
+            });
     }
 
     // ====================== SIGN IN ======================
@@ -168,36 +177,6 @@ public class FireBaseLoginManager : MonoBehaviour
         });
     }
 
-
-    private string ParseFirebaseLoginError(System.AggregateException exception)
-    {
-        foreach (var e in exception.Flatten().InnerExceptions)
-        {
-            if (e is Firebase.FirebaseException fe)
-            {
-                // Mã lỗi chi tiết từ Firebase
-                switch ((AuthError)fe.ErrorCode)
-                {
-                    case AuthError.InvalidEmail:
-                        return "Email không hợp lệ.";
-                    case AuthError.WrongPassword:
-                        return "Sai mật khẩu.";
-                    case AuthError.UserNotFound:
-                        return "Không tìm thấy tài khoản.";
-                    case AuthError.UserDisabled:
-                        return "Tài khoản đã bị vô hiệu hóa.";
-                    case AuthError.NetworkRequestFailed:
-                        return "Lỗi mạng. Vui lòng kiểm tra kết nối.";
-                    default:
-                        return $"Lỗi đăng nhập: {fe.ErrorCode}";
-                }
-            }
-        }
-
-        // Trường hợp không parse được → báo chung chung
-        return "Đăng nhập thất bại. Vui lòng thử lại.";
-    }
-
     // ====================== REGISTER ======================
     public void RegisterAccountWithFirebase()
     {
@@ -217,7 +196,13 @@ public class FireBaseLoginManager : MonoBehaviour
         {
             if (registerTask.IsCanceled || registerTask.IsFaulted)
             {
-                LogToText("Đăng ký thất bại!");
+                FirebaseException firebaseEx = registerTask.Exception?.GetBaseException() as FirebaseException;
+                var errorCode = firebaseEx != null ? (AuthError)firebaseEx.ErrorCode : 0;
+
+                if (errorCode == AuthError.EmailAlreadyInUse)
+                    LogToText("Email đã được sử dụng!");
+                else
+                    LogToText("Đăng ký thất bại");
             }
             else
             {
@@ -275,8 +260,10 @@ public class FireBaseLoginManager : MonoBehaviour
         if (auth != null && auth.CurrentUser != null)
         {
             string userId = auth.CurrentUser.UserId;
-            if (conflictManager != null)
-                conflictManager.WriteDeviceStatus(userId, "deviceId", null);
+            // Xoá toàn bộ deviceStatus của user để tránh node thừa
+            FirebaseDatabase.DefaultInstance
+                .GetReference($"deviceStatus/{userId}")
+                .RemoveValueAsync();
         }
 
         var watcher = FindObjectOfType<OnlineStatusWatcher>(true);
@@ -287,7 +274,6 @@ public class FireBaseLoginManager : MonoBehaviour
         // KHÔNG ép RememberMe = 0 ở đây
         SceneManager.LoadScene("LoginTA");
     }
-
 
     // ====================== HELPER ======================
     public static string GetDeviceID()
@@ -301,8 +287,41 @@ public class FireBaseLoginManager : MonoBehaviour
         return PlayerPrefs.GetString(key);
     }
 
-    private string IsValidGoogleEmail(string email) { /* giữ nguyên validate */ return null; }
-    private string ValidatePassword(string password) { /* giữ nguyên validate */ return null; }
+    public static string GetSessionID()
+    {
+        return System.Guid.NewGuid().ToString(); // unique cho mỗi lần chạy app
+    }
+
+    private string IsValidGoogleEmail(string email)
+    {
+        if (string.IsNullOrWhiteSpace(email)) return "Email không được để trống!";
+        if (email.Contains(" ")) return "Email không được chứa dấu cách!";
+
+        string userName = email.Split('@')[0];
+        if (userName.Length < 6) return "Tên tài khoản phải có ít nhất 6 ký tự!";
+        if (userName.Length > 30) return "Tên tài khoản không được quá 30 ký tự!";
+        var emailPattern = @"^[a-zA-Z0-9_+&*-]+(?:\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\.)+[a-zA-Z]{2,7}$";
+        if (!Regex.IsMatch(email, emailPattern)) return "Địa chỉ email không hợp lệ!";
+        if (email.StartsWith(".") || email.EndsWith(".")) return "Email không được bắt đầu hoặc kết thúc bằng dấu chấm!";
+        if (email.Contains("..")) return "Email không được chứa dấu chấm liên tiếp!";
+        return null;
+    }
+
+    private string ValidatePassword(string password)
+    {
+        if (string.IsNullOrEmpty(password)) return "Mật khẩu không được để trống!";
+        if (password.Contains(" ")) return "Mật khẩu không được chứa dấu cách!";
+        if (password.Length < 8) return "Mật khẩu phải có ít nhất 8 ký tự!";
+        bool hasLetter = false, hasDigit = false;
+        foreach (char c in password)
+        {
+            if (char.IsLetter(c)) hasLetter = true;
+            else if (char.IsDigit(c)) hasDigit = true;
+        }
+        if (!hasLetter) return "Mật khẩu phải có ít nhất một chữ cái!";
+        if (!hasDigit) return "Mật khẩu phải có ít nhất một chữ số!";
+        return null;
+    }
 
     private void LogToText(string message, System.Action onComplete = null)
     {
@@ -317,6 +336,27 @@ public class FireBaseLoginManager : MonoBehaviour
         yield return new WaitForSeconds(delay);
         logText.text = "";
         onComplete?.Invoke();
+    }
+
+    private string ParseFirebaseLoginError(System.AggregateException exception)
+    {
+        var firebaseEx = exception?.GetBaseException() as FirebaseException;
+        if (firebaseEx == null) return "Lỗi đăng nhập không xác định.";
+        AuthError errorCode = (AuthError)firebaseEx.ErrorCode;
+        switch (errorCode)
+        {
+            case AuthError.InvalidEmail:
+            case AuthError.WrongPassword:
+                return "Sai tài khoản hoặc mật khẩu.";
+            case AuthError.UserNotFound:
+                return "Tài khoản của bạn chưa được đăng ký.";
+            case AuthError.UserDisabled:
+                return "Tài khoản đã bị vô hiệu hóa.";
+            case AuthError.NetworkRequestFailed:
+                return "Lỗi mạng. Vui lòng kiểm tra kết nối.";
+            default:
+                return "Lỗi đăng nhập";
+        }
     }
 
     public void SwitchForm()
@@ -343,6 +383,7 @@ public class FireBaseLoginManager : MonoBehaviour
         // Xóa cả log nếu cần
         logText.text = "";
     }
+
     // ====================== FORM FORGOT PASSWORD ======================
     public void MoveToForgotPassword()
     {
@@ -365,5 +406,4 @@ public class FireBaseLoginManager : MonoBehaviour
         if (ipLoginPassword != null) ipLoginPassword.text = "";
         if (logText != null) logText.text = "";
     }
-
 }
