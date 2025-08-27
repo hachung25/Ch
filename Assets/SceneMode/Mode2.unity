@@ -1369,6 +1369,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _Unlock: {fileID: 318810654}
+  teleportSound: {fileID: 0}
 --- !u!1001 &84518772
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -19643,6 +19644,7 @@ GameObject:
   - component: {fileID: 474053718}
   - component: {fileID: 474053720}
   - component: {fileID: 474053719}
+  - component: {fileID: 474053721}
   m_Layer: 0
   m_Name: Mapp
   m_TagString: Untagged
@@ -19896,6 +19898,19 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &474053721
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 474053716}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ac3468a5870f2104e9cca24ae34d55e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  imageSwitcher: {fileID: 0}
 --- !u!1001 &488404260
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -22557,6 +22572,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _Unlock: {fileID: 318810654}
+  teleportSound: {fileID: 0}
 --- !u!61 &825050823
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -23940,6 +23956,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _Unlock: {fileID: 318810654}
+  teleportSound: {fileID: 0}
 --- !u!1 &1038182613
 GameObject:
   m_ObjectHideFlags: 0
@@ -24649,6 +24666,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _Unlock: {fileID: 318810654}
+  teleportSound: {fileID: 0}
 --- !u!1001 &1139757791
 PrefabInstance:
   m_ObjectHideFlags: 0
