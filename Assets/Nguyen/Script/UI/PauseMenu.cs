@@ -64,15 +64,12 @@ public class PauseMenu : MonoBehaviour
         }
 
         // Gọi Dataload để load dữ liệu trước khi vào scene
-        var dataload = FindObjectOfType<Dataload>();
-        if (dataload != null)
-        {
-            dataload.LoadAllDataFromFirebase();
-        }
-        else
-        {
-            SceneManager.LoadScene("SampleScene");
-        }
+        //var dataload = FindObjectOfType<Dataload>();
+        //if (dataload != null)
+        //{
+        //    dataload.LoadAllDataFromFirebase();
+        //}
+        SceneManager.LoadScene("Lobby");
     }
 
 
