@@ -2,22 +2,16 @@
 using Firebase.Database;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using System.Collections;
 using UnityEngine.SceneManagement;
 
 public class LobbyUI : MonoBehaviour
 {
     [Header("General")]
     public int gameplayBuildIndex = 2;
-
-    [Header("Countdown Settings")]
-    [Tooltip("Thời gian đếm ngược khi host bấm Start (giây)")]
-    public int hostCountdownSeconds = 10;   // 👈 chỉnh được trong Inspector
 
     [Header("Create / Join")]
     public TMP_InputField inputJoinRoomId;
@@ -36,22 +30,6 @@ public class LobbyUI : MonoBehaviour
     public GameObject playerItemPrefab;
     public TMP_Text currentRoomLabel;
     public TMP_Text statusLabel;
-
-    [Header("Countdowns")]
-    public TMP_Text countdownLabel;               // đếm auto-delete (CanvasRoom)
-    public TMP_Text startHostCountdownLabel;      // đếm khi host bấm Start (CanvasPlayer)
-
-    [Header("Canvas chuyển đổi")]
-    public GameObject CanvasRoom;
-    public GameObject CanvasPlayer;
-
-    // State
-    private bool _expiryCountdownRunning;
-    private Coroutine _startHostCountdownRoutine;
-
-    // Firebase status listener (để client đổi UI khi host bấm Start)
-    private DatabaseReference _statusRef;
-    private EventHandler<ValueChangedEventArgs> _statusHandler;
 
     // ===== Unity =====
     async void OnEnable()
@@ -72,12 +50,6 @@ public class LobbyUI : MonoBehaviour
 
         UpdateTopBar();
         UpdateButtons();
-
-        ClearStartHostLabel();
-        ClearExpiryLabel();
-
-        _expiryCountdownRunning = false;
-        _startHostCountdownRoutine = null;
     }
 
     void OnDisable()
@@ -90,16 +62,6 @@ public class LobbyUI : MonoBehaviour
             RoomService.I.OnSceneLoadTriggered -= OnSceneLoadTriggered;
             RoomService.I.StopRoomDirectory();
         }
-
-        if (btnCreateRoom) btnCreateRoom.onClick.RemoveListener(OnClickCreateRoom);
-        if (btnJoinById) btnJoinById.onClick.RemoveListener(OnClickJoinById);
-        if (btnStartAsHost) btnStartAsHost.onClick.RemoveListener(OnClickStartAsHost);
-        if (btnDeleteRoom) btnDeleteRoom.onClick.RemoveListener(OnClickDeleteRoom);
-        if (btnLeaveRoom) btnLeaveRoom.onClick.RemoveListener(OnClickLeaveRoom);
-
-        DetachStatusListener();
-        StopExpiryCountdown();
-        StopStartHostCountdown();
     }
 
     // ===== Buttons =====
@@ -109,16 +71,9 @@ public class LobbyUI : MonoBehaviour
         {
             var id = await RoomService.I.CreateRoomAndJoin();
             statusLabel?.SetText($"Tạo phòng & vào phòng: {id}");
-            UpdateTopBar();
-            UpdateButtons();
-
-            await ForceRefreshPlayersUI(id);
-            _ = BeginCountdownByExpiry(id);
+            UpdateTopBar(); UpdateButtons();
         }
-        catch (Exception e)
-        {
-            statusLabel?.SetText($"Create failed: {e.Message}");
-        }
+        catch (Exception e) { statusLabel?.SetText($"Create failed: {e.Message}"); }
     }
 
     public async void OnClickJoinById()
@@ -130,93 +85,33 @@ public class LobbyUI : MonoBehaviour
         {
             await RoomService.I.JoinRoom(id);
             statusLabel?.SetText($"Đã vào phòng: {id}");
-            UpdateTopBar();
-            UpdateButtons();
-
-            await ForceRefreshPlayersUI(id);
-            _ = BeginCountdownByExpiry(id);
+            UpdateTopBar(); UpdateButtons();
         }
         catch (Exception e) { statusLabel?.SetText($"Join failed: {e.Message}"); }
     }
 
     // Host bấm Start
-    public async void OnClickStartAsHost()
+    public void OnClickStartAsHost()
     {
-        try
-        {
-            var roomId = RoomService.I.CurrentRoomId;
-            if (!string.IsNullOrEmpty(roomId))
-            {
-                await FirebaseDatabase.DefaultInstance
-                    .GetReference("rooms").Child(roomId).Child("status")
-                    .SetValueAsync("prestart");
-            }
-        }
-        catch { }
-
-        if (CanvasRoom) CanvasRoom.SetActive(false);
-        if (CanvasPlayer) CanvasPlayer.SetActive(true);
-
-        StopExpiryCountdown();
-        StopStartHostCountdown();
-
-        // dùng biến inspector thay vì fix 30
-        _startHostCountdownRoutine = StartCoroutine(StartHostCountdown(hostCountdownSeconds));
-    }
-
-    private IEnumerator StartHostCountdown(int seconds)
-    {
-        int remain = seconds;
-        while (remain > 0)
-        {
-            if (startHostCountdownLabel)
-                startHostCountdownLabel.SetText($"Game will start in {remain}s");
-
-            yield return new WaitForSeconds(1f);
-            remain--;
-        }
-
-        ClearStartHostLabel();
-        _startHostCountdownRoutine = null;
-
-        _ = HostStartGame();
+        _ = HostStartGame(); // chạy game ngay, không countdown, không Canvas switch
     }
 
     private async Task HostStartGame()
     {
         try
         {
-            int selectedIndex = PlayerPrefs.GetInt("SelectedCharacterIndex", 0);
-            Debug.Log("Game starting, my character index = " + selectedIndex);
-
             await RoomService.I.HostTriggerStart(gameplayBuildIndex);
             statusLabel?.SetText("Game Started!");
         }
-        catch (Exception e)
-        {
-            statusLabel?.SetText($"Start failed: {e.Message}");
-        }
+        catch (Exception e) { statusLabel?.SetText($"Start failed: {e.Message}"); }
     }
 
     public async void OnClickDeleteRoom()
     {
-        try
-        {
-            await RoomService.I.DeleteRoom();
-            statusLabel?.SetText("Đã xoá phòng.");
-        }
-        catch (Exception e)
-        {
-            statusLabel?.SetText($"Delete failed: {e.Message}");
-        }
+        try { await RoomService.I.DeleteRoom(); statusLabel?.SetText("Đã xoá phòng."); }
+        catch (Exception e) { statusLabel?.SetText($"Delete failed: {e.Message}"); }
 
-        DetachStatusListener();
-        ClearPlayerList();
-        UpdateTopBar();
-        UpdateButtons();
-
-        StopExpiryCountdown();
-        StopStartHostCountdown();
+        UpdateTopBar(); UpdateButtons();
     }
 
     public async void OnClickLeaveRoom()
@@ -224,13 +119,7 @@ public class LobbyUI : MonoBehaviour
         try { await RoomService.I.LeaveRoom(); statusLabel?.SetText("Đã rời phòng."); }
         catch (Exception e) { statusLabel?.SetText($"Leave failed: {e.Message}"); }
 
-        DetachStatusListener();
-        ClearPlayerList();
-        UpdateTopBar();
-        UpdateButtons();
-
-        StopExpiryCountdown();
-        StopStartHostCountdown();
+        UpdateTopBar(); UpdateButtons();
     }
 
     // ===== Event handlers =====
@@ -250,39 +139,19 @@ public class LobbyUI : MonoBehaviour
             {
                 await RoomService.I.JoinRoom(id);
                 statusLabel?.SetText($"Đã vào phòng: {id}");
-                UpdateTopBar();
-                UpdateButtons();
-                await ForceRefreshPlayersUI(id);
-                _ = BeginCountdownByExpiry(id);
+                UpdateTopBar(); UpdateButtons();
             });
         }
     }
 
     void OnPlayersChanged(string roomId, Dictionary<string, PlayerInfo> players)
     {
-        if (string.IsNullOrEmpty(roomId) || players.Count == 0)
-        {
-            statusLabel?.SetText("Phòng đã bị xoá hoặc trống.");
-            DetachStatusListener();
-            ClearPlayerList();
-            UpdateTopBar();
-            UpdateButtons();
-            StopExpiryCountdown();
-            StopStartHostCountdown();
-            return;
-        }
-
-        if (roomId != RoomService.I.CurrentRoomId) return;
+        if (string.IsNullOrEmpty(roomId)) return;
         if (!playerListRoot || !playerItemPrefab) return;
 
-        ClearPlayerList();
+        foreach (Transform c in playerListRoot) Destroy(c.gameObject);
 
-        var list = players?.ToList() ?? new List<KeyValuePair<string, PlayerInfo>>();
-        list = list.OrderByDescending(kv => kv.Value.isHost)
-                   .ThenBy(kv => kv.Value.joinedAt)
-                   .ToList();
-
-        foreach (var kv in list)
+        foreach (var kv in players)
         {
             var go = Instantiate(playerItemPrefab, playerListRoot);
             var ui = go.GetComponent<PlayerListItemUI>() ?? go.AddComponent<PlayerListItemUI>();
@@ -297,17 +166,11 @@ public class LobbyUI : MonoBehaviour
     void OnHostChanged(string newHostUid)
     {
         UpdateButtons();
-        _ = BeginCountdownByExpiry(RoomService.I.CurrentRoomId);
     }
 
-    void OnSceneLoadTriggered(int sceneIndex, string roundId)
+    void OnSceneLoadTriggered(int buildIndex, string roundId)
     {
-        Debug.Log($"[LobbyUI] SceneLoadTriggered {sceneIndex}, round {roundId}");
-
-        if (CanvasRoom) CanvasRoom.SetActive(false);
-        if (CanvasPlayer) CanvasPlayer.SetActive(false);
-
-        SceneManager.LoadScene(sceneIndex);
+        SceneManager.LoadScene(buildIndex);
     }
 
     // ===== Helpers =====
@@ -317,18 +180,11 @@ public class LobbyUI : MonoBehaviour
         currentRoomLabel?.SetText(string.IsNullOrEmpty(id) ? "Room: (none)" : $"Room: {id}");
     }
 
-    void ClearPlayerList()
-    {
-        if (!playerListRoot) return;
-        foreach (Transform c in playerListRoot) Destroy(c.gameObject);
-    }
-
     void UpdateButtons()
     {
         bool inRoom = !string.IsNullOrEmpty(RoomService.I.CurrentRoomId);
         string myUid = FirebaseAuth.DefaultInstance.CurrentUser?.UserId;
-        bool isHost = inRoom && !string.IsNullOrEmpty(RoomService.I.LastKnownHostUid) &&
-                      RoomService.I.LastKnownHostUid == myUid;
+        bool isHost = inRoom && RoomService.I.LastKnownHostUid == myUid;
 
         if (btnCreateRoom) btnCreateRoom.gameObject.SetActive(!inRoom);
         if (btnJoinById) btnJoinById.gameObject.SetActive(!inRoom);
@@ -336,94 +192,6 @@ public class LobbyUI : MonoBehaviour
         if (btnStartAsHost) btnStartAsHost.gameObject.SetActive(inRoom && isHost);
         if (btnDeleteRoom) btnDeleteRoom.gameObject.SetActive(inRoom && isHost);
         if (btnLeaveRoom) btnLeaveRoom.gameObject.SetActive(inRoom);
-
-        if (!isHost) StopExpiryCountdown();
-    }
-
-    async Task ForceRefreshPlayersUI(string roomId)
-    {
-        try
-        {
-            var playersSnap = await FirebaseDatabase.DefaultInstance
-                .GetReference("rooms").Child(roomId).Child("players").GetValueAsync();
-
-            var dict = new Dictionary<string, PlayerInfo>();
-            foreach (var ch in playersSnap.Children)
-            {
-                var json = ch.GetRawJsonValue();
-                if (!string.IsNullOrEmpty(json))
-                    dict[ch.Key] = JsonUtility.FromJson<PlayerInfo>(json);
-            }
-            OnPlayersChanged(roomId, dict);
-
-            AttachStatusListener(roomId);
-        }
-        catch { }
-    }
-
-    async Task BeginCountdownByExpiry(string roomId)
-    {
-        if (string.IsNullOrEmpty(roomId)) { StopExpiryCountdown(); return; }
-
-        bool isHost = RoomService.I.LastKnownHostUid == FirebaseAuth.DefaultInstance.CurrentUser?.UserId;
-        if (!isHost) { StopExpiryCountdown(); return; }
-
-        var snap = await FirebaseDatabase.DefaultInstance
-            .GetReference("rooms").Child(roomId).Child("expiryAt").GetValueAsync();
-        if (!snap.Exists) { StopExpiryCountdown(); return; }
-
-        long expiryAt = 0; long.TryParse(snap.Value.ToString(), out expiryAt);
-        if (expiryAt <= 0) { StopExpiryCountdown(); return; }
-
-        _expiryCountdownRunning = true;
-
-        while (_expiryCountdownRunning)
-        {
-            isHost = RoomService.I.LastKnownHostUid == FirebaseAuth.DefaultInstance.CurrentUser?.UserId;
-            if (!isHost) { StopExpiryCountdown(); break; }
-
-            long now = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
-            long remain = expiryAt - now;
-            if (remain <= 0)
-            {
-                StopExpiryCountdown();
-                break;
-            }
-
-            if (countdownLabel)
-            {
-                int m = (int)(remain / 1000) / 60;
-                int s = (int)(remain / 1000) % 60;
-                countdownLabel.SetText($"Auto delete in {m:D2}:{s:D2}");
-            }
-            await Task.Delay(1000);
-        }
-    }
-
-    void StopExpiryCountdown()
-    {
-        _expiryCountdownRunning = false;
-        ClearExpiryLabel();
-    }
-
-    void ClearExpiryLabel()
-    {
-        if (countdownLabel) countdownLabel.SetText("");
-    }
-
-    void StopStartHostCountdown()
-    {
-        if (_startHostCountdownRoutine != null)
-        {
-            StopCoroutine(_startHostCountdownRoutine);
-            _startHostCountdownRoutine = null;
-        }
-        ClearStartHostLabel();
-    }
-
-    void ClearStartHostLabel()
-    {
-        if (startHostCountdownLabel) startHostCountdownLabel.SetText("");
     }
 
     static async Task CleanupZombieRooms()
@@ -450,39 +218,5 @@ public class LobbyUI : MonoBehaviour
             }
         }
         catch { }
-    }
-
-    void AttachStatusListener(string roomId)
-    {
-        DetachStatusListener();
-        if (string.IsNullOrEmpty(roomId)) return;
-
-        _statusRef = FirebaseDatabase.DefaultInstance
-            .GetReference("rooms").Child(roomId).Child("status");
-
-        _statusHandler = (s, e) =>
-        {
-            var val = e.Snapshot?.Value?.ToString();
-            if (!string.IsNullOrEmpty(val))
-            {
-                Debug.Log("[LobbyUI] room status = " + val);
-                if (val == "prestart")
-                {
-                    if (CanvasRoom) CanvasRoom.SetActive(false);
-                    if (CanvasPlayer) CanvasPlayer.SetActive(true);
-                }
-            }
-        };
-        _statusRef.ValueChanged += _statusHandler;
-    }
-
-    void DetachStatusListener()
-    {
-        if (_statusRef != null && _statusHandler != null)
-        {
-            _statusRef.ValueChanged -= _statusHandler;
-            _statusHandler = null;
-            _statusRef = null;
-        }
     }
 }
