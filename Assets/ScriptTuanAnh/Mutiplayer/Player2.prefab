@@ -1927,11 +1927,10 @@ GameObject:
   - component: {fileID: 3835177179129836856}
   - component: {fileID: 7291662996809259922}
   - component: {fileID: 2675598074069683692}
-  - component: {fileID: 5944748434555411810}
-  - component: {fileID: 2415769429635278127}
   - component: {fileID: 6261762628063946521}
   - component: {fileID: 5224885070367640854}
   - component: {fileID: -7360999109928711857}
+  - component: {fileID: 5678601203303164512}
   m_Layer: 0
   m_Name: Player2
   m_TagString: Untagged
@@ -2131,11 +2130,10 @@ MonoBehaviour:
   - {fileID: 1155256079894632144}
   - {fileID: 2316295677882166761}
   - {fileID: 2675598074069683692}
-  - {fileID: 5944748434555411810}
-  - {fileID: 2415769429635278127}
   - {fileID: 6261762628063946521}
   - {fileID: 5224885070367640854}
   - {fileID: -7360999109928711857}
+  - {fileID: 5678601203303164512}
   ForceRemoteRenderTimeframe: 0
 --- !u!61 &7291662996809259922
 BoxCollider2D:
@@ -2200,37 +2198,6 @@ MonoBehaviour:
   SyncParent: 0
   _autoAOIOverride: 1
   DisableSharedModeInterpolation: 1
---- !u!114 &5944748434555411810
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8440956860131690837}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 211d242d3467fae4e8db17c55dfff239, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  moveSpeed: 5
-  jumpForce: 8
-  groundCheck: {fileID: 724382653320573758}
-  groundCheckRadius: 0.2
-  groundLayer:
-    serializedVersion: 2
-    m_Bits: 64
---- !u!114 &2415769429635278127
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8440956860131690837}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7d80f7e67465eb0448accf0fc44036f7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &6261762628063946521
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2273,6 +2240,25 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   followTarget: {fileID: 0}
   localAudio: {fileID: 0}
+--- !u!114 &5678601203303164512
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8440956860131690837}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6c714607edd19414283b48dc9873c4eb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveSpeed: 5
+  jumpForce: 8
+  groundCheck: {fileID: 0}
+  groundCheckRadius: 0.2
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!1 &8598553272172993883
 GameObject:
   m_ObjectHideFlags: 0
