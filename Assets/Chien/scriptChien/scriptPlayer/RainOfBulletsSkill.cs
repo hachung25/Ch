@@ -3,71 +3,97 @@ using UnityEngine;
 
 public class RainOfBulletsSkill : MonoBehaviour
 {
-    private const string PrefKey = "RainSkillUnlocked";
+    // 🔑 Key PlayerPrefs duy nhất cho skill
+    public const string PrefKey = "RainSkillUnlocked";
 
     [Header("Unlock State")]
-    [Tooltip("Sẽ bị override bởi PlayerPrefs vào Awake()")]
     public bool isUnlocked = false;
+
+    [Header("Reset / New Game")]
+    public bool lockOnGameStart = false;
 
     [Header("Key & Cooldown")]
     public KeyCode castKey = KeyCode.K;
     public float cooldownSeconds = 10f;
 
     [Header("Projectile")]
-    public BulletRainProjectile projectilePrefab; // kéo prefab đạn vào đây
+    public BulletRainProjectile projectilePrefab;
 
-    [Tooltip("Số đạn ngẫu nhiên: [min, max]")]
     [Min(1)] public int minProjectiles = 1;
     [Min(1)] public int maxProjectiles = 20;
 
     [Header("Spawn Area / Pattern")]
-    [Tooltip("Bật để rải phủ toàn bề ngang camera; tắt để rải quanh player")]
     public bool coverWholeCameraWidth = false;
-
-    [Tooltip("Độ cao spawn so với player hoặc mép trên camera")]
     public float spawnHeight = 10f;
-
-    [Tooltip("Biên độ ngang quanh player (khi không phủ camera)")]
     public float horizontalRange = 10f;
-
-    [Tooltip("Rung ngẫu nhiên theo trục Y để mỗi viên đạn không cùng 1 đường thẳng")]
     public float yJitter = 1.5f;
 
-    [Header("Timing (mỗi viên spawn lệch nhau)")]
-    [Tooltip("Khoảng delay tối thiểu giữa 2 viên")]
+    [Header("Timing")]
     public float perBulletDelayMin = 0.03f;
-    [Tooltip("Khoảng delay tối đa giữa 2 viên")]
     public float perBulletDelayMax = 0.15f;
 
     private float nextReadyTime;
     private Camera cam;
-    private bool spawning; // tránh chồng coroutine (không bắt buộc vì đã có cooldown)
+    private bool spawning;
 
     void Awake()
     {
         cam = Camera.main;
-        // Đọc trạng thái mở khóa đã lưu (vĩnh viễn qua scene & lần chạy)
-        isUnlocked = PlayerPrefs.GetInt(PrefKey, 0) == 1;
+
+        if (lockOnGameStart)
+            Lock();
+
+        LoadState();
     }
 
     void OnEnable()
     {
-        // Phòng trường hợp Player được tái tạo sau khi Unlock đã lưu
+        LoadState();
+    }
+
+    private void LoadState()
+    {
         isUnlocked = PlayerPrefs.GetInt(PrefKey, 0) == 1;
     }
 
     void Update()
     {
-        if (!isUnlocked) return;                 // chưa mở thì phím không có tác dụng
+        if (!isUnlocked) return;
         if (Input.GetKeyDown(castKey)) TryCast();
     }
 
+    // ==== API ====
     public void Unlock()
     {
         isUnlocked = true;
         PlayerPrefs.SetInt(PrefKey, 1);
         PlayerPrefs.Save();
-        Debug.Log("Rain of Bullets skill unlocked (persisted)!");
+        Debug.Log("RainSkill unlocked!");
+    }
+
+    public void Lock()
+    {
+        isUnlocked = false;
+        PlayerPrefs.DeleteKey(PrefKey);
+        PlayerPrefs.Save();
+        Debug.Log("RainSkill locked!");
+    }
+
+    public static void ResetPersisted()
+    {
+        PlayerPrefs.DeleteKey(PrefKey);
+        PlayerPrefs.Save();
+        Debug.Log("RainSkill reset by New Game.");
+
+        var skill = FindObjectOfType<RainOfBulletsSkill>();
+        if (skill != null) skill.isUnlocked = false;
+    }
+
+    public static void ClearAllData()
+    {
+        PlayerPrefs.DeleteAll();
+        PlayerPrefs.Save();
+        Debug.Log("All PlayerPrefs cleared!");
     }
 
     public float CooldownRemaining() => Mathf.Max(0f, nextReadyTime - Time.time);
@@ -78,7 +104,6 @@ public class RainOfBulletsSkill : MonoBehaviour
         if (!projectilePrefab) return;
         if (spawning) return;
 
-        // đặt cooldown ngay khi kích hoạt
         nextReadyTime = Time.time + cooldownSeconds;
         StartCoroutine(SpawnRainRoutine());
     }
@@ -87,19 +112,13 @@ public class RainOfBulletsSkill : MonoBehaviour
     {
         spawning = true;
 
-        // đảm bảo tham số hợp lệ
         if (maxProjectiles < minProjectiles)
-        {
-            int t = maxProjectiles; maxProjectiles = minProjectiles; minProjectiles = t;
-        }
+            (minProjectiles, maxProjectiles) = (maxProjectiles, minProjectiles);
+
         if (perBulletDelayMax < perBulletDelayMin)
-        {
-            float t = perBulletDelayMax; perBulletDelayMax = perBulletDelayMin; perBulletDelayMin = t;
-        }
+            (perBulletDelayMin, perBulletDelayMax) = (perBulletDelayMax, perBulletDelayMin);
 
         int count = Random.Range(minProjectiles, maxProjectiles + 1);
-
-        // Tính vùng spawn theo chế độ
         float xMin, xMax, ySpawn;
         if (coverWholeCameraWidth && cam && cam.orthographic)
         {
@@ -119,10 +138,9 @@ public class RainOfBulletsSkill : MonoBehaviour
         for (int i = 0; i < count; i++)
         {
             float x = Random.Range(xMin, xMax);
-            float y = ySpawn + Random.Range(-yJitter, yJitter); // lệch nhẹ theo Y
+            float y = ySpawn + Random.Range(-yJitter, yJitter);
             Instantiate(projectilePrefab, new Vector3(x, y, 0f), Quaternion.identity);
 
-            // delay ngẫu nhiên giữa các viên
             float wait = Random.Range(perBulletDelayMin, perBulletDelayMax);
             yield return new WaitForSeconds(wait);
         }

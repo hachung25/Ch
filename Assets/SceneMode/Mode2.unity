@@ -19846,7 +19846,8 @@ MonoBehaviour:
   GemWave: 0
   rainSkill: {fileID: 0}
   unlockMapIndex: 1
-  winClip: {fileID: 0}
+  unlockBanner: {fileID: 0}
+  winClip: {fileID: 8300000, guid: 5df9b11000a0d714ca450edc6c5019f0, type: 3}
   winVolume: 1
   mixerReference: {fileID: 0}
 --- !u!114 &474053719

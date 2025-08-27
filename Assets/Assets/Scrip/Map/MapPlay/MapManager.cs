@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using Firebase.Auth; // vẫn giữ nếu bạn dùng UnlockMode ở map cuối
+using Firebase.Auth;
 
 public class MapManager : MonoBehaviour
 {
@@ -27,23 +27,16 @@ public class MapManager : MonoBehaviour
     public int GoldWave = 0;
     public int GemWave = 0;
 
-    [Header("Skill Unlock")]
+    [Header("Skill Unlock (Rain of Bullets)")]
     public RainOfBulletsSkill rainSkill;
     [Tooltip("0 = Map 1, 1 = Map 2, 2 = Map 3 ...")]
-    public int unlockMapIndex = 1;     // Map 2
-    private bool rainUnlockedFired = false; // chặn double-call trong phiên
+    public int unlockMapIndex = 1; // Map 2
+    private bool rainUnlockedFired = false; // chặn gọi lặp trong 1 lần clear
 
-    // ===== Persist (local only)
-    private const string RAIN_SKILL_KEY = "rain_skill_unlocked";
-    private const string RAIN_BANNER_KEY = "rain_skill_banner_shown";
-    private bool rainUnlockedPersistent = false;
-    private bool rainBannerShownPersistent = false;
+    [Header("Unlock UI Banner (Skill)")]
+    public TbUnlockSkill unlockBanner; // banner mở khoá Mưa Đạn
 
-    [Header("Unlock UI Banner")]
-    public TbUnlockSkill unlockBanner; // kéo object UI có TbUnlockSkill
-
-    // === Âm thanh thắng cuộc ===
-    [Header("Win Audio")]
+    [Header("Win Audio (last map)")]
     public AudioClip winClip;
     [Range(0f, 1f)] public float winVolume = 1f;
     public AudioSource mixerReference;
@@ -55,10 +48,13 @@ public class MapManager : MonoBehaviour
     private int currentWaveIndex = 0;
     private bool coinAbsorbed = false;
 
-    // ===================== LIFECYCLE =====================
     void Start()
     {
-        LoadRainFlags();
+        // Tắt mọi teleport box khi vào scene để tránh banner “Unlock Map” bật sớm
+        foreach (var m in maps)
+            if (m.teleportBox) m.teleportBox.SetActive(false);
+
+        // Nếu skill đã mở từ trước (theo PlayerPrefs của chính skill) thì bật component
         EnsureRainSkillIfUnlocked();
         SpawnWave(currentWaveIndex);
     }
@@ -71,27 +67,31 @@ public class MapManager : MonoBehaviour
     void Update()
     {
         if (currentMapIndex >= maps.Count) return;
-
         var currentMap = maps[currentMapIndex];
 
+        // Đã clear hết wave trong map hiện tại
         if (currentWaveIndex >= currentMap.waves.Count)
         {
+            // Bật teleporter và show banner “Unlock Map” đúng lúc clear map
             if (currentMap.teleportBox && !currentMap.teleportBox.activeSelf)
+            {
                 currentMap.teleportBox.SetActive(true);
+                var tp = currentMap.teleportBox.GetComponent<TeleportBox>();
+                if (tp != null) tp.ShowUnlockBannerSafely();
+            }
 
-            // !!! Chỉ chạy 1 lần khi vừa clear map
+            // Xử lý mở Mưa Đạn khi vừa clear Map 2 (chỉ 1 lần ở khoảnh khắc này)
+            if (!coinAbsorbed && currentMapIndex == unlockMapIndex)
+            {
+                HandleRainUnlockOnce();
+            }
+
             if (!coinAbsorbed)
             {
                 coinAbsorbed = true;
-
-                // Mở khoá skill tại map 2 (one-shot)
-                if (currentMapIndex == unlockMapIndex)
-                    HandleRainUnlockOnce();
-
-                // Hút coin
                 Invoke(nameof(AttractCoinsToPlayer), 0.2f);
 
-                // Map cuối: win sound + UI
+                // Map cuối: thưởng + nhạc win + UI
                 if (currentMapIndex == maps.Count - 1)
                 {
                     GemWave = 15;
@@ -99,6 +99,7 @@ public class MapManager : MonoBehaviour
 
                     PlayWinSoundUntilSceneChange();
 
+                    // Backend khác của bạn (không liên quan skill)
                     FindObjectOfType<FireBaseDataBaseManager>()?.UnlockMode(FirebaseAuth.DefaultInstance.CurrentUser.UserId);
                     if (panelWin) panelWin.SetActive(true);
                     if (VFXWin) VFXWin.SetActive(true);
@@ -121,7 +122,6 @@ public class MapManager : MonoBehaviour
     private void SpawnWave(int waveIndex)
     {
         if (currentMapIndex >= maps.Count) return;
-
         var currentMap = maps[currentMapIndex];
         if (waveIndex >= currentMap.waves.Count) return;
 
@@ -155,76 +155,47 @@ public class MapManager : MonoBehaviour
             coin.ActivateMagnet(player);
     }
 
-    // ===================== RAIN PERSIST =====================
-    private void LoadRainFlags()
-    {
-        rainUnlockedPersistent = PlayerPrefs.GetInt(RAIN_SKILL_KEY, 0) == 1;
-        rainBannerShownPersistent = PlayerPrefs.GetInt(RAIN_BANNER_KEY, 0) == 1;
-    }
-
-    private void SaveRainUnlocked()
-    {
-        PlayerPrefs.SetInt(RAIN_SKILL_KEY, 1);
-        PlayerPrefs.Save();
-        rainUnlockedPersistent = true;
-    }
-
-    private void MarkBannerShown()
-    {
-        PlayerPrefs.SetInt(RAIN_BANNER_KEY, 1);
-        PlayerPrefs.Save();
-        rainBannerShownPersistent = true;
-    }
-
+    // ===== Skill helpers =====
     private void EnsureRainSkillIfUnlocked()
     {
-        if (rainUnlockedPersistent && rainSkill != null)
-        {
+        if (rainSkill != null && rainSkill.isUnlocked)
             rainSkill.enabled = true;
-            // nếu skill cần áp trạng thái, gọi thêm API của bạn tại đây
-            // ví dụ: rainSkill.ApplyUnlockedState();
-        }
     }
 
     /// <summary>
-    /// Chỉ chạy 1 lần ngay khoảnh khắc clear map 2.
-    /// Nếu đã mở vĩnh viễn -> chỉ bật skill, KHÔNG hiện banner.
-    /// Nếu chưa mở -> mở + lưu + hiện banner (chỉ lần đầu).
+    /// Chỉ chạy 1 lần khi clear Map 2 trong lần chơi hiện tại.
+    /// Nếu skill CHƯA mở ở thời điểm này -> tiến hành mở & bật banner.
+    /// Nếu đã mở sẵn -> chỉ bật skill, KHÔNG bật banner.
     /// </summary>
     private void HandleRainUnlockOnce()
     {
-        // nếu đã mở từ trước -> đảm bảo bật skill, không hiện banner
-        if (rainUnlockedPersistent)
-        {
-            EnsureRainSkillIfUnlocked();
-            return;
-        }
-
-        // chặn double-call trong phiên (phòng trường hợp call lại do logic khác)
         if (rainUnlockedFired) return;
         rainUnlockedFired = true;
 
-        // mở lần đầu
-        if (rainSkill != null)
+        if (rainSkill == null) return;
+
+        bool wasUnlocked = rainSkill.isUnlocked; // đọc trạng thái trước khi unlock
+
+        if (!wasUnlocked)
         {
-            rainSkill.Unlock();      // nếu bạn có logic nội bộ
+            // LẦN ĐẦU mở thật sự: unlock + enable + hiện banner
+            rainSkill.Unlock();      // tự lưu PlayerPrefs trong skill
             rainSkill.enabled = true;
-        }
 
-        SaveRainUnlocked();
-
-        // Hiện banner lần đầu (set flag trước để không bị lặp trong cùng frame)
-        if (!rainBannerShownPersistent)
-        {
-            MarkBannerShown();
             if (unlockBanner != null) unlockBanner.showTb();
             else FindObjectOfType<TbUnlockSkill>()?.showTb();
-        }
 
-        Debug.Log("[MapManager] RainOfBullets unlocked (first time).");
+            Debug.Log("[MapManager] RainOfBullets unlocked (FIRST TIME) -> show banner.");
+        }
+        else
+        {
+            // Đã mở từ trước (ví dụ load save cũ): chỉ bật component
+            rainSkill.enabled = true;
+            Debug.Log("[MapManager] RainOfBullets already unlocked -> NO banner.");
+        }
     }
 
-    // ===================== WIN SOUND =====================
+    // ===== Win Sound (last map) =====
     private void PlayWinSoundUntilSceneChange()
     {
         if (winSoundPlayed || winClip == null) return;
