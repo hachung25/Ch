@@ -8,4 +8,9 @@ public class PanelOnOFF : MonoBehaviour
     {
         panel.SetActive(true);
     }
+
+    public void HidePanel()
+    {
+        panel.SetActive(false);
+    }
 }

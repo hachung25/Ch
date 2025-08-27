@@ -1,25 +1,87 @@
 ﻿using UnityEngine;
 using Fusion;
 using System.Collections;
+using System.Linq;
 
 public class PlayerHealth2 : NetworkBehaviour, IDamageable
 {
-    private int currentHP;
+    // ===== HP =====
+    [SerializeField] private int currentHP;
     public int maxHP = 100;
 
+    // ===== UI & Animator =====
     private PlayerHealthUI2 healthUI;
     private Animator animator;
+    [Header("Health UI Root (optional)")]
+    public GameObject healthUIRoot; // <-- GÁN GAMEOBJECT UI THANH MÁU RIÊNG Ở ĐÂY
+
+    // ===== Respawn / Death Flow =====
+    [Header("Respawn Settings")]
+    public Transform respawnPoint;         // Kéo vị trí hồi sinh vào Inspector
+    public float respawnDelay = 3f;        // Thời gian chờ hồi sinh (3s)
+
+    [Header("Death Animation")]
+    public string dieStateName = "Die";    // Tên state animation chết
+    public int dieLayer = 0;               // Layer chứa state chết
+    [Range(0f, 1f)] public float hideAtNormalized = 0.95f; // Ẩn khi anim gần xong
+    public bool respawnAfterAnim = true;   // true: đếm respawn SAU khi anim die xong
+    public float deathAnimStateTimeout = 2f;   // timeout chờ vào state "Die"
+    public float deathAnimFinishTimeout = 5f;  // timeout chờ anim chạy gần hết
+
+    // ===== Caches =====
+    private Renderer[] renderers;
+    private Collider2D[] colliders2D;
+    private Collider[] colliders3D;
+    private Rigidbody2D rb2D;
+    private Rigidbody rb3D;
+    private MonoBehaviour[] movementScripts;
 
     public override void Spawned()
     {
         if (HasStateAuthority)
             currentHP = maxHP;
 
-        healthUI = GetComponentInChildren<PlayerHealthUI2>();
+        healthUI = GetComponentInChildren<PlayerHealthUI2>(true);
         animator = GetComponentInChildren<Animator>();
 
+        // Fallback: nếu chưa gán healthUIRoot, dùng object chứa PlayerHealthUI2
+        if (healthUIRoot == null && healthUI != null)
+            healthUIRoot = healthUI.gameObject;
+
+        renderers = GetComponentsInChildren<Renderer>(includeInactive: true);
+        colliders2D = GetComponentsInChildren<Collider2D>(includeInactive: true);
+        colliders3D = GetComponentsInChildren<Collider>(includeInactive: true);
+        rb2D = GetComponentInChildren<Rigidbody2D>();
+        rb3D = GetComponentInChildren<Rigidbody>();
+
+        movementScripts = GetComponentsInChildren<MonoBehaviour>(true)
+            .Where(m => m != null && (
+                m.GetType().Name.Contains("Movement") ||
+                m.GetType().Name.Contains("Controller") ||
+                m.GetType().Name.Contains("Input")
+            )).ToArray();
+
         if (HasStateAuthority)
-            RPC_UpdateHealthUI(currentHP, maxHP); // Gửi máu ban đầu
+            RPC_UpdateHealthUI(currentHP, maxHP);
+    }
+
+    private void Update()
+    {
+        // Nút test chết: phím K
+        if (HasStateAuthority && Input.GetKeyDown(KeyCode.K))
+        {
+            Debug.Log("⚡ TEST DIE pressed");
+            TakeDamage(currentHP);
+        }
+    }
+
+    // ===== Damage Flow =====
+    public void TakeDamage(int amount)
+    {
+        if (HasStateAuthority)
+            ApplyDamage(amount);
+        else
+            RPC_ApplyDamage(amount);
     }
 
     public void ApplyDamage(int amount)
@@ -29,7 +91,6 @@ public class PlayerHealth2 : NetworkBehaviour, IDamageable
         currentHP = Mathf.Max(0, currentHP - amount);
         Debug.Log($"💔 Máu còn lại: {currentHP}");
 
-        // Đồng bộ UI máu cho tất cả client
         RPC_UpdateHealthUI(currentHP, maxHP);
 
         if (currentHP <= 0)
@@ -40,49 +101,149 @@ public class PlayerHealth2 : NetworkBehaviour, IDamageable
     }
 
     [Rpc(RpcSources.All, RpcTargets.StateAuthority)]
-    public void RPC_ApplyDamage(int amount)
-    {
-        ApplyDamage(amount);
-    }
+    public void RPC_ApplyDamage(int amount) => ApplyDamage(amount);
 
     [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
     private void RPC_UpdateHealthUI(int hp, int maxHp)
     {
         currentHP = hp;
         maxHP = maxHp;
-        UpdateHealthUI(force: true);
-    }
-
-    [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
-    private void RPC_HandleDeath()
-    {
-        Debug.Log("🔁 RPC_HandleDeath gọi!");
-
-        if (animator != null)
-            animator.SetBool("isDead", true); // Animation chết
-
-        StartCoroutine(WaitAndDestroyAfterDeath());
-    }
-
-    private IEnumerator WaitAndDestroyAfterDeath()
-    {
-        yield return new WaitForSeconds(2f);
-
-        if (HasStateAuthority)
-            Runner.Despawn(Object);
-    }
-
-    private void UpdateHealthUI(bool force = false)
-    {
         if (healthUI != null)
             healthUI.SetHealth(currentHP, maxHP);
     }
 
-    public void TakeDamage(int amount)
+    // ===== Death / Respawn =====
+    [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
+    private void RPC_HandleDeath()
     {
-        if (HasStateAuthority)
-            ApplyDamage(amount);
+        Debug.Log("🔁 RPC_HandleDeath gọi!");
+        SetActiveGameplay(false);
+
+        if (animator != null)
+            StartCoroutine(IE_DeathFlow());
         else
-            RPC_ApplyDamage(amount);
+            StartCoroutine(IE_RespawnOnly());
+    }
+
+    private IEnumerator IE_DeathFlow()
+    {
+        // 1) Bật anim Die ngay
+        animator.SetBool("isDead", true);
+        animator.CrossFade(dieStateName, 0.05f, dieLayer, 0f);
+        yield return null;
+
+        // 2) Chờ VÀO state "Die" (có timeout để không kẹt)
+        float t = 0f;
+        var info = animator.GetCurrentAnimatorStateInfo(dieLayer);
+        while (!info.IsName(dieStateName) && t < deathAnimStateTimeout)
+        {
+            yield return null;
+            info = animator.GetCurrentAnimatorStateInfo(dieLayer);
+            t += Time.deltaTime;
+        }
+        if (!info.IsName(dieStateName))
+            Debug.LogWarning($"[DeathFlow] Không vào được state '{dieStateName}' trong {deathAnimStateTimeout}s — vẫn tiếp tục flow.");
+
+        // 3) Nếu đã vào state "Die", chờ tới khi gần hết (có timeout an toàn)
+        t = 0f;
+        while (info.IsName(dieStateName) && info.normalizedTime < hideAtNormalized && t < deathAnimFinishTimeout)
+        {
+            yield return null;
+            info = animator.GetCurrentAnimatorStateInfo(dieLayer);
+            t += Time.deltaTime;
+        }
+        if (t >= deathAnimFinishTimeout)
+            Debug.LogWarning($"[DeathFlow] Anim '{dieStateName}' không đạt normalized {hideAtNormalized} trong {deathAnimFinishTimeout}s — vẫn tiếp tục.");
+
+        // 4) Ẩn model + Ẩn UI máu (qua healthUIRoot)
+        SetVisible(false);
+        SetHealthUIVisible(false);
+
+        // 5) Chờ respawn
+        if (respawnAfterAnim)
+        {
+            yield return new WaitForSeconds(respawnDelay);
+            DoRespawn();
+        }
+    }
+
+    private IEnumerator IE_RespawnOnly()
+    {
+        // Không có animator: vẫn ẩn UI trong thời gian chờ
+        SetHealthUIVisible(false);
+        yield return new WaitForSeconds(respawnDelay);
+        SetVisible(false);
+        DoRespawn();
+    }
+
+    private void DoRespawn()
+    {
+        // a) HP & UI: StateAuthority set và sync
+        if (HasStateAuthority)
+        {
+            currentHP = maxHP;
+            RPC_UpdateHealthUI(currentHP, maxHP);
+        }
+
+        // b) Đặt lại vị trí
+        if (HasStateAuthority && respawnPoint != null)
+            transform.position = respawnPoint.position;
+
+        // c) Reset animator để không kẹt
+        ResetAnimator();
+
+        // d) Hiện lại model + UI máu + mở gameplay
+        SetVisible(true);
+        SetHealthUIVisible(true);
+        SetActiveGameplay(true);
+
+        Debug.Log("🌱 Player đã hồi sinh!");
+    }
+
+    private void ResetAnimator()
+    {
+        if (animator == null) return;
+
+        animator.SetBool("isDead", false);
+        animator.ResetTrigger("Die"); // nếu có dùng trigger
+        animator.Rebind();
+        animator.Update(0f);
+    }
+
+    // ===== Helpers =====
+    private void SetVisible(bool visible)
+    {
+        if (renderers == null) return;
+        foreach (var r in renderers)
+            if (r) r.enabled = visible;
+    }
+
+    private void SetHealthUIVisible(bool visible)
+    {
+        // Ưu tiên dùng root do bạn gán; nếu chưa gán thì fallback qua component
+        if (healthUIRoot != null)
+            healthUIRoot.SetActive(visible);
+        else if (healthUI != null && healthUI.gameObject != null)
+            healthUI.gameObject.SetActive(visible);
+    }
+
+    private void SetActiveGameplay(bool enable)
+    {
+        if (colliders2D != null) foreach (var c in colliders2D) if (c) c.enabled = enable;
+        if (colliders3D != null) foreach (var c in colliders3D) if (c) c.enabled = enable;
+
+        if (rb2D)
+        {
+            if (!enable) { rb2D.linearVelocity = Vector2.zero; rb2D.angularVelocity = 0f; }
+            rb2D.simulated = enable;
+        }
+        if (rb3D)
+        {
+            if (!enable) { rb3D.linearVelocity = Vector3.zero; rb3D.angularVelocity = Vector3.zero; }
+            rb3D.isKinematic = !enable;
+        }
+
+        if (movementScripts != null)
+            foreach (var s in movementScripts) if (s) s.enabled = enable;
     }
 }
