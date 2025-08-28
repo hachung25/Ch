@@ -2196,7 +2196,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c714607edd19414283b48dc9873c4eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 5
+  moveSpeed: 8
   jumpForce: 15
   groundCheck: {fileID: 1640952172548322894}
   groundCheckRadius: 0.2
