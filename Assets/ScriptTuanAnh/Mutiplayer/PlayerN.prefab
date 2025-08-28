@@ -2198,7 +2198,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 8
-  jumpForce: 12
+  jumpForce: 15
   attackClip: {fileID: 8300000, guid: 0fe6c5e1bfa6ace409459fa5f4834585, type: 3}
   groundCheck: {fileID: 1640952172548322894}
   groundCheckRadius: 0.2

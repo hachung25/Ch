@@ -3337,7 +3337,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   timeText: {fileID: 1208429026}
   rankingCanvas: {fileID: 1053843322202114113}
-  startSeconds: 50
+  startSeconds: 90
 --- !u!4 &602783200
 Transform:
   m_ObjectHideFlags: 0
