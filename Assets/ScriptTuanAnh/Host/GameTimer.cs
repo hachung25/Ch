@@ -13,6 +13,8 @@ public class GameTimer : NetworkBehaviour
 
     [Networked] private TickTimer Countdown { get; set; }
 
+    private bool rewardsGiven = false; // tránh gọi nhiều lần
+
     public override void Spawned()
     {
         if (Object.HasStateAuthority) // Host là người set thời gian
@@ -23,24 +25,30 @@ public class GameTimer : NetworkBehaviour
         if (rankingCanvas) rankingCanvas.SetActive(false);
     }
 
-
     void Update()
     {
         if (Countdown.IsRunning)
         {
             int remain = Mathf.Max(0, (int)Countdown.RemainingTime(Runner));
-            //Debug.Log("[GameTimer] remain = " + remain);
 
             if (timeText)
                 timeText.text = remain.ToString("D2");
 
-            if(remain == 0)
+            if (remain == 0 && !rewardsGiven)
             {
-                rankingCanvas.SetActive(true);
+                rewardsGiven = true;
+
+                // 👉 Hiện bảng xếp hạng
+                if (rankingCanvas) rankingCanvas.SetActive(true);
+
+                // 👉 Host tính thứ hạng và trao thưởng
+                if (Runner.IsServer) 
+                {
+                    PlayerStats.DistributeRewards();
+                }
+
+                Debug.Log("⏰ Hết giờ! Mở bảng xếp hạng và trao thưởng.");
             }
         }
-        
     }
-
-
 }
