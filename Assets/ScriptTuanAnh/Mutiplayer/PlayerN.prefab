@@ -2266,6 +2266,15 @@ MonoBehaviour:
   healthUIRoot: {fileID: 3455764837923065838}
   respawnPoint: {fileID: 0}
   respawnDelay: 5
+  respawnPoints:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  respawnSelectMode: 0
   dieStateName: Die
   dieLayer: 0
   hideAtNormalized: 0.95

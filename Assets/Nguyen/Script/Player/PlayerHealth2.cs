@@ -13,9 +13,48 @@ public class PlayerHealth2 : NetworkBehaviour, IDamageable
     [Header("Health UI Root (optional)")]
     public GameObject healthUIRoot;
 
+    // ===== Respawn Options =====
     [Header("Respawn Settings")]
-    public Transform respawnPoint;
     public float respawnDelay = 3f;
+
+    public enum RespawnMode { FixedPoint, RandomPoints, RandomArea, RoundRobin }
+
+    [Header("Respawn Options")]
+    public RespawnMode respawnSelectMode = RespawnMode.FixedPoint;
+
+    [Tooltip("Dùng cho FixedPoint (1 điểm cố định)")]
+    public Transform respawnPoint;                 // fallback / fixed point
+
+    [Tooltip("Dùng cho RandomPoints / RoundRobin")]
+    public Transform[] respawnPoints;              // danh sách nhiều điểm
+
+    [Tooltip("Dùng cho RandomArea: tâm khu vực")]
+    public Transform respawnAreaCenter;            // tâm khu vực
+
+    [Tooltip("Dùng cho RandomArea: bán kính khu vực")]
+    public float respawnAreaRadius = 8f;           // bán kính
+
+    [Networked] private int rrIndex { get; set; }  // RoundRobin index
+
+    // ===== Spawn Safety Check =====
+    [Header("Spawn Safety (tránh trùng va chạm)")]
+    [Tooltip("Chọn TRUE nếu game 2D, FALSE nếu 3D")]
+    public bool use2DPhysics = true;
+
+    [Tooltip("Số lần thử random vị trí (khi RandomArea) hoặc duyệt điểm (khi Points)")]
+    public int maxSpawnTries = 12;
+
+    [Tooltip("Bán kính kiểm tra vị trí trống (2D)")]
+    public float spawnCheckRadius2D = 0.5f;
+
+    [Tooltip("Layer nào coi là cản trở khi spawn (2D)")]
+    public LayerMask spawnBlockMask2D = ~0; // mặc định: mọi layer đều block
+
+    [Tooltip("Bán kính kiểm tra vị trí trống (3D)")]
+    public float spawnCheckRadius3D = 0.5f;
+
+    [Tooltip("Layer nào coi là cản trở khi spawn (3D)")]
+    public LayerMask spawnBlockMask3D = ~0;
 
     [Header("Death Animation")]
     public string dieStateName = "Die";
@@ -141,7 +180,7 @@ public class PlayerHealth2 : NetworkBehaviour, IDamageable
             healthUI.SetHealth(currentHP, maxHP);
     }
 
-    // ===== Death / Respawn Flow (giữ nguyên logic gốc) =====
+    // ===== Death / Respawn Flow =====
     [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
     private void RPC_HandleDeath()
     {
@@ -203,8 +242,12 @@ public class PlayerHealth2 : NetworkBehaviour, IDamageable
             RPC_UpdateHealthUI(currentHP, maxHP);
         }
 
-        if (HasStateAuthority && respawnPoint != null)
-            transform.position = respawnPoint.position;
+        if (HasStateAuthority)
+        {
+            // Server chọn điểm respawn và đặt vị trí
+            Vector3 spawnPos = GetRespawnPositionSafe();
+            transform.position = spawnPos;
+        }
 
         ResetAnimator();
 
@@ -213,6 +256,137 @@ public class PlayerHealth2 : NetworkBehaviour, IDamageable
         SetActiveGameplay(true);
 
         Debug.Log("🌱 Player đã hồi sinh!");
+    }
+
+    // === Chọn vị trí respawn với kiểm tra an toàn ===
+    private Vector3 GetRespawnPositionSafe()
+    {
+        // Chọn candidate theo mode
+        switch (respawnSelectMode)
+        {
+            case RespawnMode.RandomArea:
+                return FindSafeInArea();
+
+            case RespawnMode.RoundRobin:
+                {
+                    Vector3? pos = FindSafeInPoints(roundRobin: true);
+                    if (pos.HasValue) return pos.Value;
+                    // fallback: thử area nếu có
+                    if (respawnAreaCenter) return FindSafeInArea();
+                    break;
+                }
+
+            case RespawnMode.RandomPoints:
+                {
+                    Vector3? pos = FindSafeInPoints(roundRobin: false);
+                    if (pos.HasValue) return pos.Value;
+                    if (respawnAreaCenter) return FindSafeInArea();
+                    break;
+                }
+
+            case RespawnMode.FixedPoint:
+            default:
+                {
+                    if (respawnPoint != null)
+                    {
+                        Vector3 p = respawnPoint.position;
+                        return Ensure2DZ(p);
+                    }
+                    break;
+                }
+        }
+
+        // Fallback cuối: giữ nguyên vị trí hiện tại
+        return Ensure2DZ(transform.position);
+    }
+
+    private Vector3? FindSafeInPoints(bool roundRobin)
+    {
+        if (respawnPoints == null || respawnPoints.Length == 0) return null;
+
+        int len = respawnPoints.Length;
+        int tries = Mathf.Max(1, Mathf.Min(maxSpawnTries, len));
+
+        if (roundRobin)
+        {
+            for (int i = 0; i < tries; i++)
+            {
+                int index = (rrIndex + i) % len;
+                Transform t = respawnPoints[index];
+                if (t == null) continue;
+
+                Vector3 candidate = Ensure2DZ(t.position);
+                if (IsPositionFree(candidate))
+                {
+                    rrIndex = (index + 1) % len; // advance
+                    return candidate;
+                }
+            }
+            // nếu không chỗ nào trống thì vẫn tăng index để không kẹt
+            rrIndex = (rrIndex + 1) % len;
+        }
+        else
+        {
+            for (int i = 0; i < tries; i++)
+            {
+                int idx = Random.Range(0, len);
+                Transform t = respawnPoints[idx];
+                if (t == null) continue;
+
+                Vector3 candidate = Ensure2DZ(t.position);
+                if (IsPositionFree(candidate))
+                    return candidate;
+            }
+        }
+
+        return null;
+    }
+
+    private Vector3 FindSafeInArea()
+    {
+        Vector3 fallback = respawnAreaCenter ? Ensure2DZ(respawnAreaCenter.position) : Ensure2DZ(transform.position);
+
+        if (respawnAreaCenter == null || respawnAreaRadius <= 0f)
+            return fallback;
+
+        for (int i = 0; i < maxSpawnTries; i++)
+        {
+            Vector2 rand = Random.insideUnitCircle * respawnAreaRadius;
+            Vector3 candidate = respawnAreaCenter.position + new Vector3(rand.x, 0f, rand.y);
+            candidate = Ensure2DZ(candidate);
+
+            if (IsPositionFree(candidate))
+                return candidate;
+        }
+
+        // nếu thử nhiều lần vẫn không có chỗ, dùng fallback
+        return fallback;
+    }
+
+    // Giữ nguyên Z (2D) hoặc giữ nguyên Y (tuỳ game) – ở đây:
+    // - 2D: ép Z về Z hiện tại của player
+    // - 3D: trả nguyên candidate
+    private Vector3 Ensure2DZ(Vector3 candidate)
+    {
+        if (use2DPhysics)
+            return new Vector3(candidate.x, candidate.y, transform.position.z);
+        return candidate;
+    }
+
+    private bool IsPositionFree(Vector3 pos)
+    {
+        if (use2DPhysics)
+        {
+            // Không đè lên collider khác
+            var hit = Physics2D.OverlapCircle((Vector2)pos, spawnCheckRadius2D, spawnBlockMask2D);
+            return hit == null;
+        }
+        else
+        {
+            // 3D
+            bool blocked = Physics.CheckSphere(pos, spawnCheckRadius3D, spawnBlockMask3D, QueryTriggerInteraction.Ignore);
+            return !blocked;
+        }
     }
 
     private void ResetAnimator()
