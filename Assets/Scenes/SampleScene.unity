@@ -5225,6 +5225,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   text1Health: {fileID: 1754210624}
   text2Dame: {fileID: 1119125259}
+  userId: 
 --- !u!114 &278807488
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5255,12 +5256,22 @@ MonoBehaviour:
   - {fileID: 415240356829676305}
   - {fileID: 8445916014759199397}
   - {fileID: 920210762539581140}
-  selectedColor: {r: 1, g: 0, b: 0, a: 1}
-  normalColor: {r: 1, g: 1, b: 1, a: 1}
+  selectedColor:
+    r: 1
+    g: 0
+    b: 0
+    a: 1
+  normalColor:
+    r: 1
+    g: 1
+    b: 1
+    a: 1
   selectedSize: {x: 350, y: 450}
   normalSize: {x: 300, y: 400}
   chooseButton: {fileID: 5279067713691097404}
   nextSceneName: gamePlay
+  selectedImageIndex: -1
+  currentFactionIndex: 0
 --- !u!114 &278807491
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -24498,6 +24509,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   text1Health: {fileID: 1754210624}
   text2Dame: {fileID: 1119125259}
+  userId: 
 --- !u!1 &1145805408
 GameObject:
   m_ObjectHideFlags: 0
@@ -44685,6 +44697,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   text1Health: {fileID: 1614924306}
   text2Dame: {fileID: 337780199}
+  userId: 
 --- !u!1001 &2038916201
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -5,12 +5,12 @@ using UnityEngine.SceneManagement;
 public class GamePause : MonoBehaviour
 {
     public GameObject PauseMain;
-    private RoomService _roomService;
+    //private RoomService _roomService;
 
     public void Start()
     {
         Time.timeScale = 1.0f;
-        _roomService = FindObjectOfType<RoomService>();  // tìm RoomService trong scene
+        /*roomService = FindObjectOfType<RoomService>();  // tìm RoomService trong scene*/
     }
     public void loadPause()
     {
@@ -36,10 +36,10 @@ public class GamePause : MonoBehaviour
 
     public void Dele()
     {
-        if (_roomService != null)
-        {
-            _roomService.DeleteRoom();
-        }
+        //if (_roomService != null)
+        //{
+        //    _roomService.DeleteRoom();
+        //}
 
         var dataload = FindObjectOfType<Dataload>();
         if (dataload != null)
